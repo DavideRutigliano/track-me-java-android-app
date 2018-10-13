@@ -11,6 +11,8 @@
 \tableofcontents
 \newpage
 \listoffigures
+\newpage
+\listoftables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Introduction}
@@ -26,17 +28,29 @@
     
     \subsection{Document Overview}
     
-    \subsection{Definition of Terms}
+    \subsection{References}
+        \printbibliography
     
-        \subsubsection{Definitions}
-
-        \subsubsection{Abbreviations}
-        
-        \subsubsection{Acronyms}
+    \subsection{Definition, Acronyms and  Abbreviations}
+            
+            \subsubsection{Definition of Terms}
+                \begin{itemize}
+                    \item \textbf{User}
+                    \item \textbf{Individual User}
+                    \item \textbf{Third-Party User}
+                    \item \textbf{Organizer}
+                    \item \textbf{Athlete}
+                    \item \textbf{Spectator}
+                    \item \textbf{Credential}
+                \end{itemize}
+            \subsubsection{Abbreviations}
+            
+            \subsubsection{Acronyms}
             \begin{acronym}
-                \acro{JVM}{Java Virtual Machine}
+                \acro{SSN}{Social Security Number}
+                \acro{FC}{Fiscal Code}
             \end{acronym}
-    
+            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Overall Description}
@@ -45,8 +59,18 @@
     
     \subsection{Product Functions}
     
+        \subsubsection{Data4Help}
+        
+        \subsubsection{Automated-SOS}
+        
+        \subsubsection{Track4Run}
+    
     \subsection{User Characteristics}
     
+        \subsubsection{Individual}
+        
+        \subsubsection{Third-Party}
+        
     \subsection{Assumptions, Dependencies and Constraints}
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,6 +89,56 @@
     
     \subsection{Functional Requirements}
     
+        \subsubsection{Registration}
+        \textit{TrackMe} must provide a registration interface for both \textit{individual} and \textit{third-party} users.
+        
+        An \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
+        %use cases table structure
+        \begin{table}[!h]
+            \begin{tabular}{|p{3cm}|p{6cm}|}
+                \hline
+                \textbf{Name} & Individual User Registration \\
+                \hline
+                \textbf{Actor} & Individual \\
+                \hline
+                \textbf{Input} & aa \\
+                \hline
+                \textbf{Events Flow} & dd \\
+                \hline
+                \textbf{Output} & Registration OK if submitted data are correct, KO otherwise \\
+                \hline
+            \end{tabular}
+            \centering
+            \caption{\fontsize{10px}{0mm}\selectfont Use Case 1: IndividualUserRegistration\label{IndividualUserRegistration}}
+        \end{table}
+        
+        A \textit{third-party} must provide a \lq\lq VAT number\rq\rq during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
+        \subsubsection{Log-in}
+         
+        \subsubsection{Log-in Management}
+        
+        \subsubsection{Connection of External Devices}
+        
+        \subsubsection{Data4Help Request}
+        
+        \subsubsection{Data4Help Request Management}
+        
+        \subsubsection{Automated-SOS Request}
+        
+        \subsubsection{Automated-SOS Data Management}
+        
+        \subsubsection{Automated-SOS Request Management}
+        
+        \subsubsection{Automated-SOS Data Synchronization}
+        
+        \subsubsection{Run Creation}
+        
+        \subsubsection{Run Enrollment}
+        
+        \subsubsection{Run Watching}
+        
+        \subsubsection{Run Management}
+        
     \subsection{Performance Requirements}
     
     \subsection{Design Constraints}
@@ -101,9 +175,5 @@
         
         \item[-] \textbf{Claudio Ferrante:}
     \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{References}
-%    \printbibliography
 
 \end{document}
