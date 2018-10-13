@@ -4,6 +4,8 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage[none]{hyphenat} %stops word separation on new line
 \addbibresource{references.bib}
 
 \begin{document}
@@ -36,11 +38,12 @@
             \subsubsection{Definition of Terms}
                 \begin{itemize}
                     \item \textbf{User}
-                    \item \textbf{Individual User}
-                    \item \textbf{Third-Party User}
+                    \item \textbf{Individual}
+                    \item \textbf{Third-Party}
                     \item \textbf{Organizer}
                     \item \textbf{Athlete}
                     \item \textbf{Spectator}
+                    \item \textbf{TrackMe} the \lq\lq system to be\rq\rq
                     \item \textbf{Credential}
                 \end{itemize}
             \subsubsection{Abbreviations}
@@ -49,6 +52,7 @@
             \begin{acronym}
                 \acro{SSN}{Social Security Number}
                 \acro{FC}{Fiscal Code}
+                \acro{VAT}{Value Added Tax}
             \end{acronym}
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,6 +74,12 @@
         \subsubsection{Individual}
         
         \subsubsection{Third-Party}
+        
+        \subsubsection{Organizer}
+        
+        \subsubsection{Athlete}
+        
+        \subsubsection{Spectator}
         
     \subsection{Assumptions, Dependencies and Constraints}
     
@@ -94,23 +104,33 @@
         
         An \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
         %use cases table structure
-        \begin{table}[!h]
-            \begin{tabular}{|p{3cm}|p{6cm}|}
-                \hline
-                \textbf{Name} & Individual User Registration \\
-                \hline
-                \textbf{Actor} & Individual \\
-                \hline
-                \textbf{Input} & aa \\
-                \hline
-                \textbf{Events Flow} & dd \\
-                \hline
-                \textbf{Output} & Registration OK if submitted data are correct, KO otherwise \\
-                \hline
-            \end{tabular}
-            \centering
-            \caption{\fontsize{10px}{0mm}\selectfont Use Case 1: IndividualUserRegistration\label{IndividualUserRegistration}}
-        \end{table}
+        \begin{longtable}{|p{3cm}|p{8cm}|}
+        \endhead
+        \caption{\fontsize{10px}{0mm}\selectfont Use Case 1: Individual User Registration}\\
+        \endlastfoot
+            \hline
+            \textbf{Name} & Individual User Registration \\
+            \hline
+            \textbf{Brief Description} & An individual sign up to the application to become an user. \\
+            \hline
+            \textbf{Actor} & Individual, TrackMe. \\
+            \hline
+            \textbf{Pre Conditions} & The individual has a valid SSN/FC and he's on the main page. \\
+            \hline
+            \textbf{Basic Flow} &
+            \begin{enumerate}
+                \setlength{\itemsep}{0pt}
+                \item The individual presses a register button.
+                \item TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.
+                \item The individual choose the Individual option.
+                \item TrackMe asks to provide a SSN/FC (based on region) and user personal information such as name, age, gender, nationality and optional notes about his health condition.
+                \item The individual fills out the requested information and presses the confirm button.
+                \item TrackMe registers that user as an Individual User and adds it to the User Database. 
+            \end{enumerate} \\
+            \hline
+            \textbf{Post Conditions} & The individual is successfully registered as an Individual User. \\
+            \hline
+        \end{longtable}
         
         A \textit{third-party} must provide a \lq\lq VAT number\rq\rq during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
         \subsubsection{Log-in}
