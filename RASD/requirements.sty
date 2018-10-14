@@ -1,0 +1,54 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{requirements}[2018/10/14 RASD package]
+\RequirePackage{longtable}
+\RequirePackage{caption}
+
+\newcommand{\name}[1]{
+	\hline
+    \textbf{Name} & #1 \tabularnewline
+    \hline
+}
+\newcommand{\brief}[1]{
+	\hline
+    \textbf{Brief Description} & #1 \tabularnewline
+    \hline
+}
+\newcommand{\actor}[1]{
+	\hline
+    \textbf{Actor} & #1 \tabularnewline
+    \hline
+}
+\newcommand{\pre}[1]{
+	\hline
+    \textbf{Pre-Conditions} & #1 \tabularnewline
+    \hline
+}
+\newcommand{\post}[1]{
+	\hline
+    \textbf{Post-Conditions} & #1 \tabularnewline
+    \hline
+}
+\newcommand{\bflow}[1]{%
+    \textbf{Basic Flow} & 
+    \begin{enumerate}
+    \item #1\checknextarg
+}
+\newcommand{\aflow}[1]{%
+    \textbf{Alternate Flow} & 
+    \begin{enumerate}
+    \item #1\checknextarg
+}
+\newcommand{\checknextarg}{
+	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
+}
+\newcommand{\gobblenextarg}[1]{
+	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
+}
+
+\newenvironment{usecase}[1]
+    {\begin{longtable}{|p{3cm}|p{8cm}|}
+        \captionsetup{name=Use Case}
+        \caption{\fontsize{10px}{0mm}\selectfont #1}
+        \endlastfoot
+    }
+    {\end{longtable}}

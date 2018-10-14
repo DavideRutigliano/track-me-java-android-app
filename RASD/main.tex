@@ -4,20 +4,23 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
-\usepackage{longtable}
-\usepackage[none]{hyphenat} %stops word separation on new line
+\usepackage{requirements} %custom package
+\usepackage{hyphenat} %stops word separation on new line
 \usepackage{fancyhdr}
 \usepackage{enumitem}
-%inline code
 \usepackage{listings}
 \usepackage{xcolor}
+
 \definecolor{commentgreen}{RGB}{2,112,10}
 \definecolor{eminence}{RGB}{108,48,130}
 \definecolor{weborange}{RGB}{255,165,0}
 \definecolor{frenchplum}{RGB}{129,20,83}
+
 \addbibresource{references.bib}
+
 \begin{document}
-\setlist[enumerate]{label=\alph*),leftmargin=*}
+\setlist[enumerate]{label=\alph*),leftmargin=0.4cm, topsep=0cm}
+\setlength{}{}
 \pagenumbering{none}
 \include{frontpage}
 \pagenumbering{roman}
@@ -129,6 +132,8 @@
                 \acro{VAT}{Value Added Tax}
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
+                \acro{IU}{Individual User}
+                \acro{TPU}{Third Party User}
             \end{acronym}
             
     \subsection{References}
@@ -186,37 +191,64 @@
         
         An \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
         %use cases table structure
-        \begin{longtable}{|p{3cm}|p{8cm}|}
-        \endhead
-        \caption{\fontsize{10px}{0mm}\selectfont Use Case 1: Individual User Registration}\\
-        \endlastfoot
-            \hline
-            \textbf{Name} & Individual User Registration \\
-            \hline
-            \textbf{Brief Description} & An individual sign up to the application to become an user. \\
-            \hline
-            \textbf{Actor} & Individual, TrackMe. \\
-            \hline
-            \textbf{Pre Conditions} & The individual has a valid SSN/FC and he's on the main page. \\
-            \hline
-            \textbf{Basic Flow} &
-            \begin{enumerate}
-                \item The individual presses a register button.
-                \item TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.
-                \item The individual choose the Individual option.
-                \item TrackMe asks to provide a SSN/FC (based on region) and user personal information such as name, age, gender, nationality and optional notes about his health condition.
-                \item The individual fills out the requested information and presses the confirm button.
-                \item TrackMe registers that user as an Individual User and adds it to the User Database. 
-            \end{enumerate} \\
-            \hline
-            \textbf{Post Conditions} & The individual is successfully registered as an Individual User. \\
-            \hline
-        \end{longtable}
+        \begin{usecase}{Individual User Registration}
+        \name{Individual User Registration}
+        \brief{An individual sign up to the application to become an user.}
+        \actor{Individual, TrackMe.}
+        \pre{The individual has a valid SSN/FC and he's on the main page.}
+        \bflow{The individual presses a register button.}
+              {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
+              {The individual choose the Individual option.}
+              {TrackMe asks to provide a SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
+              {The individual fills out the requested information and presses the confirm button.}
+              {TrackMe registers that user as an Individual User and adds it to the User Database.}
+        \post{The individual is successfully registered as an Individual User.}
+        \end{usecase}
         
         A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
         
+        \begin{usecase}{Third Party User Registration}
+        \name{Third Party User Registration}
+        \brief{A third party sign up to the application to become an user.}
+        \actor{Third Party, TrackMe.}
+        \pre{The third party has a valid VAT and it's on the main page.}
+        \bflow{The third party presses a register button.}
+              {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
+              {The third party choose the Third Party option.}
+              {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
+              {The third party fills out the requested information and presses the confirm button.}
+              {TrackMe registers that user as a Third Party user and adds it to the User Database.}
+        \post{The third party is successfully registered as an Third Party User.}
+        \end{usecase}
+        
         \subsubsection{Log-in}
         The system should provide a login interface to the end user in order sign into the application.
+        
+        \begin{usecase}{Individual User Login}
+        \name{Individual User Login}
+        \brief{An individual sign in to access the application.}
+        \actor{Individual, TrackMe.}
+        \pre{The individual has a username and a password and it's on the main page.}
+        \bflow{The individual presses a login button.}
+              {TrackMe provides two boxes where the user can write. Former is titled 'username' while latter is called 'password'.}
+              {The individual writes his username on the 'username' box and his associated password on 'password' box.}
+              {TrackMe checks if that username is on the User DB and its associated password.}
+              {TrackMe finds that username and its associated password are valid and grants access to the user.}
+        \post{The individual is successfully granted privilege to access TrackMe and it's recognized as IU.}
+        \end{usecase}
+        
+        \begin{usecase}{Third Party User Login}
+        \name{Third Party User Login}
+        \brief{A third party sign in to access the application.}
+        \actor{Third Party, TrackMe.}
+        \pre{The third party has a username and a password and it's on the main page.}
+        \bflow{The third party presses a login button.}
+              {TrackMe provides two boxes where the user can write. Former is titled 'username' while latter is called 'password'.}
+              {The third party writes his username on the 'username' box and his associated password on 'password' box.}
+              {TrackMe checks if that username is on the User DB and its associated password.}
+              {TrackMe finds that username and its associated password are valid and grants access to the user.}
+        \post{The third party is successfully granted privilege to access TrackMe and it's recognized as TPU.}
+        \end{usecase}
         
         \subsubsection{Connection of External Devices}
         The application may provide an interface that allows \textit{individual} to connect an external device such as smart-watch via Bluetooth or NFC.
