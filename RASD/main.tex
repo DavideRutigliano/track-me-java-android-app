@@ -8,18 +8,29 @@
 \usepackage[none]{hyphenat} %stops word separation on new line
 \usepackage{fancyhdr}
 \usepackage{enumitem}
+%inline code
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
 \addbibresource{references.bib}
-
 \begin{document}
-\setlist[enumerate]{label=\roman*.,leftmargin=*}
+\setlist[enumerate]{label=\alph*),leftmargin=*}
 \pagenumbering{none}
 \include{frontpage}
 \pagenumbering{roman}
 \tableofcontents
 \newpage
+\addcontentsline{toc}{subsection}{Use Cases Summary}
+\renewcommand\listtablename{Use Cases Summary}
+\listoftables
+\newpage
+\addcontentsline{toc}{subsection}{UML Diagrams List}
+\renewcommand\listfigurename{UML Diagrams List}
 \listoffigures
 \newpage
-\listoftables
 \rfoot{\includegraphics[width=30mm]{images/trackme-logo-mini.png}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -30,15 +41,15 @@
     \subsection{Purpose}
     This Requirement Analysis and Specification Document addresses the description in terms of functional and non-functional requirements of \textit{TrackMe}, a new health monitoring application.
     
-    This document is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application. Moreover, this specifications also includes some important QoS characteristics that the system should guarantee.
+    This document is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee.
     
-    The analysis is also focused on use cases description through well known standards for specification documents:
+    Thus, the analysis is primarily focused on requirements elicitation and use cases description through well known standards for specification documents:
         \begin{itemize}
-            \item[\textit{1)}] UML for Use Case Diagrams, Sequence Diagrams, Class Diagrams and Activity Diagrams;
-            \item[\textit{2)}] Alloy as specification language \cite{jackson2006software}.
+            \item[\textit{1)}] \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified};
+            \item[\textit{2)}] \textit{Alloy} for formal analysis \cite{jackson2006software}.
         \end{itemize}
         
-    This document is mainly directed to software designers and developers interested in the development and deployment of the proposed system.
+    This document is mostly directed and likely necessary to software designers and developers interested in the deployment of the proposed system.
     
     \subsection{Scope and Audience}
         \subsubsection{Description of the given problem}
@@ -68,8 +79,8 @@
         
         Last part is about effort spent in writing this document in terms of hours of work.
         
-        There is also a list of tables and a list of figures representing respectively use cases and relative UML diagrams in order to help the reader to understand them and navigate the specification.
-    
+        There is also a list of tables and a list of figures representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
+        
     \subsection{Definition, Acronyms and  Abbreviations}
             \subsubsection{Keywords}
             The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in RFC 2119 \cite{bradner1997key}.
@@ -169,7 +180,7 @@
         \subsubsection{Communication Interfaces}
     
     \subsection{Functional Requirements}
-    
+        
         \subsubsection{Registration}
         \textit{TrackMe} must provide a registration interface for both \textit{individual} and \textit{third-party} users.
         
@@ -185,8 +196,6 @@
             \textbf{Brief Description} & An individual sign up to the application to become an user. \\
             \hline
             \textbf{Actor} & Individual, TrackMe. \\
-            \hline
-            \textbf{Goal} &  \\
             \hline
             \textbf{Pre Conditions} & The individual has a valid SSN/FC and he's on the main page. \\
             \hline
@@ -259,7 +268,49 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Formal Analysis using Alloy}
-
+\renewcommand*{\lstlistlistingname}{Alloy model samples}
+\lstlistoflistings
+%definition of alloy language for Latex
+\lstdefinelanguage{Alloy}{
+	morekeywords={
+		module, open, as,
+		private, abstract, sig, extends, in,
+		lone, some, one, disj,
+		fact, pred, fun, assert,
+		run, check,
+		for, but, exactly,
+		this, not, implies, else, let,
+		not, no, set, all, sum,
+		iff, or, Int, and,
+		none, univ, iden, \#
+	},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[l]{--},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]{"},
+	literate={->}{$\rightarrow$}1
+	% replacing characters can cause problems when copying from PDF to editor
+}[keywords,comments,strings]
+\lstset {
+    language=Alloy,
+    frame=tb,
+    tabsize=3,
+    showstringspaces=false,
+    numbers=none,
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    basicstyle=\small\ttfamily, % basic font setting
+    escapechar=\&,
+    % keyword highlighting
+    classoffset=1, % starting new class
+    keywordstyle=\color{weborange},
+    classoffset=0,
+}
+\lstinputlisting[language=Alloy, caption=Model Definition, firstline=0, lastline=60]{TrackMeAlloyModel.als}
+\begin{lstlisting}
+\end{lstlisting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Effort Spent}
