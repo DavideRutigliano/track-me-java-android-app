@@ -1,60 +1,127 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{biblatex}
+\usepackage[natbib,sorting=none]{biblatex}
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
 \usepackage{longtable}
 \usepackage[none]{hyphenat} %stops word separation on new line
+\usepackage{fancyhdr}
+\usepackage{enumitem}
 \addbibresource{references.bib}
 
 \begin{document}
+\setlist[enumerate]{label=\roman*.,leftmargin=*}
+\pagenumbering{none}
 \include{frontpage}
+\pagenumbering{roman}
 \tableofcontents
 \newpage
 \listoffigures
 \newpage
 \listoftables
+\rfoot{\includegraphics[width=30mm]{images/trackme-logo-mini.png}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
 \section{Introduction}
 
     \subsection{Purpose}
+    This Requirement Analysis and Specification Document addresses the description in terms of functional and non-functional requirements of \textit{TrackMe}, a new health monitoring application.
+    
+    This document is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application. Moreover, this specifications also includes some important QoS characteristics that the system should guarantee.
+    
+    The analysis is also focused on use cases description through well known standards for specification documents:
+        \begin{itemize}
+            \item[\textit{1)}] UML for Use Case Diagrams, Sequence Diagrams, Class Diagrams and Activity Diagrams;
+            \item[\textit{2)}] Alloy as specification language \cite{jackson2006software}.
+        \end{itemize}
+        
+    This document is mainly directed to software designers and developers interested in the development and deployment of the proposed system.
     
     \subsection{Scope and Audience}
-        \subsubsection{Description of the problem}
+        \subsubsection{Description of the given problem}
         
-        \subsubsection{Description of the system}
+        \subsubsection{Description of the proposed system}
+        \textit{TrackMe} is an ease of use health monitoring application which offers different services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
         
+        This proposed system provides a very efficient data acquisition service named \textit{Data4Help}. This facility gives the possibility to verified \textit{third-party} registered onto the service to request health status information about subscribed customers. The application may also allow \textit{individual} users to connect \textit{external devices} such as smart-watches or similar, to perform a more detailed data acquisition and monitoring.
+        
+        In addition, the application provides also a fully automated SOS service for elderly people: \textit{Automated-SOS} uses \textit{Data4Help} features to monitor the health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
+    
+        Moreover, through the \textit{Track4Run} service, \textit{TrackMe} allows customers to create a new run, a competition in which other users can either participate as \textit{athletes} or watch as \textit{spectators}. Additionally, this service may exploits other service functionality for keeping track of athletes progresses and for helping them to prevent major accident happen during the run. 
         \subsubsection{Goals}
+        
+        \begin{description}
+            \item[G.01] Goal
+        \end{description}
     
     \subsection{Document Overview}
-    
-    \subsection{References}
-        \printbibliography
+        This part of the document is intended to provide both an overview of the problem and an idea of the proposed solution.
+        
+        Next section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, addresses users characteristic, dependencies and constraint.
+        
+        Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account definition of all use cases, their description through UML diagrams and their mapping on requirements.
+        
+        Fourth section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
+        
+        Last part is about effort spent in writing this document in terms of hours of work.
+        
+        There is also a list of tables and a list of figures representing respectively use cases and relative UML diagrams in order to help the reader to understand them and navigate the specification.
     
     \subsection{Definition, Acronyms and  Abbreviations}
-            
+            \subsubsection{Keywords}
+            The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in RFC 2119 \cite{bradner1997key}.
             \subsubsection{Definition of Terms}
-                \begin{itemize}
-                    \item \textbf{User}
-                    \item \textbf{Individual}
-                    \item \textbf{Third-Party}
-                    \item \textbf{Organizer}
-                    \item \textbf{Athlete}
-                    \item \textbf{Spectator}
-                    \item \textbf{TrackMe} the \lq\lq system to be\rq\rq
-                    \item \textbf{Credential}
-                \end{itemize}
+            This document uses several terms that might be more loosely used elsewhere. These terms are defined here as they will be used later on in this document.
+                \begin{description}
+                    \item[\textbf{User}] a general definition of a customer registered into the application
+                    
+                    \item[\textbf{Individual}] a single person \textit{TrackMe User}, identified either by SSN or by FC number
+                    
+                    \item[\textbf{Third-Party}] a company \textit{TrackMe User}, identified by VAT number
+                    
+                    \item[\textbf{External Device}] an external device such as a smart-watch or similar devices
+                    
+                    \item[\textbf{Run}] a competition organized and managed by an \textit{Organizer} to which \textit{Athletes} and \textit{Spectators} can enroll as participant or watchers
+                    
+                    \item[\textbf{Organizer}] either an \textit{Individual} or a \textit{Third-Party} that uses \textit{Track4Run} service to create a new \textit{Run}
+                    
+                    \item[\textbf{Athlete}] an \textit{Individual} enrolled to an already existing \textit{Run}
+                    
+                    \item[\textbf{Spectator}] either an \textit{Individual} or a \textit{Third-Party} that is watching an already existing \textit{Run}
+                    
+                    \item[\textbf{TrackMe}] the \textit{"system to be"}
+                    
+                    \item[\textbf{Data4Help}] a data monitoring service provided by \textit{TrackMe}
+                    
+                    \item[\textbf{Automated-SOS}] an SOS service built on top of \textit{Data4Help}
+                    
+                    \item[\textbf{Track4Run}] run management service offered by \textit{TrackMe} application
+                    
+                    \item[\textbf{Credential}] as used in this document, is a combination of both username and password used by an \textit{User} to authenticate him/herself during the Log-in phase
+                \end{description}
+                
             \subsubsection{Abbreviations}
+            \begin{itemize}
+                \item[-] Abbreviation 
+            \end{itemize}
             
             \subsubsection{Acronyms}
             \begin{acronym}
+                \acro{RASD}{Requirement Analysis and Specification Document}
+                \acro{UML}{Unified Modelling Language}
+                \acro{QoS}{Quality of Service}
                 \acro{SSN}{Social Security Number}
                 \acro{FC}{Fiscal Code}
                 \acro{VAT}{Value Added Tax}
+                \acro{BT}{Bluetooth}
+                \acro{NFC}{Near Field Communication}
             \end{acronym}
             
+    \subsection{References}
+        \printbibliography[heading=none]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Overall Description}
@@ -75,14 +142,18 @@
         
         \subsubsection{Third-Party}
         
-        \subsubsection{Organizer}
-        
-        \subsubsection{Athlete}
-        
-        \subsubsection{Spectator}
-        
     \subsection{Assumptions, Dependencies and Constraints}
-    
+        \begin{description}
+            \item[A.01] Assumption
+        \end{description}
+        
+        \begin{description}
+            \item[D.01] Dependencies
+        \end{description}
+        
+        \begin{description}
+            \item[C.01] Constraints
+        \end{description}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Specific Requirements}
@@ -115,11 +186,12 @@
             \hline
             \textbf{Actor} & Individual, TrackMe. \\
             \hline
+            \textbf{Goal} &  \\
+            \hline
             \textbf{Pre Conditions} & The individual has a valid SSN/FC and he's on the main page. \\
             \hline
             \textbf{Basic Flow} &
             \begin{enumerate}
-                \setlength{\itemsep}{0pt}
                 \item The individual presses a register button.
                 \item TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.
                 \item The individual choose the Individual option.
@@ -132,12 +204,15 @@
             \hline
         \end{longtable}
         
-        A \textit{third-party} must provide a \lq\lq VAT number\rq\rq during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
+        A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
+        
         \subsubsection{Log-in}
-         
-        \subsubsection{Log-in Management}
+        The system should provide a login interface to the end user in order sign into the application.
         
         \subsubsection{Connection of External Devices}
+        The application may provide an interface that allows \textit{individual} to connect an external device such as smart-watch via Bluetooth or NFC.
+        
+        Moreover, in case such interface is present, \textit{TrackMe} should be able to interact also with the external device and to acquire data from it.
         
         \subsubsection{Data4Help Request}
         
