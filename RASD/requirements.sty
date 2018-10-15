@@ -38,6 +38,12 @@
     \begin{enumerate}
     \item #1\checknextarg
 }
+\newcommand{\except}[1]{%
+    \hline
+    \textbf{Exception} & #1
+    \tabularnewline
+    \hline
+}
 \newcommand{\checknextarg}{
 	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
 }

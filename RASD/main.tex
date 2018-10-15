@@ -248,7 +248,7 @@
         \post{The third party is successfully authenticated as \textit{Third-Party User}.}
         \end{usecase}
         
-        \subsubsection{Data4Help Request Management}
+        \subsubsection{Data4Help Request}
         The application may provide an interface that allows \textit{Third-Parties} to send requests to view the data of a specific \textit{individual} or a group of \textit{individuals}. A single individual may accept or refuse this request.
         
         \begin{usecase}{Individual Data Request}
@@ -313,25 +313,33 @@
         Moreover, in case such interface is present, \textit{TrackMe} should be able to interact also with the external device and to acquire data from it.
         
         
-        \subsubsection{Automated-SOS Request}
+        \subsubsection{Automated-SOS enabling}
         
-        \begin{usecase}{Individual Subscribes to Automated-SOS}
-        \name{Individual Subscribes to Automated-SOS}
-        \brief{An individual wants to enable Automated-SOS, a service that guarantees that an ambulance will be called        in 5 seconds if the individual's health parameters are below certain thresholds.}
-        \actor{Individual, Automated-SOS.}
-        \pre{The individual is logged-in, it's on the main page and he's not subscribed to Automated-SOS.}
-        \bflow{The individual presses the \textit{'Automated-SOS'} button.}
-              {Automated-SOS checks if the individual is already subscribed.}
-              {Automated-SOS asks the user if he wants to subscribe to the service. It provides two buttons called \textit{'Subscribe'} and \textit{'Back'}.}
-              {The individual presses the \textit{'Subscribe'} button.}
-        \post{Individual is subscribed to Automated-SOS.}
+        \begin{usecase}{third party enables Automated-SOS}
+        \name{Third-Party enables Automated-SOS}
+        \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance will be called  in 5 seconds if the individual's health parameters are below certain thresholds.}
+        \actor{Third party, \textit{TrackMe}}
+        \pre{The Third-Paty is logged-in, it's on the main page and has not enabled Automated-SOS.}
+        \bflow{The Third-Party presses the \textit{'enable Automated-SOS'} button.}
+              {TrackMe checks if the individual has already enabled the service.}
+           
+        \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automatde-SOS}
+        \end{usecase}
+        \subsubsection{Automated-SOS Data Management}
+
+        \begin{usecase}{Automated-SOS Data Management}
+        \name{Automated-SOS Data Management}
+        \brief{The system will periodically check indiviadual's data, and if the thresholds have been overcomed, it will automatically notify an ambulance within 5 seconds }
+        \actor{\textit{TrackMe, ambulance} }
+        \pre{At least one ambulance must be available; the Third.Party must have enabled Automated-SOS. The individual have to be subscribed to the Third-Party}
+        \bflow{The system notice that an individual has overcame the thresholds.}
+              {Track me checks in the ambulance database the nearest one available .}
+              {The system sends to the selected ambulance a request with the GPS position of the subject in danger }
+              {The ambulance selected should accept the request, otherwise TrackMe will notify the second ambulance available and so on until the request is accepted .}
+        \post{An ambulance will go to the GPS position.}
         \end{usecase}
         
-        \subsubsection{Automated-SOS Data Management}
-        
-        \subsubsection{Automated-SOS Request Management}
-        
-        \subsubsection{Automated-SOS Data Synchronization}
+
         
         \subsubsection{Run Creation}
         
@@ -339,9 +347,7 @@
         
         \subsubsection{Run Watching}
         
-        \subsubsection{Run Management}
         
-    \subsection{Performance Requirements}
     
     \subsection{Design Constraints}
     
