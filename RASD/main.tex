@@ -132,6 +132,7 @@
                 \acro{VAT}{Value Added Tax}
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
+                \acro{IFF}{If and only if}
             \end{acronym}
             
     \subsection{References}
@@ -262,7 +263,7 @@
               {TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
               {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
               {TrackMe sends the data request to the individual.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party has successfully sent a data request to the individual.}
         \end{usecase}
         
@@ -278,7 +279,7 @@
               {.....}
               {Third party presses the button called \textit('Confirm').}
               {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party has access to the anonymized data of a specific group of individuals.}
         \end{usecase}
         
@@ -286,12 +287,12 @@
         \name{Third Party Subscribes to New Data}
         \brief{A third party subscribes to the data of a certain group of individuals.}
         \actor{Third Party, Individual, TrackMe.}
-        \pre{The third-party is logged-in and is on the Group subsection of Data-Request page.}
-        \bflow{TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included       Countries'}, \textit{'Excluded Countries'}.}
+        \pre{The third-party is logged-in and it's on the Group subsection of Data-Request page.}
+        \bflow{TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included Countries'}, \textit{'Excluded Countries'}.}
               {.....}
               {Third party presses the button called \textit('Subscribe'). Then, it presses the button called \textit('Confirm').}
               {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party is subscribed to the group data and will receive new data as soon as they are produced.}
         \end{usecase}
         
@@ -300,10 +301,10 @@
         \brief{An individual accepts the request to view his personal data.}
         \actor{Third Party, Individual, TrackMe.}
         \pre{The individual is logged-in and it's on the main page.}
-        \bflow{TrackMe sends to the IU a request to view his data. The IU can see that the request was sent by a              specific TPU. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
+        \bflow{TrackMe sends to the IU a request to view his data. The IU can see that the request was sent by a specific TPU. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
               {The IU presses the accept button.}
               {TrackMe sends to the TPU a confirmation about his request for that Individual.}
-              {TrackMe informs the IU that the operation succeded.}
+              {TrackMe informs the IU that the operation succeed.}
         \post{The third party has access to the Individual data.}
         \end{usecase}
         
@@ -315,21 +316,21 @@
         
         \subsubsection{Automated-SOS enabling}
         
-        \begin{usecase}{third party enables Automated-SOS}
+        \begin{usecase}{Third Party enables Automated-SOS}
         \name{Third-Party enables Automated-SOS}
         \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance will be called  in 5 seconds if the individual's health parameters are below certain thresholds.}
-        \actor{Third party, \textit{TrackMe}}
-        \pre{The Third-Paty is logged-in, it's on the main page and has not enabled Automated-SOS.}
+        \actor{Third party, Automated-SOS}
+        \pre{The Third-Party is logged-in, it's on the main page and has not enabled Automated-SOS.}
         \bflow{The Third-Party presses the \textit{'enable Automated-SOS'} button.}
-              {TrackMe checks if the individual has already enabled the service.}
-           
-        \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automatde-SOS}
+              {Automated-SOS checks if the individual has already enabled the service.}
+              {Automated-SOS informs the TPU that the operation succeed.}
+        \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automated-SOS}
         \end{usecase}
         \subsubsection{Automated-SOS Data Management}
 
         \begin{usecase}{Automated-SOS Data Management}
         \name{Automated-SOS Data Management}
-        \brief{The system will periodically check indiviadual's data, and if the thresholds have been overcomed, it will automatically notify an ambulance within 5 seconds }
+        \brief{The system will periodically check individual's data, and if the thresholds have been overcomed, it will automatically notify an ambulance within 5 seconds }
         \actor{\textit{TrackMe, ambulance} }
         \pre{At least one ambulance must be available; the Third.Party must have enabled Automated-SOS. The individual have to be subscribed to the Third-Party}
         \bflow{The system notice that an individual has overcame the thresholds.}
@@ -343,10 +344,54 @@
         
         \subsubsection{Run Creation}
         
+        \begin{usecase}{Third Party Creates a New Run}
+        \name{Third Party Creates a New Run}
+        \brief{A third party become an \textit{Organizer} and creates a new \textit{run}, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
+        \actor{Third Party, Track4Run.}
+        \pre{The Third party is logged-in and it's on the main page.}
+        \bflow{The Third party presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit('Name'), \textit('Country') ............. and two buttons called \textit('Confirm') and \textit('Back').}
+              {Third party fills the boxes and then presses the \textit('Confirm') button.}
+              {Track4Run now recognize the Third Party as an Organizer and add the \textit{run} information to the Run DB.}
+              {Track4Run informs the Organizer that the operation succeed.}
+        \post{The run is created and the Third Party becomes an Organizer.}
+        \end{usecase}
+        
+        
+        
         \subsubsection{Run Enrollment}
+        
+        \begin{usecase}{Individual Enrolls a Run}
+        \name{Individual Enrolls a Run}
+        \brief{An individual wants to join a \textit{run}.}
+        \actor{Individual, Track4Run.}
+        \pre{The individual is logged-in and it's on the main page.}
+        \bflow{The Individual presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
+              {Individual presses the \textit('Enroll') button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed IFF at least one run is selected; a \textit{'Back'} button.}
+              {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
+              {Track4Run now recognize the Individual as an Athlete.}
+              {Track4Run informs the Athlete that the operation succeed.}
+        \post{The Athlete successfully enrolls the run and his position will be sent to all                 \textit{Spectators} that enrolled that run.}
+        \end{usecase}
         
         \subsubsection{Run Watching}
         
+        \begin{usecase}{Individual Spectates a Run}
+        \name{Individual Spectates a Run}
+        \brief{An individual wants to spectate a \textit{run} to view the position of all Athletes            participating that run.}
+        \actor{Individual, Track4Run.}
+        \pre{The individual is logged-in and it's on the main page.}
+        \bflow{The Individual presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
+              {Individual presses the \textit('Spectate') button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed IFF at least one run is selected; a \textit{'Back'} button.}
+              {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
+              {Track4Run now recognize the Individual as an Spectator.}
+              {Track4Run informs the Athlete that the operation succeed.}
+        \post{The Spectator successfully enrolls the run and he has granted access to the position of all Athletes enrolling the selected runs.}
+        \end{usecase}
         
     
     \subsection{Design Constraints}
