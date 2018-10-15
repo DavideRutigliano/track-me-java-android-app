@@ -5,7 +5,7 @@
 \usepackage{acronym}
 \usepackage{indentfirst}
 \usepackage{requirements} %custom package
-\usepackage{hyphenat} %stops word separation on new line
+\usepackage[none]{hyphenat} %stops word separation on new line
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{listings}
@@ -247,6 +247,41 @@
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
         \post{The third party is successfully authenticated as \textit{Third-Party User}.}
         \end{usecase}
+        
+        \subsubsection{Request Management}
+        The application may provide an interface that allows \textit{Third-Parties} to send requests to view the data of a specific \textit{individual} or a group of \textit{individuals}. A single individual may accept or refuse this request.
+        
+        \begin{usecase}{Third Party Individual Data Request}
+        \name{Third Party Individual Data Request}
+        \brief{A third party sends a request to an individual to view his data.}
+        \actor{Third Party, Individual, TrackMe.}
+        \pre{The third-party is logged-in, it's on the main page and has a valid SSN/FC of a registered individual.}
+        \bflow{The third party presses the \textit{'Data-Request'} button.}
+              {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
+              {The third party presses the button \textit{'Individual'} }
+              {TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
+              {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
+              {TrackMe sends the data request to the individual.}
+              {TrackMe informs the Third-Party user that the operation succeded.}
+        \post{The third party has successfully sent a data request to the individual.}
+        \end{usecase}
+        
+        \begin{usecase}{Third Party Group Data View}
+        \name{Third Party Group Data View}
+        \brief{A third party views data of a group of individuals.}
+        \actor{Third Party, Individual, TrackMe.}
+        \pre{The third-party is logged-in and it's on the main page.}
+        \bflow{The third party presses the \textit{'Data-Request'} button.}
+              {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
+              {The third party presses the button \textit{'Batch'} }
+              {TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included Countries'}, \textit{'Excluded Countries'}.}
+              {.....}
+              {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
+              {TrackMe informs the Third-Party user that the operation succeded.}
+        \post{The third party has access to the anonymized data of a specific group of individuals.}
+        \end{usecase}
+        
+        
         
         \subsubsection{Connection of External Devices}
         The application may provide an interface that allows \textit{individual} to connect an external device such as smart-watch via Bluetooth or NFC.
