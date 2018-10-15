@@ -14,10 +14,10 @@ fact uniqueUsername{
 sig Name, Surname, Age, Mail, Weight, Height, Location{}
 
 sig Individual extends User{
-//	name: Name,
-//	surname: Surname,
-//	age: Age,
-//	mail: lone Mail,
+	name: Name,
+	surname: Surname,
+	age: Age,
+	mail: lone Mail,
 //	weight: Weight,
 //	height: Height,
 	location: Location,
@@ -72,6 +72,7 @@ sig GroupRequest extends Request{
 }
 /* The constraint on the anonymity should be something like
   *  returnedLines >= anonymityLimit (e.g. almost one thousand lines returned)
+  * but alloy hadles only 4bit Int
   */
 fact checkAnonymity{
 	all r: GroupRequest | r.returnedLines > 0
@@ -80,10 +81,13 @@ fact checkAnonymity{
 pred makeOneRequest(r: Request, p: ThirdParty, i: Individual){
 	#Run = 0
 	#AutomatedSos = 0
+	#Ambulance = 0
 	#Track = 0
 	#Time = 0
 	#Date = 0
 	#Duration = 0
+	#IndividualRequest = 1
+	#GroupRequest = 0
 	i.incomingRequests = i.incomingRequests + r
 	p.subscribedUsers = p.subscribedUsers + i
 }
@@ -103,7 +107,7 @@ pred Data4HelpComplete{
 	#IndividualRequest = 2
 	#GroupRequest = 1
 }
-//run Data4HelpComplete for 4
+run Data4HelpComplete for 4
 
 sig Ambulance{}
 
@@ -126,7 +130,19 @@ pred enableAutomatedSos(a: AutomatedSos, p: ThirdParty){
 	a.provider = p
 	a.customers = p.subscribedUsers
 }
-//run enableAutomatedSos for 1
+run enableAutomatedSos for 1 but 1 ThirdParty
+
+pred runAutomatedSos(a: AutomatedSos, p: ThirdParty){
+	#Run = 0
+	#Track = 0
+	#Time = 0
+	#Date = 0
+	#Duration = 0
+	#Request = 1
+	a.provider = p
+	a.customers = p.subscribedUsers
+}
+run runAutomatedSos for 2
 
 pred automatedSosComplete{
 	#Track = 0
@@ -139,7 +155,7 @@ pred automatedSosComplete{
 	#ThirdParty = 1
 	#AutomatedSos = 1
 }
-//run automatedSosComplete for 4
+run automatedSosComplete for 4
 
 /* TRACK 4 RUN */
 sig Track, Duration, Date, Time{}
@@ -194,17 +210,17 @@ pred createNewRun(o: Organizer, r: Run){
 	#Ambulance = 0
 	o.organized = o.organized + r
 }
-//run createNewRun for 2
+run createNewRun for 2
 
 pred enrollToRun(a: Athlete, r: Run){
 	#AutomatedSos = 0
 	#Ambulance = 0
-	#IndividualRequest = 1
+	#Request = 1
 	#Athlete = 1
-	#Run = 2
+	#Run = 1
 	r.athletes = r.athletes + a
 }
-//run enrollToRun for 2
+run enrollToRun for 2
 
 pred watchRun(s: Spectator, r: Run){
 	#AutomatedSos = 0
@@ -212,7 +228,7 @@ pred watchRun(s: Spectator, r: Run){
 	#IndividualRequest = 1
 	#Athlete = 1
 	#Spectator = 1
-	#Run = 2
+	#Run = 1
 	#Request = 1
 	r.spectators = r.spectators + s
 }
@@ -228,4 +244,18 @@ pred track4RunComplete{
 	#GroupRequest = 0
 	#IndividualRequest = 1
 }
-//run track4RunComplete for 4
+run track4RunComplete for 4
+
+pred TrackMe(a: AutomatedSos){
+	#Ambulance = 1
+	#AutomatedSos = 1
+	#Individual = 3
+	#ThirdParty = 2
+	#Request > 1
+	#Organizer = 1
+	#Run = 2
+	#Athlete = 2
+	#Spectator = 1
+	#a.customers = 1
+}
+run TrackMe for 6

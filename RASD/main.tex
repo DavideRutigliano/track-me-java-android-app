@@ -194,12 +194,12 @@
         \brief{An individual sign up to the application to become an user.}
         \actor{Individual, TrackMe.}
         \pre{The individual has a valid SSN/FC and he's on the main page.}
-        \bflow{The individual presses a register button.}
-              {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
+        \bflow{The individual goes on registration page pressing \textit{'Sign-up'} button.}
+              {TrackMe asks to the user if he's an Individual or a Third Party. The user can choose between these two options.}
               {The individual choose the Individual option.}
               {TrackMe asks to provide a SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
               {The individual fills out the requested information and presses the confirm button.}
-              {TrackMe registers that user as an Individual User and adds it to the User Database.}
+              {TrackMe registers that user as an Individual User and adds it to the  Database.}
         \post{The individual is successfully registered as an Individual User.}
         \end{usecase}
         
@@ -210,42 +210,42 @@
         \brief{A third party sign up to the application to become an user.}
         \actor{Third Party, TrackMe.}
         \pre{The third party has a valid VAT and it's on the main page.}
-        \bflow{The third party presses a register button.}
-              {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
+        \bflow{The third party goes on registration page pressing \textit{'Sign-up'} button.}
+              {TrackMe asks to the user if he's an Individual or a Third Party. The user can choose between these two options.}
               {The third party choose the Third Party option.}
               {TrackMe asks if user is an Individual or a Third Party. The user can choose between these two options.}
-              {The third party fills out the requested information and presses the confirm button.}
-              {TrackMe registers that user as a Third Party user and adds it to the User Database.}
+              {TrackMe asks to provide a VAT number and organization personal information.}
+              {TrackMe registers the user as a Third Party user and adds it to the Database.}
         \post{The third party is successfully registered as an Third Party User.}
         \end{usecase}
         
         \subsubsection{Log-in}
-        The system should provide a login interface to the end user in order sign into the application.
+        The system should provide a login interface to the \textit{User} in order sign into the application.
         
         \begin{usecase}{Individual User Login}
         \name{Individual User Login}
         \brief{An individual sign in to access the application.}
         \actor{Individual, TrackMe.}
-        \pre{The individual has a username and a password and it's on the main page.}
-        \bflow{The individual presses a login button.}
-              {TrackMe provides two boxes where the user can write. Former is titled 'username' while latter is called 'password'.}
-              {The individual writes his username on the 'username' box and his associated password on 'password' box.}
-              {TrackMe checks if that username is on the User DB and its associated password.}
+        \pre{The individual is already registered and it's on the main page.}
+        \bflow{The individual goes on login page pressing \textit{'Sign-in'} button.}
+              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while latter is the \textit{'password'} field.}
+              {The individual writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
+              {TrackMe checks username is on the DB and that its associated password is correct.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The individual is successfully granted privilege to access TrackMe and it's recognized as \textit{Individual User}.}
+        \post{The individual is successfully authenticated as \textit{Individual User}.}
         \end{usecase}
         
         \begin{usecase}{Third Party User Login}
         \name{Third Party User Login}
         \brief{A third party sign in to access the application.}
         \actor{Third Party, TrackMe.}
-        \pre{The third party has a username and a password and it's on the main page.}
-        \bflow{The third party presses a login button.}
-              {TrackMe provides two boxes where the user can write. Former is titled 'username' while latter is called 'password'.}
-              {The third party writes his username on the 'username' box and his associated password on 'password' box.}
-              {TrackMe checks if that username is on the User DB and its associated password.}
+        \pre{The third-party is already registered and it's on the main page.}
+        \bflow{The third party goes on login page pressing \textit{'Sign-in'} button.}
+              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while latter is the \textit{'password'} field.}
+              {The third-party writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
+              {TrackMe checks username is on the DB and that its associated password is correct.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The third party is successfully granted privilege to access TrackMe and it's recognized as \textit{Third-Party User}.}
+        \post{The third party is successfully authenticated as \textit{Third-Party User}.}
         \end{usecase}
         
         \subsubsection{Connection of External Devices}
@@ -300,6 +300,7 @@
 \section{Formal Analysis using Alloy}
 \renewcommand*{\lstlistlistingname}{Alloy model samples}
 \lstlistoflistings
+\newpage
 %definition of alloy language for Latex
 \lstdefinelanguage{Alloy}{
 	morekeywords={
@@ -312,7 +313,7 @@
 		this, not, implies, else, let,
 		not, no, set, all, sum,
 		iff, or, Int, and,
-		none, univ, iden, \#
+		none, univ, iden,
 	},
 	sensitive=true,
 	morecomment=[l]{//},
@@ -327,6 +328,7 @@
     frame=tb,
     tabsize=3,
     showstringspaces=false,
+    breaklines=true,
     numbers=none,
     commentstyle=\color{commentgreen},
     keywordstyle=\color{blue},
@@ -338,9 +340,84 @@
     keywordstyle=\color{weborange},
     classoffset=0,
 }
-\lstinputlisting[language=Alloy, caption=Model Definition, firstline=0, lastline=60]{TrackMeAlloyModel.als}
-\begin{lstlisting}
-\end{lstlisting}
+\subsection{Data4Help}
+    \lstinputlisting[language=Alloy, caption=Data4Help: model definition, firstline=0, lastline=79]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Data4Help: single individual request, firstline=80, lastline=95]{TrackMeAlloyModel.als}
+    
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/makeOneRequest.png}
+    \end{figure}
+    
+    \lstinputlisting[language=Alloy, caption=Data4Help: complete, firstline=96, lastline=110]{TrackMeAlloyModel.als}
+    
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/Data4HelpComplete.png}
+    \end{figure}
+
+\subsection{Automated-SOS}
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: model definition, firstline=112, lastline=123]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: enable automated-sos, firstline=124, lastline=133]{TrackMeAlloyModel.als}
+    
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/enableAutomatedSos.png}
+    \end{figure}
+    
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: run Automated-SOS, firstline=134, lastline=145]{TrackMeAlloyModel.als}
+    
+    \begin{figure}[!h]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/runAutomatedSos.png}
+    \end{figure}
+    \newpage
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: complete, firstline=146, lastline=158]{TrackMeAlloyModel.als}
+    
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/AutomatedSos+Data4HelpComplete.png}
+    \end{figure}
+
+\subsection{Track4Run}
+\lstinputlisting[language=Alloy, caption=Track4Run: model definition, firstline=160, lastline=205]{TrackMeAlloyModel.als}
+
+\lstinputlisting[language=Alloy, caption=Track4Run: create a new run, firstline=206, lastline=214]{TrackMeAlloyModel.als}
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[width=100mm]{images/alloy/createNewRun.png}
+\end{figure}
+
+\lstinputlisting[language=Alloy, caption=Track4Run: enroll to a run, firstline=215, lastline=223]{TrackMeAlloyModel.als}
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[width=100mm]{images/alloy/enrollToRun.png}
+\end{figure}
+
+\lstinputlisting[language=Alloy, caption=Track4Run: watch run, firstline=224, lastline=236]{TrackMeAlloyModel.als}
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[width=100mm]{images/alloy/watchRun.png}
+\end{figure}
+
+\lstinputlisting[language=Alloy, caption=Track4Run: complete, firstline=237, lastline=247]{TrackMeAlloyModel.als}
+\newpage
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[width=100mm]{images/alloy/Track4RunComplete.png}
+\end{figure}
+
+\lstinputlisting[language=Alloy, caption=TrackMe: complete, firstline=248, lastline=261]{TrackMeAlloyModel.als}
+\newpage
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[width=200mm, angle = 90]{images/alloy/TrackMeComplete.png}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Effort Spent}
