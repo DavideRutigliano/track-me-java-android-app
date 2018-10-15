@@ -132,8 +132,6 @@
                 \acro{VAT}{Value Added Tax}
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
-                \acro{IU}{Individual User}
-                \acro{TPU}{Third Party User}
             \end{acronym}
             
     \subsection{References}
@@ -234,7 +232,7 @@
               {The individual writes his username on the 'username' box and his associated password on 'password' box.}
               {TrackMe checks if that username is on the User DB and its associated password.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The individual is successfully granted privilege to access TrackMe and it's recognized as IU.}
+        \post{The individual is successfully granted privilege to access TrackMe and it's recognized as \textit{Individual User}.}
         \end{usecase}
         
         \begin{usecase}{Third Party User Login}
@@ -247,7 +245,7 @@
               {The third party writes his username on the 'username' box and his associated password on 'password' box.}
               {TrackMe checks if that username is on the User DB and its associated password.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The third party is successfully granted privilege to access TrackMe and it's recognized as TPU.}
+        \post{The third party is successfully granted privilege to access TrackMe and it's recognized as \textit{Third-Party User}.}
         \end{usecase}
         
         \subsubsection{Connection of External Devices}
