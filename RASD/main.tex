@@ -323,7 +323,7 @@
         \bflow{The Third-Party presses the \textit{'enable Automated-SOS'} button.}
               {TrackMe checks if the individual has already enabled the service.}
            
-        \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automatde-SOS}
+        \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automated-SOS}
         \end{usecase}
         \subsubsection{Automated-SOS Data Management}
 
@@ -342,11 +342,68 @@
 
         
         \subsubsection{Run Creation}
-        
+         \begin{usecase}{A Third-Party creates a run}
+        \name{Run Creation}
+        \brief{A Third-Party creates a run using \textit{TrackMe} }
+        \actor{Third party, \textit{TrackMe}}
+        \pre{The Third-Paty is logged-in, it's on the \textit{Track4Run} section}
+        \bflow{The Third-Party presses the \textit{'create Run'} button.}
+              {The Third-Party insert name, date,time of the run.}
+    {The Third-Party, using an interactive map, create the path of the run}
+              {The Third party clicks on the \textit{'Submit'} button }
+              {TrackMe updates the database of the runs}
+           
+        \post{The run has been created and now the subscribers of the Third-Party can see it on TrackMe}
+        \end{usecase}
         \subsubsection{Run Enrollment}
+        \begin{usecase}{An user enrolls to a run}
+        \name{Run Enrolling}
+        \brief{A single user subscribed to a Third-Party can enroll to a run created by it, using the Track4Run section of TrackMe }
+        \actor{Individual, \textit{TrackMe}}
+        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section, there is at least a run available}
+        \bflow{The user presses the \textit{'enroll Run'} button.}
+              {Track me select all the available runs, taken from the one created by the Third-Party which the user is subscribed.}
+              {The individual selects the run he wants to enroll}
+              {The user press the {'enroll'} button }
+              {TrackMe updates the the number of subscribers for the selected run}
+           
+        \post{The individual is registered in the run and the number of partecipants is updated}
+        \end{usecase}
+        \subsubsection{Run Watching }
+        \begin{usecase}{An user select a run to watch}
+        \name{Run Watching selection}
+        \brief{A single user subscribed to a Third-Party can select a run to watch created by it, using the Track4Run section of TrackMe }
+        \actor{Individual, \textit{TrackMe}}
+        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section, there is at least a run available}
+        \bflow{The user presses the \textit{'select run to watch'} button.}
+              {TrackMe select all the available runs, taken from the ones created by the Third-Party which the user is subscribed, and prints out the output to the user.}
+              {The individual selects the run he wants to watch}
+              {The user press the {'select'} button }
+              {TrackMe add the individual to a list of watchers and increases by one the number of observers of the run}
+           
+        \post{The individual can now watch the run he selected}
+        \end{usecase}
         
-        \subsubsection{Run Watching}
         
+        
+        
+        
+        
+        \begin{usecase}{An user can see the runners on the map}
+        \name{Run Watching }
+        \brief{An user can see the runners on the path of the run using the tools of TrackMe }
+        \actor{Individual, \textit{TrackMe}}
+        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section and he has already selected at least one run; the runners should wear track devices}
+        \bflow{The user presses the \textit{'watch Run'} button.}
+              {TrackMe prints out the ongoing runs already selected by the watcher in the other section .}
+              {The individual selects the run he wants to watch}
+              {The user press the {'select'} button }
+              {TrackMe provide to the user the names of the runners}
+              {The individual selects a runner and press the \textit{'Track'} button}
+              {Track me, shows on an interactive map the position of the runner on the path of the run, using the GPS position provide by the devices worn by the runners}
+           
+        \post{The individual can now se the position of the runners in real-time}
+        \end{usecase}
         
     
     \subsection{Design Constraints}
