@@ -370,47 +370,78 @@
         \actor{Third Party, Track4Run.}
         \pre{The Third party is logged-in and it's on the main page.}
         \bflow{The Third party presses a button called \textit('Track4Run').}
-              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit('Name'), \textit('Country') ............. and two buttons called \textit('Confirm') and \textit('Back').}
+              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit('Name'), \textit('Country'), \textit('Date') ............. and two buttons called \textit('Confirm') and \textit('Back').}
               {Third party fills the boxes and then presses the \textit('Confirm') button.}
+              {Track4Run asks the user to defines a \texit(path) using ......................................}
+              {The Third-Party defines the \textit(path) using ................................... and presses the }
               {Track4Run now recognize the Third Party as an Organizer and add the \textit{run} information to the Run DB.}
               {Track4Run informs the Organizer that the operation succeed.}
         \post{The run is created and the Third Party becomes an Organizer.}
         \end{usecase}
         
-        
-        
         \subsubsection{Run Enrollment}
         
         \begin{usecase}{Individual Enrolls a Run}
         \name{Individual Enrolls a Run}
-        \brief{An individual wants to join a \textit{run}.}
+        \brief{An individual can enroll to a run created by an Organizer, using the Track4Run section of TrackMe.}
         \actor{Individual, Track4Run.}
-        \pre{The individual is logged-in and it's on the main page.}
+        \pre{The individual is logged-in and it's on the main page, there is at least a run available.}
         \bflow{The Individual presses a button called \textit('Track4Run').}
               {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
               {Individual presses the \textit('Enroll') button.}
-              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed IFF at least one run is selected; a \textit{'Back'} button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
               {Track4Run now recognize the Individual as an Athlete.}
               {Track4Run informs the Athlete that the operation succeed.}
-        \post{The Athlete successfully enrolls the run and his position will be sent to all                 \textit{Spectators} that enrolled that run.}
+        \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that enrolled that run.}
         \end{usecase}
         
         \subsubsection{Run Watching}
         
+        % TODO: look again at these use case and decide what to implement
         \begin{usecase}{Individual Spectates a Run}
         \name{Individual Spectates a Run}
-        \brief{An individual wants to spectate a \textit{run} to view the position of all Athletes            participating that run.}
+        \brief{An individual wants to spectate a \textit{run} to view the position of all Athletes participating that run.}
         \actor{Individual, Track4Run.}
         \pre{The individual is logged-in and it's on the main page.}
         \bflow{The Individual presses a button called \textit('Track4Run').}
               {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
               {Individual presses the \textit('Spectate') button.}
-              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed IFF at least one run is selected; a \textit{'Back'} button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
               {Track4Run now recognize the Individual as an Spectator.}
               {Track4Run informs the Athlete that the operation succeed.}
         \post{The Spectator successfully enrolls the run and he has granted access to the position of all Athletes enrolling the selected runs.}
+        \end{usecase}
+        
+        \begin{usecase}{An user select a run to watch}
+        \name{Run Watching selection}
+        \brief{A single user subscribed to a Third-Party can select a run to watch created by it, using the Track4Run section of TrackMe }
+        \actor{Individual, \textit{TrackMe}}
+        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section, there is at least a run available}
+        \bflow{The user presses the \textit{'select run to watch'} button.}
+              {TrackMe select all the available runs, taken from the ones created by the Third-Party which the user is subscribed, and prints out the output to the user.}
+              {The individual selects the run he wants to watch}
+              {The user press the {'select'} button }
+              {TrackMe add the individual to a list of watchers and increases by one the number of observers of the run}
+           
+        \post{The individual can now watch the run he selected}
+        \end{usecase}    
+        
+        \begin{usecase}{An user can see the runners on the map}
+        \name{Run Watching }
+        \brief{An user can see the runners on the path of the run using the tools of TrackMe }
+        \actor{Individual, \textit{TrackMe}}
+        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section and he has already selected at least one run; the runners should wear track devices}
+        \bflow{The user presses the \textit{'watch Run'} button.}
+              {TrackMe prints out the ongoing runs already selected by the watcher in the other section .}
+              {The individual selects the run he wants to watch}
+              {The user press the {'select'} button }
+              {TrackMe provide to the user the names of the runners}
+              {The individual selects a runner and press the \textit{'Track'} button}
+              {Track me, shows on an interactive map the position of the runner on the path of the run, using the GPS position provide by the devices worn by the runners}
+           
+        \post{The individual can now se the position of the runners in real-time}
         \end{usecase}
         
     
