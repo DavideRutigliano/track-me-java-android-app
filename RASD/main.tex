@@ -44,27 +44,45 @@
     \subsection{Purpose}
     This Requirement Analysis and Specification Document addresses the description in terms of functional and non-functional requirements of \textit{TrackMe}, a new health monitoring application.
     
-    This document is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee.
+    This specification is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application; in addition, is intended to model and describe the system itself, its requirements, its constraints, its components and how it interacts with the world and the users. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee.
     
-    Thus, the analysis is primarily focused on requirements elicitation and use cases description through well known standards for specification documents:
-        \begin{itemize}
-            \item[\textit{1)}] \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified};
-            \item[\textit{2)}] \textit{Alloy} for formal analysis \cite{jackson2006software}.
-        \end{itemize}
+    The analysis is focused on requirements elicitation and use cases description through well known standards for specification documents such as \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified} and \textit{Alloy} for formal analysis \cite{jackson2006software}.
         
-    This document is mostly directed and likely necessary to software designers and developers interested in the deployment of the proposed system.
+    This document is directed and highly recommended to software designers and developers interested in the deployment of the proposed system.
     
     \subsection{Scope and Audience}
         \subsubsection{Description of the given problem}
+        \textit{TrackMe} is a company that wants to develop an ease of use health monitoring application which offers different services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
         
-        \subsubsection{Description of the proposed system}
-        \textit{TrackMe} is an ease of use health monitoring application which offers different services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
+        The system should provide an efficient data acquisition facility which gives the possibility to verified \textit{third-party} signed onto the service to request health status information about subscribed customers. The application may also allow \textit{individual} users to connect \textit{external devices} such as smart-watches or similar, to perform a more detailed data acquisition and monitoring.
         
-        This proposed system provides a very efficient data acquisition service named \textit{Data4Help}. This facility gives the possibility to verified \textit{third-party} registered onto the service to request health status information about subscribed customers. The application may also allow \textit{individual} users to connect \textit{external devices} such as smart-watches or similar, to perform a more detailed data acquisition and monitoring.
-        
-        In addition, the application provides also a fully automated SOS service for elderly people: \textit{Automated-SOS} uses \textit{Data4Help} features to monitor the health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
+        In addition, the \textit{third-party} may also provide an SOS service for elderly people for which \textit{TrackMe} should be able to monitor the health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
     
-        Moreover, through the \textit{Track4Run} service, \textit{TrackMe} allows customers to create a new run, a competition in which other users can either participate as \textit{athletes} or watch as \textit{spectators}. Additionally, this service may exploits other service functionality for keeping track of athletes progresses and for helping them to prevent major accident happen during the run. 
+        Moreover, through the \textit{Track4Run} service, \textit{TrackMe} wants to provide to third-parties signed in the application to create a new run, a competition in which other users can either participate as \textit{athletes} or watch as \textit{spectators}. Additionally, this feature may exploits other service functionality for keeping track of athletes progresses and for helping them to prevent major accident happen during the run.
+                
+        \subsubsection{Description of the proposed system}
+        The proposed solution consists of a back-end server application that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
+        \begin{itemize}
+            \item a web-based application to supply to the end user an ease of use interface web interface for \textit{TrackMe};
+            \item a mobile application that allows the user to easily access the service from the smartphone.
+        \end{itemize}
+        
+        The application will provide both \textit{"Sign-on"} and \textit{"Sign-in"} pages and will be able to register new users and to check credentials used to login.
+        
+        To register himself an user must provide an username and a password as well as his/her personal information. To be logged in, the user should send through the login form his credentials which the system will use to authenticate him/her.
+        
+        \textit{TrackMe} may further yield an interface that allows individual users to connect external devices and a method for acquiring data from it.
+        
+        The application should also provide to third-parties two possible data request options:
+        \begin{itemize}
+            \item individual data request:
+            \item group data request:
+        \end{itemize}
+        
+        Moreover, the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface for third-party users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service for her subscribed users.
+        
+        Additionally, the software should provide to users that wants to use \textit{Track4Run} all the facilities they needed, such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
+        
         \subsubsection{Goals}
         
         \begin{description}
@@ -72,15 +90,13 @@
         \end{description}
     
     \subsection{Document Overview}
-        This part of the document is intended to provide both an overview of the problem and an idea of the proposed solution.
+        This initial part of the document is intended to provide both an overview of the problem and an idea of the proposed solution.
         
-        Next section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, addresses users characteristic, dependencies and constraint.
+        Following section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, it addresses user characteristics, dependencies and constraints.
         
         Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account definition of all use cases, their description through UML diagrams and their mapping on requirements.
         
-        Fourth section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
-        
-        Last part is about effort spent in writing this document in terms of hours of work.
+        Finally, endmost section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
         
         There is also a list of tables and a list of figures representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
         
@@ -92,9 +108,10 @@
                 \begin{description}
                     \item[\textbf{User}] a general definition of a customer registered into the application
                     
-                    \item[\textbf{Individual}] a single person \textit{TrackMe User}, identified either by SSN or by FC number
+                    \item[\textbf{Individual}] a single person \textit{User}, identified either by SSN or by FC number
+                    \item[\textbf{Third-Party}] an organization \textit{User}, identified by VAT number
                     
-                    \item[\textbf{Third-Party}] a company \textit{TrackMe User}, identified by VAT number
+                    \item[\textbf{Subscribed User}] an individual for which one or more third party have done a request accepted by the individual itself
                     
                     \item[\textbf{External Device}] an external device such as a smart-watch or similar devices
                     
@@ -119,7 +136,10 @@
                 
             \subsubsection{Abbreviations}
             \begin{itemize}
-                \item[-] Abbreviation 
+                \item An: Assumption number n
+                \item Cn: Constraint number n
+                \item Dn: Dependency number n
+                \item Gn: Goal number n
             \end{itemize}
             
             \subsubsection{Acronyms}
@@ -132,6 +152,7 @@
                 \acro{VAT}{Value Added Tax}
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
+                \acro{IFF}{If and only if}
             \end{acronym}
             
     \subsection{References}
@@ -262,7 +283,7 @@
               {TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
               {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
               {TrackMe sends the data request to the individual.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party has successfully sent a data request to the individual.}
         \end{usecase}
         
@@ -278,7 +299,7 @@
               {.....}
               {Third party presses the button called \textit('Confirm').}
               {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party has access to the anonymized data of a specific group of individuals.}
         \end{usecase}
         
@@ -286,12 +307,12 @@
         \name{Third Party Subscribes to New Data}
         \brief{A third party subscribes to the data of a certain group of individuals.}
         \actor{Third Party, Individual, TrackMe.}
-        \pre{The third-party is logged-in and is on the Group subsection of Data-Request page.}
-        \bflow{TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included       Countries'}, \textit{'Excluded Countries'}.}
+        \pre{The third-party is logged-in and it's on the Group subsection of Data-Request page.}
+        \bflow{TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included Countries'}, \textit{'Excluded Countries'}.}
               {.....}
               {Third party presses the button called \textit('Subscribe'). Then, it presses the button called \textit('Confirm').}
               {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
-              {TrackMe informs the Third-Party user that the operation succeded.}
+              {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party is subscribed to the group data and will receive new data as soon as they are produced.}
         \end{usecase}
         
@@ -300,10 +321,10 @@
         \brief{An individual accepts the request to view his personal data.}
         \actor{Third Party, Individual, TrackMe.}
         \pre{The individual is logged-in and it's on the main page.}
-        \bflow{TrackMe sends to the IU a request to view his data. The IU can see that the request was sent by a              specific TPU. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
+        \bflow{TrackMe sends to the IU a request to view his data. The IU can see that the request was sent by a specific TPU. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
               {The IU presses the accept button.}
               {TrackMe sends to the TPU a confirmation about his request for that Individual.}
-              {TrackMe informs the IU that the operation succeded.}
+              {TrackMe informs the IU that the operation succeed.}
         \post{The third party has access to the Individual data.}
         \end{usecase}
         
@@ -315,21 +336,21 @@
         
         \subsubsection{Automated-SOS enabling}
         
-        \begin{usecase}{third party enables Automated-SOS}
+        \begin{usecase}{Third Party enables Automated-SOS}
         \name{Third-Party enables Automated-SOS}
         \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance will be called  in 5 seconds if the individual's health parameters are below certain thresholds.}
-        \actor{Third party, \textit{TrackMe}}
-        \pre{The Third-Paty is logged-in, it's on the main page and has not enabled Automated-SOS.}
+        \actor{Third party, Automated-SOS}
+        \pre{The Third-Party is logged-in, it's on the main page and has not enabled Automated-SOS.}
         \bflow{The Third-Party presses the \textit{'enable Automated-SOS'} button.}
-              {TrackMe checks if the individual has already enabled the service.}
-           
+              {Automated-SOS checks if the individual has already enabled the service.}
+              {Automated-SOS informs the TPU that the operation succeed.}
         \post{Third-Party has enabled Automated-SOS and all users subscribed to the Third-Party are also subscribed to Automated-SOS}
         \end{usecase}
         \subsubsection{Automated-SOS Data Management}
 
         \begin{usecase}{Automated-SOS Data Management}
         \name{Automated-SOS Data Management}
-        \brief{The system will periodically check indiviadual's data, and if the thresholds have been overcomed, it will automatically notify an ambulance within 5 seconds }
+        \brief{The system will periodically check individual's data, and if the thresholds have been overcomed, it will automatically notify an ambulance within 5 seconds }
         \actor{\textit{TrackMe, ambulance} }
         \pre{At least one ambulance must be available; the Third.Party must have enabled Automated-SOS. The individual have to be subscribed to the Third-Party}
         \bflow{The system notice that an individual has overcame the thresholds.}
@@ -342,34 +363,57 @@
 
         
         \subsubsection{Run Creation}
-         \begin{usecase}{A Third-Party creates a run}
-        \name{Run Creation}
-        \brief{A Third-Party creates a run using \textit{TrackMe} }
-        \actor{Third party, \textit{TrackMe}}
-        \pre{The Third-Paty is logged-in, it's on the \textit{Track4Run} section}
-        \bflow{The Third-Party presses the \textit{'create Run'} button.}
-              {The Third-Party insert name, date,time of the run.}
-    {The Third-Party, using an interactive map, create the path of the run}
-              {The Third party clicks on the \textit{'Submit'} button }
-              {TrackMe updates the database of the runs}
-           
-        \post{The run has been created and now the subscribers of the Third-Party can see it on TrackMe}
+        
+        \begin{usecase}{Third Party Creates a New Run}
+        \name{Third Party Creates a New Run}
+        \brief{A third party become an \textit{Organizer} and creates a new \textit{run}, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
+        \actor{Third Party, Track4Run.}
+        \pre{The Third party is logged-in and it's on the main page.}
+        \bflow{The Third party presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit('Name'), \textit('Country'), \textit('Date') ............. and two buttons called \textit('Confirm') and \textit('Back').}
+              {Third party fills the boxes and then presses the \textit('Confirm') button.}
+              {Track4Run asks the user to defines a \texit(path) using ......................................}
+              {The Third-Party defines the \textit(path) using ................................... and presses the }
+              {Track4Run now recognize the Third Party as an Organizer and add the \textit{run} information to the Run DB.}
+              {Track4Run informs the Organizer that the operation succeed.}
+        \post{The run is created and the Third Party becomes an Organizer.}
         \end{usecase}
+        
         \subsubsection{Run Enrollment}
-        \begin{usecase}{An user enrolls to a run}
-        \name{Run Enrolling}
-        \brief{A single user subscribed to a Third-Party can enroll to a run created by it, using the Track4Run section of TrackMe }
-        \actor{Individual, \textit{TrackMe}}
-        \pre{The Individual is logged-in, it's on the \textit{Track4Run} section, there is at least a run available}
-        \bflow{The user presses the \textit{'enroll Run'} button.}
-              {Track me select all the available runs, taken from the one created by the Third-Party which the user is subscribed.}
-              {The individual selects the run he wants to enroll}
-              {The user press the {'enroll'} button }
-              {TrackMe updates the the number of subscribers for the selected run}
-           
-        \post{The individual is registered in the run and the number of partecipants is updated}
+        
+        \begin{usecase}{Individual Enrolls a Run}
+        \name{Individual Enrolls a Run}
+        \brief{An individual can enroll to a run created by an Organizer, using the Track4Run section of TrackMe.}
+        \actor{Individual, Track4Run.}
+        \pre{The individual is logged-in and it's on the main page, there is at least a run available.}
+        \bflow{The Individual presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
+              {Individual presses the \textit('Enroll') button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
+              {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
+              {Track4Run now recognize the Individual as an Athlete.}
+              {Track4Run informs the Athlete that the operation succeed.}
+        \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that enrolled that run.}
         \end{usecase}
-        \subsubsection{Run Watching }
+        
+        \subsubsection{Run Watching}
+        
+        % TODO: look again at these use case and decide what to implement
+        \begin{usecase}{Individual Spectates a Run}
+        \name{Individual Spectates a Run}
+        \brief{An individual wants to spectate a \textit{run} to view the position of all Athletes participating that run.}
+        \actor{Individual, Track4Run.}
+        \pre{The individual is logged-in and it's on the main page.}
+        \bflow{The Individual presses a button called \textit('Track4Run').}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
+              {Individual presses the \textit('Spectate') button.}
+              {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
+              {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
+              {Track4Run now recognize the Individual as an Spectator.}
+              {Track4Run informs the Athlete that the operation succeed.}
+        \post{The Spectator successfully enrolls the run and he has granted access to the position of all Athletes enrolling the selected runs.}
+        \end{usecase}
+        
         \begin{usecase}{An user select a run to watch}
         \name{Run Watching selection}
         \brief{A single user subscribed to a Third-Party can select a run to watch created by it, using the Track4Run section of TrackMe }
@@ -382,12 +426,7 @@
               {TrackMe add the individual to a list of watchers and increases by one the number of observers of the run}
            
         \post{The individual can now watch the run he selected}
-        \end{usecase}
-        
-        
-        
-        
-        
+        \end{usecase}    
         
         \begin{usecase}{An user can see the runners on the map}
         \name{Run Watching }
