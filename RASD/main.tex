@@ -369,8 +369,8 @@
         \brief{A third party become an \textit{Organizer} and creates a new \textit{run}, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
         \actor{Third Party, Track4Run.}
         \pre{The Third party is logged-in and it's on the main page.}
-        \bflow{The Third party presses a button called \textit('Track4Run').}
-              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit('Name'), \textit('Country'), \textit('Date') ............. and two buttons called \textit('Confirm') and \textit('Back').}
+        \bflow{The Third party presses a button called \textit{'Track4Run'}.}
+              {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} ............. and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {Third party fills the boxes and then presses the \textit('Confirm') button.}
               {Track4Run asks the user to defines a \texit(path) using ......................................}
               {The Third-Party defines the \textit(path) using ................................... and presses the }
@@ -386,9 +386,9 @@
         \brief{An individual can enroll to a run created by an Organizer, using the Track4Run section of TrackMe.}
         \actor{Individual, Track4Run.}
         \pre{The individual is logged-in and it's on the main page, there is at least a run available.}
-        \bflow{The Individual presses a button called \textit('Track4Run').}
-              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
-              {Individual presses the \textit('Enroll') button.}
+        \bflow{The Individual presses a button called \textit{'Track4Run'}.}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit{'Enroll'} and the other \textit{'Spectate'}.}
+              {Individual presses the \textit{'Enroll'} button.}
               {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
               {Track4Run now recognize the Individual as an Athlete.}
@@ -404,9 +404,9 @@
         \brief{An individual wants to spectate a \textit{run} to view the position of all Athletes participating that run.}
         \actor{Individual, Track4Run.}
         \pre{The individual is logged-in and it's on the main page.}
-        \bflow{The Individual presses a button called \textit('Track4Run').}
-              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit('Enroll') and the other \textit('Spectate').}
-              {Individual presses the \textit('Spectate') button.}
+        \bflow{The Individual presses a button called \textit{'Track4Run'}.}
+              {Track4Run asks the user if he wants to join or spectate a run. Track4Run provides two buttons, one called \textit{'Enroll'} and the other \textit{'Spectate'}.}
+              {Individual presses the \textit{'Spectate'} button.}
               {Track4Run provides a list of runs that the user can select. Track4Run also provides two buttons: a \textit{'Confirm'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Confirm'} button.}
               {Track4Run now recognize the Individual as an Spectator.}
@@ -422,7 +422,7 @@
         \bflow{The user presses the \textit{'select run to watch'} button.}
               {TrackMe select all the available runs, taken from the ones created by the Third-Party which the user is subscribed, and prints out the output to the user.}
               {The individual selects the run he wants to watch}
-              {The user press the {'select'} button }
+              {The user press the \texit{'select'} button }
               {TrackMe add the individual to a list of watchers and increases by one the number of observers of the run}
            
         \post{The individual can now watch the run he selected}
