@@ -1,7 +1,6 @@
-module TrackMe
+module trackMe
 
-/* DATA 4 HELP */
-sig Username, Password, SSN, VAT{}
+sig Username, Password{}
 
 abstract sig User{
 	username: Username,
@@ -11,45 +10,35 @@ fact uniqueUsername{
 	no disj u1,u2: User | u1.username = u2.username
 }
 
-sig Name, Surname, Mail, Location, Criterion{}
+sig Name, Ssn, Vat{}
 
 sig Individual extends User{
 	name: Name,
-	surname: Surname,
-	age: Int,
-	mail: some Mail,
-	weight: Int,
-	height: Int,
-	location: Location,
 	incomingRequests: set Request,
-	sosEnabled: Int,
-	ssn: SSN
-}{
-	age > 0
-	weight > 0
-	height > 0
-	sosEnabled = 1 or sosEnabled = 0
+	ssn: Ssn,
+	enableSos: Int
 }
-fact enabledIsBoolean{
-	all r: Individual | r.sosEnabled = 0 or r.sosEnabled = 1
+fact enableNotDisabled{
+	all i: Individual | i.enableSos != 1 => i.enableSos = 0
 }
-fact uniqueSSN{
+fact disableNotEnabled{
+	all i: Individual | i.enableSos != 0 => i.enableSos = 1
+}
+fact uniqueSsn{
 	no disj i1,i2: Individual | i1.ssn = i2.ssn
 }
-fact uniqueLocation{
-	no disj l1,l2: Location | l1 = l2
+assert enableIsBool{
+	all i: Individual | i.enableSos = 0 or i.enableSos = 1
 }
-assert correctData{
-	all i: Individual | i.age > 0 and i.weight > 0 and i.height > 0
-}
-//check correctData
+check enableIsBool
 
 sig ThirdParty extends User{
 	organization: Name,
+	sentRequests: set Request,
 	subscribedUsers: set Individual,
-	vat: VAT
+	vat: Vat
 }
-fact uniqueVAT{
+fact uniqueVat{
 	no disj p1,p2: ThirdParty | p1.vat = p2.vat
 }
 fact uniqueName{
@@ -58,152 +47,135 @@ fact uniqueName{
 fact noIndividualThirdParty{
 	no i: Individual, p: ThirdParty | i.name = p.organization
 }
+fact sendRequest{
+	all r: Request, p: ThirdParty | r.sender = p => r in p.sentRequests
+}
+fact subscribeUsers{
+	all r: IndividualRequest, p: ThirdParty, i: Individual | (r.sender = p and r.receiver = i and r.accepted = 1) => i in p.subscribedUsers
+}
+fact unsubscribedUsers{
+	no r: IndividualRequest, p: ThirdParty | r.accepted = 0 and r.receiver in p.subscribedUsers
+}
+fact subscribeGroups{
+	all r: GroupRequest, p: ThirdParty | r.sender = p => r.receiver in p.subscribedUsers
+}
+
+fact uniqueIdentifier{
+	no disj i1,i2: Individual | i1.ssn = i2.ssn
+	no disj i1,i2: ThirdParty | i1.vat = i2.vat
+}
 
 abstract sig Request{
 	sender: ThirdParty, 
-	receiver: Individual
 }
 
 sig IndividualRequest extends Request{
-	ssn: SSN,
+	receiver: Individual,
+	ssn: Ssn,
 	accepted: Int
-}{
-	accepted = 0 or accepted = 1
 }
-fact acceptedIsBoolean{
-	all r: IndividualRequest | r.accepted = 1 or r.accepted = 0
+fact queueRequest {
+	all r: IndividualRequest, i: Individual | (r.receiver = i and r.accepted = 1) => r in i.incomingRequests
 }
-/* In this model we are assuming that all individual requests sent by
-  * third-parties are always accepted by individual
- */
-fact acceptRequest {
-	all r: IndividualRequest, i: Individual, p:ThirdParty | r.accepted = 1 => (r in i.incomingRequests and i in p.subscribedUsers)
+fact denyRequest{
+	all r: IndividualRequest, i: Individual | r.accepted = 0 => r not in i.incomingRequests
 }
-fact refuseRequest {
-	all r: IndividualRequest, i: Individual, p:ThirdParty | r.accepted = 0 => ( r not in i.incomingRequests and i not in p.subscribedUsers)
-}
-assert consistencyCheck{
-	no r1,r2: IndividualRequest | r1.receiver = r2.receiver and r1.sender = r2.sender and r1.accepted = 1 and r2.accepted = 0
-}
-//check consistencyCheck
 fact noSpamRequest{
 	no disj r1,r2: IndividualRequest, i: Individual | r1.sender = r2.sender and r1.receiver.ssn = i.ssn and r2.receiver.ssn = i.ssn
 }
-fact needSSN{
-	all r: IndividualRequest | r.ssn = r.receiver.ssn
+fact needSsn{
+	all r: IndividualRequest, i: Individual | r.ssn = i.ssn => i.ssn = r.receiver.ssn
 }
+fact acceptedNotRefused{
+	all r: IndividualRequest | r.accepted != 1 => r.accepted = 0
+}
+fact refusedNotAccepted{
+	all r: IndividualRequest | r.accepted != 0 => r.accepted = 1
+}
+assert acceptedIsBoolean{
+	all r: IndividualRequest | r.accepted = 1 or r.accepted = 0
+}
+check acceptedIsBoolean
+assert consistencyCheck{
+	all r1,r2: IndividualRequest | ( r1.receiver = r2.receiver and r1.sender = r2.sender ) => ( r1.accepted = 1 or r2.accepted = 0 )
+}
+check consistencyCheck
 
 sig GroupRequest extends Request{
-	searchCriterion: Criterion,
-	returnedLines: Int
-}{
-returnedLines > 0
+	receiver: some Individual
 }
-/* The constraint on the anonymity should be something like
-  *  returnedLines >= anonymityLimit (e.g. almost one thousand lines returned)
-  * but alloy hadles only 4bit Int thus we used 7 as limit
-  */
-fact queueGroupRequests{
-	all g: GroupRequest, i: Individual, p: ThirdParty | g.returnedLines > 7 => g in i.incomingRequests and g.receiver in p.subscribedUsers
+fact doNotQueueRequest{
+	no r: GroupRequest, i: Individual | r in i.incomingRequests
 }
-fact noMultipleGroupRequests{
-	no disj r1,r2: GroupRequest, p: ThirdParty, c: Criterion | r1.searchCriterion = c and r2.searchCriterion = c and r1.sender = p and r2.sender = p
-}
-assert checkAnonymity{
-	all r: GroupRequest | r.returnedLines > 0
-}
-//check checkAnonymity
 
 pred makeOneRequest(r: Request, p: ThirdParty, i: Individual){
-	#Run = 0
-	#AutomatedSos = 0
-	#Ambulance = 0
-	#Track = 0
-	#Time = 0
-	#Date = 0
-	#Duration = 0
 	#IndividualRequest = 1
 	#GroupRequest = 1
 	i.incomingRequests = i.incomingRequests + r
 	p.subscribedUsers = p.subscribedUsers + i
 }
+run makeOneRequest for 2 but 1 Individual, 1 ThirdParty, 0 AutomatedSos, 0 Run
 
-//run makeOneRequest for 2 but 1 Individual, 1 ThirdParty
-
-pred Data4HelpComplete{
-	#Run = 0
-	#Track = 0
-	#Time = 0
-	#Date = 0
-	#Duration = 0
-	#AutomatedSos = 0
-	#Individual = 1
-	#Ambulance = 0
-	#ThirdParty = 2
+pred makeRequests(r: Request, p: ThirdParty, i: Individual){
 	#IndividualRequest = 2
-	#GroupRequest = 0
+	#GroupRequest = 2
+	i.incomingRequests = i.incomingRequests + r
+	p.subscribedUsers = p.subscribedUsers + i
 }
-//run Data4HelpComplete for 3
+run makeRequests for 4 but 2 Individual, 1 ThirdParty
 
-sig Ambulance{}
+sig Ambulance{
+	available: Int
+}
+fact availableNotUnavailable{
+	all a: Ambulance | a.available != 1 => a.available = 0
+}
+fact unavailableNotAvailable{
+	all a: Ambulance | a.available != 0 => a.available = 1
+}
+assert availabilityIsBoolean{
+	all a: Ambulance | a.available = 1 or a.available = 0
+}
+check availabilityIsBoolean
 
-/* AUTOMATED SOS */
 sig AutomatedSos{
 	provider: ThirdParty,
 	customers: set Individual,
-	ambulance: some Ambulance
+	ambulances: some Ambulance
 }
 fact enableSos{
-	all a: AutomatedSos, i: Individual | i.sosEnabled = 1 => i in a.customers
+	all a: AutomatedSos, i: Individual | i.enableSos = 1 => i in a.customers
 }
 fact disableSos{
-	all a: AutomatedSos, i: Individual | i.sosEnabled = 0 => i not in a.customers
+	no a: AutomatedSos, i: Individual | i.enableSos = 0 and i in a.customers
 }
 fact uniqueAutomatedSosService {
 	no disj a1, a2: AutomatedSos, p: ThirdParty | a1.provider = p and a2.provider = p
 }
 fact uniqueAmbulance{
-	no disj a1, a2: AutomatedSos | a1.ambulance in a2.ambulance or a2.ambulance in a1.ambulance
+	no disj a1, a2: AutomatedSos, a: Ambulance | a in a1.ambulances and a in a2.ambulances
 }
 fact multipleSos{
 	no disj a1,a2: AutomatedSos, i: Individual | i in a1.customers and i in a2.customers 
 }
-pred enableAutomatedSos(a: AutomatedSos, p: ThirdParty){
-	#Run = 0
-	#Track = 0
-	#Time = 0
-	#Date = 0
-	#Duration = 0
-	a.provider = p
-	a.customers = p.subscribedUsers
+fact onlyAvailableAmbulances{
+	all a: Ambulance, s: AutomatedSos | a.available = 1 => a in s.ambulances
 }
-//run enableAutomatedSos for 1 but 1 ThirdParty, 1 Request
+fact noUnavailableAmbulances{
+	no a: Ambulance, s: AutomatedSos | a.available = 0 and a in s.ambulances
+}
+
+pred enableAutomatedSos(a: AutomatedSos, p: ThirdParty){
+	a.provider = p
+}
+run enableAutomatedSos for 1
 
 pred runAutomatedSos(a: AutomatedSos, p: ThirdParty){
-	#Run = 0
-	#Track = 0
-	#Time = 0
-	#Date = 0
-	#Duration = 0
-	#Request = 1
+	#Ambulance = 2
+	a.provider = p
 }
-//run runAutomatedSos for 2 but 1 AutomatedSos
+run runAutomatedSos for 2 but 2 AutomatedSos
 
-pred automatedSosComplete{
-	#Track = 0
-	#Time = 0
-	#Date = 0
-	#Duration = 0
-	#Individual = 2
-	#IndividualRequest = 1
-	#GroupRequest = 1
-	#ThirdParty = 2
-	#AutomatedSos = 2
-	#Ambulance = 3
-}
-run automatedSosComplete for 6
-
-/* TRACK 4 RUN */
 sig Track, Duration, Date, Time{}
 
 sig Run{
@@ -215,17 +187,14 @@ sig Run{
 	athletes: set Athlete,
 	spectators: set Spectator
 }
-fact noRunWhitoutRequest{
-	no disj r: Run, p: ThirdParty, i: IndividualRequest |  r.organizer = p and i.accepted  = 0
-}
 fact noDupicatedRun{
 	no disj r1,r2: Run | r1.track = r2.track and r1.date = r2.date and r1.time = r2.time
 }
 fact noMultipleEnrollement{
-	no disj r1,r2: Run, a: Athlete | r1.date = r2.date and r1.time = r2.time and a in r1.athletes and a in r2.athletes
+	all disj r1,r2: Run, a: Athlete | (r1.date = r2.date and r1.time = r2.time) => (a not in r1.athletes and a not in r2.athletes)
 }
 fact noMultipleWatch{
-	no disj r1,r2: Run, s: Spectator |  r1.date = r2.date and r1.time = r2.time and s in r1.spectators and s in r2.spectators
+	all disj r1,r2: Run, s: Spectator | (r1.date = r2.date and r1.time = r2.time) => (s not in r1.spectators and s not in r2.spectators)
 }
 assert athletesCantWatch{
 	no a: Athlete, s: Spectator | a.enrolled = s.watch
@@ -239,71 +208,47 @@ fact setOrganizer{
 }
 
 sig Athlete extends Individual{
-	enrolled: lone Run
+	enrolled: set Run
 }
 fact athleteEnrolled{
-	all a: Athlete | a in a.enrolled.athletes
+	all a: Athlete, r: Run | r in a.enrolled => a in a.enrolled.athletes
 }
 
-sig Spectator extends User{
-	watch: lone Run,
+sig Spectator extends Individual{
+	watch: Run,
 }
 fact spectatorWatching {
-	all s: Spectator | s in s.watch.spectators
+	all s: Spectator, r: Run | r in s.watch => s in s.watch.spectators
 }
 
-pred createNewRun(o: Organizer, r: Run){
-	#AutomatedSos = 0
-	#Request = 1
+pred createRun{
 	#Run = 1
-	#Ambulance = 0
-	o.organized = o.organized + r
-}
-//run createNewRun for 2
-
-pred enrollToRun(a: Athlete, r: Run){
+	#Request = 0	
 	#AutomatedSos = 0
 	#Ambulance = 0
-	#Request = 1
+}
+run createRun for 1 but 1 ThirdParty
+
+pred enrollToRun{
+	#Run = 1
+	#Request = 0	
+	#AutomatedSos = 0
+	#Ambulance = 0
 	#Athlete = 1
-	#Run = 1
-	r.athletes = r.athletes + a
 }
-//run enrollToRun for 2
+run enrollToRun for 2 but 1 ThirdParty
 
-pred watchRun(s: Spectator, r: Run){
+pred watchRun{
+	#Run = 1
+	#Request = 0	
 	#AutomatedSos = 0
 	#Ambulance = 0
-	#IndividualRequest = 1
-	#Athlete = 1
-	#Spectator = 1
-	#Run = 1
-	#Request = 1
-	r.spectators = r.spectators + s
-}
-//run watchRun
-
-pred track4RunComplete{
-	#Organizer = 1
-	#Athlete = 2
-	#Spectator = 1
-	#Run = 1
-	#AutomatedSos = 0
-	#Ambulance = 0
-	#GroupRequest = 0
-	#IndividualRequest = 0
-}
-//run track4RunComplete for 4
-
-pred TrackMe(){
-	#Ambulance = 3
-	#AutomatedSos = 2
-	#Individual = 2
-	#IndividualRequest = 4
-	#ThirdParty = 2
-	#Organizer = 1
-	#Run = 2
 	#Athlete = 2
 	#Spectator = 1
 }
-run TrackMe for 8
+run watchRun for 4 but 1 ThirdParty
+
+run TrackMe{
+	#AutomatedSos = 1
+	#Run = 1
+} for 3 but 1 ThirdParty, 2 Individual

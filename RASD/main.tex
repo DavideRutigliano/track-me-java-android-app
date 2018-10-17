@@ -81,7 +81,7 @@
         
         Moreover, the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
         
-        Additionally, the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
+        Furthermore, the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
         
         \subsubsection{Goals}
         
@@ -136,10 +136,10 @@
                 
             \subsubsection{Abbreviations}
             \begin{itemize}
-                \item An: Assumption number n
-                \item Cn: Constraint number n
-                \item Dn: Dependency number n
-                \item Gn: Goal number n
+                \item [An]: Assumption number n
+                \item [Cn]: Constraint number n
+                \item [Dn]: Dependency number n
+                \item [Gn]: Goal number n
             \end{itemize}
             
             \subsubsection{Acronyms}
@@ -152,7 +152,7 @@
                 \acro{VAT}{Value Added Tax}
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
-                \acro{IFF}{If and only if}
+                \acro{GPS}{Global Positioning System}
             \end{acronym}
             
     \subsection{References}
@@ -160,8 +160,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Overall Description}
-
     \subsection{Product Perspective}
+    This section is intended to provide a full description of the proposed system by meaning of \textit{Domains} and \textit{Phenomena} \cite{zave1997four}.
+    
+    The \textit{Machine Domain} is the set of phenomena that the machine can control: data structures, algorithms, devices and inputs it can get from the world.
+    
+    In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced it is that part of the world in which the Machine’s actions will be observed.
+    
+    The World and the Machine are connected too, because the latter should interact with the first one: this interaction is done through \textit{Shared Domain}, whose phenomena are observable both by the Machine and by the World. Shared Phenomena include events in the real world that the Machine can directly sense and actions in the real world that the Machine can directly cause.
+    \begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+     \textbf{Phenomenon} & \textbf{World} & \textbf{Machine} & \textbf{Shared}\\ \hline
+     Registration/Login/Manage Profile & & & X \\ \hline
+     Application logic & & X & \\ \hline
+     Accept/Refuse/Send Request & & & X \\ \hline
+     Database Query & & X & \\ \hline
+     Connect External Device & & & X \\ \hline
+     GPS Tracking & & X & \\ \hline
+     Enable Sos & & & X \\ \hline
+     Locate nearest Ambulance & & & X \\ \hline
+     Accident & X & & \\ \hline
+     Create/Delete/Enroll/Watch/Start Run & & & X \\ \hline
+     & & & \\ \hline
+     NOT FINISHED YET & X & X & X \\ \hline
+     & & & \\ \hline
+    \end{tabular}
+    \end{table}
+    
+    \subsubsection{Class Diagram}
+    
+    \subsubsection{State Charts}
     
     \subsection{Product Functions}
     
@@ -170,6 +200,8 @@
         \subsubsection{Automated-SOS}
         
         \subsubsection{Track4Run}
+        
+        \subsubsection{Use Cases Diagram}
     
     \subsection{User Characteristics}
     
@@ -249,7 +281,7 @@
         \actor{Individual, TrackMe.}
         \pre{The individual is already registered and it's on the main page.}
         \bflow{The individual goes on login page pressing \textit{'Sign-in'} button.}
-              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while latter is the \textit{'password'} field.}
+              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the the latter is the \textit{'password'} field.}
               {The individual writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
               {TrackMe checks username is on the DB and that its associated password is correct.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
@@ -262,10 +294,10 @@
         \actor{Third Party, TrackMe.}
         \pre{The third-party is already registered and it's on the main page.}
         \bflow{The third party goes on login page pressing \textit{'Sign-in'} button.}
-              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while latter is the \textit{'password'} field.}
-              {The third-party writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
-              {TrackMe checks username is on the DB and that its associated password is correct.}
-              {TrackMe finds that username and its associated password are valid and grants access to the user.}
+        {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the the latter is the \textit{'password'} field.}
+        {The third-party writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
+        {TrackMe checks username is on the DB and that its associated password is correct.}
+        {TrackMe finds that username and its associated password are valid and grants access to the user.}
         \post{The third party is successfully authenticated as \textit{Third-Party User}.}
         \end{usecase}
         
@@ -295,12 +327,11 @@
         \bflow{The third party presses the \textit{'Data-Request'} button. Third party is now on the Data-Request            page.}
               {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
               {The third party presses the button \textit{'Group'}. Third party is now on the Group subsection of Data-Request page.}
-              {TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included Countries'}, \textit{'Excluded Countries'}.}
-              {.....}
-              {Third party presses the button called \textit('Confirm').}
-              {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
-              {TrackMe informs the Third-Party user that the operation succeed.}
-        \post{The third party has access to the anonymized data of a specific group of individuals.}
+              {TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
+        {Third party fills out the form and then presses the button \textit'Send Request'.}
+        {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
+        {TrackMe informs the Third-Party that the operation succeed.}
+        \post{The third party has access to the data of a specific group of individuals.}
         \end{usecase}
         
         \begin{usecase}{Third Party Subscribes to New Data}
@@ -308,10 +339,9 @@
         \brief{A third party subscribes to the data of a certain group of individuals.}
         \actor{Third Party, Individual, TrackMe.}
         \pre{The third-party is logged-in and it's on the Group subsection of Data-Request page.}
-        \bflow{TrackMe provides a set of boxed called \textit{'Minimum Age'}, \textit{'Maximum Age'}, \textit{'Included Countries'}, \textit{'Excluded Countries'}.}
-              {.....}
-              {Third party presses the button called \textit('Subscribe'). Then it presses the button called \textit('Confirm').}
-              {TrackMe checks if the magnitude of the group defined on point \textit{e)} is greater than 1000.}
+        \bflow{TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
+        {Third party fills out the form and then presses the button \textit'Send Request'.}
+        {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         \post{The third party is subscribed to the group data and will receive new data as soon as they are produced.}
         \end{usecase}
         
@@ -504,15 +534,15 @@
 	morecomment=[l]{--},
 	morecomment=[s]{/*}{*/},
 	morestring=[b]{"},
-	literate={->}{$\rightarrow$}1
+	literate={->}{${\rightarrow}$}1
 	% replacing characters can cause problems when copying from PDF to editor
 }[keywords,comments,strings]
 \lstset {
     language=Alloy,
     frame=tb,
+    breaklines=true,
     tabsize=3,
     showstringspaces=false,
-    breaklines=true,
     numbers=none,
     commentstyle=\color{commentgreen},
     keywordstyle=\color{blue},
@@ -525,83 +555,57 @@
     classoffset=0,
 }
 \subsection{Data4Help}
-    \lstinputlisting[language=Alloy, caption=Data4Help: model definition, firstline=0, lastline=79]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Data4Help: model definition, firstline=0, lastline=110]{TrackMeAlloyModel.als}
     
-    \lstinputlisting[language=Alloy, caption=Data4Help: single individual request, firstline=80, lastline=95]{TrackMeAlloyModel.als}
-    
+    \lstinputlisting[language=Alloy, caption=Data4Help: single individual request, firstline=111, lastline=118]{TrackMeAlloyModel.als}
     \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm]{images/alloy/makeOneRequest.png}
     \end{figure}
     
-    \lstinputlisting[language=Alloy, caption=Data4Help: complete, firstline=96, lastline=110]{TrackMeAlloyModel.als}
-    
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/Data4HelpComplete.png}
-    \end{figure}
+    \lstinputlisting[language=Alloy, caption=Data4Help: complete, firstline=119, lastline=125]{TrackMeAlloyModel.als}
 
 \subsection{Automated-SOS}
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: model definition, firstline=112, lastline=123]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: model definition, firstline=127, lastline=167]{TrackMeAlloyModel.als}
     
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: enable automated-sos, firstline=124, lastline=133]{TrackMeAlloyModel.als}
-    
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: enable automated-sos, firstline=168, lastline=172]{TrackMeAlloyModel.als}
     \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm]{images/alloy/enableAutomatedSos.png}
+    	\includegraphics[width=100mm]{images/alloy/enableSos.png}
     \end{figure}
     
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: run Automated-SOS, firstline=134, lastline=145]{TrackMeAlloyModel.als}
-    
+    \lstinputlisting[language=Alloy, caption=Automated-SOS: run Automated-SOS, firstline=173, lastline=178]{TrackMeAlloyModel.als}
     \begin{figure}[!h]
     	\centering
-    	\includegraphics[width=100mm]{images/alloy/runAutomatedSos.png}
-    \end{figure}
-    \newpage
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: complete, firstline=146, lastline=158]{TrackMeAlloyModel.als}
-    
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/AutomatedSos+Data4HelpComplete.png}
+    	\includegraphics[width=100mm]{images/alloy/runSos.png}
     \end{figure}
 
 \subsection{Track4Run}
-\lstinputlisting[language=Alloy, caption=Track4Run: model definition, firstline=160, lastline=205]{TrackMeAlloyModel.als}
-
-\lstinputlisting[language=Alloy, caption=Track4Run: create a new run, firstline=206, lastline=214]{TrackMeAlloyModel.als}
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[width=100mm]{images/alloy/createNewRun.png}
-\end{figure}
-
-\lstinputlisting[language=Alloy, caption=Track4Run: enroll to a run, firstline=215, lastline=223]{TrackMeAlloyModel.als}
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[width=100mm]{images/alloy/enrollToRun.png}
-\end{figure}
-
-\lstinputlisting[language=Alloy, caption=Track4Run: watch run, firstline=224, lastline=236]{TrackMeAlloyModel.als}
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[width=100mm]{images/alloy/watchRun.png}
-\end{figure}
-
-\lstinputlisting[language=Alloy, caption=Track4Run: complete, firstline=237, lastline=247]{TrackMeAlloyModel.als}
-\newpage
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[width=100mm]{images/alloy/Track4RunComplete.png}
-\end{figure}
-
-\lstinputlisting[language=Alloy, caption=TrackMe: complete, firstline=248, lastline=261]{TrackMeAlloyModel.als}
-\newpage
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[width=200mm, angle = 90]{images/alloy/TrackMeComplete.png}
-\end{figure}
+    \lstinputlisting[language=Alloy, caption=Track4Run: model definition, firstline=179, lastline=223]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Track4Run: create a new run, firstline=224, lastline=230]{TrackMeAlloyModel.als}
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/createRun.png}
+    \end{figure}
+    
+    \lstinputlisting[language=Alloy, caption=Track4Run: enroll to a run, firstline=232, lastline=239]{TrackMeAlloyModel.als}
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/enrollRun.png}
+    \end{figure}
+    
+    \lstinputlisting[language=Alloy, caption=Track4Run: watch run, firstline=240, lastline=249]{TrackMeAlloyModel.als}
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/watchRun.png}
+    \end{figure}
+    
+    \lstinputlisting[language=Alloy, caption=TrackMe: complete, firstline=250, lastline=259]{TrackMeAlloyModel.als}
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/alloy/trackMe.png}
+    \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Effort Spent}
