@@ -220,9 +220,30 @@
     
     \subsection{User Characteristics}
     
-        \subsubsection{Individual}
+        \subsubsection{Data4Help}
+        \begin{itemize}
+            \item \textbf{Guest:} a person that is visiting \textit{TrackMe}. He can only login or register to the system.
+            \item \textbf{User:} a Guest that successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
+            \item \textbf{Individual:} a User that agreed that \textit{TrackMe} can collect his personal data. Data acquisition can happen through smartwatches or similar devices.
+            \item \textbf{Third Party:} a User that can ask an Individual to gain access to their personal data. He can also request access to data that belongs to a group of Individuals, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
+        \end{itemize}
         
-        \subsubsection{Third-Party}
+        %%%%%%%% not sure about these %%%%%%%%%
+        \subsubsection{Automated-SOS Extension}
+        \begin{itemize}
+            \item \textbf{Provider:}
+            \item \textbf{Patient:}
+            \item \textbf{Ambulance:}
+        \end{itemize}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsubsection{Track4Run Extension}
+        \begin{itemize}
+            \item \textbf{Organizer:} a Third Party that created at least one run. He can create, start or delete a run.
+            \item \textbf{Athlete:} an Individual that enrolled a run. His position will be sent to all Spectators that joined that run.
+            \item \textbf{Spectator:} an Individual that joined a run. He can see the position of all Athletes that are competing in the run until the run is finished.
+        \end{itemize}
         
     \subsection{Assumptions, Dependencies and Constraints}
         \begin{description}
