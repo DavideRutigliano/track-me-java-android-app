@@ -64,7 +64,7 @@
         The proposed solution consists of a back-end server application that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
         \begin{itemize}
             \item a web-based application to supply to the end user an ease of use interface web interface for \textit{TrackMe};
-            \item a mobile application that allows the user to easily access the service from the smartphone.
+            \item a mobile application that allows the user to easily access the system from the smartphone.
         \end{itemize}
         
         The application will provide both \textit{"Sign-on"} and \textit{"Sign-in"} pages and will be able to register new users and to check credentials used to login.
@@ -86,7 +86,22 @@
         \subsubsection{Goals}
         
         \begin{description}
-            \item[G.01] Goal
+            \item[G.01] Let the user register on the system
+            \item[G.02] Let the user login/logout from the application
+            \item[G.03] Let the individual user connect an external device
+            \item[G.04] Let the third-party make requests to a specific individual
+            \item[G.05] Let the third-party make requests to groups of individuals
+            \item[G.06] Let the third-party subscribe to individuals' data
+            \item[G.07] Let the user manage his profile
+            \item[G.08] Let the individual accept/refuse third-party requests
+            \item[G.09] Let the third-party enable automated-Sos service
+            \item[G.10] Let the individual enable automated-Sos choosing among third-party that has enabled the service
+            \item[G.10] Let the organizer create a new run
+            \item[G.11] Let the organizer delete a run
+            \item[G.12] Let the organizer start a new run
+            \item[G.13] Let the athlete enroll to a run
+            \item[G.14] Let the athlete unroll to a run
+            \item[G.15] Let the spectator watch a run
         \end{description}
     
     \subsection{Document Overview}
@@ -96,7 +111,7 @@
         
         Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account definition of all use cases, their description through UML diagrams and their mapping on requirements.
         
-        Finally, endmost section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
+        Endmost section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
         
         Further, there is a list of tables and a list of figures representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
         
@@ -136,10 +151,10 @@
                 
             \subsubsection{Abbreviations}
             \begin{itemize}
-                \item [An]: Assumption number n
-                \item [Cn]: Constraint number n
-                \item [Dn]: Dependency number n
-                \item [Gn]: Goal number n
+                \item $[$An$]$: Assumption number n
+                \item $[$Cn$]$: Constraint number n
+                \item $[$Dn$]$: Dependency number n
+                \item $[$Gn$]$: Goal number n
             \end{itemize}
             
             \subsubsection{Acronyms}
@@ -165,7 +180,7 @@
     
     The \textit{Machine Domain} is the set of phenomena that the machine can control: data structures, algorithms, devices and inputs it can get from the world.
     
-    In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced it is that part of the world in which the Machine’s actions will be observed.
+    In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced. This is the part of the real-world in which the Machine’s actions will be observed.
     
     The World and the Machine are connected too, because the latter should interact with the first one: this interaction is done through \textit{Shared Domain}, whose phenomena are observable both by the Machine and by the World. Shared Phenomena include events in the real world that the Machine can directly sense and actions in the real world that the Machine can directly cause.
     \begin{table}[!ht]
@@ -324,7 +339,7 @@
         \brief{A third party views data of a group of individuals.}
         \actor{Third Party, Individual, TrackMe.}
         \pre{The third-party is logged-in and it's on the main page.}
-        \bflow{The third party presses the \textit{'Data-Request'} button. Third party is now on the Data-Request            page.}
+        \bflow{The third party presses the \textit{'Data-Request'} button. Third party is now on the Data-Request page.}
               {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
               {The third party presses the button \textit{'Group'}. Third party is now on the Group subsection of Data-Request page.}
               {TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
@@ -337,12 +352,12 @@
         \begin{usecase}{Third Party Subscribes to New Data}
         \name{Third Party Subscribes to New Data}
         \brief{A third party subscribes to the data of a certain group of individuals.}
-        \actor{Third Party, Individual, TrackMe.}
+        \actor{Third Party,  Individual, TrackMe.}
         \pre{The third-party is logged-in and it's on the Group subsection of Data-Request page.}
-        \bflow{TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
-        {Third party fills out the form and then presses the button \textit'Send Request'.}
-        {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
-        \post{The third party is subscribed to the group data and will receive new data as soon as they are produced.}
+        \bflow{TrackMe provides a check-box to allow a third-party to choose if she wants to be subscribed to new data.}
+            {Third party checks the \textit{'Subscribe'} box.}
+            {TrackMe checks if the request is a valid request.}
+        \post{The third party is subscribed to the individuals' data and will receive new data as soon as they are produced.}
         \end{usecase}
         
         \begin{usecase}{Individual Accepts Data Request}
@@ -350,9 +365,9 @@
         \brief{An individual accepts the request to view his personal data.}
         \actor{Third Party, Individual, TrackMe.}
         \pre{The individual is logged-in and it's on the main page.}
-        \bflow{TrackMe sends to the IU a request to view his data. The IU can see that the request was sent by a specific TPU. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
-              {The IU presses the accept button.}
-              {TrackMe sends to the TPU a confirmation about his request for that Individual.}
+        \bflow{TrackMe sends to the indifidual a request to view his data. The individual can see that the request was sent by a specific third-party. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
+              {The individual presses the accept button.}
+              {TrackMe sends to the third-party a confirmation about his request for that Individual.}
         \post{The third party has access to the Individual data.}
         \end{usecase}
         
@@ -373,7 +388,7 @@
               {Automated-SOS checks if the user has already enabled the service.}
               {Automated-SOS asks if the user wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {Third Party presses the \textit{'Confirm'} button.}
-              \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the TP in the Automated-SOS TP list.}
+              \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list.}
         \end{usecase}
         
         \begin{usecase}{Individual Enables Automated-SOS}
@@ -384,9 +399,9 @@
             There is at least one Third-Party that has enabled the Automated-SOS service.}
         \bflow{The Individual presses the \textit{'Enable Automated-SOS'} button.}
               {Automated-SOS checks if the user has already enabled the service.}
-              {Automated-SOS asks if the user wants to enable Automated-SOS. It provides a list of Third parties that enabled Automated-SOS. User can choose only one TP. Automated-SOS also provides two buttons called \textit{'Confirm'} and \textit{'Back'}. The \textit{'Confirm'} button can be pressed only if at least one TP is selected.}
-              {Individual selects a TP and presses the \textit{'Confirm'} button.}
-        \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the TP in the Automated-SOS TP list.}
+              {Automated-SOS asks if the user wants to enable Automated-SOS. It provides a list of Third parties that enabled Automated-SOS. User can choose only one third-party. Automated-SOS also provides two buttons called \textit{'Confirm'} and \textit{'Back'}. The \textit{'Confirm'} button can be pressed only if at least one third-party is selected.}
+              {Individual selects a third-party and presses the \textit{'Confirm'} button.}
+        \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list.}
         \end{usecase}
         
         
@@ -411,7 +426,7 @@
         \brief{A third party become an \textit{Organizer} and creates a new \textit{run}, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
         \actor{Third Party, Track4Run.}
         \pre{The Third party is logged-in and it's on the main page.}
-        \bflow{The Third party presses a button called \textit{'Track4Run'}. TP is now on the Track4Run page.}
+        \bflow{The Third party presses a button called \textit{'Track4Run'}. third-party is now on the Track4Run page.}
               {Track4Run provides two buttons: one called \textit{'Create Run'} and one called \textit{'Run list'}.}
               {The third party presses the \textit{'Create Run'} button.}
               {Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} ............. and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
