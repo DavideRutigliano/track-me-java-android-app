@@ -5,7 +5,7 @@
 \usepackage{acronym}
 \usepackage{indentfirst}
 \usepackage{requirements} %custom package
-\usepackage[none]{hyphenat} %stops word separation on new line
+\usepackage[htt]{hyphenat} %stops word separation on new line
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{listings}
@@ -281,7 +281,7 @@
         \actor{Individual, TrackMe.}
         \pre{The individual is already registered and it's on the main page.}
         \bflow{The individual goes on login page pressing \textit{'Sign-in'} button.}
-              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the the latter is the \textit{'password'} field.}
+              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
               {The individual writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
               {TrackMe checks username is on the DB and that its associated password is correct.}
               {TrackMe finds that username and its associated password are valid and grants access to the user.}
@@ -294,7 +294,7 @@
         \actor{Third Party, TrackMe.}
         \pre{The third-party is already registered and it's on the main page.}
         \bflow{The third party goes on login page pressing \textit{'Sign-in'} button.}
-        {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the the latter is the \textit{'password'} field.}
+        {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
         {The third-party writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
         {TrackMe checks username is on the DB and that its associated password is correct.}
         {TrackMe finds that username and its associated password are valid and grants access to the user.}
