@@ -39,10 +39,9 @@
     \item #1\checknextarg
 }
 \newcommand{\except}[1]{%
-    \hline
-    \textbf{Exception} & #1
-    \tabularnewline
-    \hline
+     \textbf{except} & 
+    \begin{enumerate}
+    \item #1\checknextarg
 }
 \newcommand{\checknextarg}{
 	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}

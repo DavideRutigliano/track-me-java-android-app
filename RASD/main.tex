@@ -303,19 +303,20 @@
         
         A  \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
         %use cases table structure
-        \begin{usecase}{Individual User Registration}
-        \name{Individual User Registration}
-        \brief{An individual sign up to the application to become an user.}
-        \actor{Individual, TrackMe.}
-        \pre{The individual has a valid SSN/FC and he's on the main page.}
-        \bflow{The individual goes on registration page pressing \textit{'Sign-on'} button.}
-              {TrackMe asks to the user if he's an Individual or a Third Party. The user can choose between these two options.}
-              {The individual choose the Individual option.}
-              {TrackMe asks to provide a SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
+        \begin{usecase}{Individual  Registration}
+        \name{Individual Registration}
+        \brief{A guest sign up to the application as an Individual.}
+        \actor{Guest.}
+        \pre{The individual has a valid SSN/FC and he has selected the \textit{Individual} option in the Registration use case.}
+        \bflow{The system asks to provide a SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
               {The individual fills out the requested information and presses the confirm button.}
-              {TrackMe registers that user as an Individual User and adds it to the  Database.}
-        \post{The individual is successfully registered as an Individual User.}
-        \end{usecase}
+               {TrackMe asks to provide username and password.}
+              {The system registers that user as an Individual and adds it to the  Database.}
+        \post{The individual is successfully registered as an Individual.}
+        \except{The guest provide a username already present on the database. In this case an error message is printed out the guest must chose a correct username.}
+        {If the password chosen is too short an error message is printed out and the guest must chosen an other one.}
+      \end{usecase}
+        
         
         A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
         
