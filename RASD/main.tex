@@ -289,7 +289,17 @@
         \end{figure}
         \newpage
         \subsubsection{Registration}
-        \textit{TrackMe} must provide a registration interface for both \textit{individual} and \textit{third-party} users.
+        \textit{TrackMe} must provide a registration interface to a guest. 
+        
+        \begin{usecase}{ Registration}
+        \name{Registration}
+        \brief{A guest sign up to the application, he can choose to sign on as an individual or as a Third-Party.}
+        \actor{Guest.}
+        \pre{The guest is on the main page.}
+        \bflow{The guest goes on registration page pressing \textit{'Sign-on'} button.}
+              {TrackMe asks to the user if he's an Individual or a Third Party. The guest can choose between these two options clicking on the right button}
+        \post{The guest can now subscribe as Individual or as a Third-Party}
+        \end{usecase}
         
         A  \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
         %use cases table structure
