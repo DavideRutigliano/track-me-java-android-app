@@ -8,7 +8,7 @@ In order to write such documents we decided to use Latex editor, so we used
 ShareLatex via Overleaf. This choice allowed us also to link Latex project with this github repository.
 
 # Documents Preview via Overleaf
-In this readme we also provided to the readers read-only links to our overleaf project in order to provide have a pdf version
+In this readme we provided to the readers read-only links to our overleaf project in order to have also a pdf version
 preview of all the documents.
 
 * [RASD](https://www.overleaf.com/read/vqnvgypvstfb)
