@@ -176,6 +176,12 @@
 \newpage
 \section{Overall Description}
     \subsection{Product Perspective}
+    
+    TODO:
+    Describe the product's context and origin. Is it the next member of a growing product family, the next version of a mature system, a replacement for an existing application, or an entirely new product? If this Software Requirements Specification (SRS) defines a component of a larger system, state how this software relates to the overall system and identify major interfaces between the two.  
+    
+    
+    %%%%%%%%%%%% pretty sure this is the wrong place for this %%%%%%%%%%%%%%
     This section is intended to provide a full description of the proposed system by meaning of \textit{Domains} and \textit{Phenomena} \cite{zave1997four}.
     
     The \textit{Machine Domain} is the set of phenomena that the machine can control: data structures, algorithms, devices and inputs it can get from the world.
@@ -204,11 +210,14 @@
     \end{tabular}
     \end{table}
     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     \subsubsection{Class Diagram}
     
     \subsubsection{State Charts}
     
     \subsection{Product Functions}
+
      
         \subsubsection{Data4Help}
        
@@ -222,6 +231,17 @@
     \includegraphics[scale=0.44]
     {images/UML/Model.jpg}
     \end{figure}
+    \textit{TrackMe} will provide three services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
+    
+    \subsubsection{Data4Help}
+    \textit{Data4Help} is the main service: it allows the registration of individuals who by registering consent to provide their personal data to \textit{Track4Me}. Data can be made available to third parties under specific conditions.
+    
+    \subsubsection{Automated-SOS}
+    \textit{Automated-SOS} is built on top of \textit{Data4Help} and provides individuals the ability to subscribe to a third party that has enabled the service. When the individual's health parameters are below a certain threshold an ambulance shall be called to the individual's position under certain time constraints.
+    
+    \subsubsection{Track4Run}
+    \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run.
+
     
     \newpage    
     \subsection{User Characteristics}
@@ -229,9 +249,9 @@
         \subsubsection{Data4Help}
         \begin{itemize}
             \item \textbf{Guest:} a person that is visiting \textit{TrackMe}. He can only login or register to the system.
-            \item \textbf{User:} a Guest that successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
-            \item \textbf{Individual:} a User that agreed that \textit{TrackMe} can collect his personal data. Data acquisition can happen through smartwatches or similar devices.
-            \item \textbf{Third Party:} a User that can ask an Individual to gain access to their personal data. He can also request access to data that belongs to a group of Individuals, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
+            \item \textbf{User:} a \textit{Guest} that successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
+            \item \textbf{Individual:} a \textit{User} that agreed that \textit{TrackMe} can collect his personal data. Data acquisition can happen through smartwatches or similar devices.
+            \item \textbf{Third Party:} a \textit{User} that can ask an \textit{Individual} to gain access to their personal data. He can also request access to data that belongs to a group of \textit{Individuals}, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
         \end{itemize}
         
         %%%%%%%% not sure about these %%%%%%%%%
@@ -246,9 +266,9 @@
         
         \subsubsection{Track4Run Extension}
         \begin{itemize}
-            \item \textbf{Organizer:} a Third Party that created at least one run. He can create, start or delete a run.
-            \item \textbf{Athlete:} an Individual that enrolled a run. His position will be sent to all Spectators that joined that run.
-            \item \textbf{Spectator:} an Individual that joined a run. He can see the position of all Athletes that are competing in the run until the run is finished.
+            \item \textbf{Organizer:} a \textit{Third Party} that created at least one run. He can create, start or delete a run.
+            \item \textbf{Athlete:} an \textit{Individual} that enrolled a run. His position will be sent to all Spectators that joined that run.
+            \item \textbf{Spectator:} an \textit{Individual} that joined a run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
         
     \subsection{Assumptions, Dependencies and Constraints}
