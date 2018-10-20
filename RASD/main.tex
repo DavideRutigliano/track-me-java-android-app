@@ -320,48 +320,83 @@
         
         A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
         
-        \begin{usecase}{Third Party User Registration}
-        \name{Third Party User Registration}
-        \brief{A third party sign up to the application to become an user.}
-        \actor{Third Party, TrackMe.}
-        \pre{The third party has a valid VAT and it's on the main page.}
-        \bflow{The third party goes on registration page pressing \textit{'Sign-on'} button.}
-              {TrackMe asks to the user if he's an Individual or a Third Party. The user can choose between these two options.}
-              {The third party choose the Third Party option.}
-              {TrackMe asks to provide a VAT number and organization personal information.}
-              {TrackMe registers the user as a Third Party user and adds it to the Database.}
-        \post{The third party is successfully registered as an Third Party User.}
-        \end{usecase}
+        \begin{usecase}{Third Party Registration}
+        \name{Third Party Registration}
+        \brief{A guest sign up to the application as a Third-Party}
+        \actor{Guest.}
+        \pre{The third party has a valid VAT and he has selected the \textit{Third-Party} option in the Registration use case.}
+         \bflow{TrackMe asks to provide a VAT number and organization personal information.}
+              {The Third-Partyl fills out the requested information and presses the confirm button.}
+               {TrackMe asks to provide username and password.}
+              {The system registers that user as a Third-Party and adds it to the  Database.}
+        \post{The individual is successfully registered as a Third-Party.}
+        \except{The guest provide a username already present on the database. In this case an error message is printed out the guest must chose a correct username.}
+        {If the password chosen is too short an error message is printed out and the guest must chosen an other one.}
+      \end{usecase}
         
         \subsubsection{Log-in}
-        The system should provide a login interface to the \textit{User} in order sign into the application.
+        The system should provide a login interface to the \textit{Guest} in order sign in into the application.
         
-        \begin{usecase}{Individual User Login}
-        \name{Individual User Login}
-        \brief{An individual sign in to access the application.}
-        \actor{Individual, TrackMe.}
-        \pre{The individual is already registered and it's on the main page.}
-        \bflow{The individual goes on login page pressing \textit{'Sign-in'} button.}
-              {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
-              {The individual writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
-              {TrackMe checks username is on the DB and that its associated password is correct.}
-              {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The individual is successfully authenticated as \textit{Individual User}.}
+        \begin{usecase}{Log-in}
+        \name{Log-in}
+        \brief{A Guest sign in to access the application.}
+        \actor{Guest.}
+        \pre{The Guest is already registered and it's on the main page.}
+        \bflow{The Guest goes on login page pressing \textit{'Sign-in'} button.}
+              {TrackMe provides to the \textit{Guest} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
+              {The Guest writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
+              {TrackMe checks username is on the DB and that its associated password is correct. and checks whether he is  registered as individual or Third Party}
+              {TrackMe finds that username and its associated password are valid and let the guest log-in in the system.}
+        \post{The Guest is successfully authenticated either as Individual or Third-Party.}
+        \except{If the username is not present in the database of registered users an error message is showed and the access to the system is not granted }
+        {If the password inserted is not associated with the given username, an error message is showed and the guest cannot access the system}
         \end{usecase}
         
-        \begin{usecase}{Third Party User Login}
-        \name{Third Party User Login}
-        \brief{A third party sign in to access the application.}
-        \actor{Third Party, TrackMe.}
-        \pre{The third-party is already registered and it's on the main page.}
-        \bflow{The third party goes on login page pressing \textit{'Sign-in'} button.}
-        {TrackMe provides to the \textit{user} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
-        {The third-party writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
-        {TrackMe checks username is on the DB and that its associated password is correct.}
-        {TrackMe finds that username and its associated password are valid and grants access to the user.}
-        \post{The third party is successfully authenticated as \textit{Third-Party User}.}
-        \end{usecase}
+        \subsubsection{Profile Management }
+        The application allows the logged users to access the functions of the system, which are different if you are registered as an Individual or as a Third-Party, and to change the setting of the Profile
         
+        The user can access to the section \textit{change credentials} to change the his username and/or password.
+        
+        \begin{usecase}{Change credentials}
+        \name{Change credentials}
+        \brief{An user selects the change credential option to access the section change his username-password}
+        \actor{User.}
+        \pre{The User is logged in the system and is on its main page.}
+        \bflow{The User clicks on the  \textit{'Change credentials'} button.}
+              {The user is redirect to a page and he can now choose between two options: change username or change password}
+        \post{The user is on the change credentials section.}
+       \end{usecase}
+       
+       \begin{usecase}{Change username}
+        \name{Change username}
+        \brief{A user changes his username}
+        \actor{User.}
+        \pre{The User is logged in the system and is in the change credentials section.}
+        \bflow{The User clicks on the  \textit{'Change username'} button.}
+              {The User is redirect to a page and he can now insert a new username writing it into a box}
+              {The User clicks on the submit button}
+              {The user's tuple in the database his updated with his new username}
+        \post{The has updated his username.}
+        \except{The new username is already present on the database and an error mistake is showed}
+       \end{usecase}
+       
+       \begin{usecase}{Change password}
+        \name{Change password}
+        \brief{A user changes his password}
+        \actor{User.}
+        \pre{The User is logged in the system and is in the change credentials section.}
+        \bflow{The User clicks on the  \textit{'Change password'} button.}
+              {The system asks to the user to insert the old password}
+              {The user compiles a box with his current password and clicks the \textit{submit} button}
+              {The User is redirect to a page and he can now insert a new password writing it into a box}
+              {The User clicks on the submit button}
+              {The user's tuple in the database his updated with his new password}
+        \post{The has updated his password.}
+        \except{If the new password is too short and an error message is showed}
+        {If the old password inserted is not correct an erroe message is printed out}
+       \end{usecase}
+       
+                   
         \subsubsection{Data4Help Request}
         The application may provide an interface that allows \textit{Third-Parties} to send requests to view the data of a specific \textit{individual} or a group of \textit{individuals}. A single individual may accept or refuse this request.
         
