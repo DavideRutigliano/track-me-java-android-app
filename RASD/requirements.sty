@@ -41,7 +41,13 @@
 \newcommand{\except}[1]{%
      \textbf{Exception} & 
     \begin{itemize}
-    \item #1\checknextarg
+    \item #1\checknextexception
+}
+\newcommand{\checknextexception}{
+	\@ifnextchar\bgroup{\gobblenextexception}{\end{itemize} \tabularnewline \hline}
+}
+\newcommand{\gobblenextexception}[1]{
+	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{itemize} \tabularnewline \hline}
 }
 \newcommand{\checknextarg}{
 	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
