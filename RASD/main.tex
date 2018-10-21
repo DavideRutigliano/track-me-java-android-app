@@ -44,13 +44,9 @@
 \section{Introduction}
 
     \subsection{Purpose}
-    This Requirement Analysis and Specification Document addresses the description in terms of functional and non-functional requirements of \textit{TrackMe}, a new health monitoring application.
-    
-    This specification is aimed at giving an explanation both of the problem and of the proposed software-based solution by pointing out different features of the application; in addition, is intended to model and describe the system itself, its requirements, its constraints, its components and how it interacts with the world and the users. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee.
-    
-    The analysis is focused on requirements elicitation and use cases description through well known standards for specification documents such as \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified} and \textit{Alloy} for formal analysis \cite{jackson2006software}.
+    This Requirement Analysis and Specification Document is aimed at modeling and describing the system itself, its requirements, its constraints, its components and how it interacts with the world and the users. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee. 
         
-    This document is directed and highly recommended to software designers and developers interested in the deployment of the proposed system.
+    This document is directed and highly recommended to software designers and developers interested in the design and deployment of the proposed system.
     
     \subsection{Scope and Audience}
         \subsubsection{Description of the given problem}
@@ -71,7 +67,8 @@
         In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced. This is the part of the real-world in which the Machine’s actions will be observed.
         
         The World and the Machine are connected too, because the latter should interact with the first one: this interaction is done through \textit{Shared Domain}, whose phenomena are observable both by the Machine and by the World. Shared Phenomena include events in the real world that the Machine can directly sense and actions in the real world that the Machine can directly cause.
-        \begin{table}[!ht]
+        \newpage
+        \begin{table}[!htpb]
         \centering
         \begin{tabular}{|l|l|l|l|}
         \hline
@@ -105,25 +102,25 @@
             \item[G.08] Permit the individual accept/refuse third-party requests
             \item[G.09] Allow the third-party enable automated-Sos service
             \item[G.10] Let the individual enable automated-Sos choosing among third-party that has enabled the service
-            \item[G.10] Authorize third-party users to get individuals' data if evaluated as anonymous
-            \item[G.11] Allow the organizer create a new run
-            \item[G.12] Let the organizer delete a run
-            \item[G.13] Let the organizer start a new run
-            \item[G.14] Permit the athlete enroll to a run
-            \item[G.15] Allow the athlete unroll to a run
-            \item[G.16] Let the spectator watch a run
+            \item[G.11] Authorize third-party users to get individuals' data if properly anonymized
+            \item[G.12] Allow the organizer create a new run
+            \item[G.13] Let the organizer delete a run
+            \item[G.14] Let the organizer start a new run
+            \item[G.15] Permit the athlete enroll to a run
+            \item[G.16] Allow the athlete unroll to a run
+            \item[G.17] Let the spectator watch a run
         \end{description}
     
     \subsection{Document Overview}
         This initial part of the document is intended to provide both an overview of the problem and an idea of the proposed solution.
         
-        Following section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, it addresses user characteristics, dependencies and constraints.
+        Following section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, it addresses functionality, user characteristics, dependencies and constraints.
         
-        Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account definition of all use cases, their description through UML diagrams and their mapping on requirements.
+        Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account requirements mapping on use cases and their detailed description through well known standards for specification documents such as \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified}.
         
-        Endmost section illustrates \textit{Alloy} models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
+        Endmost section illustrates \textit{Alloy} for formal analysis \cite{jackson2006software} describing models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
         
-        Further, there is a list of tables and a list of figures representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
+        Further, there is a list of tables and a list of figures in the beginning of the document representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
         
     \subsection{Definition, Acronyms and  Abbreviations}
             \subsubsection{Keywords}
@@ -176,13 +173,15 @@
 \section{Overall Description}
     \subsection{Product Perspective}
     
-    \comment{Describe the product's context and origin. Is it the next member of a growing product family, the next version of a mature system, a replacement for an existing application, or an entirely new product? If this Software Requirements Specification (SRS) defines a component of a larger system, state how this software relates to the overall system and identify major interfaces between the two.}
+    The system is not part of any already existing software and can be completely developed from scratch. It should interface with a database server (even local), shall be able to interact with several GPS systems from different manufacturers widely used in mobile devices and may be able to do the same with external devices such as smart-watches of several types. Furthermore, it should be capable of cooperating with an \textit{"ambulance dispatcher"} system in order to make reservations of ambulances in case of accident.
     
-    The proposed solution consists of a back-end server application that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
+    The proposed solution is \textit{TrackMe}, a new health monitoring application which consists of a back-end server that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
         \begin{itemize}
             \item a web-based application to supply to the end user an ease of use interface web interface for \textit{TrackMe};
             \item a mobile application that allows the user to easily access the system from the smartphone.
         \end{itemize}
+    
+    The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
     
     \subsubsection{Domain Model}
     \comment{See enhancement \#3 on Git Hub}
@@ -197,7 +196,7 @@
     
     To register himself an user must provide an username and a password as well as his personal information. To be logged in, the user should send through the login form his credentials which the system will use to authenticate him.
     
-    \textit{TrackMe} may further yield an interface that allows individual users to connect external devices and if so, of course a method for acquiring data from it.
+    \textit{TrackMe} may yield an interface that allows individual users to connect external devices and if so, of course a method for acquiring data from it.
     
     The application should also provide to third-parties two possible data request options:
     \begin{itemize}
@@ -205,17 +204,15 @@
         \item group data request: access  to  anonymous  data  of  groups  of  individuals, if \textit{TrackMe}  that  approves  them  if  it  is  able  to  properly  anonymize  the  requested  data.
     \end{itemize}
     
-    \paragraph{Automated-SOS:} the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
+    \paragraph{Automated-SOS:} the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance. Thus, the application should be able to interact with the GPS system of the customers' devices.
     
     \textit{Automated-SOS} is built on top of \textit{Data4Help} and provides individuals the capability of subscribing to third-parties who has enabled the service.
     
-    \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
+    \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes either watch or enroll/unroll to existing run.
     
     \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run on a map.
     
     \subsection{User Characteristics}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  here we include anything that is relevant to clarify their needs     %%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \subsubsection{Data4Help}
         \begin{itemize}
             \item \textbf{Guest:} a person that is visiting \textit{TrackMe}. He can only login or register to the system.
@@ -232,7 +229,7 @@
         
         \subsubsection{Track4Run Extension}
         \begin{itemize}
-            \item \textbf{Organizer:} a \textit{Third Party} that created at least one run. He can create, start or delete a run.
+            \item \textbf{Organizer:} both an \textit{Individual} and a \textit{Third Party} that created at least one run. He can create, start or delete a run.
             \item \textbf{Athlete:} an \textit{Individual} that enrolled a created run. His position will be sent to all Spectators that joined that run.
             \item \textbf{Spectator:} an \textit{Individual} that joined a started run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
