@@ -60,7 +60,7 @@
         
         In addition, the \textit{third-party} may also provide a personalized and non intrusive SOS service for elderly people who requested it.
     
-        Moreover, through the \textit{Track4Run} service, \textit{TrackMe} wants to provide to third-parties signed in the application to create a new run, a competition in which other users can either participate as \textit{athletes} or watch as \textit{spectators}. Additionally, this feature may exploits other service functionality for keeping track of athletes progresses and for helping them to prevent major accident happen during the run.
+        Moreover, through the \textit{Track4Run} service, \textit{TrackMe} wants to provide to users signed in the application to create a new run: a competition in which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}. Additionally, this feature may exploits other service functionality for keeping track of athletes progresses and for helping them to prevent major accident happen during the run.
         
         \subsubsection{World, Machine and Phenomena}
         
@@ -91,29 +91,6 @@
          & & & \\ \hline
         \end{tabular}
         \end{table}
-        
-        \subsubsection{Description of the proposed system}
-        The proposed solution consists of a back-end server application that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
-        \begin{itemize}
-            \item a web-based application to supply to the end user an ease of use interface web interface for \textit{TrackMe};
-            \item a mobile application that allows the user to easily access the system from the smartphone.
-        \end{itemize}
-        
-        The application will provide both \textit{"Sign-on"} and \textit{"Sign-in"} pages and will be able to register new users and to check credentials used to login.
-        
-        To register himself an user must provide an username and a password as well as his/her personal information. To be logged in, the user should send through the login form his credentials which the system will use to authenticate him.
-        
-        \textit{TrackMe} may further yield an interface that allows individual users to connect external devices and if so, of course a method for acquiring data from it.
-        
-        The application should also provide to third-parties two possible data request options:
-        \begin{itemize}
-            \item individual data request: sent directly to the individual if they know an  individual by his/her social security number or fiscal code in Italy;
-            \item group data request: access  to  anonymous  data  of  groups  of  individuals, if \textit{TrackMe}  that  approves  them  if  it  is  able  to  properly  anonymize  the  requested  data.
-        \end{itemize}
-        
-        Moreover, the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
-        
-        Furthermore, the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
         
         \subsubsection{Goals}
         
@@ -214,22 +191,40 @@
     
     \comment{Describe the product's context and origin. Is it the next member of a growing product family, the next version of a mature system, a replacement for an existing application, or an entirely new product? If this Software Requirements Specification (SRS) defines a component of a larger system, state how this software relates to the overall system and identify major interfaces between the two.}
     
-    \subsubsection{Class Diagram}
+    The proposed solution consists of a back-end server application that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
+        \begin{itemize}
+            \item a web-based application to supply to the end user an ease of use interface web interface for \textit{TrackMe};
+            \item a mobile application that allows the user to easily access the system from the smartphone.
+        \end{itemize}
+    
+    \subsubsection{Domain Model}
     \comment{See enhancement \#3 on Git Hub}
     
     \subsubsection{State Charts}
     
     \subsection{Product Functions}
-    \textit{TrackMe} will provide three services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
+    \textit{TrackMe} will provide three main services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
     
-    \subsubsection{Data4Help}
-    \textit{Data4Help} is the main service: it allows the registration of individuals who by registering consent to provide their personal data to \textit{Track4Me}. Data can be made available to third parties under specific conditions.
+    \paragraph{Data4Help :}
+    the application will provide both \textit{"Sign-on"} and \textit{"Sign-in"} pages and will be able to register new users and to check credentials used to login.
     
-    \subsubsection{Automated-SOS}
-    \textit{Automated-SOS} is built on top of \textit{Data4Help} and provides individuals the ability to subscribe to a third party that has enabled the service. When the individual's health parameters are below a certain threshold an ambulance shall be called to the individual's position under certain time constraints.
+    To register himself an user must provide an username and a password as well as his personal information. To be logged in, the user should send through the login form his credentials which the system will use to authenticate him.
     
-    \subsubsection{Track4Run}
-    \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run.
+    \textit{TrackMe} may further yield an interface that allows individual users to connect external devices and if so, of course a method for acquiring data from it.
+    
+    The application should also provide to third-parties two possible data request options:
+    \begin{itemize}
+        \item individual data request: sent directly to the individual if they know an  individual by his/her social security number or fiscal code in Italy;
+        \item group data request: access  to  anonymous  data  of  groups  of  individuals, if \textit{TrackMe}  that  approves  them  if  it  is  able  to  properly  anonymize  the  requested  data.
+    \end{itemize}
+    
+    \paragraph{Automated-SOS:} the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance.
+    
+    \textit{Automated-SOS} is built on top of \textit{Data4Help} and provides individuals the capability of subscribing to third-parties who has enabled the service.
+    
+    \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes to watch or enroll to existing run.
+    
+    \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run on a map.
     
     \subsection{User Characteristics}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  here we include anything that is relevant to clarify their needs     %%%%%%
