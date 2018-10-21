@@ -154,24 +154,11 @@
             \subsubsection{Definition of Terms}
             This document uses several terms that might be more loosely used elsewhere. These terms are defined here as they will be used later on in this document.
                 \begin{description}
-                    \item[\textbf{Guest}] an external customer of the system that wants to register or login into the application
-                    
-                    \item[\textbf{User}] a \textit{Guest} customer registered/logged into the application
-                    
-                    \item[\textbf{Individual}] a single person, registered or logged into the application identified either by SSN or by FC number
-                    \item[\textbf{Third-Party}] an organization registered or logged in \textit{TrackMe}, identified by VAT number
-                    
                     \item[\textbf{Subscribed User}] an individual for which one or more third party have done a request accepted by the individual itself
                     
                     \item[\textbf{External Device}] an external device such as a smart-watch or similar devices
                     
                     \item[\textbf{Run}] a competition organized and managed by an \textit{Organizer} to which \textit{Athletes} and \textit{Spectators} can enroll as participant or watchers
-                    
-                    \item[\textbf{Organizer}] either an \textit{Individual} or a \textit{Third-Party} that uses \textit{Track4Run} service to create a new \textit{Run}
-                    
-                    \item[\textbf{Athlete}] an \textit{Individual} enrolled to an already existing \textit{Run}
-                    
-                    \item[\textbf{Spectator}] either an \textit{Individual} or a \textit{Third-Party} that is watching an already existing \textit{Run}
                     
                     \item[\textbf{TrackMe}] the \textit{"system to be"}
                     
@@ -234,31 +221,25 @@
     \subsection{User Characteristics}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  here we include anything that is relevant to clarify their needs     %%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \comment{I think these are "definition" (also better than the ones I've actually written)}
-    %maybe move to definition section
         \subsubsection{Data4Help}
         \begin{itemize}
             \item \textbf{Guest:} a person that is visiting \textit{TrackMe}. He can only login or register to the system.
             \item \textbf{User:} a \textit{Guest} that successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
-            \item \textbf{Individual:} a \textit{User} that agreed that \textit{TrackMe} can collect his personal data. Data acquisition can happen through smartwatches or similar devices.
-            \item \textbf{Third Party:} a \textit{User} that can ask an \textit{Individual} to gain access to their personal data. He can also request access to data that belongs to a group of \textit{Individuals}, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
+            \item \textbf{Individual:} a \textit{User} that agreed that \textit{TrackMe} can collect his personal data. He is identified by a SSN/FC. Data acquisition can happen through smart watches or similar devices.
+            \item \textbf{Third Party:} a \textit{User} that can ask an \textit{Individual} to gain access to their personal data. He is identified by a VAT number. He can also request access to data that belongs to a group of \textit{Individuals}, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
         \end{itemize}
-        
-        %%%%%%%% not sure about these %%%%%%%%%
+
         \subsubsection{Automated-SOS Extension}
         \begin{itemize}
-            \item \textbf{Provider:}
-            \item \textbf{Patient:}
-            \item \textbf{Ambulance:}
+            \item \textbf{Individual:} he can access to a list of Third Parties that enabled the Automated-SOS service. He can also select a Third Party from the list and subscribe to it.
+            \item \textbf{Third Party:} it has the ability to enable the Automated-SOS service so that any Individual can subscribe to it.
         \end{itemize}
-        
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         \subsubsection{Track4Run Extension}
         \begin{itemize}
             \item \textbf{Organizer:} a \textit{Third Party} that created at least one run. He can create, start or delete a run.
-            \item \textbf{Athlete:} an \textit{Individual} that enrolled a run. His position will be sent to all Spectators that joined that run.
-            \item \textbf{Spectator:} an \textit{Individual} that joined a run. He can see the position of all Athletes that are competing in the run until the run is finished.
+            \item \textbf{Athlete:} an \textit{Individual} that enrolled a created run. His position will be sent to all Spectators that joined that run.
+            \item \textbf{Spectator:} an \textit{Individual} that joined a started run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
         
     \subsection{Assumptions, Dependencies and Constraints}
