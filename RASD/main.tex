@@ -479,29 +479,30 @@
         
         \subsubsection{Automated-SOS enabling}
         
-        \begin{usecase}{Third Party Enables Automated-SOS}
-        \name{Third-Party Enables Automated-SOS}
-        \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance will be called in 5 seconds if an individual's health parameters are below certain thresholds. That individual must be subscribed to the Third Party.}
-        \actor{Third party, Automated-SOS}
-        \pre{The Third-Party is logged-in, it's on the main page and has not enabled Automated-SOS.}
-        \bflow{The Third-Party presses the \textit{'Enable Automated-SOS'} button.}
-              {Automated-SOS checks if the user has already enabled the service.}
+        \begin{usecase}{ Enable Automated-SOS Third Party}
+        \name{Enable Automated-SOS Third Party}
+        \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. That individual must have enable Automated SOS too.}
+        \actor{Third party, Ambulance Dispatcher}
+        \pre{The Third-Party is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
+        \bflow {Automated-SOS checks if the user has already enabled the service.}
               {Automated-SOS asks if the user wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {Third Party presses the \textit{'Confirm'} button.}
-              \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list.}
+              \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list. An ambulance dispatcher has been assigned to that Third-Party by the system}
+              \except{If no dispatcher is available an error message will be printed out by the system}
         \end{usecase}
         
-        \begin{usecase}{Individual Enables Automated-SOS}
-        \name{Individual enables Automated-SOS}
-        \brief{An Individual wants to be monitored by a Third-Party: in case his health parameters are below certain thresholds an ambulance will be called within 5 seconds.}
-        \actor{Individual, Automated-SOS}
-        \pre{The Individual is logged-in, it's on the main page and has not enabled Automated-SOS.
-            There is at least one Third-Party that has enabled the Automated-SOS service.}
-        \bflow{The Individual presses the \textit{'Enable Automated-SOS'} button.}
-              {Automated-SOS checks if the user has already enabled the service.}
-              {Automated-SOS asks if the user wants to enable Automated-SOS. It provides a list of Third parties that enabled Automated-SOS. User can choose only one third-party. Automated-SOS also provides two buttons called \textit{'Confirm'} and \textit{'Back'}. The \textit{'Confirm'} button can be pressed only if at least one third-party is selected.}
-              {Individual selects a third-party and presses the \textit{'Confirm'} button.}
-        \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list.}
+        \begin{usecase}{ Enable Automated-SOS Individual}
+        \name{Enable Automated-SOS Individual}
+        \brief{An Individual wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. The individual will choose the Third-Party that will provide the Automated SOS functionalities.}
+        \actor{Individual}
+        \pre{The Individual is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
+        \bflow {Automated-SOS checks if the user has already enabled the service.}
+              {Automated-SOS asks if the user wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
+              {Individual presses the \textit{'Confirm'} button.}
+              {The system provides a table with the list of Third-Parties that have enabled Automated SOS}
+              {The users selects a Third-Party desired and presses \textit{Confirm}}
+              \post{Individual has enabled Automated-SOS and has selected the Third-Party that will provide that service.}
+              \except{If no Third-Parties has activated Automated SOS an error message is printed}
         \end{usecase}
         
         
