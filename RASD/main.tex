@@ -379,6 +379,42 @@
         {If the old password inserted is not correct an erroe message is printed out}
        \end{usecase}
        
+       The user can log-out form the system pressing the \textit{log-out} button.
+       
+       \begin{usecase}{Log-out}
+        \name{log-out}
+        \brief{A user logs out from the system}
+        \actor{User.}
+        \pre{The User is logged in the system and is on the main page.}
+        \bflow{The User clicks on the  \textit{'Log-out'} button.}
+              {The system asks to the user if he is sure he wants to log-out the system}
+              {The user presses on the \textit{yes} button}
+         \post{The user is not logged anymore into TrackMe}
+        \end{usecase}
+       
+       On the main page of the TrackMe application, a user can access to the many functions offered by the system. This options are different whether the user is logged as an Individual or a Third-Party.
+      
+       \begin{usecase}{Manage Individual Profile}
+        \name{Manage Individual Profile}
+        \brief{An individual can select among the different functions of the system with the help of an interactive menu}
+        \actor{Individual.}
+        \pre{The User is logged in the system as an Individual and he's on the main page.}
+        \bflow{The system provides to the Individual a set of option displayed into a menu, as a set of buttons. Each button represents a different function:  \textit{Manage request}, \textit{Enable Automated SOS}, \textit{Manage Run} and \textit{Show run}}
+        {The Individual clicks on the button of the option he wants to choose.}
+        \post{The individual is now on the section of TrackMe he wish}
+        \epoint{The Individual clicks on the\textit{ Manage Run}, \textit{Show Run} or \textit{Enable Automated SOS button}}
+       \end{usecase}
+       
+       \begin{usecase}{Manage Third-Party Profile}
+        \name{Manage Third-Party Profile}
+        \brief{A Third-Party can select among the different functions of the system with the help of an interactive menu}
+        \actor{Third-Party}
+        \pre{The User is logged into the system as a Third-Party he's and on the main page.}
+        \bflow{The system provides to the Third-Party a set of option displayed into a menu, as a set of buttons. Each button represents a different function:  \textit{Manage request}, \textit{Enable Automated SOS}, \textit{Manage Run}}
+        {The Third-Party clicks on the button of the option he wants to choose.}
+        \post{The Third-Party is now on the section of TrackMe it wish}
+        \epoint{The Third-Party clicks on the\textit{ Manage Run}, or \textit{Enable Automated SOS button}}
+       \end{usecase}
                    
         \subsubsection{Data4Help Request}
         The application may provide an interface that allows \textit{Third-Parties} to send requests to view the data of a specific \textit{individual} or a group of \textit{individuals}. A single individual may accept or refuse this request.
