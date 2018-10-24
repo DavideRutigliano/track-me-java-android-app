@@ -49,6 +49,7 @@ sig AutomatedSos{
 sig Track, Duration, Date, Time{}
 
 sig Run{
+	organizer: Organizer,
 	track: Track,
 	duration: Duration,
 	date: Date,
@@ -114,7 +115,7 @@ fact grantAnonimity{
 
 -- to subscribe to an individual's new data, a third party must have sent a request that has been accepted
 fact subscriptionMustBeAccepted{
-	all t:ThirdParty, i:Individual | some r:IndividualRequest | i in t.subscribedUsers => requestBetween[r, t, i] and isTrue[r.accepted]
+	all t:ThirdParty, i:Individual, r:IndividualRequest | i in t.subscribedUsers => (requestBetween[r, t, i] and isTrue[r.accepted])
 }
 
 --												AUTOMATED-SOS 											--
@@ -142,6 +143,10 @@ fact onlyAvailableAmbulances{
 
 --													TRACK4RUN 												--
 
+fact organizedRunsAreRecorded{
+	all r:Run, o:Organizer | r.organizer = o iff r in o.organizedRuns
+}
+
 -- there can't exist two runs that have the same track in the same date
 fact noDuplicatedRun{
 	no disj r1,r2: Run | isSameRun[r1,r2]
@@ -149,15 +154,15 @@ fact noDuplicatedRun{
 
 -- an athlete can't enroll 2 runs that happens in the same date/time
 fact noMultipleEnrollement{
-	all disj a:Athlete, r1,r2: Run | (isEnrolled[r1,a] and isEnrolled[r2,a]) => not isSameDate[r1,r2]
+	all disj r1,r2: Run | all a:Athlete | (isEnrolled[r1,a] and isEnrolled[r2,a]) => not isSameDate[r1,r2]
 }
 
 -- a spectator can't enroll 2 runs that happens in the same date/time
 fact noMultipleWatch{
-	all disj s:Spectator, r1,r2:Run | (isEnrolled[r1,s] and isEnrolled[r2,s]) => not isSameDate[r1,r2]
+	all disj r1,r2:Run | all s:Spectator | (isEnrolled[r1,s] and isEnrolled[r2,s]) => not isSameDate[r1,r2]
 }
 
--- an athlete can't watch the runs where 
+-- an athlete can't watch the runs where he is also enrolled
 fact athletesCantWatch{
 	no s: Spectator, a: Athlete | isSameIndividual[s,a] and #a.enrolledRuns > 0 and hasCommonRuns[s,a]
 }
@@ -253,13 +258,6 @@ pred disableTrack4Run{
 	#Run = 0
 }
 
-pred groupRequest{
-	disableAutomatedSos
-	disableTrack4Run
-	#Individual = 3
-	//some GroupRequest
-}
-
 pred data4Help{
 	disableTrack4Run
 	disableAutomatedSos
@@ -271,7 +269,6 @@ pred automatedSos{
 	disableData4Help
 	disableTrack4Run
 	some Ambulance
-	some Individual
 	some AutomatedSos	
 }
 
@@ -284,4 +281,9 @@ pred track4Run{
 	some Run
 }
 
-run track4Run for 3
+pred showAll{}
+
+run data4Help for 3
+//run automatedSos for 3
+//run track4Run for 3
+//run showAll for 3
