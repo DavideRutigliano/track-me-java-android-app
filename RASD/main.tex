@@ -296,17 +296,21 @@
 
     \newpage
     \subsection{Functional Requirements}
+
         \subsubsection{Use Cases Diagram}
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=\textwidth,height=160mm]{images/UML/Model.jpg}
         \end{figure}
         \newpage
+        
+        
         \subsubsection{Registration}
+
+
         \textit{TrackMe} must provide a registration interface to a guest. 
         \comment{Itemize the detailed functional requirements associated with this feature. These are the software capabilities that must be present in order for the user to carry out the services provided by the feature, or to execute the use case. Include how the product should respond to anticipated error conditions or invalid inputs. Requirements should be concise, complete, unambiguous, verifiable, and necessary. Use “TBD” as a placeholder to indicate when necessary information is not yet available. Each requirement should be uniquely identified with a sequence number or a meaningful tag of some kind. REQ-1:	REQ-2}
         \begin{usecase}{Registration}
-    
         \name{Registration}
         \brief{A guest sign up to the application, he can choose to sign on as an individual or as a Third-Party.}
         \actor{Guest.}
@@ -316,8 +320,12 @@
         \post{The guest can now subscribe as Individual or as a Third-Party}
         \end{usecase}
         
+        
         A  \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
+        
         %use cases table structure
+        
+        
         \begin{usecase}{Individual  Registration}
         \name{Individual Registration}
         \brief{A guest sign up to the application as an Individual.}
@@ -335,6 +343,7 @@
         
         A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
         
+        
         \begin{usecase}{Third Party Registration}
         \name{Third Party Registration}
         \brief{A guest sign up to the application as a Third-Party}
@@ -349,8 +358,10 @@
         {If the password chosen is too short an error message is printed out and the guest must chosen an other one.}
       \end{usecase}
         
+        
         \subsubsection{Log-in}
         The system should provide a login interface to the \textit{Guest} in order sign in into the application.
+        
         
         \begin{usecase}{Log-in}
         \name{Log-in}
@@ -367,21 +378,14 @@
         {If the password inserted is not associated with the given username, an error message is showed and the guest cannot access the system}
         \end{usecase}
         
+        
         \subsubsection{Profile Management }
         The application allows the logged users to access the functions of the system, which are different if you are registered as an Individual or as a Third-Party, and to change the setting of the Profile
         
         The user can access to the section \textit{change credentials} to change the his username and/or password.
         
-        \begin{usecase}{Change credentials}
-        \name{Change credentials}
-        \brief{An user selects the change credential option to access the section change his username-password}
-        \actor{User.}
-        \pre{The User is logged in the system and is on its main page.}
-        \bflow{The User clicks on the  \textit{'Change credentials'} button.}
-              {The user is redirect to a page and he can now choose between two options: change username or change password}
-        \post{The user is on the change credentials section.}
-       \end{usecase}
-       
+        
+        
        \begin{usecase}{Change username}
         \name{Change username}
         \brief{A user changes his username}
@@ -394,6 +398,7 @@
         \post{The has updated his username.}
         \except{The new username is already present on the database and an error mistake is showed}
        \end{usecase}
+       
        
        \begin{usecase}{Change password}
         \name{Change password}
@@ -408,8 +413,9 @@
               {The user's tuple in the database his updated with his new password}
         \post{The has updated his password.}
         \except{If the new password is too short and an error message is showed}
-        {If the old password inserted is not correct an erroe message is printed out}
+        {If the old password inserted is not correct an error message is printed out}
        \end{usecase}
+       
        
        The user can log-out form the system pressing the \textit{log-out} button.
        
@@ -424,7 +430,9 @@
          \post{The user is not logged anymore into TrackMe}
         \end{usecase}
        
+       
        On the main page of the TrackMe application, a user can access to the many functions offered by the system. This options are different whether the user is logged as an Individual or a Third-Party.
+      
       
        \begin{usecase}{Manage Individual Profile}
         \name{Manage Individual Profile}
@@ -437,6 +445,7 @@
         \epoint{The Individual clicks on the\textit{ Manage Run}, \textit{Show Run} or \textit{Enable Automated SOS button}}
        \end{usecase}
        
+       
        \begin{usecase}{Manage Third-Party Profile}
         \name{Manage Third-Party Profile}
         \brief{A Third-Party can select among the different functions of the system with the help of an interactive menu}
@@ -447,15 +456,17 @@
         \post{The Third-Party is now on the section of TrackMe it wish}
         \epoint{The Third-Party clicks on the\textit{ Manage Run}, or \textit{Enable Automated SOS button}}
        \end{usecase}
-                   
+           
+           
         \subsubsection{Data4Help }
+      
       
         \begin{usecase}{ Make Individual Request}
         \name{Make Individual Request}
         \brief{A third party sends a request to an individual to view his data.}
         \actor{Third Party.}
         \pre{The third-party is logged-in, has selected the \textit{'Make Individual Request'} option and has a valid SSN/FC of a registered individual.}
-        \bflow}{TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
+        \bflow{TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
               {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
               {TrackMe sends the data request to the individual.}
               {TrackMe informs the Third-Party user that the operation succeed.}
@@ -463,45 +474,76 @@
         \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \end{usecase}
         
+        
         \begin{usecase}{Make Group Request}
         \name{Make Group Request}
         \brief{A third party make a group request that allows to see data of a group of individuals .}
         \actor{Third Party.}
         \pre{The third-party is logged-in and has selected the 'Make Group Request' option}
         \bflow{TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
-        {Third party fills out the form and then presses the button \textit'Send Request'.}
+        {Third party fills out the form and then presses the button \textit{'Send Request'}.}
         {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         {TrackMe informs the Third-Party that the operation succeed.}
         \post{The third party has access to the data of a specific group of individuals.}
-        \ecept{If the number of individual selected is lower than 1000 en error message is printed and the request is denied}
+        \except{If the number of individual selected is lower than 1000 an error message is printed and the request is denied}
         \end{usecase}
         
-        \begin{usecase}{Third Party Subscribes to New Data}
-        \name{Third Party Subscribes to New Data}
+        
+        \begin{usecase}{Subscribe to New Data}
+        \name{Subscribe to New Data}
         \brief{A third party subscribes to the data of a certain group of individuals.}
-        \actor{Third Party,  Individual, TrackMe.}
-        \pre{The third-party is logged-in and it's on the Group subsection of Data-Request page.}
+        \actor{Third Party.}
+        \pre{The Third-Party is logged-in and Make Individual Request section.}
         \bflow{TrackMe provides a check-box to allow a third-party to choose if she wants to be subscribed to new data.}
             {Third party checks the \textit{'Subscribe'} box.}
             {TrackMe checks if the request is a valid request.}
         \post{The third party is subscribed to the individuals' data and will receive new data as soon as they are produced.}
         \end{usecase}
         
-        \begin{usecase}{Individual Accepts Data Request}
-        \name{Individual Accepts Data Request}
+        
+        \begin{usecase}{Manage Request}
+        \name{Manage Request}
         \brief{An individual accepts the request to view his personal data.}
-        \actor{Third Party, Individual, TrackMe.}
-        \pre{The individual is logged-in and it's on the main page.}
+        \actor{Individual.}
+        \pre{The individual is logged-in and has selected  the 'Manage Request' option in the main page.}
         \bflow{TrackMe sends to the individual a request to view his data. The individual can see that the request was sent by a specific third-party. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
               {The individual presses the accept button.}
               {TrackMe sends to the third-party a confirmation about his request for that Individual.}
         \post{The third party has access to the Individual data.}
         \end{usecase}
         
+        
+        \begin{usecase}{View Data}
+        \name{View Data}
+        \brief{A Third-Party can view the Data of the Individuals that have accepted its requests.}
+        \actor{Third-Party.}
+        \pre{The Third-Party is logged-in and Is in the section to see the data collected by the application.}
+        \bflow{The system provides a list of Individual that correspond to the ones that have accepted the request of the Third-Party}
+              {The Third-Party select an individual e clicks on the \textit{Confirm} button.}
+              {TrackMe Provides the data associated with that Individual.}
+        \post{The Third-Party can observe the Individual data.}
+        \end{usecase}
+        
+        
+        
         \subsubsection{Connection of External Devices}
         The application may provide an interface that allows \textit{individual} to connect an external device such as smart-watch via Bluetooth or NFC.
         
         Moreover, in case such interface is present, \textit{TrackMe} should be able to interact also with the external device and to acquire data from it.
+        
+        
+        \begin{usecase}{Connect External Device}
+        \name{Connect External Device}
+        \brief{An Individual can connect External Device that allows the system to collect data.}
+        \actor{Individual.}
+        \pre{The Individual is logged in and is in the section that allows to connect an external device.}
+        \bflow {The system provides two drop-down menùs that allows the user specify the type of device and which kind of wireless connection uses: bluetooth or NFC}
+        {The user selects the desired option and checks the type of connection, than presses the \textit{Confirm} button}
+        {Track4Run asks now to connect the device in the way previously chosen}
+        {The Individual connects the device}
+        \post{The system can now collect data from the external device.}
+        \end{usecase}
+        
         
         
         \subsubsection{Automated-SOS }
@@ -558,21 +600,21 @@
               \post{The organizer is in the desired section.}
         \end{usecase}
         
-        \begin{usecase}{Show Runs}
-        \name{Show Runs}
-        \brief{An Individual Selects an option between: enroll a run, unroll run and watch a run.}
+        \begin{usecase}{Manage Runs}
+        \name{Manage Runs}
+        \brief{An Individual Selects an option between: enroll a run, unroll run , watch a run.create a run, start a run or delete a run.}
         \actor{Individual.}
-        \pre{The Individual is logged-in and has  clicked on \textit{Show Run} button.}
-        \bflow{Track4Run provides three buttons:  \textit{'Enroll Run'}, \textit{'Unroll Run'} and \textit{Watch Run}.}
+        \pre{The Individual is logged-in and has  clicked on \textit{Manage Run} button.}
+        \bflow{Track4Run provides three buttons:  \textit{'Enroll Run'}, \textit{'Unroll Run'} ,\textit{Watch Run}, \textit{'Create Run'}, \textit{'Start Run'} and \textit{Delete Run}.}
               {The Individual selects one option}
-              \post{The organizer is in the desired section.}
+              \post{The Individual is in the desired section.}
         \end{usecase}
         
         \begin{usecase}{Create Run}
         \name{Create Run}
-        \brief{A third party become an Organizer and creates a new run, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
+        \brief{An Individual become an Organizer and creates a new run, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
         \actor{Organizer.}
-        \pre{The Third party Has clicked on the \textit{Create Run} button in the \textit{manage run} section.}
+        \pre{The Individual sas clicked on the \textit{Create Run} button in the \textit{manage run} section.}
         \bflow{Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {The organizer fills the boxes and then presses the \textit('Confirm') button.}
               {Track4Run asks the user to defines a \textit{path} using an interactive map}
@@ -609,7 +651,7 @@
         \name{Enroll a Run}
         \brief{An Athlete enrolls to a run created by an Organizer.}
         \actor{Athlete.}
-        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Enroll Run} button in the \textit{show run} section, there is at least a run available that has state \textit{created}.}
+        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Enroll Run} button in the \textit{Manage run} section, there is at least a run available that has state \textit{created}.}
         \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{created}. Track4Run also provides two buttons: a \textit{'Enroll'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Enroll'} button.}
               {Track4Run informs the Athlete that the operation succeed.}
@@ -620,7 +662,7 @@
         \name{Unroll a Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
         \actor{Athlete.}
-        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Unroll Run} button in the \textit{Show run} section, he is enrolled to at least one run.}
+        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Unroll Run} button in the \textit{Manage run} section, he is enrolled to at least one run.}
         \bflow{Track4Run provides a list of runs that the user can select. these runs are the ones that the athlete is enrolled. The system also provides two buttons: a \textit{'Unroll'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Unroll'} button.}
               {Track4Run informs the Athlete that the operation succeed.}
@@ -632,7 +674,7 @@
         \name{Watch Run}
         \brief{A Spectator wants to watch a \textit{run} to view the position of all Athletes participating that run.}
         \actor{Spectators.}
-        \pre{The Athlete is logged in as an individual and has clicked on the \textit{Watch Run} button in the \textit{Show run} section. There is at least one run which state is \textit{started} }
+        \pre{The Athlete is logged in as an individual and has clicked on the \textit{Watch Run} button in the \textit{Manage run} section. There is at least one run which state is \textit{started} }
         \bflow{Track4Run provides a list of runs that the user can select. These runs must have the state \textit{started}. Track4Run also provides two buttons: a \textit{'Spectate'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Spectate'} button.}
               {Track4Run now recognize the Individual as a Spectator.}
