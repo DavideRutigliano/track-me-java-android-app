@@ -55,9 +55,6 @@ sig Run{
 	duration: Duration,
 	date: Date,
 	time: Time,
-	organizer: Organizer,
-	athletes: set Athlete,
-	spectators: set Spectator
 }
 
 sig Athlete extends Individual{
@@ -65,17 +62,17 @@ sig Athlete extends Individual{
 }
 
 sig Spectator extends Individual{
-	watchedRuns : set Run,
+	watchedRuns : set Run
 }
 
-sig Organizer extends User{
+sig Organizer extends Individual{
 	organizedRuns : set Run
 }
 
 fact dataAtomicity{
 	all u:Username | some user:User | user.username = u
 	all p:Password | some user:User | user.password = p
-	all n:Name | some i:Individual | some t:ThirdParty | i.name = n or t.organization = n
+	all n:Name | some i:Individual,  t:ThirdParty | i.name = n or t.organization = n
 	all s:Ssn | some i:Individual | i.ssn = s
 	all v:Vat | some t:ThirdParty | t.vat= v
 	all t:Track | some r:Run | r.track = t
@@ -123,6 +120,10 @@ fact requestSsnPointAtCorrectReceiver{
 fact grantAnonimity{
 	all r: GroupRequest | isTrue[r.accepted] iff hasAnonimity[r]
 }
+-- to subscribe to an individual's new data, a third party must have sent a request that has been accepted
+fact subscriptionMustBeAccepted{
+	all t:ThirdParty, i:Individual | some r:IndividualRequest | i in t.subscribedUsers => requestBetween[r, t, i] and isTrue[r.accepted]
+}
 
 -- an Individual can be an Automated-SOS customer only if he has activated the service
 fact enabledSosMeansCustomer{
@@ -149,57 +150,71 @@ fact noDuplicatedRun{
 
 -- an athlete can't enroll 2 runs that happens in the same date/time
 fact noMultipleEnrollement{
-	all disj r1,r2: Run, a: Athlete | isSameDate[r1,r2] => (a not in r1.athletes or a not in r2.athletes)
+	all disj a:Athlete, r1,r2: Run | (isEnrolled[r1,a] and isEnrolled[r2,a]) => not isSameDate[r1,r2]
 }
 
 -- a spectator can't enroll 2 runs that happens in the same date/time
 fact noMultipleWatch{
-	all disj r1,r2: Run, s: Spectator | isSameDate[r1,r2] => (s not in r1.spectators or s not in r2.spectators)
+	all disj s:Spectator, r1,r2:Run | (isEnrolled[r1,s] and isEnrolled[r2,s]) => not isSameDate[r1,r2]
 }
 
 fact athletesCantWatch{
-	no i: Individual, a: Athlete, s: Spectator | (i.ssn = a.ssn and i.ssn = a.ssn) and #a.enrolledRuns > 0 and a.enrolledRuns = s.watchedRuns
+	no s: Spectator, a: Athlete | isSameIndividual[s,a] and #a.enrolledRuns > 0 and hasSameRuns[s,a]
 }
 
-fact setOrganizer{
-	all o: Organizer, r: Run | r in o.organizedRuns => r.organizer = o
+fact runMustBeOrganized{
+	all r:Run | some o:Organizer | hasOrganized[r,o]
 }
 
-fact athleteEnrolled{
-	all a: Athlete, r: Run | r in a.enrolledRuns => a in a.enrolledRuns.athletes
+pred requestBetween[r:IndividualRequest, t:ThirdParty, i:Individual]{
+	r.sender = t and r.receiver = i 	
 }
 
-fact spectatorWatching {
-	all s: Spectator, r: Run | r in s.watchedRuns => s in s.watchedRuns.spectators
-}
-
-pred makeOneRequest(r: Request, p: ThirdParty, i: Individual){
-	#IndividualRequest = 1
-	#GroupRequest = 1
-	i.incomingRequests = i.incomingRequests + r
-	p.subscribedUsers = p.subscribedUsers + i
+pred isSubscribedToData[t:ThirdParty, i:Individual]{
+	i in t.subscribedUsers
 }
 
 pred hasAnonimity[r: GroupRequest]{
 	#r.receiver > 1000	
 }
 
-pred makeRequests(r: Request, p: ThirdParty, i: Individual){
-	#IndividualRequest = 2
-	#GroupRequest = 2
-	i.incomingRequests = i.incomingRequests + r
-	p.subscribedUsers = p.subscribedUsers + i
-}
-
 pred enableAutomatedSos(a: AutomatedSos, p: ThirdParty){
 	a.provider = p
 }
 
-pred isRunner[a:Athlete]{
+pred isSameIndividual[s:Spectator, a:Athlete]{
+	s.ssn = a.ssn
+}
+
+pred hasSameRuns[a1,a2:Athlete]{
+	a1.enrolledRuns = a2.enrolledRuns
+}
+
+pred hasSameRuns[s1,s2:Spectator]{
+	s1.watchedRuns = s2.watchedRuns
+}
+
+pred hasSameRuns[s:Spectator, a:Athlete]{
+	a.enrolledRuns = s.watchedRuns
+}
+
+pred isEnrolled[r: Run, a:Athlete]{
+	r in a.enrolledRuns
+}
+
+pred isEnrolled[r: Run, s:Spectator]{
+	r in s.watchedRuns
+}
+
+pred hasOrganized[r:Run, o:Organizer]{
+	r in o.organizedRuns
+}
+
+pred hasRuns[a:Athlete]{
 	some r: Run | r in a.enrolledRuns
 }
 
-pred isWatcher[s:Spectator]{
+pred hasRuns[s:Spectator]{
 	some r: Run | r in s.watchedRuns
 }
 
@@ -217,27 +232,28 @@ pred runAutomatedSos(a: AutomatedSos, p: ThirdParty){
 	a.provider = p
 }
 
-pred createRun[r:Run, o:Organizer]{
-	r.organizer = o	
-}
-
-pred enrollRun[r:Run, a:Athlete]{
-	//r in a.enrolledRuns
-}
-
-pred watchRun[r:Run, s:Spectator]{
-	//r in s.watchedRuns
-}
-
-pred Track4Run {
-	createRun[Run, Organizer]
-	enrollRun[Run, Athlete]
-	watchRun[Run, Spectator]
+pred disableData4Help{
 	#Request = 0
+}
+
+pred disableAutomatedSos{
 	#AutomatedSos = 0
 	#Ambulance = 0
 }
-//run enrollToRun for 2 but 1 ThirdParty
+
+pred disableTrack4Run{
+	#Athlete = 0
+	#Spectator = 0
+	#Organizer = 0
+	#Run = 0
+}
+
+pred Track4Run {
+	#Request = 0
+	#AutomatedSos = 0
+	#Ambulance = 0
+	#Individual = 2
+}
 
 pred watchRun{
 	#Run = 1
@@ -248,6 +264,18 @@ pred watchRun{
 	#Spectator = 1
 }
 
-pred show{}
+pred groupRequest{
+	disableAutomatedSos
+	disableTrack4Run
+	#Individual = 3
+	//some GroupRequest
+}
 
-run show for 3 but 1 Individual
+pred data4Help{
+	disableTrack4Run
+	disableAutomatedSos
+	some IndividualRequest
+	some GroupRequest
+}
+
+run data4Help for 3
