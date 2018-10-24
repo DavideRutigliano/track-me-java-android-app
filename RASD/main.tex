@@ -64,7 +64,7 @@
     
         The \textit{Machine Domain} is the set of phenomena that the machine can control: data structures, algorithms, devices and inputs it can get from the world.
         
-        In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced. This is the part of the real-world in which the Machine’s actions will be observed.
+        In contrast, the \textit{World Domain} is the real-life context in which the \textit{Machine} will be introduced. This is the part of the real-world in which the \textit{Machine} actions will be observed.
         
         The World and the Machine are connected too, because the latter should interact with the first one: this interaction is done through \textit{Shared Domain}, whose phenomena are observable both by the Machine and by the World. Shared Phenomena include events in the real world that the Machine can directly sense and actions in the real world that the Machine can directly cause.
         \newpage
@@ -78,7 +78,7 @@
          Accept/Refuse/Send Request & & & X \\ \hline
          Database Query & & X & \\ \hline
          Connect External Device & & & X \\ \hline
-         GPS Tracking & & X & \\ \hline
+         GPS Tracking & & & X \\ \hline
          Enable Sos & & & X \\ \hline
          Locate nearest Ambulance & & & X \\ \hline
          Accident & X & & \\ \hline
@@ -120,7 +120,7 @@
         
         Endmost section illustrates \textit{Alloy} for formal analysis \cite{jackson2006software} describing models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
         
-        Further, there is a list of tables and a list of figures in the beginning of the document representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
+        Further, there is a list of tables and a list of figures at the beginning of the document representing respectively use cases and diagrams in order to help the reader to understand them and navigate the specification.
         
     \subsection{Definition, Acronyms and  Abbreviations}
             \subsubsection{Keywords}
@@ -173,7 +173,7 @@
 \section{Overall Description}
     \subsection{Product Perspective}
     
-    The system is not part of any already existing software and can be completely developed from scratch. It should interface with a database server (even local), shall be able to interact with several GPS systems from different manufacturers widely used in mobile devices and may be able to do the same with external devices such as smart-watches of several types. Furthermore, it should be capable of cooperating with an \textit{"ambulance dispatcher"} system in order to make reservations of ambulances in case of accident.
+    The system is not part of any already existing software and can be completely developed from scratch. It should interface with a database server (even local), shall be able to interact with several GPS systems from several manufacturers widely used in mobile devices and may be able to do the same with external devices such as smart-watches of different kind. Furthermore, it should be capable of cooperating with an \textit{"ambulance dispatcher"} system in order to make reservations of ambulances in case of accident.
     
     The proposed solution is \textit{TrackMe}, a new health monitoring application which consists of a back-end server that manages users' registration, login and data and allows to keep everything synchronized between the two front-end applications:
         \begin{itemize}
@@ -226,17 +226,17 @@
     
     \textit{Automated-SOS} is built on top of \textit{Data4Help} and provides individuals the capability of subscribing to third-parties who has enabled the service.
     
-    \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes either watch or enroll/unroll to existing run.
+    \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes either watch or enroll/unroll to an existing run.
     
     \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run on a map.
     
     \subsection{User Characteristics}
         \subsubsection{Data4Help}
         \begin{itemize}
-            \item \textbf{Guest:} a person that is visiting \textit{TrackMe}. He can only login or register to the system.
-            \item \textbf{User:} a \textit{Guest} that successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
-            \item \textbf{Individual:} a \textit{User} that agreed that \textit{TrackMe} can collect his personal data. He is identified by a SSN/FC. Data acquisition can happen through smart watches or similar devices.
-            \item \textbf{Third Party:} a \textit{User} that can ask an \textit{Individual} to gain access to their personal data. He is identified by a VAT number. He can also request access to data that belongs to a group of \textit{Individuals}, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
+            \item \textbf{Guest:} a customer that is visiting \textit{TrackMe}. He can only login or register to the system.
+            \item \textbf{User:} a \textit{Guest} successfully registered to \textit{TrackMe} and logged in to the system. He can be either an \textit{Individual} or a \textit{Third Party.}
+            \item \textbf{Individual:} an \textit{User} that agreed that \textit{TrackMe} can collect his personal data. He is identified by a SSN/FC. Data acquisition can happen through smart watches or similar devices.
+            \item \textbf{Third Party:} an \textit{User} that can ask an \textit{Individual} to gain access to their personal data. He is identified by a VAT number. He can also request access to data that belongs to a group of \textit{Individuals}, but the request shall be accepted only if \textit{TrackMe} can guarantee anonymity to the requested data. During a request he can also subscribe to new data that will be received as soon as is it is produced.
         \end{itemize}
 
         \subsubsection{Automated-SOS Extension}
@@ -252,22 +252,28 @@
             \item \textbf{Spectator:} an \textit{Individual} that joined a started run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
         
-    \subsection{Assumptions, Dependencies and Constraints}
+    \subsection{Design and Implementation Constraints}
+    \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
+    
+    \begin{description}
+        \item[C.01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
+    \end{description}
+    
+    \subsection{Assumptions and Dependencies}
+    \comment{<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>}
+
         \begin{description}
-            \item[A.01] Individual data acquisition consists in ...................
-            \item[A.02] In order to access the system a Guest must provide a valid username and its associated password.
-            \item[A.03]
-            \item[A.02] At least one ambulance is always available.
-            \item[A.03]
-        \end{description}
-        
+        \item[A.01] Individual data acquisition consists in ...................
+        \item[A.02] In order to access the system a Guest must provide a valid username and its associated password.
+        \item[A.03]
+        \item[A.02] At least one ambulance is always available.
+        \item[A.03]
+    \end{description}
+    
         \begin{description}
             \item[D.01] An Athlete can enroll a run only if 
         \end{description}
         
-        \begin{description}
-            \item[C.01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
-        \end{description}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Specific Requirements}
@@ -277,10 +283,17 @@
         \subsubsection{User Interfaces}
         
         \subsubsection{Hardware Interfaces}
+        The GPS system of the smartphone or the one of the external device (if connected) is needed in order to track customer's position.
+        
+        Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system is, of course, connected with and managed by \textit{TrackMe}.
         
         \subsubsection{Software Interfaces}
-        
+
         \subsubsection{Communication Interfaces}
+        The application shall communicate with the back-end server over HTTPS and may enable O-Auth2 authentication protocol for clients. In order to connect and interact with external devices the mobile application shall also support BT and/or NFC.
+        
+        The back-end services connect to the DBMS on the default port.
+
     \newpage
     \subsection{Functional Requirements}
         \subsubsection{Use Cases Diagram}
@@ -291,8 +304,9 @@
         \newpage
         \subsubsection{Registration}
         \textit{TrackMe} must provide a registration interface to a guest. 
-        
-        \begin{usecase}{ Registration}
+        \comment{Itemize the detailed functional requirements associated with this feature. These are the software capabilities that must be present in order for the user to carry out the services provided by the feature, or to execute the use case. Include how the product should respond to anticipated error conditions or invalid inputs. Requirements should be concise, complete, unambiguous, verifiable, and necessary. Use “TBD” as a placeholder to indicate when necessary information is not yet available. Each requirement should be uniquely identified with a sequence number or a meaningful tag of some kind. REQ-1:	REQ-2}
+        \begin{usecase}{Registration}
+    
         \name{Registration}
         \brief{A guest sign up to the application, he can choose to sign on as an individual or as a Third-Party.}
         \actor{Guest.}
@@ -628,7 +642,7 @@
         \bflow{Track4Run provides a list of runs that the user can select. These runs must have the state \textit{started}. Track4Run also provides two buttons: a \textit{'Spectate'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
               {Individual selects one run from the list and presses the \textit{'Spectate'} button.}
               {Track4Run now recognize the Individual as a Spectator.}
-        \post{The Spectator successfully spectates the run and he has granted access to the position of all Athletes enrolling the run is deleted}.}
+        \post{The Spectator successfully spectates the run and he has granted access to the position of all Athletes enrolling the run is deleted.}
         \end{usecase}
     
     \subsection{Design Constraints}
