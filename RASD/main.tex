@@ -416,37 +416,32 @@
         \epoint{The Third-Party clicks on the\textit{ Manage Run}, or \textit{Enable Automated SOS button}}
        \end{usecase}
                    
-        \subsubsection{Data4Help Request}
-        The application may provide an interface that allows \textit{Third-Parties} to send requests to view the data of a specific \textit{individual} or a group of \textit{individuals}. A single individual may accept or refuse this request.
-        
-        \begin{usecase}{Individual Data Request}
-        \name{Third Party Individual Data Request}
+        \subsubsection{Data4Help }
+      
+        \begin{usecase}{ Make Individual Request}
+        \name{Make Individual Request}
         \brief{A third party sends a request to an individual to view his data.}
-        \actor{Third Party, Individual, TrackMe.}
-        \pre{The third-party is logged-in, it's on the main page and has a valid SSN/FC of a registered individual.}
-        \bflow{The third party presses the \textit{'Data-Request'} button.}
-              {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
-              {The third party presses the button \textit{'Individual'} }
-              {TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
+        \actor{Third Party.}
+        \pre{The third-party is logged-in, has selected the \textit{'Make Individual Request'} option and has a valid SSN/FC of a registered individual.}
+        \bflow}{TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
               {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
               {TrackMe sends the data request to the individual.}
               {TrackMe informs the Third-Party user that the operation succeed.}
         \post{The third party has successfully sent a data request to the individual.}
+        \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \end{usecase}
         
-        \begin{usecase}{Third Party Group Data View}
-        \name{Third Party Group Data View}
-        \brief{A third party views data of a group of individuals.}
-        \actor{Third Party, Individual, TrackMe.}
-        \pre{The third-party is logged-in and it's on the main page.}
-        \bflow{The third party presses the \textit{'Data-Request'} button. Third party is now on the Data-Request page.}
-              {TrackMe asks if user wants to request data to a specific individual or to get anonymous data of a group of individuals.}
-              {The third party presses the button \textit{'Group'}. Third party is now on the Group subsection of Data-Request page.}
-              {TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
+        \begin{usecase}{Make Group Request}
+        \name{Make Group Request}
+        \brief{A third party make a group request that allows to see data of a group of individuals .}
+        \actor{Third Party.}
+        \pre{The third-party is logged-in and has selected the 'Make Group Request' option}
+        \bflow{TrackMe provides an interface in which a third-party can insert search criteria for group requests.}
         {Third party fills out the form and then presses the button \textit'Send Request'.}
         {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         {TrackMe informs the Third-Party that the operation succeed.}
         \post{The third party has access to the data of a specific group of individuals.}
+        \ecept{If the number of individual selected is lower than 1000 en error message is printed and the request is denied}
         \end{usecase}
         
         \begin{usecase}{Third Party Subscribes to New Data}
@@ -477,7 +472,7 @@
         Moreover, in case such interface is present, \textit{TrackMe} should be able to interact also with the external device and to acquire data from it.
         
         
-        \subsubsection{Automated-SOS enabling}
+        \subsubsection{Automated-SOS }
         
         \begin{usecase}{ Enable Automated-SOS Third Party}
         \name{Enable Automated-SOS Third Party}
@@ -506,18 +501,17 @@
         \end{usecase}
         
         
-        \subsubsection{Automated-SOS Data Management}
-
-        \begin{usecase}{Automated-SOS Data Management}
-        \name{Automated-SOS Data Management}
-        \brief{The system will periodically check individual's data, and if the thresholds have been overcome, it will automatically notify an ambulance within 5 seconds.}
-        \actor{Automated-SOS, Ambulance, Individual, Third Party.}
-        \pre{At least one ambulance must be available; the Third Party must have enabled Automated-SOS. The individual has to be subscribed to the Third-Party.}
+        
+        \begin{usecase}{Assign Ambulance}
+        \name{Assign Ambulance}
+        \brief{The Dispatcher will assign an ambulance to an individual, related to a particular Third-Party, whose actual data has surpassed the limit imposed by the thresholds.}
+        \actor{Ambulance Dispatcher.}
+        \pre{At least one ambulance must be available; the Third Party must have enabled Automated-SOS. The individual has selected that Third-Party to provide the service of Automated SOS. The Individual security threshold has been overcomed}
         \bflow{The system checks the Individual's health parameters and finds that he has overcame the thresholds.}
-              {Automated-SOS checks in the ambulance database the nearest one available.}
+              {The ambulance Dispatcher checks in the ambulance database the nearest one available.}
               {Automated-SOS sends to the selected ambulance a request with the GPS position of the subject in danger.}
               {The ambulance selected should accept the request, otherwise Automated-SOS will notify the second ambulance available and so on until the request is accepted.}
-        \post{} % what is the post-condition? There IS a post-condition?
+        \post{An ambulance is going to the position of the Individual in danger} 
         \end{usecase}
         
         \subsubsection{Track4Run}
