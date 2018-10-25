@@ -281,6 +281,9 @@
     \subsection{External Interface Requirements}
         
         \subsubsection{User Interfaces}
+        
+        The mobile application shall provide two different interfaces for both individual and third parties.
+        
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[height=50mm]{images/mockups/Login_Registration.png}
@@ -288,13 +291,16 @@
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyRegistration.png}
         \end{figure}
         
+        The users would also be able to manage their profile by swiping left from the home page.
+        
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[height=50mm]{images/mockups/HomePage.png}
     	\includegraphics[height=50mm]{images/mockups/IndividualProfile.png}
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
         \end{figure}
-        
+        \newpage
+        \textit{TrackMe} shall provide an ease of use management interface for requests handling.
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[height=50mm]{images/mockups/Requests.png}
@@ -304,14 +310,15 @@
     	\includegraphics[height=50mm]{images/mockups/ViewData2.png}
         \end{figure}
         
+        Instead, swiping right from the home all the \textit{Track4Run} facilities:
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[height=50mm]{images/mockups/RunManager.png}
     	\includegraphics[height=50mm]{images/mockups/RunCreate.png}
-    	\includegraphics[height=50mm]{images/mockups/ViewMap.png}
+    	\includegraphics[height=50mm]{images/mockups/ShowMap.png}
     	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
         \end{figure}
-        
+        \newpage
         \subsubsection{Hardware Interfaces}
         The GPS system of the smartphone or the one of the external device (if connected) is needed in order to track customer's position.
         
@@ -380,7 +387,7 @@
         \actor{Guest.}
         \pre{The third party has a valid VAT and he has selected the \textit{Third-Party} option in the Registration use case.}
          \bflow{TrackMe asks to provide a VAT number and organization personal information.}
-              {The Third-Partyl fills out the requested information and presses the confirm button.}
+              {The Third-Party fills out the requested information and presses the confirm button.}
                {TrackMe asks to provide username and password.}
               {The system registers that user as a Third-Party and adds it to the  Database.}
         \post{The individual is successfully registered as a Third-Party.}
