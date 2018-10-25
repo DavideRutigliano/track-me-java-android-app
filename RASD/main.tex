@@ -668,6 +668,9 @@
               {Track4Run now recognize the Individual as a Spectator.}
         \post{The Spectator successfully spectates the run and he has granted access to the position of all Athletes enrolling the run is deleted.}
         \end{usecase}
+        
+        \subsubsection{Sequence Diagrams}
+
     
     \subsection{Design Constraints}
     
@@ -680,14 +683,26 @@
     \subsection{Software System Attributes}
         
         \subsubsection{Reliability}
-        
+        The system must work without failure in most of the cases. The possibility of a breakdown depends on the stability of the Internet connection and on the availability of the external services such as the Ambulance Dispatcher. In this case the users wont be able to access the system and, in case of an incident, any ambulance will receive a call.
         \subsubsection{Availability}
-        
+        To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week.
+        %complete Availability
         \subsubsection{Security}
+        The user allows the system to collect their health data. Beside the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason several security features shall be granted:
+       
+        \begin{itemize}
+        \item         The users passwords are stored in the database hashed with SHA256\item       The  connection between the clients and servers are encrypted and sent over SSL to guarantee integrity of data. 
+        \end{itemize}
         
         \subsubsection{Maintainability}
+
+        The system is backed up 2 times a  week. in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in 3 copy and the power supply is provided by a particular system that keeps online at least one database. Beside an UPS is present. 
         
         \subsubsection{Portability}
+
+The system can work both on smart phone and desktop environment. Any personal computer with Java installed can execute TrackMe. Diffent version of of Android and IOS can run this application.
+
+%terminate portality
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
