@@ -436,25 +436,29 @@
       
        \begin{usecase}{Manage Individual Profile}
         \name{Manage Individual Profile}
-        \brief{An individual can select among the different functions of the system with the help of an interactive menu}
+        \brief{An individual can change the setting of his profile}
         \actor{Individual.}
-        \pre{The User is logged in the system as an Individual and he's on the main page.}
-        \bflow{The system provides to the Individual a set of option displayed into a menu, as a set of buttons. Each button represents a different function:  \textit{Manage request}, \textit{Enable Automated SOS}, \textit{Manage Run} and \textit{Show run}}
-        {The Individual clicks on the button of the option he wants to choose.}
-        \post{The individual is now on the section of TrackMe he wish}
-        \epoint{The Individual clicks on the\textit{ Manage Run}, \textit{Show Run} or \textit{Enable Automated SOS button}}
+        \pre{The User is logged in the system as an Individual and he's on the profile page.}
+        \bflow{The system provides a box with the user's description, and a box with the user's image}
+        {The Individual can write the desired description in the box.}
+        {The user can click on the image to update his picture}
+        {The individual clicks on the \textit{Save Changes} button provided by TrackMe}
+        \post{The individual has modified his profile data}
+        \epoint{The Individual clicks on the\textit{ Manage Request}, \textit{Connects External Devices} or \textit{Enable Automated SOS button}}
        \end{usecase}
        
        
        \begin{usecase}{Manage Third-Party Profile}
         \name{Manage Third-Party Profile}
-        \brief{A Third-Party can select among the different functions of the system with the help of an interactive menu}
-        \actor{Third-Party}
-        \pre{The User is logged into the system as a Third-Party he's and on the main page.}
-        \bflow{The system provides to the Third-Party a set of option displayed into a menu, as a set of buttons. Each button represents a different function:  \textit{Manage request}, \textit{Enable Automated SOS}, \textit{Manage Run}}
-        {The Third-Party clicks on the button of the option he wants to choose.}
-        \post{The Third-Party is now on the section of TrackMe it wish}
-        \epoint{The Third-Party clicks on the\textit{ Manage Run}, or \textit{Enable Automated SOS button}}
+         \brief{An Third-Party can change the setting of his profile}
+        \actor{Third-Party.}
+        \pre{The User is logged in the system as aa Third-Party and he's on the profile page.}
+        \bflow{The system provides a box with the user's description, and a box with the user's image}
+        {The Third-Party can write the desired description in the box.}
+        {The user can click on the image to update his picture}
+        {The Third-Party clicks on the \textit{Save Changes} button provided by TrackMe}
+        \post{The Third-Party has modified his profile data}
+        \epoint{The Third-Party clicks on one of the following buttons: \textit{Enable Automated SOS }, \textit{Make Individual Request}, \textit{Make Group Request}, \textit{View Data} }
        \end{usecase}
            
            
@@ -590,38 +594,18 @@
         
         \subsubsection{Track4Run}
         
-        \begin{usecase}{Manage Runs}
-        \name{Manage Runs}
-        \brief{An Organizer can select an option between: create a run, start a run or delete a run.}
-        \actor{Organizer.}
-        \pre{The Organizer (Third-Party or Individual) is logged-in and has  clicked on Manage Run button.}
-        \bflow{Track4Run provides three buttons:  \textit{'Create Run'}, \textit{'Start Run'} and \textit{Delete Run}.}
-              {The Organizer selects one option}
-              \post{The organizer is in the desired section.}
-        \end{usecase}
-        
-        \begin{usecase}{Manage Runs}
-        \name{Manage Runs}
-        \brief{An Individual Selects an option between: enroll a run, unroll run , watch a run.create a run, start a run or delete a run.}
-        \actor{Individual.}
-        \pre{The Individual is logged-in and has  clicked on \textit{Manage Run} button.}
-        \bflow{Track4Run provides three buttons:  \textit{'Enroll Run'}, \textit{'Unroll Run'} ,\textit{Watch Run}, \textit{'Create Run'}, \textit{'Start Run'} and \textit{Delete Run}.}
-              {The Individual selects one option}
-              \post{The Individual is in the desired section.}
-        \end{usecase}
-        
-        \begin{usecase}{Create Run}
+         \begin{usecase}{Create Run}
         \name{Create Run}
         \brief{An Individual become an Organizer and creates a new run, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
         \actor{Organizer.}
-        \pre{The Individual sas clicked on the \textit{Create Run} button in the \textit{manage run} section.}
-        \bflow{Track4Run asks the user if he wants to create a new run. Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
+        \pre{The Individual has clicked on the \textit{Plus} button in the Track4Run section.}
+        \bflow{ Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {The organizer fills the boxes and then presses the \textit('Confirm') button.}
               {Track4Run asks the user to defines a \textit{path} using an interactive map}
               {The Organizer defines the \textit{path} using the tools provided by Track4Run to design a path on the map and presses the \textit{Confirm} button}
-              {Track4Run adds the \textit{run} information to the Run DB.}
+              {Track4Run adds the \textit{run} information to the DB.}
               {The system informs the Organizer that the operation succeed.}
-        \post{The run is created and has been added to the database and its state is ('created').}
+        \post{The run is created and has been added to the database and its state is ('created'). The list of available runs is updated}
         \except{If the data and time provided for the run are previous the current one an error message is printed}
         \end{usecase}
         
@@ -629,9 +613,11 @@
         \name{Start Run}
         \brief{An Organizer starts a run that he has previously created.}
         \actor{Organizer.}
-        \pre{The Organizer is logged-in and has clicked on the \textit{Start run} button on the Manage Run page. The Organizer must have created at least one run and this run state must be \textit{'created'}.}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. The Organizer can select a run from the list.Beside, the system provides two buttons \textit{Start Run} and \textit{Back}}
-              {Organizer select a \textit{created} run and presses the \textit{'Start Run '} button.}
+        \pre{The Organizer is logged-in and is in the Track4Run section. The Organizer must have created at least one run and this run state must be \textit{'created'}.}
+        \bflow{Track4Run provides a list of runs that the Organizer has created. Beside, the system provides two buttons  near the each run \textit{Play} and \textit{Cross}}
+              {Organizer Presses the \textit{Play} button near the run he wants to start.}
+              {The system asks if the Organizer wants to start the run, and provides two buttons \textit{yes} and \textit{no}}
+              {The Organizer clicks on the \textit{yes} button}
         \post{The selected run state is now \textit{started} and now Athletes can no longer subscribe to that run.}
         \end{usecase}
         
@@ -639,9 +625,11 @@
         \name{Delete Run}
         \brief{An Organizer deletes run that he has previously created.}
         \actor{Organizer.}
-        \pre{The Organizer is logged-in and has clicked on the \textit{Delete run} button on the Manage Run page. The Organizer must have created at least one run and this run state must be \textit{'created'}.}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. The Organizer can select a run from the list. Beside, the system provides two buttons \textit{Delete Run} and \textit{Back}.}
-              {Organizer select a \textit{created} run and presses the \textit{'Delete Run '} button.}
+        \pre{The Organizer is logged-in and is in the Track4Run section. At least one run has been created}
+        \bflow{Track4Run provides a list of runs that the Organizer has created. . Beside, the system provides two buttons \textit{Cross} and \textit{Play}.}
+              {Organizer select a \textit{created} run and presses the \textit{'Cross '} button.}
+              {The system asks if the Organizer wants to delete the run, and provides two buttons \textit{yes} and \textit{no}}
+              {The Organizer clicks on the \textit{yes} button}
         \post{Any Athlete that was subscribed to that run is no longer subscribed. Athletes can no longer subscribe to that run. That run is deleted from the list of available runs.}
         \end{usecase}
         
@@ -649,11 +637,11 @@
             
         \begin{usecase}{Enroll a Run}
         \name{Enroll a Run}
-        \brief{An Athlete enrolls to a run created by an Organizer.}
+        \brief{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
         \actor{Athlete.}
-        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Enroll Run} button in the \textit{Manage run} section, there is at least a run available that has state \textit{created}.}
-        \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{created}. Track4Run also provides two buttons: a \textit{'Enroll'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
-              {Individual selects one run from the list and presses the \textit{'Enroll'} button.}
+        \pre{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
+        \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{created}. Track4Run also provides two buttons near each created run:  \textit{'Enroll'}  and  \textit{'Watch'} .}
+              { The Individual clicks the \textit{'Enroll'} button of the chosen run.}
               {Track4Run informs the Athlete that the operation succeed.}
         \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that spectate that run.}
         \end{usecase}
@@ -662,8 +650,8 @@
         \name{Unroll a Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
         \actor{Athlete.}
-        \pre{The Athlete is logged-in as an individual and has clicked on the \textit{Unroll Run} button in the \textit{Manage run} section, he is enrolled to at least one run.}
-        \bflow{Track4Run provides a list of runs that the user can select. these runs are the ones that the athlete is enrolled. The system also provides two buttons: a \textit{'Unroll'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
+        \pre{The Athlete is logged-in and is in the Track4Run section. , he is enrolled to at least one run.}
+        \bflow{Track4Run provides a list of runs that the user can select. these runs are the ones that the athlete is enrolled.  near each created run:  \textit{'Unroll'}  and  \textit{'Watch'} .}
               {Individual selects one run from the list and presses the \textit{'Unroll'} button.}
               {Track4Run informs the Athlete that the operation succeed.}
         \post{The Athlete successfully Unrolls the run.}
@@ -674,9 +662,9 @@
         \name{Watch Run}
         \brief{A Spectator wants to watch a \textit{run} to view the position of all Athletes participating that run.}
         \actor{Spectators.}
-        \pre{The Athlete is logged in as an individual and has clicked on the \textit{Watch Run} button in the \textit{Manage run} section. There is at least one run which state is \textit{started} }
-        \bflow{Track4Run provides a list of runs that the user can select. These runs must have the state \textit{started}. Track4Run also provides two buttons: a \textit{'Spectate'} button that can be pressed if and only if at least one run is selected; a \textit{'Back'} button.}
-              {Individual selects one run from the list and presses the \textit{'Spectate'} button.}
+        \pre{The Spectators is logged-in and is in the Track4Run section. , At least one run has been Started.}
+        \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
+              {Individual selects one run from the list and presses the \textit{'Watch'} button.}
               {Track4Run now recognize the Individual as a Spectator.}
         \post{The Spectator successfully spectates the run and he has granted access to the position of all Athletes enrolling the run is deleted.}
         \end{usecase}
