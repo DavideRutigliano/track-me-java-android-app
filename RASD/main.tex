@@ -84,9 +84,6 @@
          Locate nearest Ambulance & & & X \\ \hline
          Accident & X & & \\ \hline
          Create/Delete/Enroll/Watch/Start Run & & & X \\ \hline
-         & & & \\ \hline
-         NOT FINISHED YET & X & X & X \\ \hline
-         & & & \\ \hline
         \end{tabular}
         \end{table}
         
@@ -135,6 +132,12 @@
                     
                     \item[\textbf{Run}] a competition organized and managed by an \textit{Organizer} to which \textit{Athletes} and \textit{Spectators} can enroll as participant or watchers
                     
+                    \item[\textbf{Run Started}] a competition with at least two \textit{Athletes} enrolled that the \textit{Organizer} has started
+                    
+                    \item[\textbf{Run Not-Started}] a competition with any number of \textit{Athletes} enrolled
+                    
+                    \item[\textbf{Map}] The map of the predefined track of the run with athletes' positions
+                    
                     \item[\textbf{TrackMe}] the \textit{"system to be"}
                     
                     \item[\textbf{Data4Help}] a data monitoring service provided by \textit{TrackMe}
@@ -166,6 +169,10 @@
                 \acro{BT}{Bluetooth}
                 \acro{NFC}{Near Field Communication}
                 \acro{GPS}{Global Positioning System}
+                \acro{HTTP}{Hyper Text Transfer Protocol}
+                \acro{HTTP}{Hyper Text Transfer Protocol over SSL}
+                \acro{SSL}{Secure Socket Layer}
+                \acro{SHA}{Secure Hash Algorithm}
             \end{acronym}
             
     \subsection{References}
@@ -184,35 +191,7 @@
         \end{itemize}
     
     The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
-
-    \subsubsection{Domain Model}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/ClassDiagram.jpg}
-        \caption{Group Request}
-        \label{fig:state_group}
-    \end{figure}
-    \newpage
-    \subsubsection{State Charts}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_individualRequest.png}
-        \caption{Individual Request}
-        \label{fig:state_individual}
-    \end{figure}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_groupRequest.png}
-        \caption{Group Request}
-        \label{fig:state_group}
-    \end{figure}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_run.png}
-        \caption{Run}
-        \label{fig:state_run}
-    \end{figure}
-    \newpage
+    
     \subsection{Product Functions}
     \textit{TrackMe} will provide three main services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
     
@@ -236,6 +215,37 @@
     \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes either watch or enroll/unroll to an existing run.
     
     \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run on a map.
+    
+    \subsubsection{Domain Model}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth]{images/UML/ClassDiagram.jpg}
+        \caption{Domain Model}
+    \end{figure}
+    
+    \newpage
+    
+    \subsubsection{State Charts}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_individualRequest.png}
+        \caption{State Charts: Individual Request}
+        \label{fig:state_individual}
+    \end{figure}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_groupRequest.png}
+        \caption{State Charts: Group Request}
+        \label{fig:state_group}
+    \end{figure}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_run.png}
+        \caption{State Charts: Run}
+        \label{fig:state_run}
+    \end{figure}
+    
+    \newpage
     
     \subsection{User Characteristics}
         \subsubsection{Data4Help}
@@ -289,7 +299,7 @@
         
         \subsubsection{User Interfaces}
         
-        The mobile application shall provide two different interfaces for both individual and third parties.
+        The mobile application shall provide login and two different registration interfaces for both individual and third parties.
         
         \begin{figure}[!htpb]
     	\centering
@@ -338,19 +348,29 @@
         
         The back-end services connect to the DBMS on the default port.
 
-    \newpage
     \subsection{Functional Requirements}
 
-        \subsubsection{Use Cases Diagram}
+        \subsubsection{Use Cases Diagrams}
+        \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=\textwidth]{images/UML/Individual.jpg}
+    	\caption{Use Cases: Individual}
+    	\end{figure}
+    	\begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=\textwidth]{images/UML/ThirdParty.jpg}
+    	\caption{Use Cases: ThirdParty}
+        \end{figure}
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=\textwidth]{images/UML/Guest.jpg}
-    	\includegraphics[width=\textwidth]{Accident.jpg}
+    	\caption{Use Cases: Guest}
     	\end{figure}
     	\begin{figure}[!htpb]
-    	\includegraphics[width=\textwidth]{images/UML/Individual.jpg}
-    	\includegraphics[width=\textwidth]{images/UML/ThirdParty.jpg}
-        \end{figure}
+    	\centering
+    	\includegraphics[width=\textwidth]{images/UML/Accident.jpg}
+    	\caption{Use Cases: Dispatcher}
+    	\end{figure}
         \newpage
         
         
@@ -463,13 +483,12 @@
         \brief{A Guest sign in to access the application.}
         \actor{Guest.}
         \pre{The Guest is already registered and it's on the main page.}
-        \bflow{The Guest goes on login page pressing \textit{'Sign-in'} button.}
-              {TrackMe provides to the \textit{Guest} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
+        \bflow{TrackMe provides to the \textit{Guest} a form composed by two text boxes where the user can write and a button to send the form. The first box is the \textit{'username'}, while the latter is the \textit{'password'} field.}
               {The Guest writes his username on the \textit{'username'} box and his associated password on \textit{'password'} box and presses the Log-in button.}
-              {TrackMe checks username is on the DB and that its associated password is correct. and checks whether he is  registered as individual or Third Party}
-              {TrackMe finds that username and its associated password are valid and let the guest log-in in the system.}
+              {TrackMe checks the username is on the DB and that its associated password is correct. and checks whether he is  registered as individual or Third Party}
+              {TrackMe finds that username and its associated password are valid and let the guest log-in into the system.}
         \post{The Guest is successfully authenticated either as Individual or Third-Party.}
-        \except{If the username is not present in the database of registered users an error message is showed and the access to the system is not granted }
+        \except{If the username is not present in the database an error message is showed and the access to the system is not granted }
         {If the password inserted is not associated with the given username, an error message is showed and the guest cannot access the system}
         \end{usecase}
         
@@ -486,10 +505,10 @@
         \brief{A user changes his username}
         \actor{User.}
         \pre{The User is logged in the system and is in the change credentials section.}
-        \bflow{The User clicks on the  \textit{'Change username'} button.}
+        \bflow{The User clicks on the  \textit{'Change credentials'} button and select "Username".}
               {The User is redirect to a page and he can now insert a new username writing it into a box}
               {The User clicks on the submit button}
-              {The user's tuple in the database his updated with his new username}
+              {The user's row in the database is updated with his new username}
         \post{The has updated his username.}
         \except{The new username is already present on the database and an error mistake is showed}
        \end{usecase}
@@ -500,17 +519,14 @@
         \brief{A user changes his password}
         \actor{User.}
         \pre{The User is logged in the system and is in the change credentials section.}
-        \bflow{The User clicks on the  \textit{'Change password'} button.}
-              {The system asks to the user to insert the old password}
-              {The user compiles a box with his current password and clicks the \textit{submit} button}
-              {The User is redirect to a page and he can now insert a new password writing it into a box}
+        \bflow{The User clicks on the  \textit{'Change credentials'} button and select "Password".}
+              {The system asks to the user to insert the old password, a new password and to repeat the latter once}
               {The User clicks on the submit button}
-              {The user's tuple in the database his updated with his new password}
-        \post{The has updated his password.}
+              {The user's row in the database is updated with his new password}
+        \post{The user has changed his password.}
         \except{If the new password is too short and an error message is showed}
         {If the old password inserted is not correct an error message is printed out}
        \end{usecase}
-       
        
        The user can log-out form the system pressing the \textit{log-out} button.
        
@@ -521,7 +537,7 @@
         \pre{The User is logged in the system and is on the main page.}
         \bflow{The User clicks on the  \textit{'Log-out'} button.}
               {The system asks to the user if he is sure he wants to log-out the system}
-              {The user presses on the \textit{yes} button}
+              {The user confirm}
          \post{The user is not logged anymore into TrackMe}
         \end{usecase}
        
@@ -535,8 +551,10 @@
         \actor{Individual.}
         \pre{The User is logged in the system as an Individual and he's on the profile page.}
         \bflow{The system provides a box with the user's description, and a box with the user's image}
-        {The Individual can write the desired description in the box.}
-        {The user can click on the image to update his picture}
+        {\begin{itemize}
+            \item The Individual can change any of its personal data.
+            \item The user can click on the image to update his picture
+        \end{itemize}}
         {The individual clicks on the \textit{Save Changes} button provided by TrackMe}
         \post{The individual has modified his profile data}
         \epoint{The Individual clicks on the\textit{ Manage Request}, \textit{Connects External Devices} or \textit{Enable Automated SOS button}}
@@ -547,10 +565,12 @@
         \name{Manage Third-Party Profile}
          \brief{An Third-Party can change the setting of his profile}
         \actor{Third-Party.}
-        \pre{The User is logged in the system as aa Third-Party and he's on the profile page.}
+        \pre{The User is logged in the system as a Third-Party and he's on the profile page.}
         \bflow{The system provides a box with the user's description, and a box with the user's image}
-        {The Third-Party can write the desired description in the box.}
-        {The user can click on the image to update his picture}
+        {\begin{itemize}
+            \item The Third-Party can change any of its personal data.
+            \item The user can click on the image to update his picture
+        \end{itemize}}
         {The Third-Party clicks on the \textit{Save Changes} button provided by TrackMe}
         \post{The Third-Party has modified his profile data}
         \epoint{The Third-Party clicks on one of the following buttons: \textit{Enable Automated SOS }, \textit{Make Individual Request}, \textit{Make Group Request}, \textit{View Data} }
@@ -565,10 +585,9 @@
         \brief{A third party sends a request to an individual to view his data.}
         \actor{Third Party.}
         \pre{The third-party is logged-in, has selected the \textit{'Make Individual Request'} option and has a valid SSN/FC of a registered individual.}
-        \bflow{TrackMe provides a box called \textit{'SSN/FC'} where the user can write.}
-              {The third party writes the individual \textit{'SSN/FC'} and presses the \textit{'Submit'} button.}
-              {TrackMe sends the data request to the individual.}
-              {TrackMe informs the Third-Party user that the operation succeed.}
+        \bflow{TrackMe provides a box called \textit{'SSN/FC'} where the third party writes the individual \textit{'SSN/FC'}}
+        {Third Party presses the \textit{'Submit'} button.}
+        {TrackMe sends the data request to the individual and informs the Third-Party user that the operation succeed.}
         \post{The third party has successfully sent a data request to the individual.}
         \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \end{usecase}
@@ -590,12 +609,12 @@
         
         \begin{usecase}{Subscribe to New Data}
         \name{Subscribe to New Data}
-        \brief{A third party subscribes to the data of a certain group of individuals.}
+        \brief{A third party subscribes to the data of individuals who received at least a request.}
         \actor{Third Party.}
-        \pre{The Third-Party is logged-in and Make Individual Request section.}
+        \pre{The Third-Party is logged-in and is on requests page.}
         \bflow{TrackMe provides a check-box to allow a third-party to choose if she wants to be subscribed to new data.}
             {Third party checks the \textit{'Subscribe'} box.}
-            {TrackMe checks if the request is a valid request.}
+            {TrackMe queries periodically the database to check if data has changed and if so will send the new data to the subscribed third-party.}
         \post{The third party is subscribed to the individuals' data and will receive new data as soon as they are produced.}
         \end{usecase}
         
@@ -617,9 +636,7 @@
         \brief{A Third-Party can view the Data of the Individuals that have accepted its requests.}
         \actor{Third-Party.}
         \pre{The Third-Party is logged-in and Is in the section to see the data collected by the application.}
-        \bflow{The system provides a list of Individual that correspond to the ones that have accepted the request of the Third-Party}
-              {The Third-Party select an individual e clicks on the \textit{Confirm} button.}
-              {TrackMe Provides the data associated with that Individual.}
+        \bflow{The system provides a list of all request sent by the Third-Party}
         \post{The Third-Party can observe the Individual data.}
         \end{usecase}
         
@@ -636,7 +653,7 @@
         \brief{An Individual can connect External Device that allows the system to collect data.}
         \actor{Individual.}
         \pre{The Individual is logged in and is in the section that allows to connect an external device.}
-        \bflow {The system provides two drop-down menùs that allows the user specify the type of device and which kind of wireless connection uses: bluetooth or NFC}
+        \bflow {The system provides two drop-down menus that allows the user specify the type of device and which kind of wireless connection uses: Bluetooth or NFC}
         {The user selects the desired option and checks the type of connection, than presses the \textit{Confirm} button}
         {Track4Run asks now to connect the device in the way previously chosen}
         {The Individual connects the device}
@@ -661,7 +678,7 @@
         
         \begin{usecase}{ Enable Automated-SOS Individual}
         \name{Enable Automated-SOS Individual}
-        \brief{An Individual wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. The individual will choose the Third-Party that will provide the Automated SOS functionalities.}
+        \brief{An Individual wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. The individual will choose the Third-Party that will provide the Automated SOS functionality.}
         \actor{Individual}
         \pre{The Individual is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
         \bflow {Automated-SOS checks if the user has already enabled the service.}
@@ -677,21 +694,21 @@
         
         \begin{usecase}{Assign Ambulance}
         \name{Assign Ambulance}
-        \brief{The Dispatcher will assign an ambulance to an individual, related to a particular Third-Party, whose actual data has surpassed the limit imposed by the thresholds.}
-        \actor{Ambulance Dispatcher.}
-        \pre{At least one ambulance must be available; the Third Party must have enabled Automated-SOS. The individual has selected that Third-Party to provide the service of Automated SOS. The Individual security threshold has been overcomed}
+        \brief{The Dispatcher will assign an ambulance to an individual, related to a particular Third-Party, whose actual data has overcame a certain limit.}
+        \actor{Ambulance Dispatcher, Ambulance.}
+        \pre{At least one ambulance must be available; the Third Party must have enabled Automated-SOS. The individual has selected that Third-Party to provide the service of Automated SOS. The Individual security threshold has been overcame}
         \bflow{The system checks the Individual's health parameters and finds that he has overcame the thresholds.}
               {The ambulance Dispatcher checks in the ambulance database the nearest one available.}
               {Automated-SOS sends to the selected ambulance a request with the GPS position of the subject in danger.}
               {The ambulance selected should accept the request, otherwise Automated-SOS will notify the second ambulance available and so on until the request is accepted.}
-        \post{An ambulance is going to the position of the Individual in danger} 
+        \post{An ambulance will go to the position of the Individual} 
         \end{usecase}
         
         \subsubsection{Track4Run}
         
          \begin{usecase}{Create Run}
         \name{Create Run}
-        \brief{An Individual become an Organizer and creates a new run, where \textit{Athletes} can enroll and \textit{Spectators} can watch.}
+        \brief{An Individual become an Organizer and creates a new run.}
         \actor{Organizer.}
         \pre{The Individual has clicked on the \textit{Plus} button in the Track4Run section.}
         \bflow{ Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
@@ -708,12 +725,12 @@
         \name{Start Run}
         \brief{An Organizer starts a run that he has previously created.}
         \actor{Organizer.}
-        \pre{The Organizer is logged-in and is in the Track4Run section. The Organizer must have created at least one run and this run state must be \textit{'created'}.}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. Beside, the system provides two buttons  near the each run \textit{Play} and \textit{Cross}}
+        \pre{The Organizer is logged-in and is in the Track4Run section. The run he want to start must have at least two athletes enrolled.}
+        \bflow{Track4Run provides a list of runs that the Organizer has created. Furthermore, the system provides two buttons  near the each run: \textit{Play} and \textit{Cross}}
               {Organizer Presses the \textit{Play} button near the run he wants to start.}
-              {The system asks if the Organizer wants to start the run, and provides two buttons \textit{yes} and \textit{no}}
-              {The Organizer clicks on the \textit{yes} button}
-        \post{The selected run state is now \textit{started} and now Athletes can no longer subscribe to that run.}
+              {The system asks the Organizer to confirm his choice}
+              {The Organizer clicks on the \textit{start} button}
+        \post{The selected run state is now \textit{started} and Athletes and Spectator will be notified.}
         \end{usecase}
         
         \begin{usecase}{Delete Run}
@@ -721,7 +738,7 @@
         \brief{An Organizer deletes run that he has previously created.}
         \actor{Organizer.}
         \pre{The Organizer is logged-in and is in the Track4Run section. At least one run has been created}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. . Beside, the system provides two buttons \textit{Cross} and \textit{Play}.}
+        \bflow{Track4Run provides a list of runs that the Organizer has created. Moreover, the system provides two buttons \textit{Cross} and \textit{Play}.}
               {Organizer select a \textit{created} run and presses the \textit{'Cross '} button.}
               {The system asks if the Organizer wants to delete the run, and provides two buttons \textit{yes} and \textit{no}}
               {The Organizer clicks on the \textit{yes} button}
@@ -735,7 +752,7 @@
         \brief{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
         \actor{Athlete.}
         \pre{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
-        \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{created}. Track4Run also provides two buttons near each created run:  \textit{'Enroll'}  and  \textit{'Watch'} .}
+        \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{not-started}. Track4Run also provides two buttons near each created run:  \textit{'Enroll'}  and  \textit{'Watch'} .}
               { The Individual clicks the \textit{'Enroll'} button of the chosen run.}
               {Track4Run informs the Athlete that the operation succeed.}
         \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that spectate that run.}
@@ -745,19 +762,19 @@
         \name{Unroll a Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
         \actor{Athlete.}
-        \pre{The Athlete is logged-in and is in the Track4Run section. , he is enrolled to at least one run.}
-        \bflow{Track4Run provides a list of runs that the user can select. these runs are the ones that the athlete is enrolled.  near each created run:  \textit{'Unroll'}  and  \textit{'Watch'} .}
+        \pre{The Athlete is logged-in and is in the Track4Run section. He is also enrolled to at least one run.}
+        \bflow{Track4Run provides the list of runs to which the athlete is enrolled.  Near each created run the buttons  \textit{'Unroll'}  and  \textit{'Watch'} .}
               {Individual selects one run from the list and presses the \textit{'Unroll'} button.}
               {Track4Run informs the Athlete that the operation succeed.}
-        \post{The Athlete successfully Unrolls the run.}
+        \post{The Athlete is no longer enrolled that run.}
         \end{usecase}
         
         
         \begin{usecase}{Watch Run}
         \name{Watch Run}
-        \brief{A Spectator wants to watch a \textit{run} to view the position of all Athletes participating that run.}
+        \brief{A Spectator wants to watch a \textit{run}.}
         \actor{Spectators.}
-        \pre{The Spectators is logged-in and is in the Track4Run section. , At least one run has been Started.}
+        \pre{The Spectators is logged-in and is in the Track4Run section. At least one run has been \textit{Started}.}
         \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
               {Individual selects one run from the list and presses the \textit{'Watch'} button.}
               {Track4Run now recognize the Individual as a Spectator.}
@@ -795,7 +812,7 @@
         
         \subsubsection{Portability}
 
-        The system can work both on smart phone and desktop environment. Any personal computer with Java installed can execute TrackMe. Diffent version of of Android and iOS can run this application.
+        The system can work both on smart phone and desktop environment. Any personal computer with Java SDK installed can execute TrackMe. Different version of Android and iOS can should support the mobile application.
 
 %terminate portality
         
@@ -804,7 +821,6 @@
 \section{Formal Analysis using Alloy}
 \renewcommand*{\lstlistlistingname}{Alloy model samples}
 \lstlistoflistings
-\newpage
 %definition of alloy language for Latex
 \lstdefinelanguage{Alloy}{
 	morekeywords={
