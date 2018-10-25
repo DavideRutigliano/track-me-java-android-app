@@ -10,7 +10,8 @@
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{xcolor}
-
+\usepackage{pifont}
+\newcommand{\requirement}{\ding{229}}%
 \definecolor{commentgreen}{RGB}{2,112,10}
 \definecolor{eminence}{RGB}{108,48,130}
 \definecolor{weborange}{RGB}{255,165,0}
@@ -92,23 +93,23 @@
         \subsubsection{Goals}
         
         \begin{description}
-            \item[G.01] Let the user register on the system
-            \item[G.02] Allow the user login/logout from the application
-            \item[G.03] Permit the individual user connect an external device
-            \item[G.04] Allow the third-party make requests to a specific individual
-            \item[G.05] Let the third-party make requests to groups of individuals
-            \item[G.06] Allow the third-party subscribe to individuals' data
-            \item[G.07] Permit the user manage his profile
-            \item[G.08] Permit the individual accept/refuse third-party requests
-            \item[G.09] Allow the third-party enable automated-Sos service
-            \item[G.10] Let the individual enable automated-Sos choosing among third-party that has enabled the service
-            \item[G.11] Authorize third-party users to get individuals' data if properly anonymized
-            \item[G.12] Allow the organizer create a new run
-            \item[G.13] Let the organizer delete a run
-            \item[G.14] Let the organizer start a new run
-            \item[G.15] Permit the athlete enroll to a run
-            \item[G.16] Allow the athlete unroll to a run
-            \item[G.17] Let the spectator watch a run
+            \item[G-01] Let the user register on the system
+            \item[G-02] Allow the user login/logout from the application
+            \item[G-03] Permit the individual user connect an external device
+            \item[G-04] Allow the third-party make requests to a specific individual
+            \item[G-05] Let the third-party make requests to groups of individuals
+            \item[G-06] Allow the third-party subscribe to individuals' data
+            \item[G-07] Permit the user manage his profile
+            \item[G-08] Permit the individual accept/refuse third-party requests
+            \item[G-09] Allow the third-party enable automated-Sos service
+            \item[G-10] Let the individual enable automated-Sos choosing among third-party that has enabled the service
+            \item[G-11] Authorize third-party users to get individuals' data if properly anonymized
+            \item[G-12] Allow the organizer create a new run
+            \item[G-13] Let the organizer delete a run
+            \item[G-14] Let the organizer start a new run
+            \item[G-15] Permit the athlete enroll to a run
+            \item[G-16] Allow the athlete unroll to a run
+            \item[G-17] Let the spectator watch a run
         \end{description}
     
     \subsection{Document Overview}
@@ -146,12 +147,13 @@
                 \end{description}
                 
             \subsubsection{Abbreviations}
-            \begin{itemize}
-                \item $[$A.n$]$: Assumption number n
-                \item $[$C.n$]$: Constraint number n
-                \item $[$D.n$]$: Dependency number n
-                \item $[$G.n$]$: Goal number n
-            \end{itemize}
+            \begin{description}
+                \item[A-n]: Assumption number n
+                \item[C-n]: Constraint number n
+                \item[D-n]: Dependency number n
+                \item[G-n]: Goal number n
+                 \item [REQ-n]: Functional Requirement number n
+            \end{description}
             
             \subsubsection{Acronyms}
             \begin{acronym}
@@ -256,22 +258,22 @@
     \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
     
     \begin{description}
-        \item[C.01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
+        \item[C-01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
     \end{description}
     
     \subsection{Assumptions and Dependencies}
     \comment{<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>}
 
         \begin{description}
-        \item[A.01] Individual data acquisition consists in ...................
-        \item[A.02] In order to access the system a Guest must provide a valid username and its associated password.
-        \item[A.03]
-        \item[A.02] At least one ambulance is always available.
-        \item[A.03]
+        \item[A-01] Individual data acquisition consists in ...................
+        \item[A-02] In order to access the system a Guest must provide a valid username and its associated password.
+        \item[A-03]
+        \item[A-02] At least one ambulance is always available.
+        \item[A-03]
     \end{description}
     
         \begin{description}
-            \item[D.01] An Athlete can enroll a run only if 
+            \item[D-01] An Athlete can enroll a run only if 
         \end{description}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -337,48 +339,76 @@
         \subsubsection{Use Cases Diagram}
         \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=\textwidth,height=160mm]{images/UML/Model.jpg}
+    	\includegraphics[width=\textwidth]{images/UML/UseCasesDiagram.jpg}
         \end{figure}
         \newpage
         
         
-        \subsubsection{Registration}
-
-
-        \textit{TrackMe} must provide a registration interface to a guest. 
-        \comment{Itemize the detailed functional requirements associated with this feature. These are the software capabilities that must be present in order for the user to carry out the services provided by the feature, or to execute the use case. Include how the product should respond to anticipated error conditions or invalid inputs. Requirements should be concise, complete, unambiguous, verifiable, and necessary. Use “TBD” as a placeholder to indicate when necessary information is not yet available. Each requirement should be uniquely identified with a sequence number or a meaningful tag of some kind. REQ-1:	REQ-2}
-        \begin{usecase}{Registration}
-        \name{Registration}
-        \brief{A guest sign up to the application, he can choose to sign on as an individual or as a Third-Party.}
-        \actor{Guest.}
-        \pre{The guest is on the main page.}
-        \bflow{The guest goes on registration page pressing \textit{'Sign-on'} button.}
-              {TrackMe asks to the user if he's an Individual or a Third Party. The guest can choose between these two options clicking on the right button}
-        \post{The guest can now subscribe as Individual or as a Third-Party}
-        \end{usecase}
-        
-        
-        A  \textit{individual} must provide his/her SSN (Social Security Number) or FC (Fiscal Code) during the registration phase in order to be uniquely identified by \textit{TrackMe} application. In this way, the user is also accepting terms of service and allows \textit{TrackMe} to acquire his/her personal data.
-        
-        %use cases table structure
-        
+        \subsubsection{Individual Registration}
+		\begin{description}
+        	\item[G-01] The system should allow a guest to register as an Indivdiual 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-1] A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing his credentials and personal data
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-1] Username must be unique
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-2] Password should be at least 8 alphanumerical
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-3] The field Password and Repeat Password must match
+                	\end{description}
+            	    \item
+                	\begin{description}
+                	\item[A-4] Data provided by the individual, such as email and SSN, must be valid
+                	\end{description}
+                	\end{itemize}
+        \end{description} 
         
         \begin{usecase}{Individual  Registration}
         \name{Individual Registration}
         \brief{A guest sign up to the application as an Individual.}
         \actor{Guest.}
         \pre{The individual has a valid SSN/FC and he has selected the \textit{Individual} option in the Registration use case.}
-        \bflow{The system asks to provide a SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
+        \bflow{The system asks to provide username, password, SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
               {The individual fills out the requested information and presses the confirm button.}
-               {TrackMe asks to provide username and password.}
               {The system registers that user as an Individual and adds it to the  Database.}
         \post{The individual is successfully registered as an Individual.}
         \except{The guest provide a username already present on the database. In this case an error message is printed out the guest must chose a correct username.}
         {If the password chosen is too short an error message is printed out and the guest must chosen an other one.}
       \end{usecase}
         
-        
-        A \textit{third-party} must provide a VAT number during the registration in order to allow \textit{TrackMe} to check that the submitted VAT is registered and that is issued by an EU Member State.
+        \begin{description}
+        	\item[G-02] The system should allow a guest to register as an Third-Party 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-2] A customer not signed-on must be able to begin the Third-Party's registration process to \textit{TrackMe} providing his credentials and personal data
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-1] Username must be unique
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-2] Password should be at least 8 alphanumerical
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-3] The field Password and Repeat Password must match
+                	\end{description}
+            	    \item
+                	\begin{description}
+                	\item[A-5] Data provided by the Third-Party (i.e: VAT number) must be valid
+                	\end{description}
+                \end{itemize}
+        \end{description}
         
         
         \begin{usecase}{Third Party Registration}
@@ -397,7 +427,25 @@
         
         
         \subsubsection{Log-in}
-        The system should provide a login interface to the \textit{Guest} in order sign in into the application.
+        
+        
+        \begin{description}
+        	\item[G-03] The guest should be able to sign in into the application. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-3] The system must provide a log-in interface for already registered users, not previously signed into the application 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The guest must be already registered
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-8] Username and password provided must match the ones previously stored in the database
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         
         \begin{usecase}{Log-in}
