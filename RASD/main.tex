@@ -186,7 +186,12 @@
     The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
 
     \subsubsection{Domain Model}
-    \comment{See enhancement \#3 on Git Hub}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/ClassDiagram.jpg}
+        \caption{Group Request}
+        \label{fig:state_group}
+    \end{figure}
     \newpage
     \subsubsection{State Charts}
     \begin{figure}[!ht]
@@ -339,7 +344,12 @@
         \subsubsection{Use Cases Diagram}
         \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=\textwidth]{images/UML/UseCasesDiagram.jpg}
+    	\includegraphics[width=\textwidth]{images/UML/Guest.jpg}
+    	\includegraphics[width=\textwidth]{Accident.jpg}
+    	\end{figure}
+    	\begin{figure}[!htpb]
+    	\includegraphics[width=\textwidth]{images/UML/Individual.jpg}
+    	\includegraphics[width=\textwidth]{images/UML/ThirdParty.jpg}
         \end{figure}
         \newpage
         
@@ -773,7 +783,7 @@
         To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week.
         %complete Availability
         \subsubsection{Security}
-        The user allows the system to collect their health data. Beside the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason several security features shall be granted:
+        The user allows the system to collect their health data. Furthermore, the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason several security features shall be granted:
        
         \begin{itemize}
         \item         The users passwords are stored in the database hashed with SHA256\item       The  connection between the clients and servers are encrypted and sent over SSL to guarantee integrity of data. 
@@ -781,11 +791,11 @@
         
         \subsubsection{Maintainability}
 
-        The system is backed up 2 times a  week. in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in 3 copy and the power supply is provided by a particular system that keeps online at least one database. Beside an UPS is present. 
+        The system is backed up 2 times a  week. in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in 3 copy and the power supply is provided by a particular system that keeps online at least one database. Moreover an UPS is present. 
         
         \subsubsection{Portability}
 
-The system can work both on smart phone and desktop environment. Any personal computer with Java installed can execute TrackMe. Diffent version of of Android and IOS can run this application.
+        The system can work both on smart phone and desktop environment. Any personal computer with Java installed can execute TrackMe. Diffent version of of Android and iOS can run this application.
 
 %terminate portality
         
