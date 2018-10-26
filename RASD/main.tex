@@ -423,19 +423,19 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-1] Username must be unique
+                	\item[C-1] Username must be unique
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-2] Password should be at least 8 alphanumerical
+                	\item[A-1] Password should be at least 8 alphanumerical
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-3] The field Password and Repeat Password must match
+                	\item[A-2] The field Password and Repeat Password shall match
                 	\end{description}
             	    \item
                 	\begin{description}
-                	\item[A-4] Data provided by the individual, such as email and SSN, must be valid
+                	\item[A-3] Data provided by the individual, such as email and SSN, shall be valid
                 	\end{description}
                 	\end{itemize}
         \end{description} 
@@ -462,19 +462,19 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-1] Username must be unique
+                	\item[C-1] Username must be unique
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-2] Password should be at least 8 alphanumerical
+                	\item[A-1] Password should be at least 8 alphanumerical
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-3] The field Password and Repeat Password must match
+                	\item[A-2] The field Password and Repeat Password shall match
                 	\end{description}
             	    \item
                 	\begin{description}
-                	\item[A-5] Data provided by the Third-Party (i.e: VAT number) must be valid
+                	\item[A-4] Data provided by the Third-Party (i.e: VAT number) should be valid
                 	\end{description}
                 \end{itemize}
         \end{description}
@@ -507,11 +507,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The guest must be already registered
+                	\item[A-5] The user should be already registered
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-8] Username and password provided must match the ones previously stored in the database
+                	\item[A-6] Username and password provided shall match the ones previously stored in the database
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -533,9 +533,24 @@
         
         
         \subsubsection{Profile Management }
-        The application allows the logged users to access the functions of the system, which are different if you are registered as an Individual or as a Third-Party, and to change the setting of the Profile
         
-        The user can access to the section \textit{change credentials} to change the his username and/or password.
+        \begin{description}
+        	\item[G-04] The user should be able to change his username using the application. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-4] TrackMe should provide to users the possibility to change his username. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[C-1] Username must be unique
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         
         
@@ -552,6 +567,29 @@
         \except{The new username is already present on the database and an error mistake is showed}
        \end{usecase}
        
+               \begin{description}
+        	\item[G-05] The user should be able to change his password using the application. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-5] TrackMe must provide to registered users the possibility to change his password. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                		\item
+                	\begin{description}
+                	\item[A-1] Password should be at least 8 alphanumerical
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-2] The field Password and Repeat Password must match
+                	\end{description}
+                	\end{itemize}
+        \end{description}
+       
+       
        
        \begin{usecase}{Change password}
         \name{Change password}
@@ -567,8 +605,20 @@
         {If the old password inserted is not correct an error message is printed out}
        \end{usecase}
        
-       The user can log-out form the system pressing the \textit{log-out} button.
-       
+        \begin{description}
+        	\item[G-06] The user should be able to log-out from the system. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-6] The system must provide the possibility to the user of logging out. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\end{itemize}
+        \end{description}
+              
        \begin{usecase}{Log-out}
         \name{log-out}
         \brief{A user logs out from the system}
@@ -580,8 +630,23 @@
          \post{The user is not logged anymore into TrackMe}
         \end{usecase}
        
-       
-       On the main page of the TrackMe application, a user can access to the many functions offered by the system. This options are different whether the user is logged as an Individual or a Third-Party.
+       \begin{description}
+        	\item[G-07] The individual should be able to change his personal data. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-7] The system must provide the possibility to change Individual's personal data. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-3] Data provided by the individual, such as email and SSN, shall be valid
+                	\end{description}
+                	\end{itemize}
+        \end{description}
       
       
        \begin{usecase}{Manage Individual Profile}
@@ -599,6 +664,23 @@
         \epoint{The Individual clicks on the\textit{ Manage Request}, \textit{Connects External Devices} or \textit{Enable Automated SOS button}}
        \end{usecase}
        
+       \begin{description}
+        	\item[G-08] The Third-Party should be able to change his personal data. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-8] The system must provide the possibility to change Third Party's personal data. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-4] Data  provided  by  the  Third-Party  (i.e:  VAT  number)  should be valid
+                	\end{description}
+                	\end{itemize}
+        \end{description}
        
        \begin{usecase}{Manage Third-Party Profile}
         \name{Manage Third-Party Profile}
@@ -616,8 +698,25 @@
        \end{usecase}
            
            
-        \subsubsection{Data4Help }
+        \subsubsection{Data4Help}
       
+            \begin{description}
+        	\item[G-09] The Third-Party should be able to send requests to the individuals. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-9] Data4help must allow the Third-Parties to send a request to a particular individual. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-8] The Third-Party shall provide a SSN/FC of an user already registered into the system
+                	\end{description}
+                	\end{itemize}
+        \end{description}
       
         \begin{usecase}{ Make Individual Request}
         \name{Make Individual Request}
@@ -631,6 +730,27 @@
         \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \end{usecase}
         
+        \begin{description}
+        	\item[G-10] The Third-Party should be able to make group requests. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-10] Data4help must allow the Third-Parties to generated a request for a group of individuals. 
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-11] The system must be able to anonymize users' requested data. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-9] The Third-Party shall provide valid criteria for the selection of the group of individuals
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{Make Group Request}
         \name{Make Group Request}
@@ -645,6 +765,27 @@
         \except{If the number of individual selected is lower than 1000 an error message is printed and the request is denied}
         \end{usecase}
         
+                \begin{description}
+        	\item[G-11] The Third-Party should be able to subscribe to new data, once an Individual request is made. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-12] Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual. 
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-13]The system must be able to periodically query the database in order to get new data as soon as they are produced
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-10] The Third-Party should have sent at least a request to the user whose data she wants to subscribe
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{Subscribe to New Data}
         \name{Subscribe to New Data}
@@ -657,6 +798,23 @@
         \post{The third party is subscribed to the individuals' data and will receive new data as soon as they are produced.}
         \end{usecase}
         
+        \begin{description}
+        	\item[G-12] The Individual should be able to accept or reject a request coming from a Third-Party. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-14] Data4help must allow the Individual to see a list of the received requests. 
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-15] Data4help must allow the Individual to accept or refuse a request from the list. 
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{Manage Request}
         \name{Manage Request}
@@ -682,9 +840,32 @@
         
         
         \subsubsection{Connection of External Devices}
-        The application may provide an interface that allows \textit{individual} to connect an external device such as smart-watch via Bluetooth or NFC.
-        
-        Moreover, in case such interface is present, \textit{TrackMe} should be able to interact also with the external device and to acquire data from it.
+
+ \begin{description}
+        	\item[G-13] The Individual shall be able connect an external device to the system.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-16] Data4help must allow the Individual to connect an external device through BT or NFC.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-11] The device provided by the user shall be compatible with the system
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-12] The user should have activated NFC or Bluetooth on the mobile device
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-13] The user should have activated NFC or Bluetooth on the external device
+                	\end{description}
+                	\end{itemize}
+        \end{description}.
         
         
         \begin{usecase}{Connect External Device}
@@ -703,6 +884,24 @@
         
         \subsubsection{Automated-SOS }
         
+         \begin{description}
+        	\item[G-14] The Third-Party shall be able to activate Automated-SOS service.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-17] The system must allow the Third-Party to activate Automated-SOS service.
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-18] The system must be able to assign an ambulance dispatcher to the SOS service.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\end{itemize}
+        \end{description}.
+        
         \begin{usecase}{ Enable Automated-SOS Third Party}
         \name{Enable Automated-SOS Third Party}
         \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. That individual must have enable Automated SOS too.}
@@ -714,6 +913,24 @@
               \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list. An ambulance dispatcher has been assigned to that Third-Party by the system}
               \except{If no dispatcher is available an error message will be printed out by the system}
         \end{usecase}
+  
+           \begin{description}
+        	\item[G-15] The Individual shall be able to activate Automated-SOS service.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-19] The system must allow the Individual to activate Automated-SOS service.
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-17] The system should allow the Individual to choose between third parties who has enabled the service.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{ Enable Automated-SOS Individual}
         \name{Enable Automated-SOS Individual}
@@ -729,7 +946,31 @@
               \except{If no Third-Parties has activated Automated SOS an error message is printed}
         \end{usecase}
         
-        
+         \begin{description}
+        	\item[G-16] The Dispatcher shall be able to assign an ambulance to an incident.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-20] The system must be able to get the Individual position.
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-21] The system must be able to send the position to the nearest ambulance.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-14] An SOS service is enabled from at least one third party
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-15] The dispatcher shall access to the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-16]  The dispatcher is able to communicate with both the individual and the ambulance associated with the accident
+                	\end{description}
+                	
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{Assign Ambulance}
         \name{Assign Ambulance}
@@ -744,6 +985,28 @@
         \end{usecase}
         
         \subsubsection{Track4Run}
+        
+         \begin{description}
+        	\item[G-17] The Organizer shall be able to create a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-22] Track4Run must allow the organizer to create a run.
+                	\end{description}
+                	\item[\requirement]
+                	\begin{description}
+                	\item[REQ-23] The system must provide an interface that allows the user to define a path on an interactive map.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-17] The organizer should provide a valid path  
+                	\end{description}
+                	
+                	\end{itemize}
+        \end{description}
         
          \begin{usecase}{Create Run}
         \name{Create Run}
@@ -760,6 +1023,29 @@
         \except{If the data and time provided for the run are previous the current one an error message is printed}
         \end{usecase}
         
+        
+        \begin{description}
+        	\item[G-18] The Organizer should be able to start a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-24] Track4Run must allow the organizer to start a run previously created.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-18] The run should be created  
+                	\end{description}
+                	item
+                	\begin{description}
+                	\item[A-19] At least to athlete are enrolled in the run
+                	\end{description}
+                	\end{itemize}
+        \end{description}
+        
+        
         \begin{usecase}{Start Run}
         \name{Start Run}
         \brief{An Organizer starts a run that he has previously created.}
@@ -771,6 +1057,27 @@
               {The Organizer clicks on the \textit{start} button}
         \post{The selected run state is now \textit{started} and Athletes and Spectator will be notified.}
         \end{usecase}
+        
+        \begin{description}
+        	\item[G-19] The Organizer should be able to delete a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-25] Track4Run must allow the organizer to delete a run previously created.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-18] The run should have been created  
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-20] The run should have not been started.
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{Delete Run}
         \name{Delete Run}
@@ -784,7 +1091,22 @@
         \post{Any Athlete that was subscribed to that run is no longer subscribed. Athletes can no longer subscribe to that run. That run is deleted from the list of available runs.}
         \end{usecase}
         
-       
+       \begin{description}
+        	\item[G-20] The Athlete should be able to enroll a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-26] Track4Run must allow the Athlete to enroll to an already existing run.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-18] The run should have been created  
+                	\end{description}
+                	\end{itemize}
+        \end{description}
             
         \begin{usecase}{Enroll a Run}
         \name{Enroll a Run}
@@ -797,6 +1119,23 @@
         \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that spectate that run.}
         \end{usecase}
         
+        \begin{description}
+        	\item[G-20] The Athlete should be able to enroll a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-26] Track4Run must allow the Athlete to enroll a run.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-18] The run should be created  
+                	\end{description}
+                	\end{itemize}
+        \end{description}
+        
         \begin{usecase}{Unroll a Run}
         \name{Unroll a Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
@@ -808,11 +1147,27 @@
         \post{The Athlete is no longer enrolled that run.}
         \end{usecase}
         
-        
+        \begin{description}
+        	\item[G-20] The Spectator/Organizer shall be able to watch a run.
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-26] Track4Run must allow both the Spectator and the Organizer to see the position of the Athletes on a map during a run.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item
+                	\begin{description}
+                	\item[A-21] The run should be started  
+                	\end{description}
+                	\end{itemize}
+        \end{description}
+
         \begin{usecase}{Watch Run}
         \name{Watch Run}
         \brief{A Spectator wants to watch a \textit{run}.}
-        \actor{Spectator, Organizer.}
+        \actor{Spectator/Organizer.}
         \pre{The Spectators is logged-in and is in the Track4Run section. At least one run has been \textit{Started}.}
         \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
               {Individual selects one run from the list and presses the \textit{'Watch'} button.}
