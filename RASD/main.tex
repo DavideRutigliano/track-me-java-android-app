@@ -90,23 +90,28 @@
         \subsubsection{Goals}
         
         \begin{description}
-            \item[G-01] Let the user register on the system
-            \item[G-02] Allow the user login/logout from the application
-            \item[G-03] Permit the individual user connect an external device
-            \item[G-04] Allow the third-party make requests to a specific individual
-            \item[G-05] Let the third-party make requests to groups of individuals
-            \item[G-06] Allow the third-party subscribe to individuals' data
-            \item[G-07] Permit the user manage his profile
-            \item[G-08] Permit the individual accept/refuse third-party requests
-            \item[G-09] Allow the third-party enable automated-Sos service
-            \item[G-10] Let the individual enable automated-Sos choosing among third-party that has enabled the service
-            \item[G-11] Authorize third-party users to get individuals' data if properly anonymized
-            \item[G-12] Allow the organizer create a new run
-            \item[G-13] Let the organizer delete a run
-            \item[G-14] Let the organizer start a new run
-            \item[G-15] Permit the athlete enroll to a run
-            \item[G-16] Allow the athlete unroll to a run
-            \item[G-17] Let the spectator watch a run
+            \item[GOAL-01] The system should allow a guest to register as an Indivdiual
+            \item[GOAL-02] The system should allow a guest to register as an Third-Party
+            \item[GOAL-03] The guest should be able to sign in into the application.
+            \item[GOAL-04] The user should be able to change his username using the application.
+            \item[GOAL-05] The user should be able to change his password using the application.
+            \item[GOAL-06] The user should be able to log-out from the system.
+            \item[GOAL-07] The individual should be able to change his personal data.
+            \item[GOAL-08] The Third-Party should be able to change his personal data.
+            \item[GOAL-09] The Third-Party should be able to send requests to the individuals
+            \item[GOAL-10] The Third-Party should be able to make group requests.
+            \item[GOAL-11] The Third-Party should be able to subscribe to new data, once an Individual request is made.
+            \item[GOAL-12] The Individual should be able to accept or reject a request coming from a Third-Party.
+            \item[GOAL-13] The Individual shall be able connect an external device to the system.
+            \item[GOAL-14] The Third-Party shall be able to activate Automated-SOS service.
+            \item[GOAL-15] The Individual shall be able to activate Automated-SOS service.
+            \item[GOAL-16] The Dispatcher shall be able to assign an ambulance to an incident.
+            \item[GOAL-17] The Organizer shall be able to create a run.
+            \item[GOAL-18] The Organizer should be able to start a run.
+            \item[GOAL-19] The Organizer should be able to delete a run.
+            \item[GOAL-20] The Athlete should be able to enroll a run.
+            \item[GOAL-21] The Athlete should be able to unroll a run
+            \item[GOAL-22] The Spectator/Organizer shall be able to watch a run.
         \end{description}
     
     \subsection{Document Overview}
@@ -154,7 +159,7 @@
                 \item[A-n]: Assumption number n
                 \item[C-n]: Constraint number n
                 \item[D-n]: Dependency number n
-                \item[G-n]: Goal number n
+                \item[GOAL-n]: Goal number n
                  \item [REQ-n]: Functional Requirement number n
             \end{description}
             
@@ -376,7 +381,7 @@
         
         \subsubsection{Individual Registration}
 		\begin{description}
-        	\item[G-01] The system should allow a guest to register as an Indivdiual 
+        	\item[GOAL-01] The system should allow a guest to register as an Indivdiual 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -415,7 +420,7 @@
       \end{usecase}
         
         \begin{description}
-        	\item[G-02] The system should allow a guest to register as an Third-Party 
+        	\item[GOAL-02] The system should allow a guest to register as an Third-Party 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -460,7 +465,7 @@
         
         
         \begin{description}
-        	\item[G-03] The guest should be able to sign in into the application. 
+        	\item[GOAL-03] The guest should be able to sign in into the application. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -496,7 +501,7 @@
         \subsubsection{Profile Management }
         
         \begin{description}
-        	\item[G-04] The user should be able to change his username using the application. 
+        	\item[GOAL-04] The user should be able to change his username using the application. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -529,7 +534,7 @@
        \end{usecase}
        
                \begin{description}
-        	\item[G-05] The user should be able to change his password using the application. 
+        	\item[GOAL-05] The user should be able to change his password using the application. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -567,7 +572,7 @@
        \end{usecase}
        
         \begin{description}
-        	\item[G-06] The user should be able to log-out from the system. 
+        	\item[GOAL-06] The user should be able to log-out from the system. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -592,7 +597,7 @@
         \end{usecase}
        
        \begin{description}
-        	\item[G-07] The individual should be able to change his personal data. 
+        	\item[GOAL-07] The individual should be able to change his personal data. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -626,7 +631,7 @@
        \end{usecase}
        
        \begin{description}
-        	\item[G-08] The Third-Party should be able to change his personal data. 
+        	\item[GOAL-08] The Third-Party should be able to change his personal data. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -662,7 +667,7 @@
         \subsubsection{Data4Help}
       
             \begin{description}
-        	\item[G-09] The Third-Party should be able to send requests to the individuals. 
+        	\item[GOAL-09] The Third-Party should be able to send requests to the individuals. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -693,7 +698,7 @@
         \end{usecase}
         
         \begin{description}
-        	\item[G-10] The Third-Party should be able to make group requests. 
+        	\item[GOAL-10] The Third-Party should be able to make group requests. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -728,7 +733,7 @@
         \end{usecase}
         
                 \begin{description}
-        	\item[G-11] The Third-Party should be able to subscribe to new data, once an Individual request is made. 
+        	\item[GOAL-11] The Third-Party should be able to subscribe to new data, once an Individual request is made. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -761,7 +766,7 @@
         \end{usecase}
         
         \begin{description}
-        	\item[G-12] The Individual should be able to accept or reject a request coming from a Third-Party. 
+        	\item[GOAL-12] The Individual should be able to accept or reject a request coming from a Third-Party. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -804,7 +809,7 @@
         \subsubsection{Connection of External Devices}
 
  \begin{description}
-        	\item[G-13] The Individual shall be able connect an external device to the system.
+        	\item[GOAL-13] The Individual shall be able connect an external device to the system.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -847,7 +852,7 @@
         \subsubsection{Automated-SOS }
         
          \begin{description}
-        	\item[G-14] The Third-Party shall be able to activate Automated-SOS service.
+        	\item[GOAL-14] The Third-Party shall be able to activate Automated-SOS service.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -877,7 +882,7 @@
         \end{usecase}
   
            \begin{description}
-        	\item[G-15] The Individual shall be able to activate Automated-SOS service.
+        	\item[GOAL-15] The Individual shall be able to activate Automated-SOS service.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -909,7 +914,7 @@
         \end{usecase}
         
          \begin{description}
-        	\item[G-16] The Dispatcher shall be able to assign an ambulance to an incident.
+        	\item[GOAL-16] The Dispatcher shall be able to assign an ambulance to an incident.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -949,7 +954,7 @@
         \subsubsection{Track4Run}
         
          \begin{description}
-        	\item[G-17] The Organizer shall be able to create a run.
+        	\item[GOAL-17] The Organizer shall be able to create a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -987,7 +992,7 @@
         
         
         \begin{description}
-        	\item[G-18] The Organizer should be able to start a run.
+        	\item[GOAL-18] The Organizer should be able to start a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -1021,7 +1026,7 @@
         \end{usecase}
         
         \begin{description}
-        	\item[G-19] The Organizer should be able to delete a run.
+        	\item[GOAL-19] The Organizer should be able to delete a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -1054,7 +1059,7 @@
         \end{usecase}
         
        \begin{description}
-        	\item[G-20] The Athlete should be able to enroll a run.
+        	\item[GOAL-20] The Athlete should be able to enroll a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -1082,18 +1087,18 @@
         \end{usecase}
         
         \begin{description}
-        	\item[G-20] The Athlete should be able to enroll a run.
+        	\item[GOAL-21] The Athlete should be able to unroll a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-26] Track4Run must allow the Athlete to enroll a run.
+                	\item[REQ-26] Track4Run must allow the Athlete to unroll a run.
                 	\end{description}
                 	\item
                 	\begin{description}
                 	\item[A-7] The user shall be logged in the system         \end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The run should be created  
+                	\item[A-18] The Athlete should be enrolled to the run  
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1110,7 +1115,7 @@
         \end{usecase}
         
         \begin{description}
-        	\item[G-20] The Spectator/Organizer shall be able to watch a run.
+        	\item[GOAL-22] The Spectator/Organizer shall be able to watch a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
