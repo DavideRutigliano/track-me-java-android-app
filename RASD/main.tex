@@ -23,6 +23,7 @@
 
 \begin{document}
 \setlist[enumerate]{label=\alph*),leftmargin=0.4cm, topsep=0cm}
+\setlist[itemize]{leftmargin=0.4cm, topsep=0cm}
 \setlength{}{}
 \pagenumbering{none}
 \include{frontpage}
@@ -45,7 +46,7 @@
 \section{Introduction}
 
     \subsection{Purpose}
-    This Requirement Analysis and Specification Document is aimed at modeling and describing the system itself, its requirements, its constraints, its components and how it interacts with the world and the users. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee. 
+    This Requirement Analysis and Specification Document \cite{ieee1998ieee} is aimed at modeling and describing the system itself, its requirements, its constraints, its components and how it interacts with the world and the users. Moreover, this specifications also addresses some relevant QoS characteristics that the system should guarantee. 
         
     This document is directed and highly recommended to software designers and developers interested in the design and deployment of the proposed system.
     
@@ -74,7 +75,8 @@
         \begin{tabular}{|l|l|l|l|}
         \hline
          \textbf{Phenomenon} & \textbf{World} & \textbf{Machine} & \textbf{Shared}\\ \hline
-         Registration/Login/Manage Profile & & & X \\ \hline
+         Registration/Login/Log-out & & & X \\ \hline
+         Manage Profile/Change Credentials & & & X \\ \hline
          Application logic & & X & \\ \hline
          Accept/Refuse/Send Request & & & X \\ \hline
          Database Query & & X & \\ \hline
@@ -138,6 +140,8 @@
                     
                     \item[\textbf{Map}] The map of the predefined track of the run with athletes' positions
                     
+                    \item[Accident] An event triggered when the monitored user's parameter overcome certain thresholds
+                    
                     \item[\textbf{TrackMe}] the \textit{"system to be"}
                     
                     \item[\textbf{Data4Help}] a data monitoring service provided by \textit{TrackMe}
@@ -147,6 +151,8 @@
                     \item[\textbf{Track4Run}] run management service offered by \textit{TrackMe} application
                     
                     \item[\textbf{Credential}] as used in this document, is a combination of both username and password used by an \textit{User} to authenticate him/herself during the Log-in phase
+                    
+                    \item[\textbf{Personal Data}] users' data of different kind either for Individuals (name, surname, age, etc.) or for Third-Parties such as Organization name, number of employees or VAT number
                 \end{description}
                 
             \subsubsection{Abbreviations}
@@ -170,9 +176,12 @@
                 \acro{NFC}{Near Field Communication}
                 \acro{GPS}{Global Positioning System}
                 \acro{HTTP}{Hyper Text Transfer Protocol}
-                \acro{HTTP}{Hyper Text Transfer Protocol over SSL}
+                \acro{HTTPS}{Hyper Text Transfer Protocol over SSL}
                 \acro{SSL}{Secure Socket Layer}
                 \acro{SHA}{Secure Hash Algorithm}
+                \acro{SDK}{Software Development Kit}
+                \acro{REST}{REpresentational State Transfer}
+                \acro{API}{Application Programming Interface}
             \end{acronym}
             
     \subsection{References}
@@ -272,6 +281,13 @@
     \subsection{Design and Implementation Constraints}
     \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
     
+        \subsubsection{Standards Compliance}
+        
+        \subsubsection{Hardware Limitations}
+        
+        \subsubsection{Other Constraints}
+        
+    \comment{Don't you think this is a non-functional (performances) requirement?}
     \begin{description}
         \item[C-01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
     \end{description}
@@ -339,14 +355,14 @@
         \subsubsection{Hardware Interfaces}
         The GPS system of the smartphone or the one of the external device (if connected) is needed in order to track customer's position.
         
-        Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system is, of course, connected with and managed by \textit{TrackMe}.
+        Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system and its inter-operability with \textit{TrackMe} are out of scope of this specifications.
         
         \subsubsection{Software Interfaces}
 
         \subsubsection{Communication Interfaces}
         The application shall communicate with the back-end server over HTTPS and may enable O-Auth2 authentication protocol for clients. In order to connect and interact with external devices the mobile application shall also support BT and/or NFC.
         
-        The back-end services connect to the DBMS on the default port.
+        The back-end service should be able to connect with the DBMS on the default port.
 
     \subsection{Functional Requirements}
 
@@ -376,7 +392,7 @@
         
         \subsubsection{Individual Registration}
 		\begin{description}
-        	\item[G-01] The system should allow a guest to register as an Indivdiual 
+        	\item[G-01] The system should allow a guest to register as an Individual 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
@@ -588,7 +604,7 @@
         \bflow{TrackMe provides a box called \textit{'SSN/FC'} where the third party writes the individual \textit{'SSN/FC'}}
         {Third Party presses the \textit{'Submit'} button.}
         {TrackMe sends the data request to the individual and informs the Third-Party user that the operation succeed.}
-        \post{The third party has successfully sent a data request to the individual.}
+        \post{The third party has access to the data of the individual who received the request.}
         \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \end{usecase}
         
@@ -602,7 +618,7 @@
         {Third party fills out the form and then presses the button \textit{'Send Request'}.}
         {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         {TrackMe informs the Third-Party that the operation succeed.}
-        \post{The third party has access to the data of a specific group of individuals.}
+        \post{The third party has access to the data of a specific group of individuals who received the request.}
         \except{If the number of individual selected is lower than 1000 an error message is printed and the request is denied}
         \end{usecase}
         
@@ -773,49 +789,45 @@
         \begin{usecase}{Watch Run}
         \name{Watch Run}
         \brief{A Spectator wants to watch a \textit{run}.}
-        \actor{Spectators.}
+        \actor{Spectator, Organizer.}
         \pre{The Spectators is logged-in and is in the Track4Run section. At least one run has been \textit{Started}.}
         \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
               {Individual selects one run from the list and presses the \textit{'Watch'} button.}
-              {Track4Run now recognize the Individual as a Spectator.}
-        \post{The Spectator successfully spectates the run and he has granted access to the position of all Athletes enrolling the run is deleted.}
+              {Track4Run now recognize the Individual as a Spectator and shows to him a map with all athletes positions.}
+        \post{The Spectator successfully spectates the run.}
         \end{usecase}
         
-        \subsubsection{Sequence Diagrams}
-
-    
-    \subsection{Design Constraints}
-    
-        \subsubsection{Standards Compliance}
         
-        \subsubsection{Hardware Limitations}
-        
-        \subsubsection{Other Constraints}
-    
-    \subsection{Software System Attributes}
+        \subsection{Software System Attributes}
+        \subsubsection{Usability}
+        The software application shall be usable for all people including elder ones and not \textit{computers} or \textit{smart-things} experts.
         
         \subsubsection{Reliability}
-        The system must work without failure in most of the cases. The possibility of a breakdown depends on the stability of the Internet connection and on the availability of the external services such as the Ambulance Dispatcher. In this case the users wont be able to access the system and, in case of an incident, any ambulance will receive a call.
+        The system must work without failure in most of the cases. The possibility of a breakdown depends on the stability of the Internet connection and on the availability of the external services such as the Ambulance Dispatcher. In this case the users wont be able to access the system and, in case of an incident, any ambulance will receive a call. In case of failure the mean time to repair should be a reasonable time, for example less than a week.
+       
         \subsubsection{Availability}
-        To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week.
-        %complete Availability
+        To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week; also ambulances availability must be granted from at least one "ambulance dispatcher". For the two other features \textit{Data4Help} and \textit{Track4Run}, small deviations from this requirement will be acceptable.
+        
         \subsubsection{Security}
         The user allows the system to collect their health data. Furthermore, the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason several security features shall be granted:
        
         \begin{itemize}
-        \item         The users passwords are stored in the database hashed with SHA256\item       The  connection between the clients and servers are encrypted and sent over SSL to guarantee integrity of data. 
+        \item         The users passwords are stored in the database hashed with SHA-2\item       The  connection between the client and server is encrypted and sent over SSL to guarantee integrity of data. 
         \end{itemize}
         
         \subsubsection{Maintainability}
 
-        The system is backed up 2 times a  week. in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in 3 copy and the power supply is provided by a particular system that keeps online at least one database. Moreover an UPS is present. 
+        The system is backed up 2 times a  week, in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in at least two copies and the power supply is provided by a particular system that keeps online at least one database. Moreover, an UPS for each \textit{Data Center} shall be present.
         
         \subsubsection{Portability}
 
-        The system can work both on smart phone and desktop environment. Any personal computer with Java SDK installed can execute TrackMe. Different version of Android and iOS can should support the mobile application.
+        The system can work both on smart phone and desktop environment. Any personal computer with Java SDK installed can execute TrackMe server. Different version of Android and iOS can should support the front-end application.
 
-%terminate portality
+        The developers shall consider that the \textit{E-Health} applications area is a wide but promising market slice thus, in order to be competitive, they should guarantee an high level portability through interactions with other existing widely used software applications and hardware interfaces.
         
+        \subsubsection{Performances Requirements}
+        
+        In case of accident, the application should be able to get users' position and send it to the ambulance dispatcher in reasonable time, then the dispatcher will forward the position to the nearest ambulance; all in less than five seconds.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Formal Analysis using Alloy}
