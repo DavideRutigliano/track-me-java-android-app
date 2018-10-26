@@ -207,27 +207,34 @@
     The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
     
     \subsubsection{Domain Model}
-    \comment{See enhancement \#3 on Git Hub}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth]{images/UML/ClassDiagram.jpg}
+        \caption{Domain Model}
+    \end{figure}
+    
+    \newpage
     
     \subsubsection{State Charts}
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_individualRequest.png}
-        \caption{Individual Request}
+        \caption{State Chart Individual Request}
         \label{fig:state_individual}
     \end{figure}
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_groupRequest.png}
-        \caption{Group Request}
+        \caption{State Chart Group Request}
         \label{fig:state_group}
     \end{figure}
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_run.png}
-        \caption{Run}
+        \caption{State Chart Run}
         \label{fig:state_run}
     \end{figure}
+    \newpage
 
     \subsection{Product Functions}
     \textit{TrackMe} will provide three main services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
@@ -252,37 +259,6 @@
     \paragraph{Track4Run: } the software should provide to users that wants to use \textit{Track4Run} all the facilities they need such as a page for the creation of a new run with all the information (track, date and time) and two different pages to allow both spectators and athletes either watch or enroll/unroll to an existing run.
     
     \textit{Track4Run} is also built on top of \textit{Data4Help} and allows third parties to create new runs where athletes can participate. Athletes' position can be tracked and it will be sent to all spectators that are watching the run on a map.
-    
-    \subsubsection{Domain Model}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth]{images/UML/ClassDiagram.jpg}
-        \caption{Domain Model}
-    \end{figure}
-    
-    \newpage
-    
-    \subsubsection{State Charts}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_individualRequest.png}
-        \caption{State Charts: Individual Request}
-        \label{fig:state_individual}
-    \end{figure}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_groupRequest.png}
-        \caption{State Charts: Group Request}
-        \label{fig:state_group}
-    \end{figure}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_run.png}
-        \caption{State Charts: Run}
-        \label{fig:state_run}
-    \end{figure}
-    
-    \newpage
     
     \subsection{User Characteristics}
         \subsubsection{Data4Help}
