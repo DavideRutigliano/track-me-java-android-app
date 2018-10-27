@@ -92,14 +92,14 @@
         \subsubsection{Goals}
         
         \begin{description}
-            \item[GOAL-01] The system should allow a guest to register as an Indivdiual
-            \item[GOAL-02] The system should allow a guest to register as an Third-Party
+            \item[GOAL-01] Allow a guest to register as an Individual.
+            \item[GOAL-02] Allow a guest to register as an Third-Party.
             \item[GOAL-03] The guest should be able to sign in into the application.
-            \item[GOAL-04] The user should be able to change his username using the application.
-            \item[GOAL-05] The user should be able to change his password using the application.
+            \item[GOAL-04] The user should be able to change his username.
+            \item[GOAL-05] The user should be able to change his password.
             \item[GOAL-06] The user should be able to log-out from the system.
             \item[GOAL-07] The individual should be able to change his personal data.
-            \item[GOAL-08] The Third-Party should be able to change his personal data.
+            \item[GOAL-08] The Third-Party should be able to change his organization data.
             \item[GOAL-09] The Third-Party should be able to send requests to the individuals
             \item[GOAL-10] The Third-Party should be able to make group requests.
             \item[GOAL-11] The Third-Party should be able to subscribe to new data, once an Individual request is made.
@@ -113,7 +113,7 @@
             \item[GOAL-19] The Organizer should be able to delete a run.
             \item[GOAL-20] The Athlete should be able to enroll a run.
             \item[GOAL-21] The Athlete should be able to unroll a run
-            \item[GOAL-22] The Spectator/Organizer shall be able to watch a run.
+            \item[GOAL-22] The Spectator should be able to watch a run.
         \end{description}
     
     \subsection{Document Overview}
@@ -396,11 +396,11 @@
         
         \subsubsection{Individual Registration}
 		\begin{description}
-        	\item[GOAL-01] The system should allow a guest to register as an Indivdiual 
+        	\item[GOAL-01] Allow a guest to register as an Individual.
  \begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-1] A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing his credentials and personal data
+                	\item[REQ-1] A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and his personal data.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -435,11 +435,11 @@
       \end{usecase}
         
         \begin{description}
-        	\item[GOAL-02] The system should allow a guest to register as an Third-Party 
+        	\item[GOAL-02] Allow a guest to register as an Third-Party.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-2] A customer not signed-on must be able to begin the Third-Party's registration process to \textit{TrackMe} providing his credentials and personal data
+                	\item[REQ-2]  A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and its organization data.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -480,19 +480,19 @@
         
         
         \begin{description}
-        	\item[GOAL-03] The guest should be able to sign in into the application. 
+        	\item[GOAL-03] The guest should be able to sign in into the application.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-3] The system must provide a log-in interface for already registered users, not previously signed into the application 
+                	\item[REQ-3] The system must provide a log-in interface for already registered users, not previously signed into the application.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-5] The user should be already registered
+                	\item[A-5] The user is already registered.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-6] Username and password provided shall match the ones previously stored in the database
+                	\item[A-6] Username and password provided shall match the ones previously stored in the registration process.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -516,19 +516,19 @@
         \subsubsection{Profile Management }
         
         \begin{description}
-        	\item[GOAL-04] The user should be able to change his username using the application. 
+        	\item[GOAL-04] The user should be able to change his username.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-4] TrackMe should provide to users the possibility to change his username. 
+                	\item[REQ-4] TrackMe must provide to users the possibility to change their username. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-1] Username must be unique
+                	\item[C-1] Username must be unique.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -549,15 +549,15 @@
        \end{usecase}
        
                \begin{description}
-        	\item[GOAL-05] The user should be able to change his password using the application. 
+        	\item[GOAL-05] The user should be able to change his password.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-5] TrackMe must provide to registered users the possibility to change his password. 
+                	\item[REQ-5] TrackMe must provide to registered users the possibility to change their password. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is be logged in the system.
                 	\end{description}
                 		\item
                 	\begin{description}
@@ -595,7 +595,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -620,7 +620,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -646,19 +646,19 @@
        \end{usecase}
        
        \begin{description}
-        	\item[GOAL-08] The Third-Party should be able to change his personal data. 
+        	\item[GOAL-08] The Third-Party should be able to change his organization data. 
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-8] The system must provide the possibility to change Third Party's personal data. 
+                	\item[REQ-8] The system must provide the possibility to change Third Party's organization data. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-4] Data  provided  by  the  Third-Party  (i.e:  VAT  number)  should be valid
+                	\item[A-4] Data  provided  by  the  Third-Party  (i.e:  VAT  number)  is valid.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -686,15 +686,15 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-9] Data4help must allow the Third-Parties to send a request to a particular individual. 
+                	\item[REQ-9] Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-8] The Third-Party shall provide a SSN/FC of an user already registered into the system
+                	\item[A-8] The Third-Party provides a SSN/FC of an user already registered into the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -755,11 +755,11 @@
                 	\end{description}
                 	\item[\requirement]
                 	\begin{description}
-                	\item[REQ-13]The system must be able to periodically query the database in order to get new data as soon as they are produced
+                	\item[REQ-13] The system must be able to periodically query the database in order to get new data as soon as they are produced.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -784,7 +784,7 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-14] Data4help must allow the Individual to see a list of the received requests. 
+                	\item[REQ-14] Data4help must allow the Individual to see a list of the received requests from Third Parties. 
                 	\end{description}
                 	\item[\requirement]
                 	\begin{description}
@@ -792,7 +792,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -831,19 +831,19 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-11] The device provided by the user shall be compatible with the system
+                	\item[A-11] The device provided by the user is compatible with the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-12] The user should have activated NFC or Bluetooth on the mobile device
+                	\item[A-12] The user has activated NFC or Bluetooth on the mobile device.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-13] The user should have activated NFC or Bluetooth on the external device
+                	\item[A-13] The user has activated NFC/Bluetooth on the external device.
                 	\end{description}
                 	\end{itemize}
         \end{description}.
@@ -878,7 +878,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}.
@@ -908,7 +908,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -944,7 +944,8 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-15] The dispatcher shall access to the system         \end{description}
+                	\comment{check this again}
+                	\item[A-15] The dispatcher shall access to the system  (???)       \end{description}
                 	\item
                 	\begin{description}
                 	\item[A-16]  The dispatcher is able to communicate with both the individual and the ambulance associated with the accident
@@ -972,7 +973,7 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-22] Track4Run must allow the organizer to create a run.
+                	\item[REQ-22] Track4Run must allow the organizer to create a run with a date, time, duration and a path.
                 	\end{description}
                 	\item[\requirement]
                 	\begin{description}
@@ -980,10 +981,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item[A-7] The user is logged in the system.
+                	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-17] The organizer should provide a valid path  
+                	\item[A-17] The organizer provides a not empty path.
                 	\end{description}
                 	
                 	\end{itemize}
@@ -1014,14 +1016,15 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item[A-7] The user is logged in the system.
+                	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The run should be created  
+                	\item[A-18] The Organizer has already created a run.  
                 	\end{description}
                 	item
                 	\begin{description}
-                	\item[A-19] At least to athlete are enrolled in the run
+                	\item[A-19] At least two athletes are enrolled in the run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1048,14 +1051,15 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
-                	\item
-                	\begin{description}
-                	\item[A-18] The run should have been created  
+                	\item[A-7] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-20] The run should have not been started.
+                	\item[A-18] The Organizer has already created a run.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[C-??] The run must have not been started.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1081,10 +1085,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item[A-7] The user is logged in the system.
+                	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The run should have been created  
+                	\item[A-??] There is at least one created run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1137,7 +1142,8 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item[A-7] The user is logged in the system.
+                	\end{description}
                 	\item
                 	\begin{description}
                 	\item[A-21] The run should be started  
