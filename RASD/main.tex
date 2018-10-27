@@ -282,33 +282,51 @@
             \item \textbf{Spectator:} an \textit{Individual} that joined a started run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
         
+        
+    \commennt{WRONG SECTION: should be in 3.D}
     \subsection{Design and Implementation Constraints}
     \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
     
         \subsubsection{Standards Compliance}
         
         \subsubsection{Hardware Limitations}
-        
-        \subsubsection{Other Constraints}
-        
-    \comment{Don't you think this is a non-functional (performances) requirement?}
-    \begin{description}
-        \item[C-01] If an individual's health parameters are below ....... an ambulance must be called in less than 5 seconds.
-    \end{description}
     
-    \subsection{Assumptions and Dependencies}
+    \subsection{Assumptions, Dependencies and Constraints}
     \comment{<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>}
 
         \begin{description}
-        \item[A-01] Individual data acquisition consists in ...................
-        \item[A-02] In order to access the system a Guest must provide a valid username and its associated password.
-        \item[A-03]
-        \item[A-02] At least one ambulance is always available.
-        \item[A-03]
-    \end{description}
+        \item[A-01] The field Password and Repeat Password match.
+        \item[A-02] Data provided by the individual, such as email and SSN, is valid.
+        \item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
+        \item[A-04] The user is already registered.
+        \item[A-05] Username and password provided match the ones previously stored in the registration process.
+        \item[A-06] The user is logged in the system.
+        \item[A-07] The Third-Party provides a SSN/FC of an user already registered into the system.
+        \item[A-08] The Third-Party provides not contradictory criteria for the selection of the group of individuals.
+        \item[A-09] The Third-Party has sent at least a request to the user whose data she wants to subscribe.
+        \item[A-10] The external device provided by the user is compatible with the system.
+        \item[A-11] The user has activated NFC or Bluetooth on the mobile device.
+        \item[A-12] The user has activated NFC/Bluetooth on the external device.
+        \item[A-13] An Automated-SOS service is enabled from at least one Third Party.
+        \comment{check this again}
+        \item[A-14] The dispatcher shall access to the system  (???)
+        \item[A-15] The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.
+        \item[A-16] The organizer defines a not empty path.
+        \item[A-17] The Organizer has already created a run.
+        \item[A-18] At least two athletes are enrolled in the run.
+        \item[A-19] There is at least one created run.
+        \item[A-20] The Athlete is enrolled to at least one run.
+        \item[A-21] There is at least one started run.
+        \end{description}
     
         \begin{description}
-            \item[D-01] An Athlete can enroll a run only if 
+        \item
+        \end{description}
+        
+        \begin{description}
+        \item[C-01] Username must be unique.
+        \item[C-02] Password must have at least 8 alphanumerical characters.
+        \item[C-03] The run must have not been started.
         \end{description}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -397,26 +415,26 @@
         \subsubsection{Individual Registration}
 		\begin{description}
         	\item[GOAL-01] Allow a guest to register as an Individual.
- \begin{itemize}
+                    \begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-1] A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and his personal data.
+                	\item[REQ-01] A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and his personal data.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-1] Username must be unique
+                	\item[C-01] Username must be unique.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-1] Password should be at least 8 alphanumerical
+                	\item[C-02] Password must have at least 8 alphanumerical characters.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-2] The field Password and Repeat Password shall match
+                	\item[A-01] The field Password and Repeat Password match.
                 	\end{description}
-            	    \item
+                	\item
                 	\begin{description}
-                	\item[A-3] Data provided by the individual, such as email and SSN, shall be valid
+                	\item[A-02] Data provided by the individual, such as email and SSN, is valid.
                 	\end{description}
                 	\end{itemize}
         \end{description} 
@@ -439,23 +457,23 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-2]  A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and its organization data.
+                	\item[REQ-02]  A customer not signed-on must be able to begin the individual's registration process to \textit{TrackMe} providing a username, a password and its organization data.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-1] Username must be unique
+                	\item[C-01] Username must be unique.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-1] Password should be at least 8 alphanumerical
+                	\item[C-02] Password must have at least 8 alphanumerical characters.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-2] The field Password and Repeat Password shall match
+                	\item[A-01] The field Password and Repeat Password match.
                 	\end{description}
             	    \item
                 	\begin{description}
-                	\item[A-4] Data provided by the Third-Party (i.e: VAT number) should be valid
+                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
                 	\end{description}
                 \end{itemize}
         \end{description}
@@ -484,15 +502,15 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-3] The system must provide a log-in interface for already registered users, not previously signed into the application.
+                	\item[REQ-03] The system must provide a log-in interface for already registered users, not previously signed into the application.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-5] The user is already registered.
+                	\item[A-04] The user is already registered.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-6] Username and password provided shall match the ones previously stored in the registration process.
+                	\item[A-05] Username and password provided match the ones previously stored in the registration process.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -520,23 +538,23 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-4] TrackMe must provide to users the possibility to change their username. 
+                	\item[REQ-04] TrackMe must provide to users the possibility to change their username. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-1] Username must be unique.
+                	\item[C-01] Username must be unique.
                 	\end{description}
                 	\end{itemize}
         \end{description}
         
         
         
-       \begin{usecase}{Change username}
-        \name{Change username}
+       \begin{usecase}{User Changes Username}
+        \name{User Changes Username}
         \brief{A user changes his username}
         \actor{User.}
         \pre{The User is logged in the system and is in the change credentials section.}
@@ -553,27 +571,23 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-5] TrackMe must provide to registered users the possibility to change their password. 
+                	\item[REQ-05] TrackMe must provide to registered users the possibility to change their password. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is be logged in the system.
-                	\end{description}
-                		\item
-                	\begin{description}
-                	\item[A-1] Password should be at least 8 alphanumerical
+                	\item[A-05] Username and password provided match the ones previously stored in the registration process.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-2] The field Password and Repeat Password must match
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
        
        
        
-       \begin{usecase}{Change password}
-        \name{Change password}
+       \begin{usecase}{User Changes password}
+        \name{User Changes  password}
         \brief{A user changes his password}
         \actor{User.}
         \pre{The User is logged in the system and is in the change credentials section.}
@@ -591,17 +605,17 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-6] The system must provide the possibility to the user of logging out. 
+                	\item[REQ-06] The system must provide the possibility to the user of logging out. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
               
-       \begin{usecase}{Log-out}
-        \name{log-out}
+       \begin{usecase}{User Log-out}
+        \name{User Log-out}
         \brief{A user logs out from the system}
         \actor{User.}
         \pre{The User is logged in the system and is on the main page.}
@@ -616,15 +630,15 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-7] The system must provide the possibility to change Individual's personal data. 
+                	\item[REQ-07] The system must provide the possibility to change Individual's personal data. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-02] Data provided by the individual, such as email and SSN, is valid.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-3] Data provided by the individual, such as email and SSN, shall be valid
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -650,15 +664,15 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-8] The system must provide the possibility to change Third Party's organization data. 
+                	\item[REQ-08] The system must provide the possibility to change Third Party's organization data. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-4] Data  provided  by  the  Third-Party  (i.e:  VAT  number)  is valid.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -686,15 +700,15 @@
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-9] Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC. 
+                	\item[REQ-09] Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC. 
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system
+                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-8] The Third-Party provides a SSN/FC of an user already registered into the system.
+                	\item[A-07] The Third-Party provides a SSN/FC of an user already registered into the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -724,11 +738,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-9] The Third-Party shall provide valid criteria for the selection of the group of individuals
+                	\item[A-08] The Third-Party provides not contradictory criteria for the selection of the group of individuals.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -759,11 +773,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-10] The Third-Party should have sent at least a request to the user whose data she wants to subscribe
+                	\item[A-09] The Third-Party has sent at least a request to the user whose data she wants to subscribe.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -792,7 +806,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -831,19 +845,19 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-11] The device provided by the user is compatible with the system.
+                	\item[A-10] The external device provided by the user is compatible with the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-12] The user has activated NFC or Bluetooth on the mobile device.
+                	\item[A-11] The user has activated NFC or Bluetooth on the mobile device.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-13] The user has activated NFC/Bluetooth on the external device.
+                	\item[A-12] The user has activated NFC/Bluetooth on the external device.
                 	\end{description}
                 	\end{itemize}
         \end{description}.
@@ -878,7 +892,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}.
@@ -908,7 +922,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -940,17 +954,16 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-14] An SOS service is enabled from at least one third party
+                	\item[A-14] An Automated-SOS service is enabled from at least one Third Party.
                 	\end{description}
                 	\item
                 	\begin{description}
                 	\comment{check this again}
-                	\item[A-15] The dispatcher shall access to the system  (???)       \end{description}
+                	\item[A-14] The dispatcher shall access to the system  (???)       \end{description}
                 	\item
                 	\begin{description}
-                	\item[A-16]  The dispatcher is able to communicate with both the individual and the ambulance associated with the accident
+                	\item[A-15] The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.
                 	\end{description}
-                	
                 	\end{itemize}
         \end{description}
         
@@ -981,11 +994,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-17] The organizer provides a not empty path.
+                	\item[A-17] The organizer defines a not empty path.
                 	\end{description}
                 	
                 	\end{itemize}
@@ -1016,15 +1029,15 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The Organizer has already created a run.  
+                	\item[A-17] The Organizer has already created a run.  
                 	\end{description}
                 	item
                 	\begin{description}
-                	\item[A-19] At least two athletes are enrolled in the run.
+                	\item[A-18] At least two athletes are enrolled in the run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1051,15 +1064,15 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The Organizer has already created a run.
+                	\item[A-17] The Organizer has already created a run.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-??] The run must have not been started.
+                	\item[C-03] The run must have not been started.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1085,11 +1098,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user is logged in the system.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-??] There is at least one created run.
+                	\item[A-19] There is at least one created run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1114,10 +1127,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-7] The user shall be logged in the system         \end{description}
+                	\item[A-06] The user is logged in the system.
+                	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-18] The Athlete should be enrolled to the run  
+                	\item[A-20] The Athlete is enrolled to at least one run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1134,11 +1148,11 @@
         \end{usecase}
         
         \begin{description}
-        	\item[GOAL-22] The Spectator/Organizer shall be able to watch a run.
+        	\item[GOAL-22] The Spectator shall be able to watch a run.
             	\begin{itemize}
             	    \item[\requirement]
                 	\begin{description}
-                	\item[REQ-26] Track4Run must allow both the Spectator and the Organizer to see the position of the Athletes on a map during a run.
+                	\item[REQ-26] Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -1146,7 +1160,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-21] The run should be started  
+                	\item[A-21] There is at least one started run.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1154,7 +1168,7 @@
         \begin{usecase}{Watch Run}
         \name{Watch Run}
         \brief{A Spectator wants to watch a \textit{run}.}
-        \actor{Spectator/Organizer.}
+        \actor{Spectator.}
         \pre{The Spectators is logged-in and is in the Track4Run section. At least one run has been \textit{Started}.}
         \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
               {Individual selects one run from the list and presses the \textit{'Watch'} button.}
