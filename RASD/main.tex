@@ -248,8 +248,8 @@
     
     The application should also provide to third-parties two possible data request options:
     \begin{itemize}
-        \item individual data request: sent directly to the individual if they know an  individual by his/her social security number or fiscal code in Italy;
-        \item group data request: access  to  anonymous  data  of  groups  of  individuals, if \textit{TrackMe}  that  approves  them  if  it  is  able  to  properly  anonymize  the  requested  data.
+        \item Individual Data request: sent directly to the individual if they know an  individual by his/her social security number or fiscal code in Italy;
+        \item Group Data request: access  to  anonymous  data  of  groups  of  individuals, if \textit{TrackMe}  that  approves  them  if  it  is  able  to  properly  anonymize  the  requested  data.
     \end{itemize}
     
     \paragraph{Automated-SOS:} the system implements \textit{Data4Help} services to manage individual's personal data and provide them to third-parties who requested for. In addition, there should be an interface both for third-party and individual users registered to \textit{Data4Help} that wants to enable an \textit{Automated-SOS} service. This feature should be able to use users' data to monitor their health status and, when such parameters are below certain thresholds, sends the location of the customer to an ambulance. Thus, the application should be able to interact with the GPS system of the customers' devices.
@@ -283,8 +283,9 @@
         \end{itemize}
         
         
-    \commennt{WRONG SECTION: should be in 3.D}
+    
     \subsection{Design and Implementation Constraints}
+    \comment{WRONG SECTION: should be in 3.D}
     \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
     
         \subsubsection{Standards Compliance}
@@ -305,7 +306,7 @@
         \item[A-08] The Third-Party provides not contradictory criteria for the selection of the group of individuals.
         \item[A-09] The Third-Party has sent at least a request to the user whose data she wants to subscribe.
         \item[A-10] The external device provided by the user is compatible with the system.
-        \item[A-11] The user has activated NFC or Bluetooth on the mobile device.
+        \item[A-11] The user has activated NFC/Bluetooth on the mobile device.
         \item[A-12] The user has activated NFC/Bluetooth on the external device.
         \item[A-13] An Automated-SOS service is enabled from at least one Third Party.
         \comment{check this again}
@@ -853,7 +854,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-11] The user has activated NFC or Bluetooth on the mobile device.
+                	\item[A-11] The user has activated NFC/Bluetooth on the mobile device.
                 	\end{description}
                 	\item
                 	\begin{description}
