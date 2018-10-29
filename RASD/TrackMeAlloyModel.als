@@ -59,10 +59,10 @@ sig Run{
 
 abstract sig RunState{}
 
-sig Created extends RunState{}
-sig Started extends RunState{}
-sig Closed extends RunState{}
-sig Deleted extends RunState{}
+one sig Created extends RunState{}
+one sig Started extends RunState{}
+one sig Closed extends RunState{}
+one sig Deleted extends RunState{}
 
 sig Athlete extends Individual{
 	enrolledRuns: set Run
@@ -76,44 +76,31 @@ sig Organizer extends Individual{
 	organizedRuns : set Run
 }
 
----------------------> FACTS <---------------------
-
-fact dataAtomicity{
-	all u:Username | some user:User | user.username = u
-	all p:Password | some user:User | user.password = p
-	all n:Name | some i:Individual | i.name = n
-	all n:OrganizationName | some t:ThirdParty | t.organization = n
-	all s:Ssn | some i:Individual | i.ssn = s
-	all v:Vat | some t:ThirdParty | t.vat= v
-	all t:Track | some r:Run | r.track = t
-	all d:Duration | some r:Run | r.duration = d	
-	all d:Date | some r:Run | r.date = d	
-	all t:Time | some r:Run | r.time = t		
-}
+-----------------------> FACTS <-----------------------
 
 fact dataUniqueness{
-	no disj u1,u2: User | u1.username = u2.username 						//username
-	no disj i1,i2: Individual | i1.ssn = i2.ssn											//SSN
-	no disj p1,p2: ThirdParty | p1.vat = p2.vat										//VAT
-	no disj p1,p2: ThirdParty | p1.organization = p2.organization		//organization name
+	no disj u1,u2: User | u1.username = u2.username //username
+	no disj i1,i2: Individual | i1.ssn = i2.ssn //SSN
+	no disj p1,p2: ThirdParty | p1.vat = p2.vat //VAT
+	no disj p1,p2: ThirdParty | p1.organization = p2.organization //organization name
 }
 
---------------------- DATA4HELP ---------------------
+----------------------- DATA4HELP -----------------------
 
 fact individualRequestsAreUnary{
 	all r:IndividualRequest | #r.receiver = 1
 }
 
 fact sentRequestAreRecorded{
-	all r: Request, t: ThirdParty | r in t.sentRequests iff r.sender = t
+	all r: Request, t: ThirdParty | (r in t.sentRequests) iff (r.sender = t)
 }
 
 fact receivedRequestAreRecorded {
-	all r: IndividualRequest, i: Individual | r in i.incomingRequests iff r.receiver = i
+	all r: IndividualRequest, i: Individual |( r in i.incomingRequests) iff (r.receiver = i)
 }
 
 fact requestSsnPointAtCorrectReceiver{
-	all r: IndividualRequest, i: Individual | r.ssn = i.ssn iff i.ssn = r.receiver.ssn
+	all r: IndividualRequest, i: Individual | (r.ssn = i.ssn) iff (i.ssn = r.receiver.ssn)
 }
 
 -- a groupRequest will be accepted only if it is anonymous
@@ -126,7 +113,7 @@ fact subscriptionMustBeAccepted{
 	all t:ThirdParty, i:Individual, r:IndividualRequest | i in t.subscribedUsers => (requestBetween[r, t, i] and isTrue[r.accepted])
 }
 
---------------------- AUTOMATEDSOS ---------------------
+----------------------- AUTOMATEDSOS -----------------------
 
 -- a Third party can provide only one automated-sos service
 fact uniqueAutomatedSosService {
@@ -148,10 +135,10 @@ fact onlyAvailableAmbulances{
 	all a: Ambulance, s: AutomatedSos | a in s.ambulances => isTrue[a.available]
 }
 
---------------------- TRACK4RUN ---------------------
+----------------------- TRACK4RUN -----------------------
 
 fact organizedRunsAreRecorded{
-	all r:Run, o:Organizer | r.organizer = o iff r in o.organizedRuns
+	all r:Run, o:Organizer | (r.organizer = o) iff (r in o.organizedRuns)
 }
 
 -- there can't exist two runs that have the same track in the same date
@@ -184,16 +171,15 @@ fact athletesEnrollOnlyCreatedRuns{
 	all a:Athlete, r:Run | r in a.enrolledRuns => r.state = Created 
 }
 
-
 -- spectator can enroll to a run only if that run state is "started"
 fact spectatorsEnrollOnlyCreatedRuns{
 	all s:Spectator, r:Run | r in s.watchedRuns => r.state = Started 
 }
 
 
----------------------> PREDICATES <---------------------
+-----------------------> PREDICATES <-----------------------
 
---------------------- DATA4HELP ---------------------
+----------------------- DATA4HELP -----------------------
 
 pred isSameRequest[r1,r2:Request]{
 	r1.receiver = r2.receiver and r1.sender = r2.sender	
@@ -211,7 +197,7 @@ pred hasAnonimity[r: GroupRequest]{
 	#r.receiver > 1000	
 }
 
---------------------- AUTOMATED-SOS ---------------------
+----------------------- AUTOMATED-SOS -----------------------
 
 pred enabledService[a: AutomatedSos, p: ThirdParty]{
 	a.provider = p
@@ -221,7 +207,7 @@ pred isCustomer[i:Individual, a:AutomatedSos]{
 	i in a.customers		
 }
 
---------------------- TRACK4RUN ---------------------
+----------------------- TRACK4RUN -----------------------
 
 pred isSameIndividual[s:Spectator, a:Athlete]{
 	s.ssn = a.ssn
@@ -251,7 +237,7 @@ pred isSameRun [r1, r2 : Run]{
 	isSameDate[r1,r2] and r1.track = r2.track	
 }
 
-------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 pred disableData4Help{
 	#Request = 0
 	#ThirdParty.subscribedUsers = 0
