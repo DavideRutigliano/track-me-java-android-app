@@ -1253,56 +1253,41 @@
     classoffset=0,
 }
 \subsection{Signatures}
-    \lstinputlisting[language=Alloy, caption=Data4Help: model definition, firstline=0, lastline=78]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Data4Help model definition, firstline=0, lastline=38]{TrackMeAlloyModel.als}
     
-    \lstinputlisting[language=Alloy, caption=Data4Help: single individual request, firstline=79, lastline=100]{TrackMeAlloyModel.als}
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/makeOneRequest.png}
-    \end{figure}
+    \lstinputlisting[language=Alloy, caption=Automated-SOS model definition, firstline=38, lastline=48]{TrackMeAlloyModel.als}
     
-    \lstinputlisting[language=Alloy, caption=Data4Help: complete, firstline=119, lastline=125]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Track4Run model definition, firstline=49, lastline=78]{TrackMeAlloyModel.als}
+    
+    \newpage
+\subsection{Facts}
+    \lstinputlisting[language=Alloy, caption=Common facts, firstline=79, lastline=100]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Data4Help facts, firstline=101, lastline=128]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Automated-SOS facts, firstline=129, lastline=151]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Track4Run facts, firstline=152, lastline=194]{TrackMeAlloyModel.als}
+    
+    \newpage
+\subsection{Predicates}
 
-\subsection{Automated-SOS}
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: model definition, firstline=127, lastline=167]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Data4Help predicates, firstline=195, lastline=214]{TrackMeAlloyModel.als}
     
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: enable automated-sos, firstline=168, lastline=172]{TrackMeAlloyModel.als}
+    \lstinputlisting[language=Alloy, caption=Automated-SOS predicates, firstline=215, lastline=224]{TrackMeAlloyModel.als}
+    
+    \lstinputlisting[language=Alloy, caption=Track4Run predicates, firstline=225, lastline=254]{TrackMeAlloyModel.als}
+    
+    \newpage
+\subsection{Worlds}
+
     \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm]{images/alloy/enableSos.png}
     \end{figure}
-    
-    \lstinputlisting[language=Alloy, caption=Automated-SOS: run Automated-SOS, firstline=173, lastline=178]{TrackMeAlloyModel.als}
     \begin{figure}[!h]
     	\centering
     	\includegraphics[width=100mm]{images/alloy/runSos.png}
-    \end{figure}
-
-\subsection{Track4Run}
-    \lstinputlisting[language=Alloy, caption=Track4Run: model definition, firstline=179, lastline=223]{TrackMeAlloyModel.als}
-    
-    \lstinputlisting[language=Alloy, caption=Track4Run: create a new run, firstline=224, lastline=230]{TrackMeAlloyModel.als}
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/createRun.png}
-    \end{figure}
-    
-    \lstinputlisting[language=Alloy, caption=Track4Run: enroll to a run, firstline=232, lastline=239]{TrackMeAlloyModel.als}
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/enrollRun.png}
-    \end{figure}
-    
-    \lstinputlisting[language=Alloy, caption=Track4Run: watch run, firstline=240, lastline=249]{TrackMeAlloyModel.als}
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/watchRun.png}
-    \end{figure}
-    
-    \lstinputlisting[language=Alloy, caption=TrackMe: complete, firstline=250, lastline=259]{TrackMeAlloyModel.als}
-    \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=100mm]{images/alloy/trackMe.png}
     \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
