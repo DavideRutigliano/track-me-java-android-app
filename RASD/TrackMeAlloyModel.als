@@ -197,7 +197,7 @@ pred hasAnonimity[r: GroupRequest]{
 	#r.receiver > 1000	
 }
 
------------------------ AUTOMATED-SOS -----------------------
+-------------------- AUTOMATED-SOS ---------------------
 
 pred enabledService[a: AutomatedSos, p: ThirdParty]{
 	a.provider = p
@@ -237,7 +237,7 @@ pred isSameRun [r1, r2 : Run]{
 	isSameDate[r1,r2] and r1.track = r2.track	
 }
 
------------------------------------------------------------------------------------------
+---------------------------------------------------------
 pred disableData4Help{
 	#Request = 0
 	#ThirdParty.subscribedUsers = 0
