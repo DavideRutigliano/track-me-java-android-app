@@ -76,7 +76,7 @@ sig Organizer extends Individual{
 	organizedRuns : set Run
 }
 
--->FACTS<--
+----------------->FACTS<-----------------
 
 fact dataAtomicity{
 	all u:Username | some user:User | user.username = u
@@ -98,7 +98,7 @@ fact dataUniqueness{
 	no disj p1,p2: ThirdParty | p1.organization = p2.organization		//organization name
 }
 
---DATA4HELP--
+-----------------DATA4HELP-----------------
 
 fact individualRequestsAreUnary{
 	all r:IndividualRequest | #r.receiver = 1
@@ -126,7 +126,7 @@ fact subscriptionMustBeAccepted{
 	all t:ThirdParty, i:Individual, r:IndividualRequest | i in t.subscribedUsers => (requestBetween[r, t, i] and isTrue[r.accepted])
 }
 
---AUTOMATEDSOS--
+-----------------AUTOMATEDSOS-----------------
 
 -- a Third party can provide only one automated-sos service
 fact uniqueAutomatedSosService {
@@ -149,7 +149,7 @@ fact onlyAvailableAmbulances{
 }
 
 
---TRACK4RUN--
+-----------------TRACK4RUN-----------------
 
 fact organizedRunsAreRecorded{
 	all r:Run, o:Organizer | r.organizer = o iff r in o.organizedRuns
@@ -192,9 +192,9 @@ fact spectatorsEnrollOnlyCreatedRuns{
 }
 
 
--->PREDICATES<--
+----------------->PREDICATES<-----------------
 
---DATA4HELP--
+-----------------DATA4HELP-----------------
 
 pred isSameRequest[r1,r2:Request]{
 	r1.receiver = r2.receiver and r1.sender = r2.sender	
@@ -212,7 +212,7 @@ pred hasAnonimity[r: GroupRequest]{
 	#r.receiver > 1000	
 }
 
---AUTOMATED-SOS--
+-----------------AUTOMATED-SOS-----------------
 
 pred enabledService[a: AutomatedSos, p: ThirdParty]{
 	a.provider = p
@@ -222,7 +222,7 @@ pred isCustomer[i:Individual, a:AutomatedSos]{
 	i in a.customers		
 }
 
---TRACK4RUN--
+-----------------TRACK4RUN-----------------
 
 pred isSameIndividual[s:Spectator, a:Athlete]{
 	s.ssn = a.ssn
