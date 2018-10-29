@@ -117,17 +117,17 @@ fact subscriptionMustBeAccepted{
 
 -- a Third party can provide only one automated-sos service
 fact uniqueAutomatedSosService {
-	no disj a1, a2: AutomatedSos | all t: ThirdParty | enabledService[a1, t] and enabledService[a2, t]
+	all t: ThirdParty | no disj a1, a2: AutomatedSos | enabledService[a1, t] and enabledService[a2, t]
 }
 
 -- an Individual can be an Automated-SOS customer only if he has activated the service
 fact enabledSosMeansCustomer{
-	all a: AutomatedSos, i: Individual | i in a.customers => isTrue[i.enableSos] 
+	all a: AutomatedSos, i: Individual | isCustomer[i, a] => isTrue[i.enableSos] 
 }
 
 -- an Individual can be subscribed to only one Automated-SOS provider
 fact justOneAutomatedSosSub{
-	no disj a1,a2: AutomatedSos | all i: Individual | isCustomer[i, a1] and isCustomer[i, a2]
+	all i: Individual | no disj a1,a2: AutomatedSos | isCustomer[i, a1] and isCustomer[i, a2]
 }
 
 -- automatedSos services only list available ambulances
@@ -148,12 +148,12 @@ fact noDuplicatedRun{
 
 -- an athlete can't enroll 2 runs that happens in the same date/time
 fact noMultipleEnrollement{
-	all disj r1,r2: Run | all a:Athlete | (isEnrolled[r1,a] and isEnrolled[r2,a]) => not isSameDate[r1,r2]
+	all a:Athlete | all disj r1,r2: Run | (isEnrolled[r1,a] and isEnrolled[r2,a]) => not isSameDate[r1,r2]
 }
 
 -- a spectator can't enroll 2 runs that happens in the same date/time
 fact noMultipleWatch{
-	all disj r1,r2:Run | all s:Spectator | (isEnrolled[r1,s] and isEnrolled[r2,s]) => not isSameDate[r1,r2]
+	all s:Spectator | all disj r1,r2:Run | (isEnrolled[r1,s] and isEnrolled[r2,s]) => not isSameDate[r1,r2]
 }
 
 -- an athlete can't watch the runs where he is also enrolled
@@ -237,7 +237,7 @@ pred isSameRun [r1, r2 : Run]{
 	isSameDate[r1,r2] and r1.track = r2.track	
 }
 
----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 pred disableData4Help{
 	#Request = 0
 	#ThirdParty.subscribedUsers = 0
@@ -253,7 +253,6 @@ pred disableTrack4Run{
 	#Spectator = 0
 	#Organizer = 0
 	#Run = 0
-	#RunState = 0
 }
 
 pred data4Help{
@@ -267,7 +266,8 @@ pred automatedSos{
 	disableData4Help
 	disableTrack4Run
 	some Ambulance
-	some AutomatedSos	
+	some AutomatedSos
+	#AutomatedSos.customers > 0	
 }
 
 pred track4Run{
@@ -277,12 +277,11 @@ pred track4Run{
 	some Athlete
 	some Spectator
 	some Run
-	#Spectator.watchedRuns > 0
 }
 
 pred showAll{}
 
-run data4Help for 3
-run automatedSos for 3
-run track4Run for 3
+run data4Help for 3 but exactly 1 Individual
+run automatedSos for 3 but exactly 1 Individual
+run track4Run for 3 but exactly 1 Run
 run showAll for 3
