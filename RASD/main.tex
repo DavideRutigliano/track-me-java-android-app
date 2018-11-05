@@ -4,13 +4,14 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
-\usepackage{requirements} %custom package
-\usepackage[htt]{hyphenat} %stops word separation on new line
+\usepackage{requirements} % custom package
+\usepackage[htt]{hyphenat}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{pifont}
+
 \newcommand{\requirement}{\ding{229}}%
 \definecolor{commentgreen}{RGB}{2,112,10}
 \definecolor{eminence}{RGB}{108,48,130}
@@ -18,29 +19,22 @@
 \definecolor{frenchplum}{RGB}{129,20,83}
 
 \addbibresource{references.bib}
-%commenti inline
 \newcommand{\comment}[1]{\textbf{[Comment: #1]}}
 
 \begin{document}
 \setlist[enumerate]{label=\alph*),leftmargin=0.4cm, topsep=0cm}
 \setlist[itemize]{leftmargin=0.4cm, topsep=0cm}
-\setlength{}{}
-\pagenumbering{none}
 \include{frontpage}
 \pagenumbering{roman}
 \tableofcontents
-\newpage
 \addcontentsline{toc}{subsection}{Use Cases Summary}
 \renewcommand\listtablename{Use Cases Summary}
 \listoftables
-\newpage
 \addcontentsline{toc}{subsection}{UML Diagrams List}
 \renewcommand\listfigurename{UML Diagrams List}
 \listoffigures
-\newpage
-\rfoot{\includegraphics[width=30mm]{images/trackme-logo-mini.png}}
+\rfoot{\includegraphics[width=30mm]{Images/trackme-logo-mini.png}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
 \pagestyle{fancy}
 \pagenumbering{arabic}
 \section{Introduction}
