@@ -16,13 +16,21 @@
 \definecolor{weborange}{RGB}{255,165,0}
 \definecolor{frenchplum}{RGB}{129,20,83}
 
+\addbibresource{references.bib}
+\newcommand{\comment}[1]{\textbf{[Comment: #1]}}
 
 \begin{document}
+\setlist[enumerate]{label=\alph*),leftmargin=0.4cm, topsep=0cm}
+\setlist[itemize]{leftmargin=0.4cm, topsep=0cm}
 \include{frontpage}
+\pagenumbering{roman}
 \tableofcontents
 \rfoot{\includegraphics[width=30mm]{Images/trackme-logo-mini.png}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
 
 \section{Introduction}
 
