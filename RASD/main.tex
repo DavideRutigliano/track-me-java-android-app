@@ -37,6 +37,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \pagenumbering{arabic}
+\newpage
 \section{Introduction}
 
     \subsection{Purpose}
@@ -72,7 +73,8 @@
          Registration/Login/Log-out & & & X \\ \hline
          Manage Profile/Change Credentials & & & X \\ \hline
          Application logic & & X & \\ \hline
-         Accept/Refuse/Send Request & & & X \\ \hline
+         Accept/Reject/Send Request & & & X \\ \hline
+         Data Subscription/Synchronization & & & X \\ \hline
          Database Query & & X & \\ \hline
          Connect External Device & & & X \\ \hline
          GPS Tracking & & & X \\ \hline
@@ -179,8 +181,11 @@
                 \acro{SSL}{Secure Socket Layer}
                 \acro{SHA}{Secure Hash Algorithm}
                 \acro{SDK}{Software Development Kit}
-                \acro{REST}{REpresentational State Transfer}
+                \acro{JSON}{JavaScript Object Notation}
+               \acro{CBOR}{Concise Binary Object Representation} \acro{REST}{REpresentational State Transfer}
                 \acro{API}{Application Programming Interface}
+                \acro{UPS}{Uninterruptible Power Supply}
+                \acro{DBMS}{Data Base Management System}
             \end{acronym}
             
     \subsection{References}
@@ -275,36 +280,25 @@
             \item \textbf{Athlete:} an \textit{Individual} that enrolled a created run. His position will be sent to all Spectators that joined that run.
             \item \textbf{Spectator:} an \textit{Individual} that joined a started run. He can see the position of all Athletes that are competing in the run until the run is finished.
         \end{itemize}
-        
-        
     
-    \subsection{Design and Implementation Constraints}
-    \comment{WRONG SECTION: should be in 3.D}
-    \comment{<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>}
-    
-        \subsubsection{Standards Compliance}
-        
-        \subsubsection{Hardware Limitations}
-    
-    \subsection{Assumptions, Dependencies and Constraints}
-    \comment{<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>}
+    \subsection{Assumptions and Dependencies}
 
+        \subsubsection{Assumptions}
         \begin{description}
-        \item[A-01] The field Password and Repeat Password match.
-        \item[A-02] Data provided by the individual, such as email and SSN, is valid.
-        \item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
+        \item[A-01] The field "Password" and "Repeat Password" match.
+        \item[A-02] Data provided by the individual, such as email and SSN, are valid.
+        \item[A-03] Data provided by the Third-Party (i.e: VAT number) are valid.
         \item[A-04] The user is already registered.
         \item[A-05] Username and password provided match the ones previously stored in the registration process.
         \item[A-06] The user is logged in the system.
-        \item[A-07] The Third-Party provides a SSN/FC of an user already registered into the system.
+        \item[A-07] The Third-Party provides a SSN/FC of an individual already registered into the system.
         \item[A-08] The Third-Party provides not contradictory criteria for the selection of the group of individuals.
         \item[A-09] The Third-Party has sent at least a request to the user whose data she wants to subscribe.
         \item[A-10] The external device provided by the user is compatible with the system.
         \item[A-11] The user has activated NFC/Bluetooth on the mobile device.
         \item[A-12] The user has activated NFC/Bluetooth on the external device.
         \item[A-13] An Automated-SOS service is enabled from at least one Third Party.
-        \comment{check this again}
-        \item[A-14] The dispatcher shall access to the system  (???)
+        \item[A-14] At least one ambulance dispatcher is available for SOS request serving.
         \item[A-15] The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.
         \item[A-16] The organizer defines a not empty path.
         \item[A-17] The Organizer has already created a run.
@@ -312,16 +306,13 @@
         \item[A-19] There is at least one created run.
         \item[A-20] The Athlete is enrolled to at least one run.
         \item[A-21] There is at least one started run.
-        \end{description}
-    
-        \begin{description}
-        \item
-        \end{description}
-        
-        \begin{description}
-        \item[C-01] Username must be unique.
-        \item[C-02] Password must have at least 8 alphanumerical characters.
-        \item[C-03] The run must have not been started.
+        \item[A-22] The individual has approved \textit{TrackMe}'s terms of use.
+        \item[A-23] The individual has received at least an individual request.
+        \item[A-24] The individual has accepted the individual request.
+        \item[A-25] The system can access individual's mobile device position through GPS.
+        \item[A-26] Username is not already taken.
+        \item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
+        \item[A-28] The run has not been started.
         \end{description}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -372,16 +363,19 @@
         \subsubsection{Hardware Interfaces}
         The GPS system of the smartphone or the one of the external device (if connected) is needed in order to track customer's position.
         
-        Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system and its inter-operability with \textit{TrackMe} are out of scope of this specifications.
+        Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system and further interactions with \textit{TrackMe} are out of scope of this specification document.
         
         \subsubsection{Software Interfaces}
-
+        Both the front end and the back-end should be compatible with most of existing PC and mobile operating systems. The mobile and application should indeed be supported at least on Android Lollipop 5.0 and iOS5 or major versions; the web application shall instead be compatible with different browsers such as Google Chrome (with V8 JavaScript engine), Mozilla Firefox v3.0 (or major) and Safari v4.0 (or major).
+        
+        Moreover the developer could choose to implement REST services to improve portability, reliability, modifiability and simplicity of the software.
+        
         \subsubsection{Communication Interfaces}
         The application shall communicate with the back-end server over HTTPS and may enable O-Auth2 authentication protocol for clients. In order to connect and interact with external devices the mobile application shall also support BT and/or NFC.
         
-        The back-end service should be able to connect with the DBMS on the default port.
+        Moreover, the system shall be able to interact with a DBMS both for for storing and retrieving user data, also in real-time in an Automated-SOS related scenario. In addition, the client application should be able to interact with the back-end service which will indeed be able get client requests, send responses and make data available to clients using lightweight object oriented communication protocols such as JSON or CBOR.
 
-    \subsection{Functional Requirements}
+\newpage    \subsection{Functional Requirements}
 
         \subsubsection{Use Cases Diagrams}
         \begin{figure}[!htpb]
@@ -417,19 +411,23 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-01] Username must be unique.
+                	\item[A-26] Username is not already taken.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-02] Password must have at least 8 alphanumerical characters.
+                	\item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-01] The field Password and Repeat Password match.
+                	\item[A-01] The field "Password" and "Repeat Password" match.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-02] Data provided by the individual, such as email and SSN, is valid.
+                	\item[A-02] Data provided by the individual, such as email and SSN, are valid.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-22] The guest has approved \textit{TrackMe}'s terms of use
                 	\end{description}
                 	\end{itemize}
         \end{description} 
@@ -456,19 +454,23 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-01] Username must be unique.
+                	\item[A-26] Username is not already taken.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-02] Password must have at least 8 alphanumerical characters.
+                	\item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-01] The field Password and Repeat Password match.
+                	\item[A-01] The field "Password" and "Repeat Password" match.
                 	\end{description}
             	    \item
                 	\begin{description}
-                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
+                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) are valid.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-22] The guest has approved \textit{TrackMe}'s terms of use
                 	\end{description}
                 \end{itemize}
         \end{description}
@@ -541,7 +543,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-01] Username must be unique.
+                	\item[A-26] Username is not already taken.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -629,7 +631,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-02] Data provided by the individual, such as email and SSN, is valid.
+                	\item[A-02] Data provided by the individual, such as email and SSN, are valid.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -663,7 +665,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
+                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) are valid.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -699,11 +701,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-03] Data provided by the Third-Party (i.e: VAT number) is valid.
+                	\item[A-06] The user is logged in the system.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-07] The Third-Party provides a SSN/FC of an user already registered into the system.
+                	\item[A-07] The Third-Party provides a SSN/FC of an individual already registered into the system.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -774,6 +776,14 @@
                 	\begin{description}
                 	\item[A-09] The Third-Party has sent at least a request to the user whose data she wants to subscribe.
                 	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-23] The individual has received at least an individual request.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-24] The individual has accepted the individual request.
+                	\end{description}
                 	\end{itemize}
         \end{description}
         
@@ -797,11 +807,15 @@
                 	\end{description}
                 	\item[\requirement]
                 	\begin{description}
-                	\item[REQ-15] Data4help must allow the Individual to accept or refuse a request from the list. 
+                	\item[REQ-15] Data4help must allow the Individual to accept or reject a request from the list. 
                 	\end{description}
                 	\item
                 	\begin{description}
                 	\item[A-06] The user is logged in the system.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-23] The individual has received at least an individual request.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -811,7 +825,7 @@
         \brief{An individual accepts the request to view his personal data.}
         \actor{Individual.}
         \pre{The individual is logged-in and has selected  the 'Manage Request' option in the main page.}
-        \bflow{TrackMe sends to the individual a request to view his data. The individual can see that the request was sent by a specific third-party. TrackMe provides two buttons called \textit{Accept} and \textit{Refuse}.}
+        \bflow{TrackMe sends to the individual a request to view his data. The individual can see that the request was sent by a specific third-party. TrackMe provides two buttons called \textit{Accept} and \textit{Reject}.}
               {The individual presses the accept button.}
               {TrackMe sends to the third-party a confirmation about his request for that Individual.}
         \post{The third party has access to the Individual data.}
@@ -889,6 +903,9 @@
                 	\begin{description}
                 	\item[A-06] The user is logged in the system.
                 	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-14] At least one ambulance dispatcher is available for SOS request serving.       \end{description}
                 	\end{itemize}
         \end{description}.
         
@@ -918,6 +935,10 @@
                 	\item
                 	\begin{description}
                 	\item[A-06] The user is logged in the system.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-25] The system can access individual's mobile device position through GPS.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -949,12 +970,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-14] An Automated-SOS service is enabled from at least one Third Party.
+                	\item[A-13] An Automated-SOS service is enabled from at least one Third Party.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\comment{check this again}
-                	\item[A-14] The dispatcher shall access to the system  (???)       \end{description}
+                	\item[A-14] At least one ambulance dispatcher is available for SOS request serving \end{description}
                 	\item
                 	\begin{description}
                 	\item[A-15] The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.
@@ -1030,7 +1050,7 @@
                 	\begin{description}
                 	\item[A-17] The Organizer has already created a run.  
                 	\end{description}
-                	item
+                	\item
                 	\begin{description}
                 	\item[A-18] At least two athletes are enrolled in the run.
                 	\end{description}
@@ -1067,7 +1087,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[C-03] The run must have not been started.
+                	\item[A-28] The run has not been started.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1157,6 +1177,10 @@
                 	\begin{description}
                 	\item[A-21] There is at least one started run.
                 	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-25] The system can access individual's mobile device position through GPS.
+                	\end{description}
                 	\end{itemize}
         \end{description}
 
@@ -1171,33 +1195,39 @@
         \post{The Spectator successfully spectates the run.}
         \end{usecase}
         
+        \subsection{Design and Implementation Constraints}
+    
+        \subsubsection{Regulatory Policies}
+        In order to grant individual privacy and data anonymity, the system should be able to manage both individual and group requests:
+        \begin{itemize}
+            \item in case of individual requests, the system shall check that the third-party knows individual's security social number and should guarantee that only trusted third-parties can access his data and,
+            \item in case of group requests, \textit{TrackMe} should be able to check in the number of individuals which will receive the request will be greater enough to guarantee user privacy.
+        \end{itemize}
         
         \subsection{Software System Attributes}
         \subsubsection{Usability}
-        The software application shall be usable for all people including elder ones and not \textit{computers} or \textit{smart-things} experts.
+        The software application shall be usable for all people including elder ones and not \textit{computers} or \textit{smart-things} experts. Ease of use of both the mobile and the web application are (strictly) needed.
         
         \subsubsection{Reliability}
-        The system must work without failure in most of the cases. The possibility of a breakdown depends on the stability of the Internet connection and on the availability of the external services such as the Ambulance Dispatcher. In this case the users wont be able to access the system and, in case of an incident, any ambulance will receive a call. In case of failure the mean time to repair should be a reasonable time, for example less than a week.
+        The system should work without failures in 99,99\% of the cases. The possibility of a breakdown depends on the stability of the Internet connection and on the availability of the external services such as the Ambulance Dispatcher. In this case the users wont be able to access the system and, in case of accident, no ambulance will receive a call and the user must be informed that the service is unavailable. In case of failure the mean time to repair should be a reasonable time, for example less than 3 days.
        
         \subsubsection{Availability}
-        To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week; also ambulances availability must be granted from at least one "ambulance dispatcher". For the two other features \textit{Data4Help} and \textit{Track4Run}, small deviations from this requirement will be acceptable.
+        To guarantee the maximum profit by the service, in particular the one provide by Automated-SOS, the system must be available 24 hours per day and 7 day per week; availability shall also be granted by at least one "ambulance dispatcher". For the two other features \textit{Data4Help} and \textit{Track4Run}, small deviations from this requirement will be acceptable.
         
         \subsubsection{Security}
-        The user allows the system to collect their health data. Furthermore, the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason several security features shall be granted:
+        The user allows the system to collect their health data. Furthermore, the position of the user is also present in the system, to provide services such as Automated SOS an Track4Run. If there is a leak of information the privacy of the user is compromised. For this reason at least these security features shall be granted:
        
         \begin{itemize}
-        \item         The users passwords are stored in the database hashed with SHA-2\item       The  connection between the client and server is encrypted and sent over SSL to guarantee integrity of data. 
+        \item         The users passwords are stored in the database hashed with SHA-256\item       The  connection between the client and server is encrypted and sent over SSL to guarantee integrity of data. 
         \end{itemize}
-        
         \subsubsection{Maintainability}
 
         The system is backed up 2 times a  week, in order to guarantee the database integrity and consistency. To avoid loss of data  the database is saved in at least two copies and the power supply is provided by a particular system that keeps online at least one database. Moreover, an UPS for each \textit{Data Center} shall be present.
-        
         \subsubsection{Portability}
 
         The system can work both on smart phone and desktop environment. Any personal computer with Java SDK installed can execute TrackMe server. Different version of Android and iOS can should support the front-end application.
 
-        The developers shall consider that the \textit{E-Health} applications area is a wide but promising market slice thus, in order to be competitive, they should guarantee an high level portability through interactions with other existing widely used software applications and hardware interfaces.
+        The developers shall consider that the \textit{E-Health} applications area is a wide and promising market slice thus, in order to be competitive, they should guarantee an high level portability through interactions with other existing widely used software applications and hardware interfaces.
         
         \subsubsection{Performances Requirements}
         
