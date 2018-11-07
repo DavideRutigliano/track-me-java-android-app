@@ -318,7 +318,7 @@ pred track4Run{
 
 pred showAll{}
 
-//run data4Help for 3 but exactly 1 Individual
-//run automatedSos for 3 but exactly 1 Individual
-//run track4Run for 3 but exactly 1 Run
+run data4Help for 3 but exactly 1 Individual
+run automatedSos for 3 but exactly 1 Individual
+run track4Run for 3 but exactly 1 Run
 run showAll for 3
