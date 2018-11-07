@@ -110,6 +110,7 @@
             \item[GOAL-20] The Athlete should be able to enroll a run.
             \item[GOAL-21] The Athlete should be able to unroll a run
             \item[GOAL-22] The Spectator should be able to watch a run.
+            \item[GOAL-23] The Third Party should be able to view Individual's data to whom has sent a request.
         \end{description}
     
     \subsection{Document Overview}
@@ -137,7 +138,7 @@
                     
                     \item[\textbf{Run Started}] a competition with at least two \textit{Athletes} enrolled that the \textit{Organizer} has started
                     
-                    \item[\textbf{Run Not-Started}] a competition with any number of \textit{Athletes} enrolled
+                    \item[\textbf{Run Created}] a competition with any number of \textit{Athletes} enrolled
                     
                     \item[\textbf{Map}] The map of the predefined track of the run with athletes' positions
                     
@@ -205,36 +206,37 @@
     
     The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
     
+    \newpage
     \subsubsection{Domain Model}
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=\textwidth]{images/UML/ClassDiagram.jpg}
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/ClassDiagram.jpg}
         \caption{Domain Model}
     \end{figure}
     
     \newpage
-    
     \subsubsection{State Charts}
-    \begin{figure}[!ht]
+    
+    \begin{figure}[!htpb]
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_individualRequest.png}
-        \caption{State Chart Individual Request}
-        \label{fig:state_individual}
+        \includegraphics[width=100mm, keepaspectratio]{images/UML/state_request.jpg}
+        \caption{State Chart of a Request}
     \end{figure}
-    \begin{figure}[!ht]
+    
+    \begin{figure}[!htpb]
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_groupRequest.png}
-        \caption{State Chart Group Request}
-        \label{fig:state_group}
+        \includegraphics[width=100mm, keepaspectratio]{images/UML/state_sos.jpg}
+        \caption{State Chart of Sos service}
     \end{figure}
-    \begin{figure}[!ht]
+    
+    \begin{figure}[!htpb]
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/state_run.png}
-        \caption{State Chart Run}
-        \label{fig:state_run}
+        \includegraphics[width=80mm, keepaspectratio]{images/UML/state_run.jpg}
+        \caption{State Chart of a Run}
     \end{figure}
+    
     \newpage
-
+    
     \subsection{Product Functions}
     \textit{TrackMe} will provide three main services: \textit{Data4Help}, \textit{Automated-SOS} and \textit{Track4Run}.
     
@@ -309,10 +311,10 @@
         \item[A-22] The individual has approved \textit{TrackMe}'s terms of use.
         \item[A-23] The individual has received at least an individual request.
         \item[A-24] The individual has accepted the individual request.
-        \item[A-25] The system can access individual's mobile device position through GPS.
-        \item[A-26] Username is not already taken.
-        \item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
-        \item[A-28] The run has not been started.
+        \item[A-25] Username is not already taken.
+        \item[A-26] Password is valid (i.e.: at least 8 alphanumerical characters).
+        \item[A-27] The run has not been started.
+        \item[A-28] The individual has received an individual request a specific Third Party.
         \end{description}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -411,11 +413,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-26] Username is not already taken.
+                	\item[A-25] Username is not already taken.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
+                	\item[A-26] Password is valid (i.e.: at least 8 alphanumerical characters).
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -454,11 +456,11 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-26] Username is not already taken.
+                	\item[A-25] Username is not already taken.
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-27] Password is valid (i.e.: at least 8 alphanumerical characters).
+                	\item[A-26] Password is valid (i.e.: at least 8 alphanumerical characters).
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -543,7 +545,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-26] Username is not already taken.
+                	\item[A-25] Username is not already taken.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -647,7 +649,8 @@
         \actor{Individual.}
         \pre{The User is logged in the system as an Individual and he's on the profile page.}
         \bflow{The system provides a box with the user's description, and a box with the user's image}
-        {\begin{itemize}
+        {Individual can choose above several actions:
+            \begin{itemize}
             \item The Individual can change any of its personal data.
             \item The user can click on the image to update his picture
         \end{itemize}}
@@ -680,7 +683,7 @@
         \actor{Third-Party.}
         \pre{The User is logged in the system as a Third-Party and he's on the profile page.}
         \bflow{The system provides a box with the user's description, and a box with the user's image}
-        {\begin{itemize}
+        {Third Party can choose above several actions:\begin{itemize}
             \item The Third-Party can change any of its personal data.
             \item The user can click on the image to update his picture
         \end{itemize}}
@@ -778,7 +781,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-23] The individual has received at least an individual request.
+                	\item[A-28] The individual has received an individual request a specific Third Party.
                 	\end{description}
                 	\item
                 	\begin{description}
@@ -830,15 +833,34 @@
               {TrackMe sends to the third-party a confirmation about his request for that Individual.}
         \post{The third party has access to the Individual data.}
         \end{usecase}
+        \vfill
         
+        \begin{description}
+        	\item[GOAL-23] The Third Party should be able to view Individual's data to whom has sent a request. 
+            	\begin{itemize}
+            	    \item[\requirement]
+                	\begin{description}
+                	\item[REQ-27] Data4help must allow the Third Party to see a list of sent requests and related Individual's data.
+                	\end{description}
+                	\item
+                	\begin{description}
+                	\item[A-06] The user is logged in the system.
+                	\end{description}
+                	\end{itemize}
+        \end{description}
         
         \begin{usecase}{View Data}
         \name{View Data}
-        \brief{A Third-Party can view the Data of the Individuals that have accepted its requests.}
+        \brief{A Third-Party can view the Data of the Individuals that have received its request.}
         \actor{Third-Party.}
-        \pre{The Third-Party is logged-in and Is in the section to see the data collected by the application.}
-        \bflow{The system provides a list of all request sent by the Third-Party}
-        \post{The Third-Party can observe the Individual data.}
+        \pre{The Third-Party is logged-in and is in the section to view the data collected by the application.}
+        \bflow{The system provides a list of all request sent by the Third-Party, both individual and group requests}
+        {Third Party can choose above several actions:
+        \begin{itemize}
+            \item Third Party select the user to which has sent at least an individual request
+            \item Third Party clicks on the group request she has sent
+        \end{itemize}}
+        \post{The Third-Party can view the Individual data, create graphs, publish analysis.}
         \end{usecase}
         
         
@@ -935,10 +957,6 @@
                 	\item
                 	\begin{description}
                 	\item[A-06] The user is logged in the system.
-                	\end{description}
-                	\item
-                	\begin{description}
-                	\item[A-25] The system can access individual's mobile device position through GPS.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1087,7 +1105,7 @@
                 	\end{description}
                 	\item
                 	\begin{description}
-                	\item[A-28] The run has not been started.
+                	\item[A-27] The run has not been started.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1176,10 +1194,6 @@
                 	\item
                 	\begin{description}
                 	\item[A-21] There is at least one started run.
-                	\end{description}
-                	\item
-                	\begin{description}
-                	\item[A-25] The system can access individual's mobile device position through GPS.
                 	\end{description}
                 	\end{itemize}
         \end{description}
@@ -1282,7 +1296,6 @@
     
     \lstinputlisting[language=Alloy, caption=Track4Run model definition, firstline=49, lastline=78]{TrackMeAlloyModel.als}
     
-    \newpage
 \subsection{Facts}
     \lstinputlisting[language=Alloy, caption=Common facts, firstline=79, lastline=87]{TrackMeAlloyModel.als}
     
@@ -1292,7 +1305,6 @@
     
     \lstinputlisting[language=Alloy, caption=Track4Run facts, firstline=138, lastline=179]{TrackMeAlloyModel.als}
     
-    \newpage
 \subsection{Predicates}
 
     \lstinputlisting[language=Alloy, caption=Data4Help predicates, firstline=180, lastline=199]{TrackMeAlloyModel.als}
@@ -1303,7 +1315,7 @@
     
     \lstinputlisting[language=Alloy, caption=Common predicates, firstline=240, lastline=283]{TrackMeAlloyModel.als}
     
-    \newpage
+\newpage
 \subsection{Worlds}
     \lstinputlisting[language=Alloy, caption=Run data4Help, firstline=284, lastline=284]{TrackMeAlloyModel.als}
     \begin{figure}[!ht]
@@ -1316,18 +1328,19 @@
     	\centering
     	\includegraphics[width=\textwidth]{RASD/images/alloy/automatedSOS.png}
     \end{figure}
+    
     \lstinputlisting[language=Alloy, caption=Run track4Run, firstline=286, lastline=286]{TrackMeAlloyModel.als}
     \begin{figure}[!ht]
     	\centering
     	\includegraphics[width=\textwidth]{RASD/images/alloy/track4Run.png}
     \end{figure}
+    
     \newpage
     \lstinputlisting[language=Alloy, caption=Run showAll, firstline=287, lastline=287]{TrackMeAlloyModel.als}
     \begin{figure}[!ht]
     	\centering
     	\includegraphics[width=0.91\paperwidth, angle=90]{RASD/images/alloy/showAll.png}
     \end{figure}
-    \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Effort Spent}
     \begin{itemize}
