@@ -191,11 +191,37 @@ explained via UX and BCE diagrams
 taken in the RASD are linked to design elements
 \end{itemize}
 
-
+\newpage
 
 \section{Architectural Design}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+%questa sezione richiede uno studio aprofondito, ne do un abbozzo e poi ne discutiamo insieme, serve anche un diagramma-schema
+
+On the client side it is possible a communication with the server through a module that can send API calls to the server. This can be done both with the mobile applications and with browser on web applications.
+%%dovremmo forse utilizzare solo una mobile app ?
+The data server is separeted by the Application one.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Overview: High-level components and their interaction}
+
+The components that charcterise our system are:
+
+\begin{itemize}
+    \item \textbf{Application Server}: This tier comprises all the logic of the application system. This includes the main algorithms and the logic to intercat with external systems
+    
+    \item \textbf{Mobile Application}: The presentation layer.
+it allows to communicate with the application server and the only logic used is the presentation one .
+
+   \item \textbf{Database} The data layer of the system; it enclose all the structures for data management. The only logic present is the Database Management system, DBMS. It ensures that the ACID properties are granted.
+\end{itemize}
+
+%%completare questa sezione, magari con uno schema con relativa descrizione, basandosi sulla versione precedente
+
 
 \subsection{Component view}
 
