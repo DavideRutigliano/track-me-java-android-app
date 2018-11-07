@@ -8,13 +8,14 @@ abstract sig User{
 	password: Password
 }
 
-sig Name, OrganizationName, Ssn, Vat{}
+sig Name, OrganizationName, Ssn, Vat,Position{}
 
 sig Individual extends User{
 	name: Name,
 	incomingRequests: set IndividualRequest,
 	ssn: Ssn,
-	enableSos: Bool
+	enableSos: Bool,
+	position:Position
 }
 
 abstract sig Request{
@@ -43,7 +44,16 @@ sig Ambulance{
 sig AutomatedSos{
 	provider: ThirdParty,
 	customers: set Individual,
+	dispatcher: AmbulanceDispatcher
+}
+
+sig AmbulanceDispatcher{
 	ambulances: some Ambulance
+}
+
+sig Accident{
+	position:Position,
+	ambulance:Ambulance
 }
 
 sig Track, Duration, Date, Time{}
@@ -130,9 +140,33 @@ fact justOneAutomatedSosSub{
 	all i: Individual | no disj a1,a2: AutomatedSos | isCustomer[i, a1] and isCustomer[i, a2]
 }
 
--- automatedSos services only list available ambulances
-fact onlyAvailableAmbulances{
-	all a: Ambulance, s: AutomatedSos | a in s.ambulances => isTrue[a.available]
+-- ambulances are managed by some dispatcher
+fact ambulancesAreManaged{
+	all a:Ambulance | some d:AmbulanceDispatcher | a in d.ambulances
+}
+
+-- ambulances can have only one dispatcher
+fact ambulancesArentShared{
+	all a:Ambulance | all disj d1,d2:AmbulanceDispatcher | a in d1.ambulances => a not in d2.ambulances
+}
+
+-- an accident must have happened where there is an individual
+fact accidentHasAnIndividualPosition{
+	all a:Accident | some i:Individual | a.position = i.position
+}
+
+-- an ambulance associated with an accident is not available
+fact ambulancesAvailability{
+	all a:Ambulance, acc: Accident | isManaging[a, acc] => isFalse[a.available]
+}
+
+-- an accident must has managed by only ony ambulance 
+fact ambulanceManagesOnlyOneAccident{
+	all disj acc1,acc2:Accident | all a:Ambulance | isManaging[a, acc1] => not isManaging[a, acc2]
+}
+
+fact dispatcherWorksForAutomatedSos{
+	all d:AmbulanceDispatcher | some a:AutomatedSos | a.dispatcher = d
 }
 
 ----------------------- TRACK4RUN -----------------------
@@ -176,7 +210,6 @@ fact spectatorsEnrollOnlyCreatedRuns{
 	all s:Spectator, r:Run | r in s.watchedRuns => r.state = Started 
 }
 
-
 -----------------------> PREDICATES <-----------------------
 
 ----------------------- DATA4HELP -----------------------
@@ -205,6 +238,10 @@ pred enabledService[a: AutomatedSos, p: ThirdParty]{
 
 pred isCustomer[i:Individual, a:AutomatedSos]{
 	i in a.customers		
+}
+
+pred isManaging[a:Ambulance, acc:Accident]{
+	acc.ambulance = a
 }
 
 ----------------------- TRACK4RUN -----------------------
@@ -281,7 +318,7 @@ pred track4Run{
 
 pred showAll{}
 
-run data4Help for 3 but exactly 1 Individual
-run automatedSos for 3 but exactly 1 Individual
-run track4Run for 3 but exactly 1 Run
+//run data4Help for 3 but exactly 1 Individual
+//run automatedSos for 3 but exactly 1 Individual
+//run track4Run for 3 but exactly 1 Run
 run showAll for 3
