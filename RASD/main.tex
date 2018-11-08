@@ -36,8 +36,8 @@
 \rfoot{\includegraphics[width=30mm]{Images/trackme-logo-mini.png}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
-\pagenumbering{arabic}
 \newpage
+\pagenumbering{arabic}
 \section{Introduction}
 
     \subsection{Purpose}
@@ -74,7 +74,7 @@
          Manage Profile/Change Credentials & & & X \\ \hline
          Application logic & & X & \\ \hline
          Accept/Reject/Send Request & & & X \\ \hline
-         Data Subscription/Synchronization & & & X \\ \hline
+         Data Subscription/Sync/View & & & X \\ \hline
          Database Query & & X & \\ \hline
          Connect External Device & & & X \\ \hline
          GPS Tracking & & & X \\ \hline
@@ -118,7 +118,7 @@
         
         Following section is aimed at giving a more detailed description of the proposed system, by meaning of the application point of view. Additionally, it addresses functionality, user characteristics, dependencies and constraints.
         
-        Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account requirements mapping on use cases and their detailed description through well known standards for specification documents such as \textit{UML} for Use Case, Sequence and Activity Diagrams \cite{rumbaugh2004unified}.
+        Third chapter shows a detailed analysis of \textit{TrackMe} in terms both functional and non-functional requirements of the system. Furthermore, takes into account requirements mapping on use cases and their detailed description through well known standards for specification documents such as \textit{UML} for Use Case Diagrams \cite{rumbaugh2004unified}.
         
         Endmost section illustrates \textit{Alloy} for formal analysis \cite{jackson2006software} describing models including purpose, proof and explanation. In addition, describes worlds obtained by running them.
         
@@ -206,33 +206,29 @@
     
     The system should be able to query the database for storing and retrieving both users' credentials and personal data, besides of keeping everything synchronized between all the application instances.
     
-    \newpage
     \subsubsection{Domain Model}
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/ClassDiagram.jpg}
+        \includegraphics[width=\textwidth, keepaspectratio]{images/UML/DomainModel.jpg}
         \caption{Domain Model}
     \end{figure}
     
     \newpage
+
     \subsubsection{State Charts}
     
     \begin{figure}[!htpb]
         \centering
-        \includegraphics[width=100mm, keepaspectratio]{images/UML/state_request.jpg}
-        \caption{State Chart of a Request}
-    \end{figure}
-    
-    \begin{figure}[!htpb]
+        \includegraphics[width=90mm, keepaspectratio]{images/UML/state_request.jpg}
+        \hfill
+        
         \centering
-        \includegraphics[width=100mm, keepaspectratio]{images/UML/state_sos.jpg}
-        \caption{State Chart of Sos service}
-    \end{figure}
-    
-    \begin{figure}[!htpb]
+        \includegraphics[width=80mm, keepaspectratio]{images/UML/state_sos.jpg}
+        \hfill
+        
         \centering
-        \includegraphics[width=80mm, keepaspectratio]{images/UML/state_run.jpg}
-        \caption{State Chart of a Run}
+        \includegraphics[width=60mm, keepaspectratio]{images/UML/state_run.jpg}
+        \caption{State Charts}
     \end{figure}
     
     \newpage
@@ -368,7 +364,7 @@
         Furthermore, a separate system to notify the ambulances in case of accident shall be integrated within already existing ambulances' on-board technologies. This system and further interactions with \textit{TrackMe} are out of scope of this specification document.
         
         \subsubsection{Software Interfaces}
-        Both the front end and the back-end should be compatible with most of existing PC and mobile operating systems. The mobile and application should indeed be supported at least on Android Lollipop 5.0 and iOS5 or major versions; the web application shall instead be compatible with different browsers such as Google Chrome (with V8 JavaScript engine), Mozilla Firefox v3.0 (or major) and Safari v4.0 (or major).
+        Both the front end and the back-end should be compatible with most of existing PC and mobile operating systems. The mobile and application should indeed be supported at least on Android Lollipop 5.0 and iOS5 or major versions; the web application shall instead be compatible with different browsers such as Google Chrome (with V8 JavaScript engine), Mozilla Firefox v3.0 (or major versions) and Safari v4.0 (or major versions).
         
         Moreover the developer could choose to implement REST services to improve portability, reliability, modifiability and simplicity of the software.
         
@@ -377,9 +373,14 @@
         
         Moreover, the system shall be able to interact with a DBMS both for for storing and retrieving user data, also in real-time in an Automated-SOS related scenario. In addition, the client application should be able to interact with the back-end service which will indeed be able get client requests, send responses and make data available to clients using lightweight object oriented communication protocols such as JSON or CBOR.
 
-\newpage    \subsection{Functional Requirements}
+\subsection{Functional Requirements}
 
         \subsubsection{Use Cases Diagrams}
+        \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=\textwidth]{images/UML/Guest.jpg}
+    	\caption{Use Cases: Guest}
+    	\end{figure}
         \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=\textwidth]{images/UML/Individual.jpg}
@@ -390,11 +391,6 @@
     	\includegraphics[width=\textwidth]{images/UML/ThirdParty.jpg}
     	\caption{Use Cases: ThirdParty}
         \end{figure}
-        \begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=\textwidth]{images/UML/Guest.jpg}
-    	\caption{Use Cases: Guest}
-    	\end{figure}
     	\begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=\textwidth]{images/UML/Accident.jpg}
@@ -438,7 +434,7 @@
         \name{Individual Registration}
         \brief{A guest sign up to the application as an Individual.}
         \actor{Guest.}
-        \pre{The individual has a valid SSN/FC and he has selected the \textit{Individual} option in the Registration use case.}
+        \pre{The individual has a valid SSN/FC and he has selected the \textit{Individual} option in the Registration page.}
         \bflow{The system asks to provide username, password, SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
               {The individual fills out the requested information and presses the confirm button.}
               {The system registers that user as an Individual and adds it to the  Database.}
@@ -482,7 +478,7 @@
         \name{Third Party Registration}
         \brief{A guest sign up to the application as a Third-Party}
         \actor{Guest.}
-        \pre{The third party has a valid VAT and he has selected the \textit{Third-Party} option in the Registration use case.}
+        \pre{The third party has a valid VAT and he has selected the \textit{Third-Party} option in the Registration page.}
          \bflow{TrackMe asks to provide a VAT number and organization personal information.}
               {The Third-Party fills out the requested information and presses the confirm button.}
                {TrackMe asks to provide username and password.}
@@ -757,7 +753,7 @@
         {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         {TrackMe informs the Third-Party that the operation succeed.}
         \post{The third party has access to the data of a specific group of individuals who received the request.}
-        \except{If the number of individual selected is lower than 1000 an error message is printed and the request is denied}
+        \except{If the number of individual selected is lower than 1000 an error message is printed and the request is rejected}
         \end{usecase}
         
                 \begin{description}
@@ -1269,9 +1265,7 @@
 	morecomment=[l]{//},
 	morecomment=[l]{--},
 	morecomment=[s]{/*}{*/},
-	morestring=[b]{"},
-	literate={->}{${\rightarrow}$}1
-	% replacing characters can cause problems when copying from PDF to editor
+	morestring=[b]{"}
 }[keywords,comments,strings]
 \lstset {
     language=Alloy,
