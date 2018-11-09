@@ -2,36 +2,24 @@
 \ProvidesPackage{requirements}[2018/10/14 RASD package]
 \RequirePackage{longtable}
 \RequirePackage{caption}
+\RequirePackage{etoolbox}
+\RequirePackage[dvipsnames,table]{xcolor}
 
-\newcommand{\name}[1]{
-	\hline
-    \textbf{Name} & #1 \tabularnewline
-    \hline
-}
 \newcommand{\brief}[1]{
-	\hline
-    \textbf{Brief Description} & #1 \tabularnewline
-    \hline
+    \textbf{Brief Description} & #1 \\ \hline
 }
 \newcommand{\actor}[1]{
-	\hline
-    \textbf{Actor} & #1 \tabularnewline
+    \textbf{Actor} & #1 \\ 
     \hline
 }
 \newcommand{\pre}[1]{
-	\hline
-    \textbf{Pre-Conditions} & #1 \tabularnewline
-    \hline
+    \textbf{Pre-Conditions} & #1 \\ \hline
 }
 \newcommand{\post}[1]{
-	\hline
-    \textbf{Post-Conditions} & #1 \tabularnewline
-    \hline
+    \textbf{Post-Conditions} & #1 \\ \hline
 }
 \newcommand{\epoint}[1]{
-	\hline
-    \textbf{Exentension Points} & #1 \tabularnewline
-    \hline
+    \textbf{Extension} & #1 \\ \hline
 }
 
 \newcommand{\bflow}[1]{%
@@ -50,22 +38,109 @@
     \item #1\checknextexception
 }
 \newcommand{\checknextexception}{
-	\@ifnextchar\bgroup{\gobblenextexception}{\end{itemize} \tabularnewline \hline}
+	\@ifnextchar\bgroup{\gobblenextexception}{\end{itemize} \\ \hline}
 }
 \newcommand{\gobblenextexception}[1]{
-	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{itemize} \tabularnewline \hline}
+	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{itemize} \\ \hline}
 }
 \newcommand{\checknextarg}{
-	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
+	\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \\ \hline}
 }
 \newcommand{\gobblenextarg}[1]{
-	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate} \tabularnewline \hline}
+	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{enumerate}\hline}
+}
+
+\newcounter{usecasecounter}
+\renewcommand\theusecasecounter{ % to make prefix 01, 02...
+\ifnum\value{usecasecounter}<10 0\fi
+\arabic{usecasecounter}
 }
 
 \newenvironment{usecase}[1]
-    {\begin{longtable}{|p{3cm}|p{8cm}|}
+    {
+    \refstepcounter{usecasecounter}
+    \label{#1}
+    \begin{longtable}{|p{3cm}|p{8cm}|}
         \captionsetup{name=Use Case}
         \caption{\fontsize{10px}{0mm}\selectfont #1}
         \endlastfoot
+        \hline
+        \textbf{ID} & \theusecasecounter \\ \hline
+        \textbf{Name} & #1 \\ \hline
     }
     {\end{longtable}}
+
+\newcommand{\cellsize}{2.2cm}
+\definecolor{light-gray}{HTML}{E5E4E2}
+\definecolor{light-cyan}{HTML}{E0FFFF}
+\newenvironment{traceabilitymatrix}
+    {
+        \rowcolors{1}{light-cyan}{light-gray}
+        \begin{longtable}{|p{\cellsize}|p{\cellsize}|p{\cellsize}|p{\cellsize}|p{\cellsize}|}
+            \hline
+            \rowcolor{yellow}\textbf{Raw ID} & \textbf{Goal ID} & \textbf{Req ID} & 
+                \textbf{Use Case ID} & \textbf{Comments}\hline\endhead
+            \rowcolor{yellow}\textbf{Raw ID} & \textbf{Goal ID} & \textbf{Req ID} & 
+                \textbf{Use Case ID} & \textbf{Comments}\hline\endfoot
+    }
+    {
+        \end{longtable}
+    }
+    
+\newcounter{rawidcounter}
+
+\newcommand{\con}[4]
+{
+    \stepcounter{rawidcounter}
+    \therawidcounter & #1 & #2 & #3 & #4\\ \hline
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{requirementcounter}
+\renewcommand\therequirementcounter{
+\ifnum\value{requirementcounter}<10 0\fi
+\arabic{requirementcounter}
+}
+
+\newcommand{\newrequirement}[1]
+{
+    \refstepcounter{requirementcounter}
+    \ding{229} \textbf{REQ -\therequirementcounter} \label{#1}#1\\ 
+}
+
+\newcounter{assumptioncounter}
+\renewcommand\theassumptioncounter{
+\ifnum\value{assumptioncounter}<10 0\fi
+\arabic{assumptioncounter}
+}
+
+\newcommand{\newassumption}[1]
+{
+    \refstepcounter{assumptioncounter}
+    \ding{70} \textbf{A -\theassumptioncounter} \label{#1}#1\\ 
+}
+
+\newcounter{goalcounter}
+\renewcommand\thegoalcounter{
+\ifnum\value{goalcounter}<10 0\fi
+\arabic{goalcounter}
+}
+
+\newcommand{\newgoal}[1]
+{
+    \refstepcounter{goalcounter}
+    \ding{73} \textbf{GOAL -\thegoalcounter} \label{#1}#1\\ 
+}
+
+\newcommand{\requirement}[1]{
+    \ding{229} \textbf{REQ -\ref{#1}} #1\\ 
+}
+
+\newcommand{\assumption}[1]{
+    \ding{70} \textbf{A -\ref{#1}} #1\\ 
+}
+
+\newcommand{\goal}[1]{
+    \ding{73} \textbf{GOAL -\ref{#1}} #1\\ 
+}
