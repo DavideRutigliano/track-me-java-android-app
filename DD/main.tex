@@ -10,11 +10,6 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{pifont}
-\newcommand{\requirement}{\ding{229}}%
-\definecolor{commentgreen}{RGB}{2,112,10}
-\definecolor{eminence}{RGB}{108,48,130}
-\definecolor{weborange}{RGB}{255,165,0}
-\definecolor{frenchplum}{RGB}{129,20,83}
 
 \addbibresource{references.bib}
 \newcommand{\comment}[1]{\textbf{[Comment: #1]}}
@@ -37,23 +32,10 @@
 \subsection{Purpose}
     The Purpose of this Design Document is to provide, in a more specific and technical way with regard to the RASD, all the details of \textit{TrackMe} system.
     
-    In particular, this document is addressed to the developer's team. Through this paper they can better understand and identify:
-    \newline
-    \begin{itemize}
+    In particular, this document is addressed to  developers team. Through this paper they can better understand and identify: the main components and their interfaces and their behaviours, the high level architecture and its interaction with architectural components; style and design patterns that shall be used in deployment of the application.
     
- \item{The high level architecture}
+    Furthermore this document provides also an \textit{Implementation \& Test} plan.
  
- \item{The design patterns}
- 
- \item{The main components and their interfaces}
- 
- \item{The Runtime behavior}
- 
-    \end{itemize}
-    
-
-    \newpage
-    
     \subsection{Scope}
     \textit{TrackMe} system has been project in such a way that it is a service available on web and mobile application. The subjects the should use this service can belong to two different categories:
     \newline
@@ -76,14 +58,6 @@
    
    
    Moreover,  through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers} (that are individuals)  to  \textit{create}  a  new  run:  a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
-   
-   
-
-
-
-
-\newpage
-
 
 \subsection{Definition, Acronyms and  Abbreviations}
            
@@ -127,12 +101,7 @@
             \end{acronym}
             
             \subsubsection{Abbreviations}
-
-
-
-\subsection{Revision history}
-%????
-
+            
 \subsection{Reference Documents}
 
 \printbibliography[heading=none]
@@ -252,12 +221,37 @@ it allows to communicate with the application server and the only logic used is 
 
 \section{User Interface Design}
 
+\begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[height=50mm]{images/mockups/Login_Registration.png}
+    	\includegraphics[height=50mm]{images/mockups/RegistrationForm.png}
+    	\includegraphics[height=50mm]{images/mockups/ThirdPartyRegistration.png}
+        \end{figure}
+        \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[height=50mm]{images/mockups/HomePage.png}
+    	\includegraphics[height=50mm]{images/mockups/IndividualProfile.png}
+    	\includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
+        \end{figure}
+        \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[height=50mm]{images/mockups/Requests.png}
+    	\includegraphics[height=50mm]{images/mockups/GroupRequest.png}
+    	\includegraphics[height=50mm]{images/mockups/ManageRequests.png}
+    	\includegraphics[height=50mm]{images/mockups/ViewData.png}
+    	\includegraphics[height=50mm]{images/mockups/ViewData2.png}
+        \end{figure}
+        \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[height=50mm]{images/mockups/RunManager.png}
+    	\includegraphics[height=50mm]{images/mockups/RunCreate.png}
+    	\includegraphics[height=50mm]{images/mockups/ShowMap.png}
+    	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
+        \end{figure}
 \section{Requirements Traceability}
 
 \section{Implementation, Integration and Test Plan}
 
 \section{Effort Spent}
-
-\section{References}
 
 \end{document}
