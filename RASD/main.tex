@@ -86,29 +86,50 @@
         
         \subsubsection{Goals}
         
-        \comment{fix the undefull hbox error}\newline
         \newgoal{Allow a Guest to register as an Individual.}
+        
         \newgoal{Allow a Guest to register as an Third-Party.}
+        
         \newgoal{The Guest should be able to sign in into the application.}
+        
         \newgoal{The User should be able to change his username.}
+        
         \newgoal{The User should be able to change his password.}
+        
         \newgoal{The User should be able to log-out from the system.}
+        
         \newgoal{The Individual should be able to change his personal data.}
+        
         \newgoal{The Third-Party should be able to change his organization data.}
+        
         \newgoal{The Third-Party should be able to send requests to the Individuals.}
+        
         \newgoal{The Third-Party should be able to make group requests.}
+        
         \newgoal{The Third-Party should be able to subscribe to new data, once an Individual request is made.}
+        
         \newgoal{The Third Party should be able to view Individual's data to whom has sent a request.}
+        
         \newgoal{The Individual should be able to accept or reject a request coming from a Third-Party.}
+        
         \newgoal{The Individual shall be able connect an external device to the system.}
+        
         \newgoal{The Third-Party shall be able to activate Automated-SOS service.}
+        
         \newgoal{The Individual shall be able to activate Automated-SOS service.}
+        
         \newgoal{The Dispatcher shall be able to assign an ambulance to an incident.}
+        
         \newgoal{The Organizer shall be able to create a run.}
+        
         \newgoal{The Organizer should be able to start a run.}
+        
         \newgoal{The Organizer should be able to delete a run.}
+        
         \newgoal{The Athlete should be able to enroll a run.}
+        
         \newgoal{The Athlete should be able to unroll a run.}
+        
         \newgoal{The Spectator should be able to watch a run.}
     
     \subsection{Document Overview}
@@ -281,32 +302,59 @@
 
         \subsubsection{Assumptions}
         \newassumption{The field "Password" and "Repeat Password" match.}
+        
         \newassumption{Data provided by the individual, such as email and SSN, are valid.}
+        
         \newassumption{Data provided by the Third-Party (i.e: VAT number) are valid.}
+        
         \newassumption{The user is already registered.}
+        
         \newassumption{Username and password provided match the ones previously stored in the registration process.}
+        
         \newassumption{The user is logged in the system.}
+        
         \newassumption{The Third-Party provides a SSN/FC of an individual already registered into the system.}
+        
         \newassumption{The Third-Party provides not contradictory criteria for the selection of the group of individuals.}
+        
         \newassumption{The Third-Party has sent at least a request to the user whose data she wants to subscribe.}
+        
         \newassumption{The external device provided by the user is compatible with the system.}
+        
         \newassumption{The user has activated NFC/Bluetooth on the mobile device.}
+        
         \newassumption{The user has activated NFC/Bluetooth on the external device.}
+        
         \newassumption{An Automated-SOS service is enabled from at least one Third Party.}
+        
         \newassumption{At least one ambulance dispatcher is available for SOS request serving.}
+        
         \newassumption{The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.}
+        
         \newassumption{The organizer defines a not empty path.}
+        
         \newassumption{The Organizer has already created a run.}
+        
         \newassumption{At least two athletes are enrolled in the run.}
+        
         \newassumption{There is at least one created run.}
+        
         \newassumption{The Athlete is enrolled to at least one run.}
+        
         \newassumption{There is at least one started run.}
+        
         \newassumption{The individual has approved TrackMe' terms of use.}
+        
         \newassumption{The individual has received at least an individual request.}
+        
         \newassumption{The individual has accepted the individual request.}
+        
         \newassumption{Username is not already taken.}
+        
         \newassumption{Password is valid (i.e.: at least 8 alphanumerical characters).}
+        
         \newassumption{The run has not been started.}
+        
         \newassumption{The individual has received an individual request a specific Third Party.}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,162 +388,250 @@
 
 \newpage
 \subsection{Functional Requirements}
-        \subsubsection{Functional Requirements}
         
-        \goal{Allow a Guest to register as an Individual.}
+    \goal{Allow a Guest to register as an Individual.}
+        
+        \begin{description}
         \newrequirement{A customer not signed-on must be able to begin the Individual's registration process to TrackMe providing a username, a password and his personal data.}
+        
         \assumption{Username is not already taken.}
+        
         \assumption{Password is valid (i.e.: at least 8 alphanumerical characters).}
+        
         \assumption{The field "Password" and "Repeat Password" match.}
+        
         \assumption{Data provided by the individual, such as email and SSN, are valid.}
+        
         \assumption{The individual has approved TrackMe' terms of use.}
+        \end{description}
         
-        
-        \goal{Allow a Guest to register as an Third-Party.}
+    \goal{Allow a Guest to register as an Third-Party.}
+        \begin{description}
         \newrequirement{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
+        
         \assumption{Username is not already taken.}
+        
         \assumption{Password is valid (i.e.: at least 8 alphanumerical characters).}
+        
         \assumption{The field "Password" and "Repeat Password" match.}
+        
         \assumption{Data provided by the Third-Party (i.e: VAT number) are valid.}
+        
         \assumption{The individual has approved TrackMe' terms of use.}
+        \end{description}
         
-        
-        \goal{The Guest should be able to sign in into the application.}
+    \goal{The Guest should be able to sign in into the application.}
+        \begin{description}
         \newrequirement{The system must provide a log-in interface for already registered users, not previously signed into the application.}
+        
         \assumption{The user is already registered.}
+        
         \assumption{Username and password provided match the ones previously stored in the registration process.}
-        
-        
-        \goal{The User should be able to change his username.}
-        \newrequirement{TrackMe must provide to users the possibility to change their username.}
-        \assumption{The user is logged in the system.}
-        \assumption{Username is not already taken.}
-        
-        
-        \goal{The User should be able to change his password.}
-        \newrequirement{TrackMe must provide to registered users the possibility to change their password.}
-        \assumption{Username and password provided match the ones previously stored in the registration process.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The User should be able to log-out from the system.}
-        \newrequirement{The system must provide the possibility to the user of logging out.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The Individual should be able to change his personal data.}
-        \newrequirement{The system must provide the possibility to change Individual's personal data.}
-        \assumption{Data provided by the individual, such as email and SSN, are valid.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The Third-Party should be able to change his organization data.}
-        \newrequirement{The system must provide the possibility to change Third Party's organization data.}
-        \assumption{Data provided by the Third-Party (i.e: VAT number) are valid.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The Third-Party should be able to send requests to the Individuals.}
-        \newrequirement{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Third-Party provides a SSN/FC of an individual already registered into the system.}
-        
-        
-        \goal{The Third-Party should be able to make group requests.}
-        \newrequirement{Data4help must allow the Third-Parties to generated a request for a group of individuals.}
-        \newrequirement{The system must be able to anonymize users' requested data.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Third-Party provides not contradictory criteria for the selection of the group of individuals.}
-        
-        
-        \goal{The Third-Party should be able to subscribe to new data, once an Individual request is made.}
-        \newrequirement{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
-        \newrequirement{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Third-Party has sent at least a request to the user whose data she wants to subscribe.}
-        \assumption{The individual has received an individual request a specific Third Party.}
-        \assumption{The individual has accepted the individual request.}
-        
-        
-        \goal{The Third Party should be able to view Individual's data to whom has sent a request.}
-        \newrequirement{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The Individual should be able to accept or reject a request coming from a Third-Party.}
-        \newrequirement{Data4help must allow the Individual to see a list of the received requests from Third Parties.}
-        \newrequirement{Data4help must allow the Individual to accept or reject a request from the list.}
-        \assumption{The user is logged in the system.}
-        \assumption{The individual has received at least an individual request.}
-        
-        
-        \goal{The Individual shall be able connect an external device to the system.}
-        \newrequirement{Data4help must allow the Individual to connect an external device through BT or NFC.}
-        \assumption{The user is logged in the system.}
-        \assumption{The external device provided by the user is compatible with the system.}
-        \assumption{The user has activated NFC/Bluetooth on the mobile device.}
-        \assumption{The user has activated NFC/Bluetooth on the external device.}
-        
-        
-        \goal{The Third-Party shall be able to activate Automated-SOS service.}
-        \newrequirement{The system must allow the Third-Party to activate Automated-SOS service.}
-        \newrequirement{The system must be able to assign an ambulance dispatcher to the SOS service.}
-        \assumption{The user is logged in the system.}
-        \assumption{At least one ambulance dispatcher is available for SOS request serving.}
-        
-        
-        \goal{The Individual shall be able to activate Automated-SOS service.}
-        \newrequirement{The system must allow the Individual to activate Automated-SOS service.}
-        \newrequirement{The system should allow the Individual to choose between third parties who has enabled the service.}
-        \assumption{The user is logged in the system.}
-        
-        
-        \goal{The Dispatcher shall be able to assign an ambulance to an incident.}
-        \newrequirement{The system must be able to get the Individual position.}
-        \newrequirement{The system must be able to send the position to the nearest ambulance.}
-        \assumption{An Automated-SOS service is enabled from at least one Third Party.}
-        \assumption{At least one ambulance dispatcher is available for SOS request serving.}
-        \assumption{The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.}
-        
-        
-        \goal{The Organizer shall be able to create a run.}
-        \newrequirement{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
-        \newrequirement{The system must provide an interface that allows the user to define a path on an interactive map.}
-        \assumption{The user is logged in the system.}
-        \assumption{The organizer defines a not empty path.}
-        
-        
-        \goal{The Organizer should be able to start a run.}
-        \newrequirement{Track4Run must allow the organizer to start a run previously created.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Organizer has already created a run.}
-        \assumption{At least two athletes are enrolled in the run.}
-        
-        
-        \goal{The Organizer should be able to delete a run.}
-        \newrequirement{Track4Run must allow the organizer to delete a run previously created.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Organizer has already created a run.}
-        \assumption{The run has not been started.}
-        
-        
-        \goal{The Athlete should be able to enroll a run.}
-        \newrequirement{Track4Run must allow the Athlete to enroll to an already existing run.}
-        \assumption{The user is logged in the system.}
-        \assumption{There is at least one created run.}
-        
-        
-        \goal{The Athlete should be able to unroll a run.}
-        \newrequirement{Track4Run must allow the Athlete to unroll a run.}
-        \assumption{The user is logged in the system.}
-        \assumption{The Athlete is enrolled to at least one run.}
-        
-        
-        \goal{The Spectator should be able to watch a run.}
-        \newrequirement{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
-        \assumption{The user is logged in the system.}
-        \assumption{There is at least one started run.}
+        \end{description}
 
+    \goal{The User should be able to change his username.}
+        \begin{description}
+        \newrequirement{TrackMe must provide to users the possibility to change their username.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{Username is not already taken.}
+        \end{description}
+
+    \goal{The User should be able to change his password.}
+        \begin{description}
+        \newrequirement{TrackMe must provide to registered users the possibility to change their password.}
+        
+        \assumption{Username and password provided match the ones previously stored in the registration process.}
+        
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The User should be able to log-out from the system.}
+        \begin{description}
+        \newrequirement{The system must provide the possibility to the user of logging out.}
+        
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The Individual should be able to change his personal data.}
+        \begin{description}
+        \newrequirement{The system must provide the possibility to change Individual's personal data.}
+        
+        \assumption{Data provided by the individual, such as email and SSN, are valid.}
+       
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The Third-Party should be able to change his organization data.}
+        \begin{description}
+        \newrequirement{The system must provide the possibility to change Third Party's 
+        organization data.}
+        
+        \assumption{Data provided by the Third-Party (i.e: VAT number) are valid.}
+        
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The Third-Party should be able to send requests to the Individuals.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The Third-Party provides a SSN/FC of an individual already registered into the system.}
+        \end{description}
+        
+    \goal{The Third-Party should be able to make group requests.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Third-Parties to generated a request for a group of individuals.}
+        
+        \newrequirement{The system must be able to anonymize users' requested data.}
+        
+        \assumption{The user is logged in the system.}
+       
+        \assumption{The Third-Party provides not contradictory criteria for the selection of the group of individuals.}
+        \end{description}
+        
+    \goal{The Third-Party should be able to subscribe to new data, once an Individual request is made.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
+        
+        \newrequirement{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The Third-Party has sent at least a request to the user whose data she wants to subscribe.}
+        
+        \assumption{The individual has received an individual request a specific Third Party.}
+        
+        \assumption{The individual has accepted the individual request.}
+        \end{description}
+        
+    \goal{The Third Party should be able to view Individual's data to whom has sent a request.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}
+        
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The Individual should be able to accept or reject a request coming from a Third-Party.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Individual to see a list of the received requests from Third Parties.}
+        
+        \newrequirement{Data4help must allow the Individual to accept or reject a request from the list.}
+        
+        \assumption{The user is logged in the system.}
+       
+        \assumption{The individual has received at least an individual request.}
+        \end{description}
+        
+    \goal{The Individual shall be able connect an external device to the system.}
+        \begin{description}
+        \newrequirement{Data4help must allow the Individual to connect an external device through BT or NFC.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The external device provided by the user is compatible with the system.}
+        
+        \assumption{The user has activated NFC/Bluetooth on the mobile device.}
+        
+        \assumption{The user has activated NFC/Bluetooth on the external device.}
+        \end{description}
+        
+    \goal{The Third-Party shall be able to activate Automated-SOS service.}
+        \begin{description}
+        \newrequirement{The system must allow the Third-Party to activate Automated-SOS service.}
+        
+        \newrequirement{The system must be able to assign an ambulance dispatcher to the SOS service.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{At least one ambulance dispatcher is available for SOS request serving.}
+        \end{description}
+        
+    \goal{The Individual shall be able to activate Automated-SOS service.}
+        \begin{description}
+        \newrequirement{The system must allow the Individual to activate Automated-SOS service.}
+        
+        \newrequirement{The system should allow the Individual to choose between third parties who has enabled the service.}
+        
+        \assumption{The user is logged in the system.}
+        \end{description}
+        
+    \goal{The Dispatcher shall be able to assign an ambulance to an incident.}
+        \begin{description}
+        \newrequirement{The system must be able to get the Individual position.}
+        
+        \newrequirement{The system must be able to send the position to the nearest ambulance.}
+        
+        \assumption{An Automated-SOS service is enabled from at least one Third Party.}
+        
+        \assumption{At least one ambulance dispatcher is available for SOS request serving.}
+        
+        \assumption{The dispatcher is able to communicate with both the individual and the ambulance associated with the accident.}
+        \end{description}
+        
+    \goal{The Organizer shall be able to create a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
+        
+        \newrequirement{The system must provide an interface that allows the user to define a path on an interactive map.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The organizer defines a not empty path.}
+        \end{description}
+        
+    \goal{The Organizer should be able to start a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the organizer to start a run previously created.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The Organizer has already created a run.}
+        
+        \assumption{At least two athletes are enrolled in the run.}
+        \end{description}
+        
+    \goal{The Organizer should be able to delete a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the organizer to delete a run previously created.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The Organizer has already created a run.}
+        
+        \assumption{The run has not been started.}
+        \end{description}
+        
+    \goal{The Athlete should be able to enroll a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the Athlete to enroll to an already existing run.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{There is at least one created run.}
+        \end{description}
+        
+    \goal{The Athlete should be able to unroll a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the Athlete to unroll a run.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{The Athlete is enrolled to at least one run.}
+        \end{description}
+        
+    \goal{The Spectator should be able to watch a run.}
+        \begin{description}
+        \newrequirement{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
+        
+        \assumption{The user is logged in the system.}
+        
+        \assumption{There is at least one started run.}
+        \end{description}
+        
         \subsubsection{Use Cases Diagrams}
         
         \begin{figure}[!htpb]
@@ -526,6 +662,7 @@
         \brief{A guest sign up to the application as an Individual.}
         \actor{Guest.}
         \pre{The individual has a valid SSN/FC and he has selected the \textit{Individual} option in the Registration page.}
+        
         \bflow{The system asks to provide username, password, SSN/FC (based on region) and user personal information such as name, surname, age, gender, e-mail, nationality and optional notes about his health condition.}
               {The individual fills out the requested information and presses the confirm button.}
               {The system registers that user as an Individual and adds it to the  Database.}
@@ -533,6 +670,8 @@
         \except{The guest provide a username already present on the database. In this case an error message is printed out the guest must chose a correct username.}
         {If the password chosen is too short an error message is printed out and the guest must chosen an other one.}
       \end{usecase}
+      
+      \newpage
 
         \begin{usecase}{Third Party Registration}
         \brief{A guest sign up to the application as a Third-Party}
@@ -559,7 +698,7 @@
         \except{If the username is not present in the database an error message is showed and the access to the system is not granted }
         {If the password inserted is not associated with the given username, an error message is showed and the guest cannot access the system}
         \end{usecase}
-        
+        \newpage
        \begin{usecase}{User Changes Username}
         \brief{A user changes his username}
         \actor{User.}
@@ -572,7 +711,7 @@
         \except{The new username is already present on the database and an error mistake is showed}
        \end{usecase}
        
-       \begin{usecase}{User Changes password}
+       \begin{usecase}{User Changes Password}
         \brief{A user changes his password}
         \actor{User.}
         \pre{The User is logged in the system and is in the change credentials section.}
@@ -695,10 +834,10 @@
         {The Individual connects the device}
         \post{The system can now collect data from the external device.}
         \end{usecase}
-
-        \subsubsection{Automated-SOS }
+    \newpage
+        \subsubsection{Automated-SOS}
         
-        \begin{usecase}{ Enable Automated-SOS Third Party}
+        \begin{usecase}{Enable Automated-SOS Third Party}
         \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. That individual must have enable Automated SOS too.}
         \actor{Third party, Ambulance Dispatcher}
         \pre{The Third-Party is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
@@ -709,7 +848,7 @@
               \except{If no dispatcher is available an error message will be printed out by the system}
         \end{usecase}
         
-        \begin{usecase}{ Enable Automated-SOS Individual}
+        \begin{usecase}{Enable Automated-SOS Individual}
         \brief{An Individual wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. The individual will choose the Third-Party that will provide the Automated SOS functionality.}
         \actor{Individual}
         \pre{The Individual is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
@@ -771,7 +910,7 @@
         \post{Any Athlete that was subscribed to that run is no longer subscribed. Athletes can no longer subscribe to that run. That run is deleted from the list of available runs.}
         \end{usecase}
             
-        \begin{usecase}{Enroll a Run}
+        \begin{usecase}{Enroll Run}
         \brief{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
         \actor{Athlete.}
         \pre{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
@@ -781,7 +920,7 @@
         \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that spectate that run.}
         \end{usecase}
         
-        \begin{usecase}{Unroll a Run}
+        \begin{usecase}{Unroll Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
         \actor{Athlete.}
         \pre{The Athlete is logged-in and is in the Track4Run section. He is also enrolled to at least one run.}
@@ -815,115 +954,115 @@
                 {}
             \con{\ref{The Guest should be able to sign in into the application.}}
                 {\ref{The system must provide a log-in interface for already registered users, not previously signed into the application.}}
-                {\ref{}}
+                {\ref{Log-in}}
                 {}
             \con{\ref{The User should be able to change his username.}}
                 {\ref{TrackMe must provide to users the possibility to change their username.}}
-                {\ref{}}
+                {\ref{User Changes Username}}
                 {}
             \con{\ref{The User should be able to change his password.}}
                 {\ref{TrackMe must provide to registered users the possibility to change their password.}}
-                {\ref{}}
+                {\ref{User Changes Password}}
                 {}
             \con{\ref{The User should be able to log-out from the system.}}
                 {\ref{The system must provide the possibility to the user of logging out.}}
-                {\ref{}}
+                {\ref{User Log-out}}
                 {}
             \con{\ref{The Individual should be able to change his personal data.}}
                 {\ref{The system must provide the possibility to change Individual's personal data.}}
-                {\ref{}}
+                {\ref{Manage Individual Profile}}
                 {}
             \con{\ref{The Third-Party should be able to change his organization data.}}
                 {\ref{The system must provide the possibility to change Third Party's organization data.}}
-                {\ref{}}
+                {\ref{Manage Third-Party Profile}}
                 {}
             \con{\ref{The Third-Party should be able to send requests to the Individuals.}}
                 {\ref{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}}
-                {\ref{}}
+                {\ref{Make Individual Request}}
                 {}
             \con{\ref{The Third-Party should be able to make group requests.}}
                 {\ref{Data4help must allow the Third-Parties to generated a request for a group of individuals.}}
-                {\ref{}}
+                {\ref{Make Group Request}}
                 {}
             \con{\ref{The Third-Party should be able to make group requests.}}
                 {\ref{The system must be able to anonymize users' requested data.}}
-                {\ref{}}
+                {\ref{Make Group Request}}
                 {}
             \con{\ref{The Third-Party should be able to subscribe to new data, once an Individual request is made.}}
                 {\ref{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}}
-                {\ref{}}
+                {\ref{Subscribe to New Data}}
                 {}
             \con{\ref{The Third-Party should be able to subscribe to new data, once an Individual request is made.}}
                 {\ref{The system must be able to periodically query the database in order to get new data as soon as they are produced.}}
-                {\ref{}}
+                {\ref{Subscribe to New Data}}
                 {}
-            \con{\ref{The Third Party should be able to view Individual's data to whom has sent a request.}}
-                {\ref{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}}
-                {\ref{}}
-                {}
-            \con{\ref{The Individual should be able to accept or reject a request coming from a Third-Party.}}
-                {\ref{Data4help must allow the Individual to see a list of the received requests from Third Parties.}}
-                {\ref{}}
-                {}
-            \con{\ref{The Individual should be able to accept or reject a request coming from a Third-Party.}}
+                \con{\ref{The Individual should be able to accept or reject a request coming from a Third-Party.}}
                 {\ref{Data4help must allow the Individual to accept or reject a request from the list.}}
-                {\ref{}}
+                {\ref{Manage Request}}
+                {}
+                \con{\ref{The Individual should be able to accept or reject a request coming from a Third-Party.}}
+                {\ref{Data4help must allow the Individual to see a list of the received requests from Third Parties.}}
+                {\ref{Manage Request}}
+                {}
+                \con{\ref{The Third Party should be able to view Individual's data to whom has sent a request.}}
+                {\ref{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}}
+                {\ref{View Data}}
                 {}
             \con{\ref{The Individual shall be able connect an external device to the system.}}
                 {\ref{Data4help must allow the Individual to connect an external device through BT or NFC.}}
-                {\ref{}}
+                {\ref{Connect External Device}}
                 {}
             \con{\ref{The Third-Party shall be able to activate Automated-SOS service.}}
                 {\ref{The system must allow the Third-Party to activate Automated-SOS service.}}
-                {\ref{}}
+                {\ref{Enable Automated-SOS Third Party}}
                 {}
-            \con{\ref{The Third-Party shall be able to activate Automated-SOS service.}}
+                \con{\ref{The Third-Party shall be able to activate Automated-SOS service.}}
                 {\ref{The system must be able to assign an ambulance dispatcher to the SOS service.}}
-                {\ref{}}
+                {\ref{Enable Automated-SOS Third Party}}
                 {}
             \con{\ref{The Individual shall be able to activate Automated-SOS service.}}
                 {\ref{The system must allow the Individual to activate Automated-SOS service.}}
-                {\ref{}}
+                {\ref{Enable Automated-SOS Individual}}
                 {}
-            \con{\ref{The Individual shall be able to activate Automated-SOS service.}}
+                \con{\ref{The Individual shall be able to activate Automated-SOS service.}}
                 {\ref{The system should allow the Individual to choose between third parties who has enabled the service.}}
-                {\ref{}}
+                {\ref{Enable Automated-SOS Individual}}
                 {}
             \con{\ref{The Dispatcher shall be able to assign an ambulance to an incident.}}
                 {\ref{The system must be able to get the Individual position.}}
-                {\ref{}}
+                {\ref{Assign Ambulance}}
                 {}
-            \con{\ref{The Dispatcher shall be able to assign an ambulance to an incident.}}
+                \con{\ref{The Dispatcher shall be able to assign an ambulance to an incident.}}
                 {\ref{The system must be able to send the position to the nearest ambulance.}}
-                {\ref{}}
+                {\ref{Assign Ambulance}}
                 {}
             \con{\ref{The Organizer shall be able to create a run.}}
                 {\ref{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}}
-                {\ref{}}
+                {\ref{Create Run}}
                 {}
-            \con{\ref{The Organizer shall be able to create a run.}}
+                \con{\ref{The Organizer should be able to start a run.}}
                 {\ref{The system must provide an interface that allows the user to define a path on an interactive map.}}
-                {\ref{}}
+                {\ref{Start Run}}
                 {}
             \con{\ref{The Organizer should be able to start a run.}}
                 {\ref{Track4Run must allow the organizer to start a run previously created.}}
-                {\ref{}}
+                {\ref{Start Run}}
                 {}
             \con{\ref{The Organizer should be able to delete a run.}}
                 {\ref{Track4Run must allow the organizer to delete a run previously created.}}
-                {\ref{}}
+                {\ref{Delete Run}}
                 {}
             \con{\ref{The Athlete should be able to enroll a run.}}
                 {\ref{Track4Run must allow the Athlete to enroll to an already existing run.}}
-                {\ref{}}
+                {\ref{Enroll Run}}
                 {}
             \con{\ref{The Athlete should be able to unroll a run.}}
                 {\ref{Track4Run must allow the Athlete to unroll a run.}}
-                {\ref{}}
+                {\ref{Unroll Run}}
                 {}
             \con{\ref{The Spectator should be able to watch a run.}}
                 {\ref{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}}
-                {\ref{}}
+                {\ref{Watch Run}}
                 {}
         \end{traceabilitymatrix}
         
