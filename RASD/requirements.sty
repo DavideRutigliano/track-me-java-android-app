@@ -92,7 +92,7 @@
 \newcommand{\con}[4]
 {
     \stepcounter{rawidcounter}
-    \therawidcounter & #1 & #2 & #3 & #4\\ \hline
+    r\therawidcounter & G.#1 & R.#2 & UC.#3 & #4\\ \hline
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +130,7 @@
 \newcommand{\newgoal}[1]
 {
     \refstepcounter{goalcounter}
-    \ding{73} \textbf{GOAL -\thegoalcounter} \label{#1}#1\\ 
+    \ding{73} \textbf{GOAL -\thegoalcounter} \label{#1}#1\\
 }
 
 \newcommand{\requirement}[1]{
@@ -138,7 +138,7 @@
 }
 
 \newcommand{\assumption}[1]{
-    \ding{70} \textbf{A -\ref{#1}} #1\\ 
+    \ding{70} \textbf{A -\ref{#1}} #1\\
 }
 
 \newcommand{\goal}[1]{
