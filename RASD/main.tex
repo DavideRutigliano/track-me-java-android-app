@@ -765,25 +765,25 @@
         \subsubsection{Automated-SOS}
         
         \begin{usecase}{Enable Automated-SOS Third Party}
-        \brief{A Third-Party wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. That individual must have enable Automated SOS too.}
-        \actor{Third party, Ambulance Dispatcher, Individual, Automated-SOS.}
+        \brief{A Third-Party wants to enable the Automated-SOS service.}
+        \actor{Third party, Ambulance Dispatcher, Individual, TrackMe.}
         \pre{The Third-Party is logged-in, it has pressed the Enable Automated-SOS on the main page and has not already activate this service.}
-        \bflow {Automated-SOS checks if the Third Party has already enabled the service.}
-              {Automated-SOS asks if the Third Party wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
-              {Third Party presses the \textit{'Confirm'} button.}
+        \bflow {TrackMe checks if the Third Party has already enabled the service.}
+              {TrackMe asks if the Third Party wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
+              {Third-Party presses the \textit{'Confirm'} button.}
               \post{Third-Party has enabled Automated-SOS and individuals that enabled Automated-SOS can see the third-party in the Automated-SOS third-party list. An ambulance dispatcher has been assigned to that Third-Party by the system.}
               \except{If no dispatcher is available an error message will be printed out by the system.}
         \end{usecase}
         
         \begin{usecase}{Enable Automated-SOS Individual}
-        \brief{An Individual wants to enable Automated-SOS, a service that guarantees that an ambulance, selected by a dispatcher, will be called in 5 seconds if an individual's health parameters are below certain thresholds. The individual will choose the Third-Party that will provide the Automated SOS functionality.}
+        \brief{An Individual wants to enable Automated-SOS. The individual will choose the Third-Party that will provide the Automated SOS functionality.}
         \actor{Individual, Third-Party, Automated-SOS.}
         \pre{The Individual is logged-in, it has pressed the Enable Automated SOS on the main page and has not already activate this service.}
-        \bflow {Automated-SOS checks if the user has already enabled the service.}
-              {Automated-SOS asks if the user wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
+        \bflow {TrackMe checks if the user has already enabled the service.}
+              {TrackMe asks if the user wants to enable Automated-SOS. It provides two buttons called \textit{'Confirm'} and \textit{'Back'}.}
               {Individual presses the \textit{'Confirm'} button.}
-              {The system provides a table with the list of Third-Parties that have enabled Automated SOS.}
-              {The users selects a Third-Party desired and presses \textit{'Confirm'}.}
+              {TrackMe provides a table with the list of Third-Parties that have enabled Automated SOS.}
+              {The Individual selects a Third-Party desired and presses \textit{'Confirm'}.}
               \post{Individual has enabled Automated-SOS and has selected the Third-Party that will provide that service.}
               \except{If no Third-Parties has activated Automated SOS an error message is printed.}
         \end{usecase}
@@ -792,9 +792,9 @@
         \brief{The Dispatcher will assign an ambulance to an individual, related to a particular Third-Party, whose actual data has overcame a certain limit.}
         \actor{Third Party, Individual, Ambulance Dispatcher, Ambulance.}
         \pre{At least one ambulance must be available; the Third Party must have enabled Automated-SOS. The individual has selected that Third-Party to provide the service of Automated SOS. The Individual security threshold has been overcame.}
-        \bflow{The system checks the Individual's health parameters and finds that he has overcame the thresholds.}
+        \bflow{TrackMe checks the Individual's health parameters and finds that he has overcame the thresholds.}
               {The ambulance Dispatcher checks in the ambulance database the nearest one available.}
-              {Automated-SOS sends to the selected ambulance a request with the GPS position of the subject in danger.}
+              {TrackMe sends to the selected ambulance a request with the GPS position of the subject in danger.}
               {The ambulance selected should accept the request, otherwise Automated-SOS will notify the second ambulance available and so on until the request is accepted.}
         \post{An ambulance will go to the position of the Individual.} 
         \end{usecase}
@@ -803,34 +803,34 @@
         
          \begin{usecase}{Create Run}
         \brief{An Organizer creates a new run.}
-        \actor{Organizer, Track4Run.}
+        \actor{Organizer, TrackMe.}
         \pre{The Organizer has clicked on the \textit{Plus} button in the Track4Run section.}
-        \bflow{Track4Run provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
-              {The organizer fills the boxes and then presses the \textit('Confirm') button.}
-              {Track4Run asks the user to defines a \textit{path} using an interactive map}
+        \bflow{TrackMe provides a set of boxes called \textit{'Name'}, \textit{'Country'}, \textit{'Date'} \textit{Time} and two buttons called \textit{'Confirm'} and \textit{'Back'}.}
+              {The Organizer fills the boxes and then presses the \textit('Confirm') button.}
+              {TrackMe asks the user to defines a \textit{path} using an interactive map}
               {The Organizer defines the \textit{path} using the tools provided by Track4Run to design a path on the map and presses the \textit{Confirm} button}
-              {Track4Run adds the \textit{run} information to the DB.}
-              {The system informs the Organizer that the operation succeed.}
+              {TrackMe adds the \textit{run} information to the DB.}
+              {TrackMe informs the Organizer that the operation succeed.}
         \post{The run is created and has been added to the database and its state is \textit{created}. The list of available runs is updated.}
         \except{If the data and time provided for the run are previous the current one an error message is printed.}
         \end{usecase}
         
         \begin{usecase}{Start Run}
         \brief{An Organizer starts a run that he has previously created.}
-        \actor{Organizer, Track4Run.}
+        \actor{Organizer, TrackMe.}
         \pre{The Organizer is logged-in and is in the Track4Run section. The run he want to start must have at least two athletes enrolled.}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. Furthermore, the system provides two buttons  near the each run: \textit{Play} and \textit{Cross}.}
+        \bflow{TrackMe provides a list of runs that the Organizer has created. Furthermore, the system provides two buttons  near the each run: \textit{Play} and \textit{Cross}.}
               {Organizer Presses the \textit{Play} button near the run he wants to start.}
-              {Track4Run asks the Organizer to confirm his choice.}
+              {TrackMe asks the Organizer to confirm his choice.}
               {The Organizer clicks on the \textit{start} button}
         \post{The selected run state is now \textit{started} and Athletes and Spectator will be notified.}
         \end{usecase}
         
         \begin{usecase}{Delete Run}
         \brief{An Organizer deletes run that he has previously created.}
-        \actor{Organizer, Track4Run.}
+        \actor{Organizer, TrackMe.}
         \pre{The Organizer is logged-in and is in the Track4Run section. At least one run has been created.}
-        \bflow{Track4Run provides a list of runs that the Organizer has created. Moreover, the system provides two buttons \textit{Cross} and \textit{Play}.}
+        \bflow{TrackMe provides a list of runs that the Organizer has created. Moreover, the system provides two buttons \textit{Cross} and \textit{Play}.}
               {Organizer select a \textit{created} run and presses the \textit{'Cross '} button.}
               {The system asks if the Organizer wants to delete the run, and provides two buttons \textit{yes} and \textit{no}}
               {The Organizer clicks on the \textit{yes} button.}
@@ -839,29 +839,29 @@
             
         \begin{usecase}{Enroll Run}
         \brief{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
-        \actor{Athlete, Track4Run.}
+        \actor{Athlete, TrackMe.}
         \pre{The Athlete is logged-in and is in the Track4Run section. At least one run has been created}
-        \bflow{Track4Run provides a list of runs that the user can select. these runs must have the state \textit{not-started}. Track4Run also provides two buttons near each created run:  \textit{'Enroll'}  and  \textit{'Watch'} .}
+        \bflow{TrackMe provides a list of runs that the user can select. these runs must have the state \textit{not-started}. TrackMe also provides two buttons near each created run:  \textit{'Enroll'}  and  \textit{'Watch'} .}
               { The Individual clicks the \textit{'Enroll'} button of the chosen run.}
-              {Track4Run informs the Athlete that the operation succeed.}
+              {TrackMe informs the Athlete that the operation succeed.}
         \post{The Athlete successfully enrolls the run and his position will be sent to all \textit{Spectators} that spectate that run.}
         \end{usecase}
         
         \begin{usecase}{Unroll Run}
         \brief{An Athlete Unrolls to a run previously enrolled.}
-        \actor{Athlete, Track4Run.}
+        \actor{Athlete, TrackMe.}
         \pre{The Athlete is logged-in and is in the Track4Run section. He is also enrolled to at least one run.}
-        \bflow{Track4Run provides the list of runs to which the athlete is enrolled.  Near each created run the buttons  \textit{'Unroll'}  and  \textit{'Watch'} .}
+        \bflow{TrackMe provides the list of runs to which the athlete is enrolled.  Near each created run the buttons  \textit{'Unroll'}  and  \textit{'Watch'} .}
               {Individual selects one run from the list and presses the \textit{'Unroll'} button.}
-              {Track4Run informs the Athlete that the operation succeed.}
+              {TrackMe informs the Athlete that the operation succeed.}
         \post{The Athlete is no longer enrolled to that run.}
         \end{usecase}
 
         \begin{usecase}{Watch Run}
         \brief{A Spectator wants to watch a \textit{run}.}
-        \actor{Spectator, Track4Run.}
+        \actor{Spectator, TrackMe.}
         \pre{The Spectators is logged-in and is in the Track4Run section. At least one run has been \textit{Started}.}
-        \bflow{Track4Run provides a list of runs with state started the state \textit{started}. Track4Run also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
+        \bflow{TrackMe provides a list of runs with state started the state \textit{started}. TrackMe also provides two buttons: a \textit{Watch} and \textit{Enroll}.}
               {Individual selects one run from the list and presses the \textit{'Watch'} button.}
         \post{The spectator can view a map with all athletes positions that are enrolled in that run.}
         \end{usecase}
