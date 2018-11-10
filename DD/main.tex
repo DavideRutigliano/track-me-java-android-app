@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
-\usepackage[htt]{hyphenat}
+\usepackage[none]{hyphenat}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{listings}
@@ -38,23 +38,23 @@
  
     \subsection{Scope}
     \textit{TrackMe} system has been project in such a way that it is a service available on web and mobile application. The subjects the should use this service can belong to two different categories:
-    \newline
+    
     \begin{itemize}
     
     \item{Individuals}
     
     \item{Third-Party}
-    \newline
+    
     \end{itemize}
     
    
-   \textit{TrackMe} give allows Third-Party to access Individual's health data exploiting the functionalities of \textit{Data4help} section of \textit{TrackMe}. The Third-Parties can make Individual, or group request. the Individuals  can accept or not Third-parties' requests. The application may also allow individual users to connect external  devices such as smart-watches or similar, to perform a more detailed data acquisition and monitoring. 
-   \newline
+   \textit{TrackMe} give allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} section of \textit{TrackMe}. The Third-Parties can make Individual, or group request. the Individuals  can accept or not Third-parties' requests. The application may also allow individual users to connect external  devices such as smart-watches or similar, to perform a more detailed data acquisition and monitoring. 
+   
    
    
    In addition, the third-party may also provide a personalized and non intrusive SOS service for elderly people who requested it.
    The system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of an user, who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher, which is connected to the Third-Party (which has enabled automated-SOS too), that has been selected by that individual to provide this service
-   \newline
+   
    
    
    Moreover,  through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers} (that are individuals)  to  \textit{create}  a  new  run:  a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
@@ -239,13 +239,7 @@ it allows to communicate with the application server and the only logic used is 
 \section{User Interface Design}
 
 %improve the image layout
-In this section will be showed the application mock ups.
-\newline
-The guest who access to the main page can sign-up to the application providing his credentials. Once clicked on the \textit{Sign On} button the guest can decide whether registers as an Individual or as a Third-Party, swiping left and right to choose the wright option.
-\newline
-Once registered, on initial page, an user can sign-in in the application inserting Username and Password in the relative boxes and clicking on the \textit{Sign} In button. 
-\newline  
-\newline  
+The guest who access to the main page can sign-up to the application providing his credentials. Once clicked on the \textit{Sign On} button the guest can decide whether registers as an Individual or as a Third-Party, swiping left and right to choose the wright option. Once registered, on initial page, an user can sign-in in the application inserting Username and Password in the relative boxes and clicking on the \textit{Sign} In button. 
 
 %mock-up figures
 \begin{figure}[!htpb]
@@ -253,13 +247,11 @@ Once registered, on initial page, an user can sign-in in the application inserti
     	\includegraphics[height=50mm]{images/mockups/Login_Registration.png}
     	\includegraphics[height=50mm]{images/mockups/RegistrationForm.png}
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyRegistration.png}
-    	\newline
-    	\newline
+    	
+    	
         \end{figure}
 
-When, inside the application, the user is redirected to the home page, where he can see the last activities, and where he can sign out from \textit{TrackMe}.
-\newline
-Swiping left he can access to the profile page which is different whether he is signed as an Individual or Third-Party. Here they can access to the services provided by \textit{Data4help} and the can enable \textit{Automated-SOS} too. The Individual can swipe again to access the \textit{Track4Run} section.
+When, inside the application, the user is redirected to the home page, where he can see the last activities, and where he can sign out from \textit{TrackMe}. Swiping left he can access to the profile page which is different whether he is signed as an Individual or Third-Party. Here they can access to the services provided by \textit{Data4help} and the can enable \textit{Automated-SOS} too. The Individual can swipe again to access the \textit{Track4Run} section.
 
 \begin{figure}[!htpb]
     	\centering
@@ -268,21 +260,19 @@ Swiping left he can access to the profile page which is different whether he is 
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
         \end{figure}
 
-\newpage
-
-The Third-party, in the Request page, can swipe between individual and group, and can enable the option to subscribe to new data. 
-\newline
-While, The Individual, can see and resolve incoming request, the accepted and the rejected ones.
-\newline
-The Third- Party, form the initial page, can also reach the view data section. Here he can see and plot the data of the accepted requests. Furthermore, swiping left and right, it can move between individual and group data.
-
-\newpage
+The Third-party, in the Request page, can swipe between individual and group, and can enable the option to subscribe to new data. While, The Individual, can see and resolve incoming request, the accepted and the rejected ones. The Third- Party, form the initial page, can also reach the view data section. Here he can see and plot the data of the accepted requests. Furthermore, swiping left and right, it can move between individual and group data.
+\begin{figure}[!htpb]		
+		
+     	\centering		
+     	\includegraphics[height=50mm]{images/mockups/Requests.png}		
+     	\includegraphics[height=50mm]{images/mockups/GroupRequest.png}		
+     	\includegraphics[height=50mm]{images/mockups/ManageRequests.png}		
+     	\includegraphics[height=50mm]{images/mockups/ViewData.png}		
+     	\includegraphics[height=50mm]{images/mockups/ViewData2.png}		
+         \end{figure}
         
-Once in the \textit{Truck4Run}, the individual can create, watch, enroll, unroll, start or delete a run. 
-\newline
-In the create run page, he can set all the characteristic of the run. Furthermore, he can access to an interactive map to set up the path of the rush.
-\newline
-In the section tho watch a run, a map is showed with all the information about that rush.
+        \newpage
+Once in the \textit{Truck4Run}, the individual can create, watch, enroll, unroll, start or delete a run.  In the create run page, he can set all the characteristic of the run. Furthermore, he can access to an interactive map to set up the path of the rush. In the section tho watch a run, a map is showed with all the information about that rush.
 
         \begin{figure}[!htpb]
     	\centering
@@ -291,7 +281,8 @@ In the section tho watch a run, a map is showed with all the information about t
     	\includegraphics[height=50mm]{images/mockups/ShowMap.png}
     	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
         \end{figure}
-
+        
+\newpage
 \section{Requirements Traceability}
 
 
