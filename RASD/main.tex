@@ -646,17 +646,18 @@
         {TrackMe checks if the number of individuals of the group who matches the search criteria defined on point \textit{a)} is greater than 1000.}
         {TrackMe informs the Third-Party that the operation succeed.}
         \post{The third party has access to the data of a specific group of individuals who received the request.}
+        \epoint{The Third-Party selects the 'Subscribe to new data' option}
         \except{If the number of individual selected is lower than 1000 an error message is printed and the request is rejected}
         \end{usecase}
         
         \begin{usecase}{Subscribe to New Data}
-        \brief{A third party subscribes to the data of individuals who received at least a request.}
+        \brief{A third party subscribes to the data of individuals or groups who received at least a request.}
         \actor{Third Party.}
         \pre{The Third-Party is logged-in and is on requests page.}
         \bflow{TrackMe provides a check-box to allow a third-party to choose if she wants to be subscribed to new data.}
             {Third party checks the \textit{'Subscribe'} box.}
             {TrackMe queries periodically the database to check if data has changed and if so will send the new data to the subscribed third-party.}
-        \post{The third party is subscribed to the individuals' data and will receive new data as soon as they are produced.}
+        \post{The third party is subscribed to the individuals' or group's data and will receive new data as soon as they are produced.}
         \end{usecase}
         
         \begin{usecase}{Manage Request}
