@@ -868,8 +868,6 @@
         \post{The spectator can view a map with all athletes positions that are enrolled in that run.}
         \end{usecase}
         
-        \newpage
-        
         \subsubsection{Traceability Matrix}
         \begin{traceabilitymatrix}
             \con{\ref{Allow a Guest to register as an Individual.}}
@@ -1000,9 +998,10 @@
     
         \subsubsection{Regulatory Policies}
         In order to grant individual privacy and data anonymity, the system should be able to manage both individual and group requests:
+        
         \begin{itemize}
-            \item in case of individual requests, the system shall check that the third-party knows individual's security social number and should guarantee that only trusted third-parties can access his data and,
-            \item in case of group requests, \textit{TrackMe} should be able to check in the number of individuals which will receive the request will be greater enough to guarantee user privacy.
+            \item In case of individual requests, the system shall check that the third-party knows individual's security social number and should guarantee that only trusted third-parties can access his data;
+            \item In case of group requests, \textit{TrackMe} should be able to check in the number of individuals which will receive the request will be greater enough to guarantee user privacy. TrackMe will approve this type of requests if it is able to properly anonymize the requested data. For instance, if the third party is asking for data about 10-year-old children living in a certain street in Milano and the number of these children is two, then the third party could be able to derive their identity simply having people monitoring the residents of the street between 8.00 and 9.00 when kids go to school. Then, to avoid this risk and the possibility of a misuse of data, TrackMe will not accept the request. For simplicity, we assume that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000.
         \end{itemize}
         
         \subsection{Software System Attributes}
