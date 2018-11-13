@@ -31,19 +31,16 @@
 \subsection{Purpose}
     The Purpose of this Design Document is to provide, in a more specific and technical way with respect to the RASD, all the details of \textit{TrackMe} system \cite{rasd}. The \textit{Requirement Analysis and Specification Document} is also recommended to developer aimed at implementing the proposed system.
     
-    The purpose of this paper is to point out the main components, their interfaces and their behaviours, show the high level architecture and its interaction with architectural components and to identify style and design patterns that shall be used in deployment of the application.
+    The purpose of this paper is to point out the main components, their interfaces and their behaviours, show the high level architecture and its interaction with architectural components and to identify style and design patterns that shall be used in deployment of the application. This Document will provide detailed explanation of each functionality through components and sequence diagrams also used to explain to programmers the overall structure of the system in a precise and implementation-oriented way.
     
     Furthermore this document provides also an \textit{Implementation \& Test} plan in order to give to the developer a precise idea of the deployment process.
  
 \subsection{Scope}
-   \textit{TrackMe} allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} service. The Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
+    \textit{TrackMe} allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} service: Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
 
-   In addition, the third-party may also provide a personalized and non intrusive SOS service interfaced with an ambulance dispatcher.
-   This system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher, which is connected to the Third-Party (which has enabled automated-SOS too), that has been selected by that individual to provide this service
+    In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher, which is connected to the Third-Party (which has enabled automated-SOS too), that has been selected by that individual to provide this service
    
-   Moreover, through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers} (that are individuals)  to  \textit{create}  a  new  run:  a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
-
-    This Document will provide detailed explanation of each functionality through components and sequence diagrams also used to explain to programmers the overall structure of the system in a precise and implementation oriented way.
+    Moreover, through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers} (that are individuals)  to  \textit{create}  a  new  run:  a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
     
 \subsection{Definition, Acronyms and  Abbreviations}
             \subsubsection{Keywords}
@@ -109,6 +106,8 @@
     \item \textit{Component View}: gives a more detailed view of the components of the applications through UML component diagrams;
 
     \item \textit{Deployment View}: shows UML deployment diagrams and their explanations;
+    
+    \item \textit{Entity Relation Diagram}: shows database entities and relationships;
 
     \item \textit{Runtime View}: presents UML sequence diagrams in order to show the event flow of the different tasks of the application;
 
@@ -133,6 +132,7 @@ The system is deployed on three different tiers: the data layer, the application
 \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.png}
+    	\caption{High Level interaction diagram}
 \end{figure}
 
 The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Data Layer}. Furthermore, the \textit{Presentation Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Data Layer} instead is composed of two sub-components: a classic SQL database or optionally a less traditional noSQL database (e.g. MongoDB).
@@ -143,9 +143,17 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \item The \textit{Application Server} should be able to communicate with ambulances in order to send them individual's position and notify them in case of accident.
 \end{itemize}
 
+\begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm,keepaspectratio]{images/highlevel2.png}
+    	\caption{High Level components diagram}
+\end{figure}
+
 \subsection{Component View}
 
 \subsection{Deployment View}
+
+\subsection{Entity Relation Diagram}
 
 \subsection{Runtime View}
 
@@ -201,7 +209,6 @@ Third-parties can choose either individual or group request and can enable the o
      	\includegraphics[height=50mm]{images/mockups/ViewData2.png}		
          \end{figure}
         
-        \newpage
 Once in the \textit{Truck4Run} section, the individual can create, watch, enroll, unroll, start or delete a run.  In the create run page, he can set all the characteristic of the run. Furthermore, he can access to an interactive map to set up the path of the run. In the section watch run there's instead a map with all the position of athletes.
 
         \begin{figure}[!htpb]
@@ -212,7 +219,25 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
         \end{figure}
      
-\subsection{User eXperience}
+\subsection{User Experience}
+    In this specification we include only mobile users' experience because for web application clients the experience will be the same except for the fact that all \textit{Automated-Sos} and most of \textit{Track4Run} function will be unavailable for web browsers.
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/ux/UX_Guest.png}
+    	\caption{Guest eXperience}
+    \end{figure}
+
+    \begin{figure}[!htpb]
+        \centering
+    	\includegraphics[width=\textwidth]{images/ux/UX_Individual.png}
+    	\caption{Individual User eXperience}
+    \end{figure}
+
+    \begin{figure}[!htpb]
+        \centering
+    	\includegraphics[width=100mm]{images/ux/UX_ThirdParty.png}
+    	\caption{ThirdParty User eXperience}
+    \end{figure}
 
 \newpage
 \section{Requirements Traceability}
