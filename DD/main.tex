@@ -152,6 +152,27 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
 \subsection{Component View}
 
 
+\begin{itemize}
+    \item \textbf{Data Controller}: 
+    This is the component that is responsible to show data to Third-Party who requires them.
+    
+    \item \textbf{Sos Controller}: This component allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
+    
+    \item \textbf{Dispatcher Controller}: This component is active ted by an alert from the Sos service. It exploits the Dispatcher's API to select an ambulance from the database and send it the GPS position of the Individual in danger.
+    
+    \item \textbf{Request Controller}:
+    This component allows to generate individual and group requests and has the responsibility to send the former to individuals. Furthermore it checks the validity of group requests.
+    
+    \item \textbf{User Session Controller}: This is the component that handles all the logic related to the login and
+registration functionality of the system. This module allows to do the authentication of the user through the submitted
+credentials for the login process and for the registration of a new user.
+    
+    \item \textbf{Run Controller}: This component handles the creation of a run. Beside, it permits Individuals to enroll adn watch run.
+
+    
+\end{itemize}
+
+
 \newpage
 
 \subsubsection{Data Layer}
@@ -174,8 +195,6 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \label{fig:deployment_trackme}
 \end{figure}
 
-
-\subsection{Entity Relation Diagram}
 
 \subsection{Runtime View}
 
