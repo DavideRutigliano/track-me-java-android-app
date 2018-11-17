@@ -1,0 +1,12 @@
+\ProvidesPackage{requirements}[2018/11/16 DD package]
+
+\newcommand{\checknextarg}{
+	\@ifnextchar\bgroup{\gobblenextarg}{\end{itemize}}
+}
+\newcommand{\gobblenextarg}[1]{
+	\item #1\@ifnextchar\bgroup{\gobblenextarg}{\end{itemize}}
+}
+\newcommand{\con}[2]{%
+    \item[REQ-#1]: #2
+    \begin{itemize}\checknextarg
+}
