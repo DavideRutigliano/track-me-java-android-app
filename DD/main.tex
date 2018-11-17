@@ -9,10 +9,10 @@
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{pifont}
+\usepackage{requirements}
 
 \addbibresource{references.bib}
-\newcommand{\comment}[1]{\textbf{[Comment: #1]}}
+\newcommand{\comment}[1]{\textbf{Comment: #1}}
 
 \begin{document}
 \setlist[enumerate]{label=\alph*),leftmargin=0.4cm, topsep=0cm}
@@ -38,9 +38,9 @@
 \subsection{Scope}
     \textit{TrackMe} allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} service: Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
 
-    In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher, which is connected to the Third-Party (which has enabled automated-SOS too), that has been selected by that individual to provide this service
+    In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher connected to the Third-Party which has enabled automated-SOS and has been selected by that individual to provide this service.
    
-    Moreover, through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers} (that are individuals)  to  \textit{create}  a  new  run:  a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
+    Moreover, through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers}  to  \textit{create}  a  new  run: a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
     
 \subsection{Definition, Acronyms and  Abbreviations}
             \subsubsection{Keywords}
@@ -89,6 +89,11 @@
                 \acro{RASD}{Requirement Analysis and Specification Document}
                 \acro{UX}{User eXperience}
             \end{acronym}
+            
+            \subsubsection{Abbreviation}
+            \begin{description}
+                \item[REQ-n] Requirement number n from the Requirement Analysis document
+            \end{description}
             
 \subsection{Reference Documents}
 \printbibliography[heading=none]
@@ -142,7 +147,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
     \item The \textit{Application Server} should be able to communicate with ambulances in order to send them individual's position and notify them in case of accident.
 \end{itemize}
-
+\hfill
 \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel2.png}
@@ -150,62 +155,77 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
 \end{figure}
 
 \subsection{Component View}
-
-
-\begin{itemize}
-    \item \textbf{User Session Controller}: This is the component that handles all the logic related to the login and
-registration functionality of the system. This module allows to do the authentication of the user through the submitted
-credentials for the login process and for the registration of a new user.
-
-    \item \textbf{Notification Controller}:
-    This component permits to send messages between Presentation and business logic layer, in both directions.
+    \subsubsection{Presentation Layer}
     
-    \item \textbf{Profile Controller}:
-    This is the component that handles the modification of profile data by the user
+    \paragraph{Authenticator Controller:}
+    receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
     
-    \item \textbf{Request Controller}:
-    This component allows to generate individual and group requests and has the responsibility to send the former to individuals. Furthermore it checks the validity of group requests.
+    \paragraph{Individuals Data Controller:}
+    is responsible of individuals' personal data management.
     
-
-
-    \item \textbf{Requested Data Controller}: 
-    This is the component that is responsible to show data to Third-Party who requires them. Furthermore it allows to subscribe to new data.
+    \paragraph{Request Controller:}
+    allows to generate individual and group requests. Furthermore it is encharged of the management of incoming request for individuals and of outgoing requests in case of third party users.
     
-    \item \textbf{External Device Controller}: This is the component that handles the connection of individuals' external devices and is able to acquire data from them.
+    \paragraph{Automated-Sos Controller:}
+    allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
     
-    \item \textbf{Automated-Sos Controller}: This component allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
+    \paragraph{Position Controller:}
+    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
+
+    \paragraph{Run Controller:}
+    handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
     
-    \item \textbf{Position Controller}: This is the controller that allows the application to retrieve the user's GPS position data and send it to the dispatcher
+    \subsubsection{Business Logic Layer}
+
+    \paragraph{Authenticator Service:}
+    handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
+
+    \paragraph{Request Service:}
+    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
     
-    \item \textbf{Dispatcher Controller}: This component is active ted by an alert from the Sos service. It exploits the Dispatcher's API to select an ambulance from the database and send it the GPS position of the Individual in danger.
+    \paragraph{Subscription Service:}
+    allows third parties to receive Individual's data as soon they are produced and is encharged of synchronization with new data.
     
-
+    \paragraph{Automated-Sos Service:}
+    is encharged of monitoring Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
     
+    \paragraph{Track4Run Service:}
+    is encharged of handling runs for creation, enrollment and watching.
     
-
+    \subsubsection{Data Layer}
     
-    \item \textbf{Run Controller}: This component handles the creation of a run. Beside, it permits Individuals to enroll adn watch run.
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
+        \caption{ER Diagram}
+        \label{fig:ER_trackme}
+    \end{figure}
+    
+    \paragraph{Individual Repository:}
+    saves and get individuals' data from the database.
+    
+    \paragraph{Third Party Repository:}
+    saves and get third parties' data from the database.
+    
+    \paragraph{Request Repository:}
+    saves and get only request accepted by \textit{Individuals}.
+    
+    \paragraph{Sos Repository:}
+    saves users' enabling/disabling of sos services and further accidents data.
+    
+    \paragraph{Dispatcher Repository:}
+    contains dispatchers' data.
+    
+    \paragraph{Run Repository:}
+    saves and get created runs, enrollment and watching information.
+    
+    \paragraph{Enrollment Repository:}
+    saves and get enrollment information.
+    
+    \paragraph{Watching Repository:}
+    saves and get runs' information.
 
-     \item \textbf{Map Controller}: This component allows organizers to view an interactive map on which they can define a path. In addition, it communicates with Position Controller in order to get Athletes positions and show them on a map to spectators.
-     
-\end{itemize}
-
-
-\newpage
-
-\subsubsection{Data Layer}
-
-
-\begin{figure}[!htpb]
-    \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/TM_ER.jpg}
-    \caption{ER Diagram}
-    \label{fig:ER_trackme}
-\end{figure}
-
-\newpage
 \subsection{Deployment View}
-\comment{fix this plzzz}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
@@ -216,21 +236,9 @@ credentials for the login process and for the registration of a new user.
 
 \subsection{Runtime View}
 
-\subsection{Component Interfaces}
-
 \subsection{Selected Architectural Styles and Patterns}
     \subsubsection{Architecture Style}
     \subsubsection{Design Patterns}
-    \subsubsection{RESTful API}
-    \begin{table}[!htpb]
-        \begin{tabular}{|p{3cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|} 
-         \hline
-         \textbf{Resource} & \textbf{GET} & \textbf{POST} & \textbf{PUT} & \textbf{DELETE} \\
-         \hline
-         \textit{trackMe/individual} & sth &like & this & ? \\
-         \hline
-        \end{tabular}
-    \end{table}
 
 \subsection{Other Design Decisions}
 
@@ -277,7 +285,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     	\includegraphics[height=50mm]{images/mockups/ShowMap.png}
     	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
         \end{figure}
-     
+     \hfill
 \subsection{User Experience}
     In this specification we include only mobile users' experience because for web application clients the experience will be the same except for the fact that all \textit{Automated-Sos} and most of \textit{Track4Run} function will be unavailable for web browsers.
     \begin{figure}[!htpb]
@@ -297,10 +305,71 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     	\includegraphics[width=100mm]{images/ux/UX_ThirdParty.png}
     	\caption{ThirdParty User eXperience}
     \end{figure}
-
+    \hfill
 \newpage
 \section{Requirements Traceability}
+\begin{description}
+     \con{1}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
+     
+     \con{2}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
+     
+     \con{3}{The system must provide a log-in interface for already registered users, not previously signed into the application.}
+     
+     \con{4}{TrackMe must provide to users the possibility to change their username.}
+     
+     \con{5}{TrackMe must provide to registered users the possibility to change their password.}
+     
+     \con{6}{The system must provide the possibility to the user of logging out.}
+     
+     \con{7}{The system must provide the possibility to change Individual's personal data.}
+     
+     \con{8}{The system must provide the possibility to change Third Party's organization data.}
+     
+     \con{9}{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}
+     
+     \con{10}{Data4help must allow the Third-Parties to generated a request for a group of individuals.}
+     
+     \con{11}{The system must be able to anonymize users' requested data.}
+     
+     \con{12}{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
 
+     \con{13}{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
+     
+     \con{14}{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}
+
+     \con{15}{Data4help must allow the Individual to see a list of the received requests from Third Parties.}
+
+     \con{16}{Data4help must allow the Individual to accept or reject a request from the list.}
+
+     \con{17}{Data4help must allow the Individual to connect an external device through BT or NFC.}
+
+     \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
+
+     \con{19}{The system must be able to assign an ambulance dispatcher to the SOS service.}
+
+     \con{20}{The system must allow the Individual to activate Automated-SOS service.}
+
+     \con{21}{The system should allow the Individual to choose between third parties who has enabled the service.}
+
+     \con{22}{The system must be able to get the Individual position.}
+
+     \con{23}{The system must be able to send the position to the nearest ambulance.}
+
+     \con{24}{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
+
+     \con{25}{The system must provide an interface that allows the user to define a path on an interactive map.}
+
+     \con{26}{Track4Run must allow the organizer to start a run previously created.}
+
+     \con{27}{Track4Run must allow the organizer to delete a run previously created.}
+
+     \con{28}{Track4Run must allow the Athlete to enroll to an already existing run.}
+
+     \con{29}{Track4Run must allow the Athlete to unroll a run.}
+
+     \con{30}{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
+
+\end{description}
 
 \newpage
 \section{Implementation, Integration and Test Plan}
