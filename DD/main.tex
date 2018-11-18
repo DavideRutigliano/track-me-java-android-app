@@ -108,15 +108,13 @@
 \begin{enumerate}
     \item \textit{High Level Components and their Interaction}: gives a global view of the components of the application and how they communicate;
 
-    \item \textit{Component View}: gives a more detailed view of the components of the applications through UML component diagrams;
+    \item \textit{Component View}: gives a detailed description of the components of the applications and includes an ER diagram;
 
-    \item \textit{Deployment View}: shows UML deployment diagrams and their explanations;
-    
-    \item \textit{Entity Relation Diagram}: shows database entities and relationships;
+    \item \textit{Deployment View}: shows UML deployment diagram and explanations;
 
     \item \textit{Runtime View}: presents UML sequence diagrams in order to show the event flow of the different tasks of the application;
 
-    \item \textit{Component Interfaces}: presents the interfaces between the components;
+    \item \textit{Component Interfaces}: presents the interfaces between the components through UML component diagrams;
 
     \item \textit{Selected Architectural Styles and Patterns}: explain the architectural choices done during the design of the application and design patterns;
 
@@ -155,6 +153,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
 \end{figure}
 
 \subsection{Component View}
+
     \subsubsection{Presentation Layer}
     
     \paragraph{Authenticator Controller:}
@@ -201,6 +200,9 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
         \label{fig:ER_trackme}
     \end{figure}
     
+    \paragraph{Health Data Repository:}
+    saves and get individuals' health data from the database.
+    
     \paragraph{Individual Repository:}
     saves and get individuals' data from the database.
     
@@ -210,7 +212,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \paragraph{Request Repository:}
     saves and get only request accepted by \textit{Individuals}.
     
-    \paragraph{Sos Repository:}
+    \paragraph{Automated-Sos Repository:}
     saves users' enabling/disabling of sos services and further accidents data.
     
     \paragraph{Dispatcher Repository:}
@@ -225,49 +227,55 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \paragraph{Watching Repository:}
     saves and get runs' information.
 
+
 \subsection{Deployment View}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
+    \includegraphics[width=100mm,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
     \caption{TrackMe Deployment Diagram}
     \label{fig:deployment_trackme}
 \end{figure}
 
-
-\subsection{Runtime View}
-
+\newpage
 \subsection{Component Interfaces}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{images/UML/component_TrackMe.jpg}
+    \includegraphics[width=100mm,keepaspectratio]{images/UML/component_TrackMe.jpg}
     \caption{TrackMe Component Diagram}
     \label{fig:component_trackme}
 \end{figure}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/UML/component_Authenticator.jpg}
+    \includegraphics[width=50mm,keepaspectratio]{DD/images/UML/component_Authenticator.jpg}
     \caption{Authenticator Component Diagram}
     \label{fig:component_authenticator}
 \end{figure}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/UML/component_Data4Help.jpg}
+    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_Data4Help.jpg}
     \caption{Data4Help Component Diagram}
     \label{fig:component_data4help}
 \end{figure}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
+    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
     \caption{AutomatedSos Component Diagram}
     \label{fig:component_automatedsos}
 \end{figure}
-\begin{figure}
+\begin{figure}[!htpb]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/UML/component_Track4Run.jpg}
+    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_Track4Run.jpg}
     \caption{Track4Run Component Diagram}
     \label{fig:component_track4run}
 \end{figure}
 
+\newpage
+\section{Algorithms Design}
+
+\newpage
+\subsection{Runtime View}
+
+\newpage
 \subsection{Selected Architectural Styles and Patterns}
     \subsubsection{Architecture Style}
     \subsubsection{Design Patterns}
@@ -338,69 +346,200 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     	\caption{ThirdParty User eXperience}
     \end{figure}
     \hfill
+
 \newpage
 \section{Requirements Traceability}
 \begin{description}
      \con{1}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
+    {Authenticator Controller}
+    {Authenticator Service}
+    {Individual Repository}
      
      \con{2}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
-     
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Third Party Repository}
+    
      \con{3}{The system must provide a log-in interface for already registered users, not previously signed into the application.}
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Individual Repository}
+     {Third Party Repository}
      
      \con{4}{TrackMe must provide to users the possibility to change their username.}
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Individual Repository}
+     {Third Party Repository}
      
      \con{5}{TrackMe must provide to registered users the possibility to change their password.}
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Individual Repository}
+     {Third Party Repository}
      
      \con{6}{The system must provide the possibility to the user of logging out.}
+     {Authenticator Controller}
+     {Authenticator Service}
      
      \con{7}{The system must provide the possibility to change Individual's personal data.}
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Individual Repository}
      
      \con{8}{The system must provide the possibility to change Third Party's organization data.}
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Third Party Repository}
      
      \con{9}{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Individual Repository}
+     {Request Repository}
      
      \con{10}{Data4help must allow the Third-Parties to generated a request for a group of individuals.}
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Request Repository}
      
      \con{11}{The system must be able to anonymize users' requested data.}
+     {Request Controller}
+     {Request Service}
+     {Individual Repository}
+     {Request Repository}
      
      \con{12}{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Subscription Service}
+     {Request Repository}
 
      \con{13}{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
+     {Request Controller}
+     {Request Service}
+     {Subscription Service}
+     {Individual Repository}
+     {Request Repository}
      
      \con{14}{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}
-
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Third Party Repository}
+     {Request Repository}
+     
      \con{15}{Data4help must allow the Individual to see a list of the received requests from Third Parties.}
-
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Request Repository}
+     
      \con{16}{Data4help must allow the Individual to accept or reject a request from the list.}
-
+     {Authenticator Controller}
+     {Request Controller}
+     {Authenticator Service}
+     {Request Service}
+     {Request Repository}
+     
      \con{17}{Data4help must allow the Individual to connect an external device through BT or NFC.}
-
+     {Authenticator Controller}
+     {Authenticator Service}
+     {Individual Repository}
+     
      \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
-
+     {Authenticator Controller}
+     {Automated-Sos Controller}
+     {Authenticator Service}
+     {Automated-Sos Service}
+     {Automated-Sos Repository}
+     
      \con{19}{The system must be able to assign an ambulance dispatcher to the SOS service.}
-
+     {Automated-Sos Controller}
+     {Automated-Sos Service}
+     {Automated-Sos Repository}
+     {Dispatcher Repository}
+     
      \con{20}{The system must allow the Individual to activate Automated-SOS service.}
-
+     {Authenticator Controller}
+     {Automated-Sos Controller}
+     {Authenticator Service}
+     {Automated-Sos Service}
+     {Automated-Sos Repository}
+     {Individual Repository}
+     
      \con{21}{The system should allow the Individual to choose between third parties who has enabled the service.}
-
+     {Third Party Repository}
+     
      \con{22}{The system must be able to get the Individual position.}
-
+     {Authenticator Controller}
+     {Position Controller}
+     {Authenticator Service}
+     {Individual Repository}
+     
      \con{23}{The system must be able to send the position to the nearest ambulance.}
-
+     {Authenticator Controller}
+     {Position Controller}
+     {Authenticator Service}
+     {Dispatcher Repository}
+     
      \con{24}{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{25}{The system must provide an interface that allows the user to define a path on an interactive map.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{26}{Track4Run must allow the organizer to start a run previously created.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{27}{Track4Run must allow the organizer to delete a run previously created.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{28}{Track4Run must allow the Athlete to enroll to an already existing run.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{29}{Track4Run must allow the Athlete to unroll a run.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
      \con{30}{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
-
+     {Authenticator Controller}
+     {Run Controller}
+     {Authenticator Service}
+     {Run Service}
+     {Run Repository}
+     
 \end{description}
 
 \newpage
