@@ -38,7 +38,7 @@
 \subsection{Scope}
     \textit{TrackMe} allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} service: Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
 
-    In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher connected to the Third-Party which has enabled automated-SOS and has been selected by that individual to provide this service.
+    In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher connected to the Third-Party which has enabled automated sos service and has been selected by that individual to provide this service.
    
     Moreover, through  the \textit{Track4Run} service, \textit{TrackMe} allows \textit{Organizers}  to  \textit{create}  a  new  run: a  competition  in  which other individuals can either participate as \textit{athletes} or watch as \textit{spectators}.  Additionally, this feature guarantees other services for keeping track of athletes progresses during the run, providing an interactive map of the run, with runners position on it.
     
@@ -83,7 +83,7 @@
                 \acro{DD}{Design Document}
                 \acro{UML}{Unified Modelling Language}
                 \acro{SQL}{Structured Query Language}
-                \acro{noSQL}{Not Only SQL}
+                \acro{MVC}{Model View Controller (design pattern)}
                 \acro{REST}{REpresentational State Transfer}
                 \acro{API}{Application Programming Interface}
                 \acro{RASD}{Requirement Analysis and Specification Document}
@@ -126,6 +126,8 @@
 \item \textbf{User Interface Design}: this part presents mockups and user experience explained via mockups and UX diagrams;
 
 \item \textbf{Requirements Traceability}: this section aims to explain how the decisions taken in the RASD are linked to design elements in the Design Document.
+
+\item \textbf{Implementation and Test plan}: provides full information about the deployment strategy advised to developers in order to follow design decision taken in this document.
 \end{itemize}
 
 \newpage
@@ -151,48 +153,11 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
-
+\hfill
+\newpage
 \subsection{Component View}
-
-    \subsubsection{Presentation Layer}
-    
-    \paragraph{Authenticator Controller:}
-    receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
-    
-    \paragraph{Individuals Data Controller:}
-    is responsible of individuals' personal data management.
-    
-    \paragraph{Request Controller:}
-    allows to generate individual and group requests. Furthermore it is encharged of the management of incoming request for individuals and of outgoing requests in case of third party users.
-    
-    \paragraph{Automated-Sos Controller:}
-    allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
-    
-    \paragraph{Position Controller:}
-    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
-
-    \paragraph{Run Controller:}
-    handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
-    
-    \subsubsection{Business Logic Layer}
-
-    \paragraph{Authenticator Service:}
-    handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
-
-    \paragraph{Request Service:}
-    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
-    
-    \paragraph{Subscription Service:}
-    allows third parties to receive Individual's data as soon they are produced and is encharged of synchronization with new data.
-    
-    \paragraph{Automated-Sos Service:}
-    is encharged of monitoring Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
-    
-    \paragraph{Track4Run Service:}
-    is encharged of handling runs for creation, enrollment and watching.
     
     \subsubsection{Data Layer}
-    
     \begin{figure}[!htpb]
         \centering
         \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
@@ -226,7 +191,43 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     
     \paragraph{Watching Repository:}
     saves and get runs' information.
+    
+    \subsubsection{Business Logic Layer}
 
+    \paragraph{Authenticator Service:}
+    handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
+
+    \paragraph{Request Service:}
+    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
+    
+    \paragraph{Subscription Service:}
+    allows third parties to receive Individual's data as soon they are produced and is encharged of synchronization with new data.
+    
+    \paragraph{Automated-Sos Service:}
+    is encharged of monitoring Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
+    
+    \paragraph{Track4Run Service:}
+    is encharged of handling runs for creation, enrollment and watching.
+    
+    \subsubsection{Presentation Layer}
+    
+    \paragraph{Authenticator Controller:}
+    receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
+    
+    \paragraph{Individuals Data Controller:}
+    is responsible of individuals' personal data management.
+    
+    \paragraph{Request Controller:}
+    allows to generate individual and group requests. Furthermore it is encharged of the management of incoming request for individuals and of outgoing requests in case of third party users.
+    
+    \paragraph{Automated-Sos Controller:}
+    allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
+    
+    \paragraph{Position Controller:}
+    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
+
+    \paragraph{Run Controller:}
+    handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
 
 \subsection{Deployment View}
 \begin{figure}[!htpb]
@@ -270,17 +271,24 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
 \end{figure}
 
 \newpage
-\section{Algorithms Design}
-
-\newpage
 \subsection{Runtime View}
 
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
-    \subsubsection{Architecture Style}
-    \subsubsection{Design Patterns}
+    The overall architecture is structured as a three tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Business Logic Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchronized with the database.
+    
+    With respect to the first two tier instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Business Logic Tier} which handles all the application logic and services and furthermore, is responsible of the communication both with the presentation layer and against the database server; as this is the the core logic of the application, performance, portability, security and other non-functional requirements should be granted at this level.
+    
+    In order to implement such architecture, based on RESTful API, several design pattern should be taken into account:
+    \begin{description}
+        \item[Multi-tier Architecture:] as showed previously in this document, the layered architecture pattern allows developers to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services;
+        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which came from the presentation layer and essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data and finally the \textit{Controller}, that is the bridge between \textit{Presentation} and \textit{Application} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh the related \textit{View}.
+    \end{description}
 
 \subsection{Other Design Decisions}
+
+\newpage
+\section{Algorithms Design}
 
 \newpage
 \section{User Interface Design}
@@ -350,7 +358,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 \newpage
 \section{Requirements Traceability}
 \begin{description}
-     \con{1}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
+     \con{1}{A customer not signed-on must be able to begin the Individual's registration process to TrackMe providing a username, a password and its organization data.}
     {Authenticator Controller}
     {Authenticator Service}
     {Individual Repository}
