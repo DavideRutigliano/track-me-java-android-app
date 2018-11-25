@@ -37,6 +37,8 @@
     Furthermore this document provides also an \textit{Implementation \& Test} plan in order to give to the developer a precise idea of the deployment process.
  
 \subsection{Scope}
+    The scope of this application is to provide health monitoring services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
+    
     \textit{TrackMe} allows Third-Party to access Individual's health data exploiting the functionality of \textit{Data4help} service: Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
 
     In addition, the system permits to enable the \textit{Automated-SOS} service that guarantees that the GPS position of the user who has enabled \textit{Automated SOS}, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher connected to the Third-Party which has enabled automated sos service and has been selected by that individual to provide this service.
@@ -89,7 +91,16 @@
                 \acro{API}{Application Programming Interface}
                 \acro{RASD}{Requirement Analysis and Specification Document}
                 \acro{UX}{User eXperience}
+                \acro{ER}{Entity Relationship}
             \end{acronym}
+            
+            \subsubsection{Definitions}
+            \begin{description}
+                 \item[Business Logic Layer] another term to intend the Application and Service Layers together
+                 \item[Controller] a component of the presentation layer that is responsible of handling events from the client
+                 \item[Service] part of the business logic, is the core logic of a specific function or set of functions
+                 \item[Repository] is the component that handles query methods against the database
+            \end{description}
             
             \subsubsection{Abbreviation}
             \begin{description}
@@ -109,7 +120,7 @@
 \begin{enumerate}
     \item \textit{High Level Components and their Interaction}: gives a global view of the components of the application and how they communicate;
 
-    \item \textit{Component View}: gives a detailed description of the components of the applications and includes an ER diagram;
+    \item \textit{Component View}: gives a detailed description of the components of the applications and includes ER diagram;
 
     \item \textit{Deployment View}: shows UML deployment diagram and explanations;
 
@@ -122,8 +133,6 @@
     \item \textit{Other design decisions};
 \end{enumerate}
 
-\item \textbf{Algorithms Design}: this chapter describes the most critical parts via some algorithms. Pseudo code is used in order to hide unnecessary implementation details and in order to focus on the most important parts;
-
 \item \textbf{User Interface Design}: this part presents mockups and user experience explained via mockups and UX diagrams;
 
 \item \textbf{Requirements Traceability}: this section aims to explain how the decisions taken in the RASD are linked to design elements in the Design Document.
@@ -134,18 +143,17 @@
 \newpage
 \section{Architectural Design}
 \subsection{High Level Components and their Interaction}
-The system is deployed on three different tiers: the data layer, the application layer and the presentation layer, that are respectively mapped on the three main components of the software application.
+The system is deployed on four different tiers: the Data layer, the Application Layer, the Service layer and the Presentation layer, that are respectively mapped on the three main components of the software application.
 \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.png}
+    	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.jpg}
     	\caption{High Level interaction diagram}
 \end{figure}
 
-The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Data Layer}. Furthermore, the \textit{Presentation Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Data Layer} instead is composed of two sub-components: a classic SQL database or optionally a less traditional noSQL database (e.g. MongoDB).
+The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Data Layer}. Furthermore, the \textit{Presentation Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Data Layer} instead is composed of the data management logic and is responsible of the communication with the DBMS.
 
-\comment{what is application layer?}
+Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation Layer} should interact with external services:
 
-Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer} should interact with external services:
 \begin{itemize}
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
     \item The \textit{Application Server} should be able to communicate with ambulances in order to send them individual's position and notify them in case of accident.
@@ -163,12 +171,6 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
 \subsection{Component View}
     
     \subsubsection{Data Layer}
-    \begin{figure}[!htpb]
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
-        \caption{ER Diagram}
-        \label{fig:ER_trackme}
-    \end{figure}
     
     \comment{this should be below the class diagram, not here. I think this is also useless to say for every repository "this saves and get data...": just say that our repositories job is to access database. each repository can access a table in our db.}
     \paragraph{Health Data Repository:}
@@ -198,7 +200,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \paragraph{Watching Repository:}
     saves and get runs' information.
     
-    \subsubsection{Business Logic Layer}
+    \subsubsection{Service Layer}
 
     \paragraph{Authenticator Service:}
     handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
@@ -215,7 +217,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \paragraph{Track4Run Service:}
     is encharged of handling runs for creation, enrollment and watching.
     
-    \subsubsection{Presentation Layer}
+    \subsubsection{Application Layer}
     
     \paragraph{Authenticator Controller:}
     receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
@@ -235,6 +237,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \paragraph{Run Controller:}
     handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
 
+\newpage
 \subsection{Deployment View}
 \begin{figure}[!htpb]
     \centering
@@ -243,7 +246,6 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \label{fig:deployment_trackme}
 \end{figure}
 
-\newpage
 \subsection{Component Interfaces}
 \begin{figure}[!htpb]
     \centering
@@ -276,25 +278,34 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     \label{fig:component_track4run}
 \end{figure}
 
+    \begin{figure}[!htpb]
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
+        \caption{ER Diagram}
+        \label{fig:ER_trackme}
+    \end{figure}
+    
 \newpage
 \subsection{Runtime View}
 
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
-    The overall architecture is structured as a three tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Business Logic Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchronized with the database.
+    The overall architecture is structured as a multi tier architecture: the \textit{Presentation Layer}, the \textit{Application Layer}, the \textit{Service Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchronized with the database.
     
-    With respect to the first two tier instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Business Logic Tier} which handles all the application logic and services and furthermore, is responsible of the communication both with the presentation layer and against the database server; as this is the the core logic of the application, performance, portability, security and other non-functional requirements should be granted at this level.
+    With respect to the first three tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Application Tier} and \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communications protocols and interface methods used by hosts in a communications network
     
-    In order to implement such architecture, based on RESTful API, several design pattern should be taken into account:
+    In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
     \begin{description}
         \item[Multi-tier Architecture:] as showed previously in this document, the layered architecture pattern allows developers to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services;
         \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which came from the presentation layer and essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data and finally the \textit{Controller}, that is the bridge between \textit{Presentation} and \textit{Application} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh the related \textit{View}.
     \end{description}
 
 \subsection{Other Design Decisions}
+The management of the external device is a client only operation that will allow the application to get Individual's personal health data from the smart device and send them to the server in a lightweight format (e.g. JSON). The client map of the run is \textit{local} too: the run organizer will be able (through Google Maps API) to draw a path on an interactive map and send it to the server which will be able to decode the run path and store it as a string; also spectators will be able to use a map to see athletes positions and again, the map will be local and the server handles only athletes positions.
 
-\newpage
-\section{Algorithms Design}
+In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. In addition, a web application may be further developed in order to allow customers to use \textit{Data4Help} features also from their Personal Computers; \textit{Automated-Sos} and \textit{Track4Run} services will instead be available only on mobile devices.
+
+Instead as an optional design decision, we advise to the developer team to use Java as programming language for both front-end and back-end and in particular, we advise \textit{Spring Framework} to implement the overall architecture. The rationale for this choice is that Spring fits very well the Model View Controller design pattern and the development of RESTful API, that is easily configurable through XML and could be integrated with several features like \textit{O-Auth2}. Furthermore, Spring provides an ease of use test framework that could be useful to test developers.
 
 \newpage
 \section{User Interface Design}
@@ -344,22 +355,9 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     In this specification we include only mobile users' experience because for web application clients the experience will be the same except for the fact that all \textit{Automated-Sos} and most of \textit{Track4Run} function will be unavailable for web browsers.
     \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm]{images/ux/UX_Guest.png}
-    	\caption{Guest eXperience}
+    	\includegraphics[width=\textwidth]{images/ux/UX_TrackMe.png}
+    	\caption{User eXperience}
     \end{figure}
-
-    \begin{figure}[!htpb]
-        \centering
-    	\includegraphics[width=\textwidth]{images/ux/UX_Individual.png}
-    	\caption{Individual User eXperience}
-    \end{figure}
-
-    \begin{figure}[!htpb]
-        \centering
-    	\includegraphics[width=100mm]{images/ux/UX_ThirdParty.png}
-    	\caption{ThirdParty User eXperience}
-    \end{figure}
-    \hfill
 
 \newpage
 \section{Requirements Traceability}
@@ -465,9 +463,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Request Repository}
      
      \con{17}{Data4help must allow the Individual to connect an external device through BT or NFC.}
-     {Authenticator Controller}
-     {Authenticator Service}
-     {Individual Repository}
+     {External Device API}
      
      \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
      {Authenticator Controller}
@@ -513,11 +509,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Run Repository}
      
      \con{25}{The system must provide an interface that allows the user to define a path on an interactive map.}
-     {Authenticator Controller}
-     {Run Controller}
-     {Authenticator Service}
-     {Run Service}
-     {Run Repository}
+     {Google Maps API}
      
      \con{26}{Track4Run must allow the organizer to start a run previously created.}
      {Authenticator Controller}
@@ -553,11 +545,31 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Authenticator Service}
      {Run Service}
      {Run Repository}
+     {Google Maps API}
      
 \end{description}
 
 \newpage
-\section{Implementation, Integration and Test Plan}
+\section{Implementation, Integration \& Test Plan}
+\comment{todo}
+Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Logic} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Authentication} and \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Track4Run} facilities, which are built on \textit{Data4Help} service.
+
+Despite this document follows a \textit{Top-Down} style starting from an high level perspective to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach in which modules at lowest layer will be tested first and upper layers will follow then.
+
+The unit testing is focused on testing all the software components of the application and all their features, then the test will proceed to the integration phase:
+
+\begin{enumerate}
+    \item Integration between components of \textit{Data4Help} Subsystem:
+
+    \item Integration between components of \textit{AutomatedSos} Subsystem:
+
+    \item Integration between components of \textit{Track4Run} Subsystem:
+    
+    \item Integration between Authenticator Controller and Service:
+
+\end{enumerate}
+
+The test should cover at least 90\% of all the components of the business logic layer and at least 60\% for the presentation layer. The testing phase will be suspended in case such percentages are lower than 50\% for the application logic and lower than 30\% for other subsystems. If \textit{I\&T} exit conditions are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
 
 \newpage
 \section{Effort Spent}
