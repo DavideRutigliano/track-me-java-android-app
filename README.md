@@ -57,7 +57,7 @@ In addition, the system permits to enable the *Automated-SOS* service that guara
 
 ## Architecture
 <p align="center">
-    <img src="DD/images/highlevel.png">
+    <img src="DD/images/highlevel.jpg">
 </p>
 
 ## Build and Install instructions
