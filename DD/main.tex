@@ -29,9 +29,10 @@
 
 \section{Introduction}
 \subsection{Purpose}
-    The Purpose of this Design Document is to provide, in a more specific and technical way with respect to the RASD, all the details of \textit{TrackMe} system \cite{rasd}. The \textit{Requirement Analysis and Specification Document} is also recommended to developer aimed at implementing the proposed system.
+    The Purpose of this Design Document is to provide the precise implementation details required to satisfy the requirements specified in the RASD.
+    It is assumed that the reader has read the RASD before this document.
     
-    The purpose of this paper is to point out the main components, their interfaces and their behaviours, show the high level architecture and its interaction with architectural components and to identify style and design patterns that shall be used in deployment of the application. This Document will provide detailed explanation of each functionality through components and sequence diagrams also used to explain to programmers the overall structure of the system in a precise and implementation-oriented way.
+    The purpose of this paper is also to point out the main components, their interfaces and their behaviours, show the high level architecture and its interaction with architectural components and to identify style and design patterns that shall be used in deployment of the application. This Document will provide detailed explanation of each functionality through components and sequence diagrams also used to explain to programmers the overall structure of the system in a precise and implementation-oriented way.
     
     Furthermore this document provides also an \textit{Implementation \& Test} plan in order to give to the developer a precise idea of the deployment process.
  
@@ -142,11 +143,14 @@ The system is deployed on three different tiers: the data layer, the application
 
 The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Data Layer}. Furthermore, the \textit{Presentation Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Data Layer} instead is composed of two sub-components: a classic SQL database or optionally a less traditional noSQL database (e.g. MongoDB).
 
+\comment{what is application layer?}
+
 Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer} should interact with external services:
 \begin{itemize}
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
     \item The \textit{Application Server} should be able to communicate with ambulances in order to send them individual's position and notify them in case of accident.
 \end{itemize}
+
 \hfill
 \begin{figure}[!htpb]
     	\centering
@@ -154,6 +158,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
     	\caption{High Level components diagram}
 \end{figure}
 \hfill
+\comment{googlemaps api doesn't interact with server}
 \newpage
 \subsection{Component View}
     
@@ -165,6 +170,7 @@ Moreover, both the \textit{Application Layer} and the \textit{Presentation Layer
         \label{fig:ER_trackme}
     \end{figure}
     
+    \comment{this should be below the class diagram, not here. I think this is also useless to say for every repository "this saves and get data...": just say that our repositories job is to access database. each repository can access a table in our db.}
     \paragraph{Health Data Repository:}
     saves and get individuals' health data from the database.
     
