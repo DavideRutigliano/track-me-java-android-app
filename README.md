@@ -17,8 +17,8 @@ This repository is owned by **Davide Rutigliano, Claudio Ferrante and Davide Mat
 * * [Tools](#tools)
 * [Software](#software)
 * * [Architecture](#architecture)
-* * [Build and Installation](#delivery)
-* * [Tools](#tools)
+* * [Build and Installation](#build-and-install-instructions)
+* * [Tools](#tools-1)
 * [Project Layout](#project-layout)
 * [Contributors](#contributors)
 
@@ -57,7 +57,7 @@ In addition, the system permits to enable the *Automated-SOS* service that guara
 
 ## Architecture
 <p align="center">
-    <img src="DD/images/highlevel.png">
+    <img src="DD/images/highlevel.jpg">
 </p>
 
 ## Build and Install instructions
@@ -65,7 +65,7 @@ Instructions to build and install *trackMe* are available [here](INSTALL.md).
 
 ## Tools
 ### Spring Framework
-In order to develop the proposed system we decided to use Java as back-end and front-end language and in particular, we used [Spring](https://spring.io) Framework.
+In order to develop the proposed system we decided to use Java as back-end and front-end language and in particular, we used [Spring](https://spring.io) Framework. This framework fits very well the architectural style of the proposed software solution,  has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services. This choice also allowed us to produce code documentation through spring rest-docs.
 
 ---
 
@@ -74,7 +74,9 @@ In order to develop the proposed system we decided to use Java as back-end and f
 ├── DD                  : Design Document Latex project
 ├── DeliveryFolder      : pdf version of delivered documents
 ├── Images              : common "Logo" images
-├── RASD                : Requirement Analysis and Specification Document Latex project
+├── RASD                : Requirement Analysis and
+Specification Document Latex project
+├── software            : TrackMe application source code
 └── README.md           : this file
 ```
 

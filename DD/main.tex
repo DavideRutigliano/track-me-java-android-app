@@ -7,7 +7,6 @@
 \usepackage[none]{hyphenat}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
-\usepackage{listings}
 \usepackage{xcolor}
 \usepackage{requirements}
 
@@ -142,7 +141,7 @@
 \newpage
 \section{Architectural Design}
 \subsection{High Level Components and their Interaction}
-The system is deployed on four different tiers: the Data layer, the Application Layer, the Service layer and the Presentation layer, that are respectively mapped on the three main components of the software application.
+The system is deployed on four different tiers: the Data layer, the Application Layer, the Service layer and the Presentation layer, that are respectively mapped on the four main components of the software application: the data handling logic, the services, the controllers and the client application.
 \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.jpg}
@@ -154,7 +153,7 @@ The main component is the system itself and includes both the \textit{Web Server
 Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation Layer} should interact with external services:
 \begin{itemize}
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
-    \item The \textit{Application Server} should be able to communicate with ambulances in order to send them individual's position and notify them in case of accident.
+    \item The \textit{Application Server} should be able to communicate with dispatchers in order to send them individual's position and notify them in case of accident.
 \end{itemize}
 \hfill
 \begin{figure}[!htpb]
@@ -231,6 +230,25 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
 
     \paragraph{Run Controller:}
     handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
+    
+    \subsubsection{External Services}
+    
+    \paragraph{Dispatcher API:}
+    used by the Sos service to communicate with ambulances dispatcher.
+    
+    \subsubsection{Presentation Layer}
+    
+    \paragraph{Model:}
+    a set of components representing the data used to build the user interface.
+    
+    \paragraph{View:}
+    a set of components responsible of showing the data related to the respective model.
+    
+    \paragraph{Google Maps API:}
+    used by the client to create maps through Google Maps services.
+    
+    \paragraph{External Device API:}
+    used to connect and get data from the Individual external device from a common smart-watch to a specific pathology monitoring device.
 
 \newpage
 \subsection{Deployment View}
@@ -285,14 +303,14 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
 
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
-    The overall architecture is structured as a multi tier architecture: the \textit{Presentation Layer}, the \textit{Application Layer}, the \textit{Service Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchronized with the database.
+    The overall architecture is structured as a multi tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Application Layer}, the \textit{Service Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchro-\newline nized with the database.
     
-    With respect to the first three tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Application Tier} and \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communications protocols and interface methods used by hosts in a communications network
+    With respect to the first three tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Application Tier} and \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communica-\newline tions protocols and interface methods used by hosts in a communications network.
     
     In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
     \begin{description}
         \item[Multi-tier Architecture:] as showed previously in this document, the layered architecture pattern allows developers to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services;
-        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which came from the presentation layer and essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data and finally the \textit{Controller}, that is the bridge between \textit{Presentation} and \textit{Application} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh the related \textit{View}.
+        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which came from the presentation layer and essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data, and finally the \textit{Controller} that is the bridge between \textit{Presentation} and \textit{Service} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh of the related \textit{View}.
     \end{description}
 
 \subsection{Other Design Decisions}
@@ -300,7 +318,9 @@ The management of the external device is a client only operation that will allow
 
 In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. In addition, a web application may be further developed in order to allow customers to use \textit{Data4Help} features also from their Personal Computers; \textit{Automated-Sos} and \textit{Track4Run} services will instead be available only on mobile devices.
 
-Instead as an optional design decision, we advise to the developer team to use Java as programming language for both front-end and back-end and in particular, we advise \textit{Spring Framework} to implement the overall architecture. The rationale for this choice is that Spring fits very well the Model View Controller design pattern and the development of RESTful API, that is easily configurable through XML and could be integrated with several features like \textit{O-Auth2}. Furthermore, Spring provides an ease of use test framework that could be useful to test developers.
+In this design document we assumed the developer is using Java as program-\newline ming language and in particular is deploying both client and server through Spring Framework. The rationale for this choice is that this framework fits very well the architectural style of the proposed software solution, has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services.
+
+The choice of using Java and Spring is not a full restriction on the deployment process. In such cases the development team would decide to use a different programming language or to not use Spring Framework, due to the proprietary implementation of several classes, such as the persistence API or the Spring MVC ones, some adaptions to the class diagram may be needed.
 
 \newpage
 \section{User Interface Design}
@@ -319,7 +339,7 @@ The guest who access to the main page can sign-up to the application providing h
 Once inside the application, the user is redirected to the home page, where he can see the last activities and sign out from \textit{TrackMe}. Swiping left he can access to the profile page which is different whether he is signed in as an Individual or Third-Party. Here the user can access to services provided by \textit{Data4help} and can enable \textit{Automated-SOS} service too. Swiping right instead, the Individual can access to \textit{Track4Run} section.
 
 \begin{figure}[!htpb]
-    	\centering
+    	\hfill
     	\includegraphics[height=50mm]{images/mockups/HomePage.png}
     	\includegraphics[height=50mm]{images/mockups/IndividualProfile.png}
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
@@ -327,7 +347,6 @@ Once inside the application, the user is redirected to the home page, where he c
 
 Third-parties can choose either individual or group request and can enable the option to subscribe to new data. The Individuals instead, can handle incoming request by accepting or rejecting them. The Third- Party, form the initial page, can also reach the view data section: here she can see and plot the data of sent requests. Furthermore, swiping left and right, it can move between individual and group data.
 \begin{figure}[!htpb]		
-		
      	\centering		
      	\includegraphics[height=50mm]{images/mockups/Requests.png}		
      	\includegraphics[height=50mm]{images/mockups/GroupRequest.png}		
@@ -546,12 +565,13 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 
 \newpage
 \section{Implementation, Integration \& Test Plan}
-\comment{todo}
-Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Logic} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Authentication} and \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Track4Run} facilities, which are built on \textit{Data4Help} service.
+Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Application}, \textit{Domain} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Authentication} facilities, which are built on top of \textit{Data4Help} service.
 
-Despite this document follows a \textit{Top-Down} style starting from an high level perspective to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach in which modules at lowest layer will be tested first and upper layers will follow then.
+Despite this document follows a \textit{Top-Down} style starting from an high level point of view to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach, in which modules at lowest layer will be tested first and upper layers will follow then.
 
-The unit testing is focused on testing all the software components of the application and all their features, then the test will proceed to the integration phase:
+The unit testing is focused on testing all the software components' features, then the test will proceed to the integration phase: integration of two operations will start only after components executing that operations pass the unit test to ensure that the components theirself work fine and that any failure is related to the integration itself.
+
+Components to be integrated are:
 
 \begin{enumerate}
     \item Integration between components of \textit{Data4Help} Subsystem:
@@ -564,6 +584,10 @@ The unit testing is focused on testing all the software components of the applic
 
 \end{enumerate}
 
+\subsubsection{Entry Criteria}
+The integration phase will start only when the completion of the components involved in the integration should be at least 50\% for the \textit{"services"} and at least 70\% for \textit{"repositories"}: at least critical operations should have been implemented and should have passed the unit test.
+
+\subsubsection{Exit Criteria}
 The test should cover at least 90\% of all the components of the business logic layer and at least 60\% for the presentation layer. The testing phase will be suspended in case such percentages are lower than 50\% for the application logic and lower than 30\% for other subsystems. If \textit{I\&T} exit conditions are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
 
 \newpage
