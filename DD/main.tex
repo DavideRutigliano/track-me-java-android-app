@@ -424,106 +424,95 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Third Party Repository}
      
      \con{9}{Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.}
-     {Authenticator Controller}
      {Request Controller}
-     {Authenticator Service}
      {Request Service}
      {Individual Repository}
-     {Request Repository}
+     {Individual Request Repository}
      
      \con{10}{Data4help must allow the Third-Parties to generated a request for a group of individuals.}
-     {Authenticator Controller}
      {Request Controller}
-     {Authenticator Service}
      {Request Service}
-     {Request Repository}
+     {Individual Repository}
+     {Group Request Repository}
      
      \con{11}{The system must be able to anonymize users' requested data.}
      {Request Controller}
      {Request Service}
      {Individual Repository}
-     {Request Repository}
+     {Group Request Repository}
      
      \con{12}{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
-     {Authenticator Controller}
-     {Request Controller}
-     {Authenticator Service}
+     {Individual Request Controller}
+     {Individual Request Service}
      {Request Service}
-     {Subscription Service}
-     {Request Repository}
+     {Individual Request Repository}
+     {Group Request Repository}
+
 
      \con{13}{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
      {Request Controller}
-     {Request Service}
      {Subscription Service}
-     {Individual Repository}
-     {Request Repository}
+     {Individual Request Repository}
+     {Group Request Repository}
+     {Health Data Repository}
      
      \con{14}{Data4help must allow the Third Party to see a list of sent requests and related Individual's data.}
-     {Authenticator Controller}
      {Request Controller}
-     {Authenticator Service}
      {Request Service}
-     {Third Party Repository}
-     {Request Repository}
+     {Individual Request Repository}
+     {Health Data Repository}
      
      \con{15}{Data4help must allow the Individual to see a list of the received requests from Third Parties.}
-     {Authenticator Controller}
      {Request Controller}
-     {Authenticator Service}
      {Request Service}
-     {Request Repository}
+     {Individual Request Repository}
      
      \con{16}{Data4help must allow the Individual to accept or reject a request from the list.}
-     {Authenticator Controller}
      {Request Controller}
-     {Authenticator Service}
      {Request Service}
-     {Request Repository}
+     {Individual Request Repository}
      
      \con{17}{Data4help must allow the Individual to connect an external device through BT or NFC.}
      {External Device API}
      
      \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
-     {Authenticator Controller}
-     {Automated-Sos Controller}
-     {Authenticator Service}
-     {Automated-Sos Service}
-     {Automated-Sos Repository}
+     {Sos Controller}
+     {Sos Service}
+     {Sos Provisioning Repository}
      
      \con{19}{The system must be able to assign an ambulance dispatcher to the SOS service.}
-     {Automated-Sos Controller}
-     {Automated-Sos Service}
-     {Automated-Sos Repository}
+     {Sos Controller}
+     {Sos Service}
+     {Sos Provisioning Repository}
      {Dispatcher Repository}
      
      \con{20}{The system must allow the Individual to activate Automated-SOS service.}
-     {Authenticator Controller}
-     {Automated-Sos Controller}
-     {Authenticator Service}
-     {Automated-Sos Service}
-     {Automated-Sos Repository}
-     {Individual Repository}
+     {Sos Controller}
+     {Sos Service}
+     {Sos Subscription Repository}
+     {Sos Provisioning Controller}
      
      \con{21}{The system should allow the Individual to choose between third parties who has enabled the service.}
-     {Third Party Repository}
+     {Sos Controller}
+     {Sos Service}
+     {Sos Subscription Repository}
+     {Sos Provisioning Controller}
      
      \con{22}{The system must be able to get the Individual position.}
-     {Authenticator Controller}
-     {Position Controller}
-     {Authenticator Service}
+     {Sos Controller}
+     {Sos Service}
      {Individual Repository}
      
      \con{23}{The system must be able to send the position to the nearest ambulance.}
-     {Authenticator Controller}
-     {Position Controller}
-     {Authenticator Service}
+     {Sos Controller}
+     {Sos Service}
+     {Individual Repository}
+     {Sos Subscription Repository}
+     {Sos Provisioning Controller}
      {Dispatcher Repository}
      
      \con{24}{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
-     {Authenticator Controller}
      {Run Controller}
-     {Authenticator Service}
      {Run Service}
      {Run Repository}
      
@@ -531,40 +520,34 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Google Maps API}
      
      \con{26}{Track4Run must allow the organizer to start a run previously created.}
-     {Authenticator Controller}
      {Run Controller}
-     {Authenticator Service}
      {Run Service}
      {Run Repository}
      
      \con{27}{Track4Run must allow the organizer to delete a run previously created.}
-     {Authenticator Controller}
      {Run Controller}
-     {Authenticator Service}
      {Run Service}
      {Run Repository}
      
      \con{28}{Track4Run must allow the Athlete to enroll to an already existing run.}
-     {Authenticator Controller}
      {Run Controller}
-     {Authenticator Service}
      {Run Service}
      {Run Repository}
+     {Enroll Repository}
      
      \con{29}{Track4Run must allow the Athlete to unroll a run.}
-     {Authenticator Controller}
      {Run Controller}
-     {Authenticator Service}
      {Run Service}
-     {Run Repository}
+     {Enroll Repository}
      
      \con{30}{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
-     {Authenticator Controller}
-     {Run Controller}
-     {Authenticator Service}
+     {Position Controller}
      {Run Service}
      {Run Repository}
-     {Google Maps API}
+     {Individual Repository}
+     {Watch Repository}
+     {Run Repository}
+
      
 \end{description}
 
