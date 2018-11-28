@@ -28,7 +28,7 @@
 
 \section{Introduction}
 \subsection{Purpose}
-    The Purpose of this Design Document is to provide the precise implementation details required to satisfy the requirements specified in the RASD.
+    The Purpose of this Design Document is to provide the precise implementation details required to satisfy the requirements specified in the RASD \cite{rasd}.
     It is assumed that the reader has read the RASD before this document.
     
     The purpose of this paper is also to point out the main components, their interfaces and their behaviours, show the high level architecture and its interaction with architectural components and to identify style and design patterns that shall be used in deployment of the application. This Document will provide detailed explanation of each functionality through components and sequence diagrams also used to explain to programmers the overall structure of the system in a precise and implementation-oriented way.
@@ -91,14 +91,18 @@
                 \acro{RASD}{Requirement Analysis and Specification Document}
                 \acro{UX}{User eXperience}
                 \acro{ER}{Entity Relationship}
+                \acro{DAO}{Data Access Object}
+                \acro{DTO}{Data Transfer Object}
             \end{acronym}
             
             \subsubsection{Definitions}
             \begin{description}
                  \item[Business Logic Layer] another term to intend the Application and Service Layers together
-                 \item[Controller] a component of the presentation layer that is responsible of handling events from the client
+                 \item[Controller] a component of the application layer that is responsible of handling events from the client
                  \item[Service] part of the business logic, is the core logic of a specific function or set of functions
                  \item[Repository] is the component that handles query methods against the database
+                 \item[Data Access Object] sometimes called \textit{Entity}, is the object used by Repository to map data to a specific object thus, it should encapsulate the logic for retrieving, saving and updating data in the data storage
+                 \item[Data Transfer Object] also called \textit{Bean} is the representation of a DAO and it is used to transfer the data between modules of the application
             \end{description}
             
             \subsubsection{Abbreviation}
@@ -142,16 +146,16 @@
 \newpage
 \section{Architectural Design}
 \subsection{High Level Components and their Interaction}
-The system is deployed on four different tiers: the Data layer, the Application Layer, the Service layer and the Presentation layer, that are respectively mapped on the four main components of the software application: the data handling logic, the services, the controllers and the client application.
+The system is deployed on three different tiers: the Persistence layer, the Service layer and the Application layer, that are respectively mapped on the three main components of the software application: the data handling logic, the services, and the controllers.
 \begin{figure}[!htpb]
     	\centering
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.jpg}
     	\caption{High Level interaction diagram}
 \end{figure}
 
-The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Data Layer}. Furthermore, the \textit{Presentation Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Data Layer} instead is composed of the data management logic and is responsible of the communication with the DBMS.
+The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Persistence Layer}. Furthermore, the \textit{Application Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Persistence Layer} instead is composed of the data management logic and is responsible of the communication with the DBMS.
 
-Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation Layer} should interact with external services:
+Moreover, both the \textit{Business Logic Layer} and the \textit{Application Layer} should interact with external services:
 
 \begin{itemize}
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
@@ -164,14 +168,12 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
     	\includegraphics[width=100mm,keepaspectratio]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
-\hfill
-\comment{googlemaps api doesn't interact with server}
+
 \newpage
 \subsection{Component View}
     
-    \subsubsection{Data Layer}
-    
-    \comment{this should be below the class diagram, not here. I think this is also useless to say for every repository "this saves and get data...": just say that our repositories job is to access database. each repository can access a table in our db.}
+    \subsubsection{Persistence Layer}
+        
     \paragraph{Health Data Repository:}
     saves and get individuals' health data from the database.
     
@@ -216,6 +218,11 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
     \paragraph{Track4Run Service:}
     is encharged of handling runs for creation, enrollment and watching.
     
+    \subsubsection{External Services}
+    
+    \paragraph{Dispatcher API:}
+    used by the Sos service to communicate with ambulances dispatcher.
+    
     \subsubsection{Application Layer}
     
     \paragraph{Authenticator Controller:}
@@ -236,34 +243,17 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
     \paragraph{Run Controller:}
     handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
     
-    \subsubsection{External Services}
-    
-    \paragraph{Dispatcher API:}
-    used by the Sos service to communicate with ambulances dispatcher.
-    
-    \subsubsection{Presentation Layer}
-    
-    \paragraph{Model:}
-    a set of components representing the data used to build the user interface.
+    \subsubsection{Presentation Layer (Client)}
     
     \paragraph{View:}
-    a set of components responsible of showing the data related to the respective model.
     
     \paragraph{Google Maps API:}
-    used by the client to create maps through Google Maps services.
+    used by the client application to create maps through Google Maps services.
     
     \paragraph{External Device API:}
-    used to connect and get data from the Individual external device from a common smart-watch to a specific pathology monitoring device.
+    allows connection with and data acquisition from the Individual external device from a common smart-watch to a specific pathology monitoring device.
 
 \newpage
-\subsection{Deployment View}
-\begin{figure}[!htpb]
-    \centering
-    \includegraphics[width=100mm,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
-    \caption{TrackMe Deployment Diagram}
-    \label{fig:deployment_trackme}
-\end{figure}
-
 \subsection{Component Interfaces}
 \begin{figure}[!htpb]
     \centering
@@ -296,26 +286,35 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Presentation La
     \label{fig:component_track4run}
 \end{figure}
 
-    \begin{figure}[!htpb]
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
-        \caption{ER Diagram}
-        \label{fig:ER_trackme}
-    \end{figure}
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=100mm,keepaspectratio]{DD/images/er_diagram.png}
+    \caption{ER Diagram}
+    \label{fig:ER_trackme}
+\end{figure}
+
+\newpage
+\subsection{Deployment View}
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=100mm,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
+    \caption{TrackMe Deployment Diagram}
+    \label{fig:deployment_trackme}
+\end{figure}    
     
 \newpage
 \subsection{Runtime View}
 
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
-    The overall architecture is structured as a multi tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Application Layer}, the \textit{Service Layer} and the \textit{Data Layer}. The latter communicates with a DBMS and is encharged of keeping data synchro-\newline nized with the database.
+    The overall architecture is structured as a multi tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Service Layer} and the \textit{Persistence Layer}. The latter communicates with a DBMS and is encharged of keeping data synchro-\newline nized with the database.
     
-    With respect to the first three tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Application Tier} and \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communica-\newline tions protocols and interface methods used by hosts in a communications network.
+    With respect to the first two tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communications protocols and interface methods used by hosts in a communications network.
     
     In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
     \begin{description}
         \item[Multi-tier Architecture:] as showed previously in this document, the layered architecture pattern allows developers to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services;
-        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which came from the presentation layer and essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data, and finally the \textit{Controller} that is the bridge between \textit{Presentation} and \textit{Service} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh of the related \textit{View}.
+        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data, and finally the \textit{Controller} that is the bridge between \textit{Presentation} and \textit{Service} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh of the related \textit{View}.
     \end{description}
 
 \subsection{Other Design Decisions}
@@ -570,30 +569,74 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 
 \newpage
 \section{Implementation, Integration \& Test Plan}
-Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Application}, \textit{Domain} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Authentication} facilities, which are built on top of \textit{Data4Help} service.
+Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Application}, \textit{Domain} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Track4Run} facilities, which are built on top of \textit{Data4Help} service. \textit{Authentication} subsystem instead can be implemented independently on the order on which other components are; an implementation strategy for this module is to deploy it in parallel with Data4Help subsystem.
 
 Despite this document follows a \textit{Top-Down} style starting from an high level point of view to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach, in which modules at lowest layer will be tested first and upper layers will follow then.
 
-The unit testing is focused on testing all the software components' features, then the test will proceed to the integration phase: integration of two operations will start only after components executing that operations pass the unit test to ensure that the components theirself work fine and that any failure is related to the integration itself.
-
-Components to be integrated are:
+The unit testing is focused on testing all the software components' features, then the test will proceed to the integration phase: integration of two operations will start only after components executing that operations pass the unit test to ensure that the components themselves work fine and that any failure is related to the integration itself. Components to be tested are listed below:
 
 \begin{enumerate}
-    \item Integration between components of \textit{Data4Help} Subsystem:
 
-    \item Integration between components of \textit{AutomatedSos} Subsystem:
-
-    \item Integration between components of \textit{Track4Run} Subsystem:
-    
     \item Integration between Authenticator Controller and Service:
-
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/test/authenticator_integration.png}
+    \end{figure}
+    
+    \item Integration between components of \textit{Data4Help} Subsystem:
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/test/data4help_integration.png}
+    \end{figure}
+    \newpage
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/test/data4help_subscription_integration.png}
+    \end{figure}
+    
+    \item Integration between components of \textit{AutomatedSos} Subsystem:
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/test/automated_sos_integration.png}
+    \end{figure}
+    
+    \item Integration between components of \textit{Track4Run} Subsystem:
+    \begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=100mm]{images/test/track4run_integration.png}
+    \end{figure}
+    
 \end{enumerate}
 
-\subsubsection{Entry Criteria}
-The integration phase will start only when the completion of the components involved in the integration should be at least 50\% for the \textit{"services"} and at least 70\% for \textit{"repositories"}: at least critical operations should have been implemented and should have passed the unit test.
+\subsubsection{Unit Test}
+The \textit{Unit Test} phase will start only after:
+\begin{itemize}
+    \item the proposed system architecture has been designed and reviewed;
+    \item testable code for units to be tested is available;
+    \item the test environment has been properly configured and is ready to run.
+\end{itemize}
+
+\subsubsection{Integration Test}
+The \textit{Integration Test} phase will start only when:
+\begin{itemize}
+    \item Unit Test phase is completed;
+    \item each component has gone through and passed the unit test phase before the integration phase;
+    \item all priority bugs found in the unit test phase are fixed and marked as solved;
+    \item the test environment has been properly configured and is ready to run.
+\end{itemize}
 
 \subsubsection{Exit Criteria}
-The test should cover at least 90\% of all the components of the business logic layer and at least 60\% for the presentation layer. The testing phase will be suspended in case such percentages are lower than 50\% for the application logic and lower than 30\% for other subsystems. If \textit{I\&T} exit conditions are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
+The test should cover 100\% of all test cases that involve components of the business logic and persistence layer and at least 80-90\% for the application layer. The testing phase will be suspended in case such percentages are lower than 50\% for the application and data logic and lower than 30\% for application layer. Conditions to be satisfied listed below:
+
+\begin{itemize}
+    \item all test cases must have been executed;
+    \item 90-100\% coverage of the requirements and functions has been achieved;
+    \item 70-80\% coverage of the source code has been achieved;
+    \item all high severity or top priority bug has been fixed;
+    \item high risk identified area has been taken up and tested.
+\end{itemize}
+
+If \textit{I\&T} exit criteria are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
 
 \newpage
 \section{Effort Spent}
