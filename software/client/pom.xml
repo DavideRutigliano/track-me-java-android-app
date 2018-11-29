@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.ferrantemattarutigliano.software</groupId>
-    <artifactId>server</artifactId>
+    <artifactId>client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>server</name>
-    <description>TrackMe Server</description>
+    <name>client</name>
+    <description>TrackMe Client</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
