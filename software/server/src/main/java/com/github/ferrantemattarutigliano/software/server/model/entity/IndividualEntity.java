@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
-public class Individual extends User implements Serializable {
+public class IndividualEntity extends UserEntity implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -17,9 +17,9 @@ public class Individual extends User implements Serializable {
     private String lastname;
     private Date birthdate;
 
-    protected Individual() {}
+    protected IndividualEntity() {}
 
-    public Individual(String ssn, String email, String firstname, String lastname, Date birthdate) {
+    public IndividualEntity(String ssn, String email, String firstname, String lastname, Date birthdate) {
         this.ssn = ssn;
         this.email = email;
         this.firstname = firstname;

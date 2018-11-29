@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-public class HealthData {
+public class HealthDataEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -14,9 +14,9 @@ public class HealthData {
     private String value;
     private Date timestamp;
 
-    protected HealthData() {}
+    protected HealthDataEntity() {}
 
-    public HealthData(String name, String value, Date timestamp) {
+    public HealthDataEntity(String name, String value, Date timestamp) {
         this.name = name;
         this.value = value;
         this.timestamp = timestamp;

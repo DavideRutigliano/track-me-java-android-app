@@ -6,17 +6,15 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Accident extends Request implements Serializable {
+public class GroupRequestEntity extends RequestEntity implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    private String ssn;
-    private String position;
+    private String criteria;
 
-    protected Accident() {}
+    protected GroupRequestEntity() {}
 
-    public Accident(String ssn, String position) {
-        this.ssn = ssn;
-        this.position = position;
+    public GroupRequestEntity(String criteria) {
+        this.criteria = criteria;
     }
 }

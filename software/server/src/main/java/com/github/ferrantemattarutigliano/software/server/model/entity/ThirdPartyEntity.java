@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class ThirdParty extends User implements Serializable {
+public class ThirdPartyEntity extends UserEntity implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -14,9 +14,9 @@ public class ThirdParty extends User implements Serializable {
     private String email;
     private String organizationName;
 
-    protected ThirdParty() {}
+    protected ThirdPartyEntity() {}
 
-    public ThirdParty(String vat, String email, String organizationName) {
+    public ThirdPartyEntity(String vat, String email, String organizationName) {
         this.vat = vat;
         this.email = email;
         this.organizationName = organizationName;
