@@ -23,7 +23,7 @@ public class Individual extends User implements Serializable {
     private String lastname;
     private Date birthdate;
 
-    protected Individual() {}
+    public Individual() {}
 
     public Individual(String ssn, String email, String firstname, String lastname, Date birthdate) {
         this.ssn = ssn;

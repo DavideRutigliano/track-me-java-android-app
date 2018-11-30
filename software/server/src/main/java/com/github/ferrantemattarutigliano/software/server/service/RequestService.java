@@ -1,7 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.message.Message;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
@@ -24,8 +23,8 @@ public class RequestService {
     public String individualRequest(IndividualRequest individualRequest){
         String ssn = individualRequest.getSsn();
         if(individualRepository.existsBySsn(ssn)){
-            return "test";
+            return Message.REQUEST_SUCCESS.toString();
         }
-        return "ERROR";
+        return Message.REQUEST_INVALID_SSN.toString();
     }
 }
