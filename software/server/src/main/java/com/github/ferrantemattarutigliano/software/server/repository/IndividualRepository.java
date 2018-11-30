@@ -1,8 +1,11 @@
 package com.github.ferrantemattarutigliano.software.server.repository;
 
-import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualEntity;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+import org.springframework.stereotype.Repository;
 
-public interface IndividualRepository extends UserRepository<IndividualEntity> {
+@Repository
+public interface IndividualRepository extends UserRepository<Individual> {
 
-    IndividualEntity findBySsn(String ssn);
+    Individual findBySsn(String ssn);
+    Boolean ssnAlreadyExists(String ssn);
 }

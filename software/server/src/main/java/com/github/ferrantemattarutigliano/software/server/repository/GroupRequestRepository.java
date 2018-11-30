@@ -1,6 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.repository;
 
-import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequestEntity;
+import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
+import org.springframework.stereotype.Repository;
 
-public interface GroupRequestRepository extends RequestRepository<GroupRequestEntity>{
+@Repository
+public interface GroupRequestRepository extends RequestRepository<GroupRequest>{
 }

@@ -1,6 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.repository;
 
-import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdPartyEntity;
+import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
+import org.springframework.stereotype.Repository;
 
-public interface ThirdPartyRepository extends UserRepository<ThirdPartyEntity> {
+@Repository
+public interface ThirdPartyRepository extends UserRepository<ThirdParty> {
 }

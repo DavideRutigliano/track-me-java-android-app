@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance
-public abstract class UserEntity {
+public abstract class User {
     @Id
     @GeneratedValue
     private Long id;

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-public class RunEntity {
+public class Run {
     @Id
     @GeneratedValue
     private Long id;
@@ -16,9 +16,9 @@ public class RunEntity {
     private String path;
 
 
-    protected RunEntity() {}
+    protected Run() {}
 
-    public RunEntity(String title, Date date, Date time, String path) {
+    public Run(String title, Date date, Date time, String path) {
         this.title = title;
         this.date = date;
         this.time = time;

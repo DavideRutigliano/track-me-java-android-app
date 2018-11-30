@@ -6,15 +6,15 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class IndividualRequestEntity extends RequestEntity implements Serializable {
+public class GroupRequest extends Request implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    private String ssn;
+    private String criteria;
 
-    protected IndividualRequestEntity() {}
+    protected GroupRequest() {}
 
-    public IndividualRequestEntity(String ssn) {
-        this.ssn = ssn;
+    public GroupRequest(String criteria) {
+        this.criteria = criteria;
     }
 }
