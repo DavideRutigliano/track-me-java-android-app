@@ -1,18 +1,12 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 public class Individual extends User implements Serializable {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @Column(name="ssn", unique=true)
     private String ssn;
 
@@ -23,7 +17,19 @@ public class Individual extends User implements Serializable {
     private String lastname;
     private Date birthdate;
 
-    public Individual() {}
+    @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
+    private Set<HealthData> healthData;
+
+    @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
+    private Set<Run> createdRuns;
+
+    @ManyToMany(mappedBy = "athletes") //etc...
+    private Set<Run> enrolledRuns;
+
+    @ManyToMany(mappedBy = "spectators")
+    private Set<Run> watchedRuns;
+
+    protected Individual() {}
 
     public Individual(String ssn, String email, String firstname, String lastname, Date birthdate) {
         this.ssn = ssn;
@@ -51,5 +57,21 @@ public class Individual extends User implements Serializable {
 
     public Date getBirthdate() {
         return birthdate;
+    }
+
+    public Set<HealthData> getHealthData() {
+        return healthData;
+    }
+
+    public Set<Run> getCreatedRuns() {
+        return createdRuns;
+    }
+
+    public Set<Run> getEnrolledRuns() {
+        return enrolledRuns;
+    }
+
+    public Set<Run> getWatchedRuns() {
+        return watchedRuns;
     }
 }

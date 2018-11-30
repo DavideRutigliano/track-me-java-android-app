@@ -3,12 +3,16 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 import javax.persistence.*;
 
 @MappedSuperclass
-public class Request {
+public abstract class Request {
     @Id
     @GeneratedValue
     private Long id;
     private String timestamp;
     private Boolean subscription;
+
+    @ManyToOne
+    @JoinColumn(name="thirdPartyId", nullable=false)
+    private ThirdParty thirdParty;
 
     public Long getId() {
         return id;
@@ -20,5 +24,9 @@ public class Request {
 
     public Boolean getSubscription() {
         return subscription;
+    }
+
+    public ThirdParty getThirdParty() {
+        return thirdParty;
     }
 }

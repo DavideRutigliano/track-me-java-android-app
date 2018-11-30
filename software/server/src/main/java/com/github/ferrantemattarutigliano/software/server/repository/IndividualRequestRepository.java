@@ -1,7 +1,10 @@
 package com.github.ferrantemattarutigliano.software.server.repository;
 
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IndividualRequestRepository extends RequestRepository<IndividualRequest>{
+import java.util.Collection;
+
+public interface IndividualRequestRepository extends JpaRepository<IndividualRequest, Long> {
+    Collection<IndividualRequest> findBySsn(String ssn);
 }

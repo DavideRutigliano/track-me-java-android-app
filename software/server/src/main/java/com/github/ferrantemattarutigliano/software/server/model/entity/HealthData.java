@@ -1,8 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -13,6 +11,10 @@ public class HealthData {
     private String name;
     private String value;
     private Date timestamp;
+
+    @ManyToOne
+    @JoinColumn(name="individualId", nullable=false)
+    private Individual individual;
 
     protected HealthData() {}
 
@@ -36,5 +38,9 @@ public class HealthData {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public Individual getIndividual() {
+        return individual;
     }
 }

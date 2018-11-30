@@ -4,4 +4,5 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdPart
 
 public interface ThirdPartyRepository extends UserRepository<ThirdParty> {
     ThirdParty findByVat(String vat);
+    Boolean existsByVat(String vat);
 }

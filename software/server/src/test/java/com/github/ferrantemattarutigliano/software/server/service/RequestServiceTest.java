@@ -61,4 +61,9 @@ public class RequestServiceTest {
 
         assertEquals(Message.REQUEST_INVALID_SSN.toString(), result);
     }
+
+    @Test
+    public void testShowSentIndividualRequest(){
+        IndividualRequest r1 = new IndividualRequest();
+    }
 }

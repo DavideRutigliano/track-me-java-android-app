@@ -1,17 +1,11 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class ThirdParty extends User implements Serializable {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @Column(name="vat", unique=true)
     private String vat;
 
@@ -19,6 +13,12 @@ public class ThirdParty extends User implements Serializable {
     private String email;
 
     private String organizationName;
+
+    @OneToMany(mappedBy = "thirdParty") //references 'thirdParty' attribute on Request class
+    private Set<IndividualRequest> individualRequests;
+
+    @OneToMany(mappedBy = "thirdParty")
+    private Set<GroupRequest> groupRequests;
 
     protected ThirdParty() {}
 
@@ -39,5 +39,13 @@ public class ThirdParty extends User implements Serializable {
 
     public String getOrganizationName() {
         return organizationName;
+    }
+
+    public Set<IndividualRequest> getIndividualRequests() {
+        return individualRequests;
+    }
+
+    public Set<GroupRequest> getGroupRequests() {
+        return groupRequests;
     }
 }
