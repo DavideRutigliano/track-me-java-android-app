@@ -7,20 +7,22 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequ
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(path="/request")
 public class RequestController {
     @Autowired
     private RequestService requestService;
 
-    @RequestMapping("/individualRequest")
+    @PostMapping(path="/individual")
     public String individualRequest(@DTO(IndividualRequestDTO.class) IndividualRequest individualRequest){
         return requestService.individualRequest(individualRequest);
     }
 
-    @RequestMapping("/groupRequest")
+    @PostMapping(path="/group")
     public String groupRequest(@DTO(GroupRequestDTO.class)GroupRequest groupRequest) {
         return null;
     }
