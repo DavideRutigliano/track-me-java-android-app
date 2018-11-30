@@ -2,9 +2,8 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import javax.persistence.*;
 
-@Entity
-@Inheritance
-public abstract class User {
+@MappedSuperclass
+public class User {
     @Id
     @GeneratedValue
     private Long id;
@@ -13,7 +12,7 @@ public abstract class User {
     private String username;
     private String password;
 
-    protected User() {}
+    public User() {}
 
     public User(String username, String password){
         this.username = username;

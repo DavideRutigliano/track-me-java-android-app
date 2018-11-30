@@ -25,7 +25,7 @@ public class AuthenticatorController {
     }
 
     @PostMapping("/individuals/add")
-    public String individualRegistration(@DTO(IndividualDTO.class) Individual individual) {
+    public String individualRegistration(@RequestBody @DTO(IndividualDTO.class) Individual individual) {
         if (authenticatorService.individualRegistration(individual))
             return "Success!";
         else return "Oops, something went wrong.";
@@ -35,14 +35,14 @@ public class AuthenticatorController {
     public Collection<ThirdParty> getAllThirdParties() { return authenticatorService.getAllThirdParties(); }
 
     @PostMapping("/thirdparties/add")
-    public String thirdPartyRegistration(@DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+    public String thirdPartyRegistration(@RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
         if (authenticatorService.thirdPartyRegistration(thirdParty))
             return "Success!";
         else return "Oops, something went wrong.";
     }
 
     @PostMapping("/login")
-    public String login(@DTO(UserDTO.class) User user) {
+    public String login(@RequestBody @DTO(UserDTO.class) User user) {
         if (authenticatorService.login(user))
             return "Welcome "+user.getUsername()+"!";
         else return "Oops, something went wrong.";

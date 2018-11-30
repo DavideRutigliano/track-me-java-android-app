@@ -8,6 +8,7 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.Individua
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +19,12 @@ public class RequestController {
     private RequestService requestService;
 
     @PostMapping(path="/individual")
-    public String individualRequest(@DTO(IndividualRequestDTO.class) IndividualRequest individualRequest){
+    public String individualRequest(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest){
         return requestService.individualRequest(individualRequest);
     }
 
     @PostMapping(path="/group")
-    public String groupRequest(@DTO(GroupRequestDTO.class)GroupRequest groupRequest) {
+    public String groupRequest(@RequestBody @DTO(GroupRequestDTO.class)GroupRequest groupRequest) {
         return null;
     }
 }

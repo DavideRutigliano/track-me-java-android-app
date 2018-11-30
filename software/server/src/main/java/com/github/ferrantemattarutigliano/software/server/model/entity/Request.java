@@ -2,9 +2,8 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import javax.persistence.*;
 
-@Entity
-@Inheritance
-public abstract class Request {
+@MappedSuperclass
+public class Request {
     @Id
     @GeneratedValue
     private Long id;

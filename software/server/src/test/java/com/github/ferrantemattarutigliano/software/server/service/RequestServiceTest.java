@@ -4,6 +4,7 @@ import com.github.ferrantemattarutigliano.software.server.message.Message;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
+import com.github.ferrantemattarutigliano.software.server.repository.IndividualRequestRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +23,9 @@ public class RequestServiceTest {
 
     @Mock
     IndividualRepository mockIndividualRepository;
+
+    @Mock
+    IndividualRequestRepository mockIndividualRequestRepository;
 
     @Before
     public void initTest(){

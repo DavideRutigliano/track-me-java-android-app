@@ -1,8 +1,9 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class UserDTO {
+public class UserDTO implements Serializable {
     @NotNull
     private String username;
 

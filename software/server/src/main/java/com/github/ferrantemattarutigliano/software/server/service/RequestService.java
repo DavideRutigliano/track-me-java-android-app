@@ -20,9 +20,10 @@ public class RequestService {
     @Autowired
     private HealthDataRepository healthDataRepository;
 
-    public String individualRequest(IndividualRequest individualRequest){
+    public String individualRequest(IndividualRequest individualRequest){ //TODO Add subscription topic
         String ssn = individualRequest.getSsn();
         if(individualRepository.existsBySsn(ssn)){
+            individualRequestRepository.save(individualRequest);
             return Message.REQUEST_SUCCESS.toString();
         }
         return Message.REQUEST_INVALID_SSN.toString();
