@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ThirdPartyRepository extends UserRepository<ThirdParty> {
+    ThirdParty findByVat(String vat);
 }
