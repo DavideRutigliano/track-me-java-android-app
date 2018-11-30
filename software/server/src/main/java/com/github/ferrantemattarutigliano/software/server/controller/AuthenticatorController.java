@@ -41,7 +41,7 @@ public class AuthenticatorController {
         else return "Oops, something went wrong.";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@DTO(UserDTO.class) User user) {
         if (authenticatorService.login(user))
             return "Welcome "+user.getUsername()+"!";
