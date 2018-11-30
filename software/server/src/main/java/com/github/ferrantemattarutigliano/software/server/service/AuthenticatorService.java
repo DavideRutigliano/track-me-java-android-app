@@ -29,7 +29,7 @@ public class AuthenticatorService {
         return thirdPartyRepository.findAll();
     }
 
-    public boolean individualRegistration(@DTO(IndividualDTO.class) Individual individual) {
+    public boolean individualRegistration(Individual individual) {
         if (!userAlreadyExists(individual.getUsername())
                 && validateIndividual(individual)) {
             individualRepository.save(individual);
@@ -38,7 +38,7 @@ public class AuthenticatorService {
         else return false;
     }
 
-    public boolean thirdPartyRegistration(@DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+    public boolean thirdPartyRegistration(ThirdParty thirdParty) {
         if (!userAlreadyExists(thirdParty.getUsername())
                 && validateThirdParty(thirdParty)) {
             thirdPartyRepository.save(thirdParty);
@@ -70,7 +70,7 @@ public class AuthenticatorService {
         return individualRepository.findByUsername(username);
     }
 
-    public boolean changeIndividualProfile(@DTO(IndividualDTO.class) Individual individual) {
+    public boolean changeIndividualProfile(Individual individual) {
         if (userAlreadyExists(individual.getUsername())
                 && validateIndividual(individual)) {
             individualRepository.save(individual); /* TODO FIX ME: id is different PK violation */
@@ -83,7 +83,7 @@ public class AuthenticatorService {
         return thirdPartyRepository.findByUsername(username);
     }
 
-    public boolean changeThirdPartyProfile(@DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+    public boolean changeThirdPartyProfile(ThirdParty thirdParty) {
         if (userAlreadyExists(thirdParty.getUsername())
                 && validateThirdParty(thirdParty)) {
             thirdPartyRepository.save(thirdParty); /* TODO FIX ME id is different PK violation */

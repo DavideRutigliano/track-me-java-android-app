@@ -21,7 +21,7 @@ public class RequestService {
     @Autowired
     private HealthDataRepository healthDataRepository;
 
-    public String individualRequest(@DTO(IndividualRequestDTO.class) IndividualRequest individualRequest){
+    public String individualRequest(IndividualRequest individualRequest){
         String ssn = individualRequest.getSsn();
         if(individualRepository.existsBySsn(ssn)){
             return "test";
