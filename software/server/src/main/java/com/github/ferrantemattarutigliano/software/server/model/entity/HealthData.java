@@ -21,4 +21,20 @@ public class HealthData {
         this.value = value;
         this.timestamp = timestamp;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
 }

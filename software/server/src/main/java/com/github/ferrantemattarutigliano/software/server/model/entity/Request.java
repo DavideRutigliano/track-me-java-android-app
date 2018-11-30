@@ -10,4 +10,16 @@ public abstract class Request {
     private Long id;
     private String timestamp;
     private Boolean subscription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public Boolean getSubscription() {
+        return subscription;
+    }
 }

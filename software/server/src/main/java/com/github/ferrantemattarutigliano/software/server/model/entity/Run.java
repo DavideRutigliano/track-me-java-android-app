@@ -24,4 +24,24 @@ public class Run {
         this.time = time;
         this.path = path;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public String getPath() {
+        return path;
+    }
 }

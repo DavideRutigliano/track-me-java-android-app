@@ -17,4 +17,12 @@ public class IndividualRequest extends Request implements Serializable {
     public IndividualRequest(String ssn) {
         this.ssn = ssn;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
 }

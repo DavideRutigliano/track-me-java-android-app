@@ -107,6 +107,8 @@ public class AuthenticatorService {
                 && emailIsValid(thirdParty.getEmail());
     }
 
+
+    //TODO add regex to check email ssn and vat
     private boolean emailIsValid(String email){
         return email != null
                 && !email.equals("");

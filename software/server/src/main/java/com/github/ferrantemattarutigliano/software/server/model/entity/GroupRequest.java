@@ -18,4 +18,8 @@ public class GroupRequest extends Request implements Serializable {
     public GroupRequest(String criteria) {
         this.criteria = criteria;
     }
+
+    public String getCriteria() {
+        return criteria;
+    }
 }
