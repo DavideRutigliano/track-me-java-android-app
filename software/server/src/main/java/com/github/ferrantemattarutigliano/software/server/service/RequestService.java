@@ -5,18 +5,23 @@ import com.github.ferrantemattarutigliano.software.server.repository.GroupReques
 import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRequestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RequestService {
+    @Autowired
     private IndividualRequestRepository individualRequestRepository;
+    @Autowired
     private GroupRequestRepository groupRequestRepository;
+    @Autowired
     private IndividualRepository individualRepository;
+    @Autowired
     private HealthDataRepository healthDataRepository;
 
     public String individualRequest(IndividualRequestDTO individualRequestDTO){
         String ssn = individualRequestDTO.getSsn();
-        if(individualRepository.ssnAlreadyExists(ssn)){
+        if(individualRepository.existsBySsn(ssn)){
             return "test";
         }
         return "ERROR";

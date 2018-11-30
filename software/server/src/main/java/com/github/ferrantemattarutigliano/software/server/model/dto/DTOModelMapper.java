@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.MethodParameter;
@@ -25,7 +24,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 
 public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
-
     private static final ModelMapper modelMapper = new ModelMapper();
 
     private EntityManager entityManager;

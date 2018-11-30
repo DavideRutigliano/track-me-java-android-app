@@ -10,6 +10,7 @@ public class GroupRequest extends Request implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
     private String criteria;
 
     protected GroupRequest() {}

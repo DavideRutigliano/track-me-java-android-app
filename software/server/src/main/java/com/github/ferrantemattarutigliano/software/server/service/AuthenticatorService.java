@@ -3,105 +3,106 @@ package com.github.ferrantemattarutigliano.software.server.service;
 import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.ThirdPartyDTO;
-import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualEntity;
-import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdPartyEntity;
-import com.github.ferrantemattarutigliano.software.server.model.entity.UserEntity;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
+import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthenticatorService {
 
-    private IndividualRepository individuals;
-    private ThirdPartyRepository thirdparties;
-
     @Autowired
-    public AuthenticatorService(@Qualifier("Individual")IndividualRepository individuals,
-                                @Qualifier("ThirdParty") ThirdPartyRepository thirdparties) {
-        this.individuals = individuals;
-        this.thirdparties = thirdparties;
+    private IndividualRepository individualRepository;
+    @Autowired
+    private ThirdPartyRepository thirdPartyRepository;
+
+    public Collection<Individual> getAllIndividuals() {
+        return individualRepository.findAll();
     }
 
-    public Collection<IndividualEntity> getAllIndividuals() {
-        return individuals.findAll().stream().collect(Collectors.toList());
+    public Collection<ThirdParty> getAllThirdParties() {
+        return thirdPartyRepository.findAll();
     }
 
-    public Collection<ThirdPartyEntity> getAllThirdParties() {
-        return thirdparties.findAll().stream().collect(Collectors.toList());
-    }
-
-    public boolean individualRegistration(@DTO(IndividualDTO.class) IndividualEntity individual) {
+    public boolean individualRegistration(@DTO(IndividualDTO.class) Individual individual) {
         if (!userAlreadyExists(individual.getUsername())
                 && validateIndividual(individual)) {
-            individuals.save(individual);
+            individualRepository.save(individual);
             return true;
         }
         else return false;
     }
 
-    public boolean thirdPartyRegistration(@DTO(ThirdPartyDTO.class) ThirdPartyEntity thirdParty) {
+    public boolean thirdPartyRegistration(@DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
         if (!userAlreadyExists(thirdParty.getUsername())
                 && validateThirdParty(thirdParty)) {
-            thirdparties.save(thirdParty);
+            thirdPartyRepository.save(thirdParty);
             return true;
         }
         else return false;
     }
 
-    public boolean login(UserEntity user) {
-        IndividualEntity registeredIndividuals = individuals.findByUsername(user.getUsername());
-        ThirdPartyEntity registeredThirdParties = thirdparties.findByUsername(user.getUsername());
-        if (registeredIndividuals != null)
-            return user.getPassword().equals(registeredIndividuals.getPassword());
-        else if (registeredThirdParties != null)
-            return user.getPassword().equals(registeredThirdParties.getPassword());
-        else return false;
+    public boolean login(User user) { //TODO ADD HASHING TO LOGIN PASSWORD
+        String username = user.getUsername();
+        String password = user.getPassword();
+        try {
+            if (individualRepository.existsByUsername(username)) {
+                Individual individual = individualRepository.findByUsername(username);
+                return password.equals(individual.getPassword());
+            }
+            if (thirdPartyRepository.existsByUsername(username)) {
+                ThirdParty thirdParty = thirdPartyRepository.findByUsername(username);
+                return password.equals(thirdParty.getPassword());
+            }
+        }
+        catch (NullPointerException e){
+            e.fillInStackTrace();//should never get here
+        }
+        return false;
     }
 
-    public IndividualEntity getIndividualProfile(String username) {
-        return individuals.findByUsername(username);
+    public Individual getIndividualProfile(String username) {
+        return individualRepository.findByUsername(username);
     }
 
-    public boolean changeIndividualProfile(@DTO(IndividualDTO.class) IndividualEntity individual) {
+    public boolean changeIndividualProfile(@DTO(IndividualDTO.class) Individual individual) {
         if (userAlreadyExists(individual.getUsername())
                 && validateIndividual(individual)) {
-            individuals.save(individual); /* FIX ME: id is different PK violation */
+            individualRepository.save(individual); /* TODO FIX ME: id is different PK violation */
             return true;
         }
         else return false;
     }
 
-    public ThirdPartyEntity getThirdPartyProfile(String username) {
-        return thirdparties.findByUsername(username);
+    public ThirdParty getThirdPartyProfile(String username) {
+        return thirdPartyRepository.findByUsername(username);
     }
 
-    public boolean changeThirdPartyProfile(@DTO(ThirdPartyDTO.class) ThirdPartyEntity thirdParty) {
+    public boolean changeThirdPartyProfile(@DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
         if (userAlreadyExists(thirdParty.getUsername())
                 && validateThirdParty(thirdParty)) {
-            thirdparties.save(thirdParty); /* FIX ME id is different PK violation */
+            thirdPartyRepository.save(thirdParty); /* TODO FIX ME id is different PK violation */
             return true;
         }
         else return false;
     }
 
     private boolean userAlreadyExists(String username) {
-        return individuals.findUsername(username)
-                || thirdparties.findUsername(username);
+        return individualRepository.existsByUsername(username)
+                || thirdPartyRepository.existsByUsername(username);
     }
 
-    private boolean validateIndividual(IndividualEntity individual){
+    private boolean validateIndividual(Individual individual){
         return ssnIsValid(individual.getSsn())
                 && emailIsValid(individual.getEmail());
     }
 
-    private boolean validateThirdParty(ThirdPartyEntity thirdParty){
+    private boolean validateThirdParty(ThirdParty thirdParty){
         return vatIsValid(thirdParty.getVat())
                 && emailIsValid(thirdParty.getEmail());
     }

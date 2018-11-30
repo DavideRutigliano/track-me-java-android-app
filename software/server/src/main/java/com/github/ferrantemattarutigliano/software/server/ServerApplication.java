@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties
 @EntityScan("com.github.ferrantemattarutigliano.software.server.model.entity")
 public class ServerApplication {
 

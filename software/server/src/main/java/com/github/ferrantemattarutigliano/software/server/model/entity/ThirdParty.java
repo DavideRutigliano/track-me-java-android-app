@@ -17,6 +17,7 @@ public class ThirdParty extends User implements Serializable {
 
     @Column(name="email", unique=true)
     private String email;
+
     private String organizationName;
 
     protected ThirdParty() {}
