@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.server.model.entity.dto;
+package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

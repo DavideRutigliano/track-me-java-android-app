@@ -1,17 +1,38 @@
-package com.github.ferrantemattarutigliano.software.server.model.entity.dto;
+package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-public class ThirdPartyDTO {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class ThirdPartyDTO extends UserDTO{
+    @NotNull
     private String vat;
-    @Column(name="username", unique=true)
-    private String username;
-    private String password;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String organizationName;
+
+    public String getVat() {
+        return vat;
+    }
+
+    public void setVat(String vat) {
+        this.vat = vat;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 }

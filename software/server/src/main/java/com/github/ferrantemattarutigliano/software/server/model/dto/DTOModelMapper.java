@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.server.model.entity.dto;
+package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
