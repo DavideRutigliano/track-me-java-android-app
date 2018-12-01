@@ -1,8 +1,7 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+
 
 import javax.validation.constraints.NotNull;
 

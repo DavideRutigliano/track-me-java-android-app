@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AuthenticatorService {
@@ -108,20 +110,26 @@ public class AuthenticatorService {
     }
 
 
-    //TODO add regex to check email ssn and vat
-    private boolean emailIsValid(String email){
-        return email != null
-                && !email.equals("");
+    private boolean match(String regex, String toCompare) {
+        if (toCompare == null)
+            return false;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(toCompare);
+        return matcher.matches();
     }
 
+    private boolean emailIsValid(String email){
+        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
+    }
 
     private boolean ssnIsValid(String ssn){
-        return ssn != null
-                && !ssn.equals("");
+        return match("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
     }
 
     private boolean vatIsValid(String vat){
-        return vat != null
-                && !vat.equals("");
+        return match("^[A-Za-z]{2,4}(?=.{2,12}$)[-_\\s0-9]*(?:[a-zA-Z][-_\\s0-9]*){0,2}$", vat);
     }
 }
+
+
+
