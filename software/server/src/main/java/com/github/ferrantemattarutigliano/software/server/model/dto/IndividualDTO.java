@@ -3,6 +3,8 @@ package com.github.ferrantemattarutigliano.software.server.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 public class IndividualDTO extends UserDTO{

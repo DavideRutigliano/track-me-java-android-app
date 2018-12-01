@@ -1,21 +1,23 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@MappedSuperclass
 public class UserDTO implements Serializable {
+    @Id
+    @GeneratedValue
+    @NotNull
+    private Long id;
+
     @NotNull
     private String username;
 
     @NotNull
     private String password;
-
-    public UserDTO() {}
-
-    public UserDTO(@NotNull String username, @NotNull String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     public String getUsername() { return username; }
 

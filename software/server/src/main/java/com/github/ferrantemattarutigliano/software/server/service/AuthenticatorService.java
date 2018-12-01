@@ -75,7 +75,7 @@ public class AuthenticatorService {
     public boolean changeIndividualProfile(Individual individual) {
         if (userAlreadyExists(individual.getUsername())
                 && validateIndividual(individual)) {
-            individualRepository.save(individual); /* TODO FIX ME: id is different PK violation */
+            individualRepository.save(individual);
             return true;
         }
         else return false;
@@ -88,7 +88,7 @@ public class AuthenticatorService {
     public boolean changeThirdPartyProfile(ThirdParty thirdParty) {
         if (userAlreadyExists(thirdParty.getUsername())
                 && validateThirdParty(thirdParty)) {
-            thirdPartyRepository.save(thirdParty); /* TODO FIX ME id is different PK violation */
+            thirdPartyRepository.save(thirdParty);
             return true;
         }
         else return false;
