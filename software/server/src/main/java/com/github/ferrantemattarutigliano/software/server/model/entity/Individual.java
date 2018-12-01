@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
-
 @Entity
 public class Individual extends User implements Serializable {
     @Column(name="ssn", unique=true)
@@ -31,8 +30,8 @@ public class Individual extends User implements Serializable {
 
     protected Individual() {}
 
-    public Individual(String ssn, String email, String firstname, String lastname, Date birthdate) {
-        this.ssn = ssn;
+    public Individual(String username, String password, String ssn, String email, String firstname, String lastname, Date birthdate) {
+        super(username, password);
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -59,6 +58,22 @@ public class Individual extends User implements Serializable {
         return birthdate;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
     public Set<HealthData> getHealthData() {
         return healthData;
     }
@@ -75,3 +90,4 @@ public class Individual extends User implements Serializable {
         return watchedRuns;
     }
 }
+

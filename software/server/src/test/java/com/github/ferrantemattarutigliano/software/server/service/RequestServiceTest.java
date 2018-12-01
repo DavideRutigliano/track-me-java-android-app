@@ -35,9 +35,9 @@ public class RequestServiceTest {
     @Test
     public void testIndividualRequest(){
         Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "123456789";
+        String ssn = "AAAAAA00A00A000A";
 
-        Individual dummyIndividual = new Individual(ssn, "test@ho.com", "A", "B", birthDate);
+        Individual dummyIndividual = new Individual("user", "test", ssn, "test@ho.com", "A", "B", birthDate);
         when(mockIndividualRepository.existsBySsn(ssn)).thenReturn(true);
         when(mockIndividualRepository.findBySsn(ssn)).thenReturn(dummyIndividual);
 
@@ -50,9 +50,9 @@ public class RequestServiceTest {
     @Test
     public void testInvalidIndividualRequest(){
         Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "123456789";
+        String ssn = "AAAAAA00A00A000A";
 
-        Individual dummyIndividual = new Individual(ssn, "test@ho.com", "A", "B", birthDate);
+        Individual dummyIndividual = new Individual("user", "test", ssn, "test@ho.com", "A", "B", birthDate);
         when(mockIndividualRepository.existsBySsn(ssn)).thenReturn(true);
         when(mockIndividualRepository.findBySsn(ssn)).thenReturn(dummyIndividual);
 

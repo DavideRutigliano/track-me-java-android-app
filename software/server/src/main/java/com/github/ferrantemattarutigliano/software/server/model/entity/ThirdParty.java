@@ -6,6 +6,10 @@ import java.util.Set;
 
 @Entity
 public class ThirdParty extends User implements Serializable {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(name="vat", unique=true)
     private String vat;
 
@@ -39,6 +43,14 @@ public class ThirdParty extends User implements Serializable {
 
     public String getOrganizationName() {
         return organizationName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
     public Set<IndividualRequest> getIndividualRequests() {
