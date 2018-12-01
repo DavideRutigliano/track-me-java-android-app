@@ -1,10 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class ThirdParty extends User implements Serializable {
@@ -54,8 +52,8 @@ public class ThirdParty extends User implements Serializable {
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
-    
-     public Set<IndividualRequest> getIndividualRequests() {
+
+    public Set<IndividualRequest> getIndividualRequests() {
         return individualRequests;
     }
 
