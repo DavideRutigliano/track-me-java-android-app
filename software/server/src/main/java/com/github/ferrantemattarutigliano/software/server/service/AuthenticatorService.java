@@ -1,8 +1,5 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
