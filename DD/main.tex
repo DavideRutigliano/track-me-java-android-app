@@ -85,7 +85,8 @@
                 \acro{DD}{Design Document}
                 \acro{UML}{Unified Modelling Language}
                 \acro{SQL}{Structured Query Language}
-                \acro{MVC}{Model View Controller (design pattern)}
+                \acro{MVC}{Model View Controller}
+                \acro{MVP}{Model View Presenter}
                 \acro{REST}{REpresentational State Transfer}
                 \acro{API}{Application Programming Interface}
                 \acro{RASD}{Requirement Analysis and Specification Document}
@@ -99,10 +100,10 @@
             \begin{description}
                  \item[Business Logic Layer] another term to intend the Application and Service Layers together
                  \item[Controller] a component of the application layer that is responsible of handling events from the client
-                 \item[Service] part of the business logic, is the core logic of a specific function or set of functions
-                 \item[Repository] is the component that handles query methods against the database
+                 \item[Service] part of the business logic, executes the core logic of a specific function or set of functions
+                 \item[Repository] is the component that handles query methods to the database
                  \item[Data Access Object] sometimes called \textit{Entity}, is the object used by Repository to map data to a specific object thus, it should encapsulate the logic for retrieving, saving and updating data in the data storage
-                 \item[Data Transfer Object] also called \textit{Bean} is the representation of a DAO and it is used to transfer the data between modules of the application
+                 \item[Data Transfer Object] also called \textit{Bean} is the representation of a DAO and it is used to transfer the data between the client and server
             \end{description}
             
             \subsubsection{Abbreviation}
@@ -161,17 +162,6 @@ The system is deployed on three different layers: the Client layer, the Server l
     	\includegraphics[width=100mm,height=45mm]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
-\newpage The main component of the system is the Server Layer, that it's also deployed on three different layers: the \textbf{Application Layer}, the \textbf{Service Layer} and the \textbf{Persistence Layer}.
-These layers are respectively mapped on the three main components of the software application: controllers, services and repositories.
-\begin{figure}[!htpb]
-    	\centering
-    	\includegraphics[width=0.84\textwidth,keepaspectratio]{DD/images/ServerLayer.png}
-    	\caption{Server Layer diagram}
-\end{figure}
-\newline
-The \textbf{Application Layer} communicates directly with client browser or mobile application, while the \textbf{Service Layer} manages all the application logic: the latter is invoked by the Application Layer. \\
-Lastly the \textbf{Persistence Layer}: here the application has all the database management logic and is responsible of the communication with the DBMS. This layer is invoked by the Logic Layer.
-
 \newpage
 \subsection{Component View}
     \subsubsection{Application Layer (Server Layer)}
@@ -296,17 +286,84 @@ Lastly the \textbf{Persistence Layer}: here the application has all the database
     
 \newpage
 \subsection{Runtime View}
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3cm
+    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/sequence_individualRegistration.jpg}
+    \caption{Individual Registration Sequence Diagram}
+    \label{fig:sequence_individualsignup}
+\end{figure} 
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3cm
+    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/sequence_thirdPartyLogin.jpg}
+    \caption{Third Party Login Sequence Diagram}
+    \label{fig:sequence_tplogin}
+\end{figure} 
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3cm
+    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/sequence_groupRequest.jpg}
+    \caption{Group Request Sequence Diagram}
+    \label{fig:sequence_grouprequest}
+\end{figure}
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3cm
+    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/sequence_individualRequest.jpg}
+    \caption{Individual Request Sequence Diagram}
+    \label{fig:sequence_individualrequest}
+\end{figure} 
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3cm
+    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/sequence_runCreation.jpg}
+    \caption{Create Run Sequence Diagram}
+    \label{fig:sequence_createrun}
+\end{figure}
 
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
-    The overall architecture is structured as a multi tier architecture: the \textit{Pre-\newline sentation Layer}, the \textit{Service Layer} and the \textit{Persistence Layer}. The latter communicates with a DBMS and is encharged of keeping data synchro-\newline nized with the database.
-    
-    With respect to the first two tiers instead, on one hand there is the client which will be represented by the \textit{Presentation Tier}: the mobile application installed on the mobile device. On the other hand, the server is the \textit{Service Tier}: the latter handles all the application logic and services, the former instead is an abstraction layer that specifies the shared communications protocols and interface methods used by hosts in a communications network.
-    
+    \subsubsection{Architecture}
     In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
     \begin{description}
-        \item[Multi-tier Architecture:] as showed previously in this document, the layered architecture pattern allows developers to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services;
-        \item[Model View Controller:] in this pattern there are three entities: the \textit{Model} which essentially maintains all the data related to a certain client event, the \textit{View} that is responsible of showing to customers model's data, and finally the \textit{Controller} that is the bridge between \textit{Presentation} and \textit{Service} layers and is responsible of handling all the events related to a certain \textit{Model} and further refresh of the related \textit{View}.
+        \item[Three Tier Architecture:] as showed previously in this document, the layered architecture pattern allows to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services.
+        The overall architecture is structured as a three tier architecture: the \textit{Client Layer}, the \textit{Server Layer} and the \textit{Database Layer}.
+        
+        \item[Layered Server:] The main component of the system is the Server Layer, that it's also deployed on three different layers: the \textbf{Application Layer}, the \textbf{Service Layer} and the \textbf{Persistence Layer}.
+        These layers are respectively mapped on the three main components of the software application: \newline controllers, services and repositories.
+        \begin{figure}[!htpb]
+            	\centering
+            	\includegraphics[width=0.84\textwidth,keepaspectratio]{DD/images/ServerLayer.png}
+            	\caption{Server Layer diagram}
+        \end{figure}
+        \newline
+        The \textbf{Application Layer} communicates directly with client browser and mobile application, while the \textbf{Service Layer} manages all the application logic: the latter is invoked by the Application Layer. \\
+        Lastly the \textbf{Persistence Layer}: here the application has all the database management logic and is responsible of the communication with the DBMS. This layer is invoked by the Logic Layer.\\
+        This was done to add \textbf{separation of concerns}: each layer is specialized in a specific activity.
+        
+        \newpage
+        \item[Model View Presenter (MVP):] in this pattern there are three entities: the \textit{Model} which essentially maintains all the data, the \textit{View} that is responsible of showing the model's data and routes user commands to the presenter, and finally the \textit{Presenter} that is responsible of handling the data access from \textit{Model} and to format it to display in the view.
+        This architecture is used in the \textit{Client Layer}.
+        \begin{figure}[!hb]
+            \centering
+            \includegraphics[height=50mm, keepaspectratio]{DD/images/mvp.png}
+            \caption{MVP Architecture}
+            \label{fig:mvp}
+        \end{figure}
+    \end{description}
+    \subsubsection{Design Patterns}
+    \begin{description}
+    \item[Publisher-Subscriber:] this is the most important pattern that is used in the application. It is used for almost anything from handling \textit{Data4Help} requests to send athlete positions to spectators through \textit{Track4Run}.
+    \begin{figure}[!hb]
+        \centering
+        \includegraphics[width=0.9\textwidth,keepaspectratio]{DD/images/pubsub.png}
+        \caption{Pub/Sub Pattern}
+        \label{fig:pubsub}
+    \end{figure}
+    This is necessary for performance reasons: \textit{TrackMe} is a data-intensive real-time system, so \textit{polling} is not a viable strategy in this case.
+    \textit{WebSockets} are clearly the best solution and this is why this pattern shall be used.\\
+    Suppose a scenario where a Third Party wants to subscribe to the data of an Individual named Pippo. When Pippo registers to the application, \textit{TrackMe} creates a \textit{topic} associated with him. The Third Party becomes a subscriber of that topic: every time Pippo (Publisher) upload his data, the associated topic is updated and all Third Parties subscribed to him (Subscriber) are notified. 
     \end{description}
 
 \subsection{Other Design Decisions}
@@ -316,7 +373,11 @@ The management of the external device is a client only operation that will allow
 The client map of the run is \textit{local} too: the run organizer will be able (through Google Maps API) to draw a path on an interactive map and send it to the server which will be able to decode the run path and store it as a string; also spectators will be able to use a map to see athletes positions and again, the map will be local too. The Server will provide only athlete positions with the associated track.
 
 \subsubsection{Client Native Application}
-In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. This is necessary for performance reasons.\textit{TrackMe} is a system that relies heavily on data transfer.
+In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. This is necessary for performance reasons.\textit{TrackMe} is a real-time system that relies heavily on data transfer where performance must be maximized; an \textbf{hybrid application} was considered a bad choice for the following reasons:\\
+\begin{itemize}
+    \item Slower than native application;
+    \item Have to work with a wrapper dependent on a third party platform.
+\end{itemize}
 
 \subsubsection{Client Web Application}
 In addition, a web application may be further developed in order to allow customers to use \textit{Data4Help} features also from their Personal Computers; \textit{Automated-Sos} and \textit{Track4Run} services will instead be available only on mobile devices.
@@ -636,11 +697,11 @@ If \textit{I\&T} integration exit criteria are satisfied, the test phase can mov
 \newpage
 \section{Effort Spent}
     \begin{itemize}
-        \item[-] \textbf{Davide Rutigliano: }
+        \item[-] \textbf{Davide Rutigliano: 60h}
         
-        \item[-] \textbf{Davide Matta: }
+        \item[-] \textbf{Davide Matta: 60h}
         
-        \item[-] \textbf{Claudio Ferrante: }
+        \item[-] \textbf{Claudio Ferrante: 60h}
     \end{itemize}
 
 \end{document}
