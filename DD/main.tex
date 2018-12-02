@@ -142,37 +142,75 @@
 
 \item \textbf{Implementation and Test plan}: provides full information about the deployment strategy advised to developers in order to follow design decision taken in this document.
 \end{itemize}
-
 \newpage
 \section{Architectural Design}
 \subsection{High Level Components and their Interaction}
-The system is deployed on three different tiers: the Persistence layer, the Service layer and the Application layer, that are respectively mapped on the three main components of the software application: the data handling logic, the services, and the controllers.
+The system is deployed on three different layers: the Client layer, the Server layer and the Database layer.
 \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm,keepaspectratio]{images/highlevel.jpg}
+    	\includegraphics[width=0.85\textwidth,keepaspectratio]{images/highlevel.jpg}
     	\caption{High Level interaction diagram}
 \end{figure}
-
-The main component is the system itself and includes both the \textit{Web Server} and the \textit{Application Server}. The former communicates in synchronous way over HTTPS with client browser or mobile application, while the latter manages all the application logic and it is interfaced with the \textit{Persistence Layer}. Furthermore, the \textit{Application Layer} can also \textit{consume} REST services made available by the \textit{Application Server}. The \textit{Persistence Layer} instead is composed of the data management logic and is responsible of the communication with the DBMS.
-
-Moreover, both the \textit{Business Logic Layer} and the \textit{Application Layer} should interact with external services:
-
 \begin{itemize}
     \item The \textit{Mobile Application} may be connected with an external device such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection;
     \item The \textit{Application Server} should be able to communicate with dispatchers in order to send them individual's position and notify them in case of accident.
 \end{itemize}
-
 \hfill
 \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm,keepaspectratio]{images/highlevel2.png}
+    	\includegraphics[width=100mm,height=45mm]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
+\newpage The main component of the system is the Server Layer, that it's also deployed on three different layers: the \textbf{Application Layer}, the \textbf{Service Layer} and the \textbf{Persistence Layer}.
+These layers are respectively mapped on the three main components of the software application: controllers, services and repositories.
+\begin{figure}[!htpb]
+    	\centering
+    	\includegraphics[width=0.84\textwidth,keepaspectratio]{DD/images/ServerLayer.png}
+    	\caption{Server Layer diagram}
+\end{figure}
+\newline
+The \textbf{Application Layer} communicates directly with client browser or mobile application, while the \textbf{Service Layer} manages all the application logic: the latter is invoked by the Application Layer. \\
+Lastly the \textbf{Persistence Layer}: here the application has all the database management logic and is responsible of the communication with the DBMS. This layer is invoked by the Logic Layer.
 
 \newpage
 \subsection{Component View}
+    \subsubsection{Application Layer (Server Layer)}
+    \paragraph{Authenticator Controller:}
+    receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
     
-    \subsubsection{Persistence Layer}
+    \paragraph{Individuals Data Controller:}
+    is responsible of individuals' personal data management.
+    
+    \paragraph{Request Controller:}
+    allows to generate individual and group requests. Furthermore it is encharged of the management of incoming request for individuals and of outgoing requests in case of third party users.
+    
+    \paragraph{Automated-Sos Controller:}
+    allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
+    
+    \paragraph{Position Controller:}
+    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
+
+    \paragraph{Run Controller:}
+    handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
+    
+    \subsubsection{Service Layer (Server Layer)}
+
+    \paragraph{Authenticator Service:}
+    handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
+
+    \paragraph{Request Service:}
+    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
+    
+    \paragraph{Subscription Service:}
+    allows third parties to receive Individual's data as soon they are produced and is in charge of synchronization with new data.
+    
+    \paragraph{Automated-Sos Service:}
+    monitors Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
+    
+    \paragraph{Run Service:}
+    handle runs for creation, enrollment and watching.
+    
+    \subsubsection{Persistence Layer (Server Layer)}
         
     \paragraph{Health Data Repository:}
     saves and get individuals' health data from the database.
@@ -195,63 +233,17 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Application Lay
     \paragraph{Run Repository:}
     saves and get created runs, enrollment and watching information.
     
-    \paragraph{Enrollment Repository:}
-    saves and get enrollment information.
-    
-    \paragraph{Watching Repository:}
-    saves and get runs' information.
-    
-    \subsubsection{Service Layer}
-
-    \paragraph{Authenticator Service:}
-    handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
-
-    \paragraph{Request Service:}
-    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
-    
-    \paragraph{Subscription Service:}
-    allows third parties to receive Individual's data as soon they are produced and is encharged of synchronization with new data.
-    
-    \paragraph{Automated-Sos Service:}
-    is encharged of monitoring Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
-    
-    \paragraph{Track4Run Service:}
-    is encharged of handling runs for creation, enrollment and watching.
-    
-    \subsubsection{External Services}
-    
-    \paragraph{Dispatcher API:}
-    used by the Sos service to communicate with ambulances dispatcher.
-    
-    \subsubsection{Application Layer}
-    
-    \paragraph{Authenticator Controller:}
-    receives guests' registration and login requests and forward them to the lower layer and also handles users' credentials and profile data management.
-    
-    \paragraph{Individuals Data Controller:}
-    is responsible of individuals' personal data management.
-    
-    \paragraph{Request Controller:}
-    allows to generate individual and group requests. Furthermore it is encharged of the management of incoming request for individuals and of outgoing requests in case of third party users.
-    
-    \paragraph{Automated-Sos Controller:}
-    allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
-    
-    \paragraph{Position Controller:}
-    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
-
-    \paragraph{Run Controller:}
-    handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
-    
-    \subsubsection{Presentation Layer (Client)}
-    
-    \paragraph{View:}
+    \subsubsection{Client Layer}
     
     \paragraph{Google Maps API:}
     used by the client application to create maps through Google Maps services.
     
     \paragraph{External Device API:}
     allows connection with and data acquisition from the Individual external device from a common smart-watch to a specific pathology monitoring device.
+    
+    \subsubsection{External Services}
+    \paragraph{Dispatcher API:}
+    used by the Sos service to communicate with ambulances dispatcher.
 
 \newpage
 \subsection{Component Interfaces}
@@ -288,7 +280,7 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Application Lay
 
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=100mm,keepaspectratio]{DD/images/er_diagram.png}
+    \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
     \caption{ER Diagram}
     \label{fig:ER_trackme}
 \end{figure}
@@ -318,13 +310,21 @@ Moreover, both the \textit{Business Logic Layer} and the \textit{Application Lay
     \end{description}
 
 \subsection{Other Design Decisions}
-The management of the external device is a client only operation that will allow the application to get Individual's personal health data from the smart device and send them to the server in a lightweight format (e.g. JSON). The client map of the run is \textit{local} too: the run organizer will be able (through Google Maps API) to draw a path on an interactive map and send it to the server which will be able to decode the run path and store it as a string; also spectators will be able to use a map to see athletes positions and again, the map will be local and the server handles only athletes positions.
+\subsubsection{Client Localization}
+The management of the external device is a client only operation that will allow the application to get Individual's personal health data from the smart device and send them to the server in a lightweight format (e.g. JSON).\\ 
 
-In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. In addition, a web application may be further developed in order to allow customers to use \textit{Data4Help} features also from their Personal Computers; \textit{Automated-Sos} and \textit{Track4Run} services will instead be available only on mobile devices.
+The client map of the run is \textit{local} too: the run organizer will be able (through Google Maps API) to draw a path on an interactive map and send it to the server which will be able to decode the run path and store it as a string; also spectators will be able to use a map to see athletes positions and again, the map will be local too. The Server will provide only athlete positions with the associated track.
 
-In this design document we assumed the developer is using Java as program-\newline ming language and in particular is deploying both client and server through Spring Framework. The rationale for this choice is that this framework fits very well the architectural style of the proposed software solution, has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services.
+\subsubsection{Client Native Application}
+In order to allow the user to exploit all the functions of \textit{TrackMe}, the mobile app should be developed for native \textit{Android}/\textit{iOS}. This is necessary for performance reasons.\textit{TrackMe} is a system that relies heavily on data transfer.
 
-The choice of using Java and Spring is not a full restriction on the deployment process. In such cases the development team would decide to use a different programming language or to not use Spring Framework, due to the proprietary implementation of several classes, such as the persistence API or the Spring MVC ones, some adaptions to the class diagram may be needed.
+\subsubsection{Client Web Application}
+In addition, a web application may be further developed in order to allow customers to use \textit{Data4Help} features also from their Personal Computers; \textit{Automated-Sos} and \textit{Track4Run} services will instead be available only on mobile devices.
+
+\subsubsection{Programming Languages and Frameworks}
+In this design document we assumed the developer is using Java as program-\newline ming language and in particular is deploying the application server through Spring Framework. The rationale for this choice is that this framework fits very well the architectural style of the proposed software solution, has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services. \\
+
+The choice of using Java and Spring is not a full restriction on the deployment process. In a decision to use a different programming language or to not use Spring Framework would occur, due to the proprietary implementation of several classes, such as the persistence API or the Spring MVC ones, some adaptions to the class diagram may be needed.
 
 \newpage
 \section{User Interface Design}
@@ -552,11 +552,16 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 
 \newpage
 \section{Implementation, Integration \& Test Plan}
-Due to the multi-tier architecture style, the different \textit{Presentation}, \textit{Application}, \textit{Domain} and \textit{Data} layers of the application could be developed separately and may be developed in parallel. With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Track4Run} facilities, which are built on top of \textit{Data4Help} service. \textit{Authentication} subsystem instead can be implemented independently on the order on which other components are; an implementation strategy for this module is to deploy it in parallel with Data4Help subsystem.
+With respect to specific application services, the implementation plan to be followed should be to develop first \textit{Data4Help} functions and then \textit{Automated-Sos} and \textit{Track4Run} facilities, which are built on top of \textit{Data4Help} service.\\
 
-Despite this document follows a \textit{Top-Down} style starting from an high level point of view to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach, in which modules at lowest layer will be tested first and upper layers will follow then.
+\textit{Authentication} subsystem instead can be implemented independently on the order on which other components are; an implementation strategy for this module is to deploy it in parallel with Data4Help subsystem.
 
-The unit testing is focused on testing all the software components' features, then the test will proceed to the integration phase: integration of two operations will start only after components executing that operations pass the unit test to ensure that the components themselves work fine and that any failure is related to the integration itself. Components to be tested are listed below:
+\subsection{Test Strategy}
+Despite this document follows a \textit{Top-Down} style starting from an high level point of view to a detailed components and operations description, we advise an \textit{I\&T} plan following the \textit{Bottom-Up} approach, in which modules at lowest layer will be tested first and upper layers will follow then.\\
+
+The unit testing is focused on testing all the software components' features, then the test will proceed to the integration phase: integration of two components will start only after components executing that operations pass the unit test to ensure that the components themselves work fine and that any failure is related to the integration itself.\\
+
+Components to be tested are listed below; integration test will flow from right to left:
 
 \begin{enumerate}
 
@@ -591,8 +596,9 @@ The unit testing is focused on testing all the software components' features, th
     
 \end{enumerate}
 
+\subsection{Entry Criteria}
 \subsubsection{Unit Test}
-The \textit{Unit Test} phase will start only after:
+The \textit{Unit Test} phase will start only after:\\
 \begin{itemize}
     \item the proposed system architecture has been designed and reviewed;
     \item testable code for units to be tested is available;
@@ -600,7 +606,7 @@ The \textit{Unit Test} phase will start only after:
 \end{itemize}
 
 \subsubsection{Integration Test}
-The \textit{Integration Test} phase will start only when:
+The \textit{Integration Test} phase will start only when:\\
 \begin{itemize}
     \item Unit Test phase is completed;
     \item each component has gone through and passed the unit test phase before the integration phase;
@@ -608,18 +614,24 @@ The \textit{Integration Test} phase will start only when:
     \item the test environment has been properly configured and is ready to run.
 \end{itemize}
 
-\subsubsection{Exit Criteria}
-The test should cover 100\% of all test cases that involve components of the business logic and persistence layer and at least 80-90\% for the application layer. The testing phase will be suspended in case such percentages are lower than 50\% for the application and data logic and lower than 30\% for application layer. Conditions to be satisfied listed below:
-
+\subsection{Exit Criteria}
+\subsubsection{Unit Test}
+The \textit{Unit Test} phase will end only after:\\
 \begin{itemize}
-    \item all test cases must have been executed;
-    \item 90-100\% coverage of the requirements and functions has been achieved;
-    \item 70-80\% coverage of the source code has been achieved;
-    \item all high severity or top priority bug has been fixed;
-    \item high risk identified area has been taken up and tested.
+    \item all unit tests are successfully executed;
+    \item priority bugs are fixed.
 \end{itemize}
 
-If \textit{I\&T} exit criteria are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
+\subsubsection{Integration Test}
+The \textit{Integration Test} phase will end only after:\\
+\begin{itemize}
+    \item integration system has passed all functional requirements;
+    \item integration system has passed all performance requirements;
+    \item all high severity or top priority bug has been fixed;
+    \item high risk identified area has been taken up and tested. \newline
+\end{itemize}
+
+If \textit{I\&T} integration exit criteria are satisfied, the test phase can move on to the System Testing in which Load, Performance and Stress tests may be useful to highlight some Quality of Service leaking of the system.
 
 \newpage
 \section{Effort Spent}
