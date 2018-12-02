@@ -28,8 +28,51 @@ public class AuthenticatorService {
         return thirdPartyRepository.findAll();
     }
 
+    private boolean individualAlreadyExists(String username, String email, String ssn) {
+        return (individualRepository.existsByUsername(username)
+                || individualRepository.existsByEmail(email)
+                || individualRepository.existsBySsn(ssn));
+    }
+
+    private boolean thirdPartyAlreadyExists(String username, String email, String vat) {
+        return (thirdPartyRepository.existsByUsername(username)
+                || thirdPartyRepository.existsByEmail(email)
+                || thirdPartyRepository.existsByVat(vat));
+    }
+
+    private boolean validateIndividual(Individual individual) {
+        return ssnIsValid(individual.getSsn())
+                && emailIsValid(individual.getEmail().toLowerCase());
+    }
+
+    private boolean validateThirdParty(ThirdParty thirdParty) {
+        return vatIsValid(thirdParty.getVat())
+                && emailIsValid(thirdParty.getEmail().toLowerCase());
+    }
+
+
+    private boolean match(String regex, String toCompare) {
+        if (toCompare == null)
+            return false;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(toCompare);
+        return matcher.matches();
+    }
+
+    private boolean emailIsValid(String email) {
+        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net|co\\.uk|edu)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
+    }
+
+    private boolean ssnIsValid(String ssn) {
+        return true; //match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
+    }
+
+    private boolean vatIsValid(String vat) {
+        return match("[0-9]{11}", vat);
+    }
+
     public boolean individualRegistration(Individual individual) {
-        if (!userAlreadyExists(individual.getUsername())
+        if (!individualAlreadyExists(individual.getUsername(), individual.getEmail(), individual.getSsn())
                 && validateIndividual(individual)) {
             individualRepository.save(individual);
             return true;
@@ -38,7 +81,7 @@ public class AuthenticatorService {
     }
 
     public boolean thirdPartyRegistration(ThirdParty thirdParty) {
-        if (!userAlreadyExists(thirdParty.getUsername())
+        if (!thirdPartyAlreadyExists(thirdParty.getUsername(), thirdParty.getEmail(), thirdParty.getVat())
                 && validateThirdParty(thirdParty)) {
             thirdPartyRepository.save(thirdParty);
             return true;
@@ -46,7 +89,7 @@ public class AuthenticatorService {
         else return false;
     }
 
-    public boolean login(User user) { //TODO ADD HASHING TO LOGIN PASSWORD
+    public boolean login(User user) { //TODO "real" login + session management
         String username = user.getUsername();
         String password = user.getPassword();
         try {
@@ -70,7 +113,7 @@ public class AuthenticatorService {
     }
 
     public boolean changeIndividualProfile(Individual individual) {
-        if (userAlreadyExists(individual.getUsername())
+        if (individualAlreadyExists(individual.getUsername(), individual.getEmail(), individual.getSsn())
                 && validateIndividual(individual)) {
             individualRepository.save(individual);
             return true;
@@ -83,48 +126,12 @@ public class AuthenticatorService {
     }
 
     public boolean changeThirdPartyProfile(ThirdParty thirdParty) {
-        if (userAlreadyExists(thirdParty.getUsername())
+        if (thirdPartyAlreadyExists(thirdParty.getUsername(), thirdParty.getEmail(), thirdParty.getVat())
                 && validateThirdParty(thirdParty)) {
             thirdPartyRepository.save(thirdParty);
             return true;
         }
         else return false;
-    }
-
-    private boolean userAlreadyExists(String username) {
-        return individualRepository.existsByUsername(username)
-                || thirdPartyRepository.existsByUsername(username);
-    }
-
-    private boolean validateIndividual(Individual individual){
-        return ssnIsValid(individual.getSsn())
-                && emailIsValid(individual.getEmail());
-    }
-
-    private boolean validateThirdParty(ThirdParty thirdParty){
-        return vatIsValid(thirdParty.getVat())
-                && emailIsValid(thirdParty.getEmail());
-    }
-
-
-    private boolean match(String regex, String toCompare) {
-        if (toCompare == null)
-            return false;
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(toCompare);
-        return matcher.matches();
-    }
-
-    private boolean emailIsValid(String email){
-        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
-    }
-
-    private boolean ssnIsValid(String ssn){
-        return match("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
-    }
-
-    private boolean vatIsValid(String vat){
-        return match("^[A-Za-z]{2,4}(?=.{2,12}$)[-_\\s0-9]*(?:[a-zA-Z][-_\\s0-9]*){0,2}$", vat);
     }
 }
 
