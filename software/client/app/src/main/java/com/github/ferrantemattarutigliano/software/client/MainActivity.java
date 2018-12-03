@@ -5,27 +5,59 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.github.ferrantemattarutigliano.software.client.dto.UserDTO;
+import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
+import com.github.ferrantemattarutigliano.software.client.task.LoginTask;
+import com.github.ferrantemattarutigliano.software.client.task.RegisterTask;
 
+public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //example with setting parameters in UI
-        Button restButton = findViewById(R.id.rest_test_button);
-        restButton.setOnClickListener(new View.OnClickListener() {
+        final Button loginButton = findViewById(R.id.login_button);
+        final Button registerButton = findViewById(R.id.register_button);
+        final TextView emailForm = findViewById(R.id.username_textview);
+        final TextView passwordForm = findViewById(R.id.password_textview);
+        final TextView test = findViewById(R.id.test_textview);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HttpRequestTask httpRequestTask = new HttpRequestTask();
-                httpRequestTask.execute();
-                String result = httpRequestTask.doInBackground();
+                UserDTO user = new UserDTO(emailForm.getText().toString(), passwordForm.getText().toString());
+                new LoginTask(user, new AsyncResponse<String>() {
+                    @Override
+                    public void taskFinish(String output) {
+                        test.setText(output);
+                    }
+                    @Override
+                    public void taskFail() {
+                        Toast.makeText(MainActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }).execute();
+            }
+        });
 
-                TextView textView = findViewById(R.id.example_text); //get text reference
-                textView.setText(result);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserDTO user = new UserDTO(emailForm.getText().toString(), passwordForm.getText().toString());
+                new RegisterTask(user, new AsyncResponse<String>() {
+                    @Override
+                    public void taskFinish(String output) {
+                        test.setText(output);
+                    }
+                    @Override
+                    public void taskFail() {
+                        Toast.makeText(MainActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }).execute();
+
             }
         });
     }
-
 }
