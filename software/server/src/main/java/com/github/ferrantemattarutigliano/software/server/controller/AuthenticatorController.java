@@ -21,7 +21,6 @@ public class AuthenticatorController {
     private AuthenticatorService authenticatorService;
 
     @GetMapping("/individuals")
-    @ResponseStatus(HttpStatus.OK)
     public Collection<Individual> getAllIndividuals() {
         return authenticatorService.getAllIndividuals();
     }
@@ -47,7 +46,6 @@ public class AuthenticatorController {
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
     public String login(@RequestBody @DTO(UserDTO.class) User user) {
         if (authenticatorService.login(user))
             return "Welcome "+user.getUsername()+"!";
@@ -81,5 +79,4 @@ public class AuthenticatorController {
             return "Success!";
         else return "Oops, user "+thirdParty.getUsername()+" does not exists";
     }
-
 }

@@ -20,7 +20,8 @@ public class RequestController {
 
     @PostMapping(path="/individual")
     public String individualRequest(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest){
-        return requestService.individualRequest(individualRequest);
+        String result = requestService.individualRequest(individualRequest);
+        return result;
     }
 
     @PostMapping(path="/group")
