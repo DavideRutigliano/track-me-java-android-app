@@ -12,7 +12,7 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncRespo
 import com.github.ferrantemattarutigliano.software.client.task.LoginTask;
 import com.github.ferrantemattarutigliano.software.client.task.RegisterTask;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
                     public void taskFinish(String output) {
                         test.setText(output);
                     }
+
                     @Override
                     public void taskFail() {
                         Toast.makeText(MainActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity{
                     public void taskFinish(String output) {
                         test.setText(output);
                     }
+
                     @Override
                     public void taskFail() {
                         Toast.makeText(MainActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
