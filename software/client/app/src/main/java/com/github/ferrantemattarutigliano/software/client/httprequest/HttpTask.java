@@ -13,6 +13,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
     private AsyncResponse<O> asyncResponse;
     private Class<O> outputClass;
     private HttpParameterContainer httpParameterContainer;
+    private HttpRequestStatus resultType;
 
     //this is tricky: we need to pass the actual output class to the constructor
     //because Java can't handle generic type at runtime, only compile time
@@ -20,10 +21,12 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
         super();
         this.outputClass = outputClass;
         this.asyncResponse = asyncResponse;
+        resultType = HttpRequestStatus.CREATED;
     }
 
     @Override
     protected O doInBackground(Void... voids) {
+        resultType = HttpRequestStatus.RUNNING;
         final RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(HttpConstant.CONNECTION_TIMEOUT);
@@ -49,25 +52,35 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
                 }
             }
             catch (ResourceAccessException e){
-                Log.d("HTTP_TIMEOUT", "Http connection timeout");
-                asyncResponse.taskFail();
+                Log.e("HTTP_TIMEOUT", "Http connection timeout");
+                resultType = HttpRequestStatus.TIMEOUT;
+                return null;
             }
             catch (RuntimeException e){
-                e.fillInStackTrace();
-                asyncResponse.taskFail();
+                Log.e("HTTP_RUNTIME_EX", "Runtime http exception");
+                resultType = HttpRequestStatus.FAILED;
+                return null;
             }
         }
         catch (Exception e){
             e.fillInStackTrace();
-            asyncResponse.taskFail();
+            resultType = HttpRequestStatus.FAILED;
         }
+        resultType = HttpRequestStatus.SUCCESS;
         return result;
     }
 
     @Override
     protected void onPostExecute(O o) {
         try {
-            asyncResponse.taskFinish(o);
+            switch (resultType){
+                case TIMEOUT:
+                    asyncResponse.taskFailMessage("Connection timeout");
+                    return;
+                case SUCCESS:
+                    asyncResponse.taskFinish(o);
+                    return;
+            }
         }
         catch (NullPointerException e){
             throw new RuntimeException(Information.ASYNC_RESPONSE_NOT_FOUND.toString());
@@ -76,5 +89,9 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
 
     public void setHttpParameterContainer(HttpParameterContainer httpParameterContainer) {
         this.httpParameterContainer = httpParameterContainer;
+    }
+
+    public HttpRequestStatus getResultType() {
+        return resultType;
     }
 }

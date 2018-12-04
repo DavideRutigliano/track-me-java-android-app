@@ -9,6 +9,13 @@ public class ThirdPartyDTO extends UserDTO{
         super(username, password);
     }
 
+    public ThirdPartyDTO(String username, String password, String vat, String email, String organizationName) {
+        super(username, password);
+        this.vat = vat;
+        this.email = email;
+        this.organizationName = organizationName;
+    }
+
     public String getVat() {
         return vat;
     }

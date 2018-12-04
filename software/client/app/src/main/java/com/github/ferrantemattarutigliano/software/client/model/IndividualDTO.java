@@ -11,6 +11,14 @@ public class IndividualDTO extends UserDTO{
         super(username, password);
     }
 
+    public IndividualDTO(String username, String password, String ssn, String email, String firstname, String lastname) {
+        super(username, password);
+        this.ssn = ssn;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
     public String getSsn() {
         return ssn;
     }

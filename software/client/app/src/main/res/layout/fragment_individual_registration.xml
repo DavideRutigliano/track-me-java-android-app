@@ -12,7 +12,8 @@
         android:id="@+id/linearLayout2"
         android:layout_width="230dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,12 +62,13 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="230dp"
-        android:layout_height="170dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_individual_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
             android:layout_width="match_parent"
@@ -74,12 +76,28 @@
             android:text="@string/text_personal_data" />
 
         <EditText
-            android:id="@+id/text_registration_individual_name"
+            android:id="@+id/text_registration_individual_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/hint_name"
+            android:hint="@string/hint_first_name"
             android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/text_registration_individual_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hint_last_name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/text_registration_individual_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/text_registration_individual_ssn"
@@ -103,16 +121,11 @@
         android:id="@+id/button_individual_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="86dp"
         android:text="@string/button_signup"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-    <Button
-        android:id="@+id/button_register_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_back"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 

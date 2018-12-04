@@ -58,16 +58,7 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
     }
 
     @Override
-    public void onLoginFail() {
-        connectionFailed();
-    }
-
-    private void connectionFailed(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getBaseContext(), "Connection timeout", Toast.LENGTH_LONG).show();
-            }
-        });
+    public void onLoginFail(String output) {
+        Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT).show();
     }
 }

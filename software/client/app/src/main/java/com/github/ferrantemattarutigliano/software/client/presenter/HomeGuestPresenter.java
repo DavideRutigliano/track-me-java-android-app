@@ -21,8 +21,8 @@ public class HomeGuestPresenter {
             }
 
             @Override
-            public void taskFail() {
-                homeGuestView.onLoginFail();
+            public void taskFailMessage(String message){
+                homeGuestView.onLoginFail(message);
             }
         }).execute();
     }

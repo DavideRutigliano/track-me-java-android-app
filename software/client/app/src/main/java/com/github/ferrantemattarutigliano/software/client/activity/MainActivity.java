@@ -13,7 +13,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    private void connectionFailed() {
-    }
 }

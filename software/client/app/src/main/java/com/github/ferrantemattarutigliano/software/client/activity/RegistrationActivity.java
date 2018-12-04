@@ -11,17 +11,18 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.ThirdPartyRegistrationFragment;
+import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
-public class RegistrationActivity extends AppCompatActivity
-        implements RegistrationView, IndividualRegistrationFragment.OnFragmentInteractionListener {
+public class RegistrationActivity extends AppCompatActivity implements RegistrationView {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
@@ -33,20 +34,35 @@ public class RegistrationActivity extends AppCompatActivity
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = findViewById(R.id.container_toolbar_registration);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.container_registration);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.container_tabs_registration);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        registrationPresenter = new RegistrationPresenter(this);
     }
 
     @Override
     public void onRegistrationSuccess(String output) {
+        Toast.makeText(getBaseContext(), output, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onRegistrationFail() {
+    public void onRegistrationFail(String output) {
+        Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onIndividualRegistration(IndividualDTO individualDTO) {
+        registrationPresenter.doIndividualRegistration(individualDTO);
+    }
+
+    @Override
+    public void onThirdPartyRegistration(ThirdPartyDTO thirdPartyDTO) {
+        registrationPresenter.doThirdPartyRegistration(thirdPartyDTO);
     }
 
     @Override
@@ -61,15 +77,10 @@ public class RegistrationActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     //this inner class returns the corresponding fragment for each tab
