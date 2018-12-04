@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpInputMessage;
@@ -21,15 +22,26 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
     private static final ModelMapper modelMapper = new ModelMapper();
 
+    @Autowired
     private EntityManager entityManager;
 
     public DTOModelMapper(ObjectMapper objectMapper, EntityManager entityManager) {
         super(Collections.singletonList(new MappingJackson2HttpMessageConverter(objectMapper)));
+        this.entityManager = entityManager;
+    }
+
+    public DTOModelMapper(Collection<ObjectMapper> objectMapper, EntityManager entityManager) {
+        super(objectMapper
+                .stream()
+                .map(o -> new MappingJackson2HttpMessageConverter(o))
+                .collect(Collectors.toList()));
         this.entityManager = entityManager;
     }
 

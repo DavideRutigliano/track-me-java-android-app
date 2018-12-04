@@ -1,6 +1,9 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -16,6 +19,10 @@ public class HealthDataDTO {
 
     @NotNull
     private Date timestamp;
+
+
+    @DTO(IndividualDTO.class)
+    private Individual individual;
 
     public long getId() {
         return id;
@@ -47,5 +54,13 @@ public class HealthDataDTO {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Individual getIndividual() {
+        return individual;
+    }
+
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
     }
 }
