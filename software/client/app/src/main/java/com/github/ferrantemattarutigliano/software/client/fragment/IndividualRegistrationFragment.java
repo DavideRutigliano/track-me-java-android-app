@@ -35,7 +35,6 @@ public class IndividualRegistrationFragment extends Fragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_individual_registration, container, false);
         final Button signUpButton = v.findViewById(R.id.button_individual_register);
-        final Button backButton = v.findViewById(R.id.button_register_back);
         final TextView usernameText = v.findViewById(R.id.text_registration_individual_username);
         final TextView passwordText = v.findViewById(R.id.text_registration_individual_password);
         final TextView repeatPasswordText = v.findViewById(R.id.text_registration_individual_repeat_password);
@@ -62,13 +61,6 @@ public class IndividualRegistrationFragment extends Fragment{
                 //todo add birthdate
                 IndividualDTO individualDTO = new IndividualDTO(username, password, ssn, email, firstName, lastName);
                 registrationView.onIndividualRegistration(individualDTO);
-            }
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
             }
         });
         return v;

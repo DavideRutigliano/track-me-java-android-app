@@ -34,7 +34,6 @@ public class ThirdPartyRegistrationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_third_party_registration, container, false);
         final Button signUpButton = v.findViewById(R.id.button_third_party_register);
-        final Button backButton = v.findViewById(R.id.button_register_back);
         final TextView usernameText = v.findViewById(R.id.text_registration_third_party_username);
         final TextView passwordText = v.findViewById(R.id.text_registration_third_party_password);
         final TextView repeatPasswordText = v.findViewById(R.id.text_registration_third_party_repeat_password);
