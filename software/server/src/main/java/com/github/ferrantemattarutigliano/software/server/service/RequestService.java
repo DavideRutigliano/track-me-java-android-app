@@ -1,7 +1,9 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.message.Message;
+import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
+import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
@@ -36,6 +38,14 @@ public class RequestService {
         String criteria = groupRequest.getCriteria();
 
         return Message.REQUEST_SUCCESS.toString();
+    }
+
+    public String insertData(Collection<HealthData> healthdata) {
+        for (HealthData data : healthdata) {
+            data.setIndividual(individualRepository.findByUsername(data.getIndividual().getUsername()));
+            healthDataRepository.save(data);
+        }
+        return "Success";
     }
 
     public Collection<IndividualRequest> showSentIndividualRequest(String vat){

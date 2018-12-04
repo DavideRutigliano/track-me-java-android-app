@@ -22,6 +22,7 @@ public class HealthData {
         this.name = name;
         this.value = value;
         this.timestamp = timestamp;
+
     }
 
     public Long getId() {
@@ -43,4 +44,9 @@ public class HealthData {
     public Individual getIndividual() {
         return individual;
     }
+
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
+    }
+
 }
