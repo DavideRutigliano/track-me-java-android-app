@@ -1,9 +1,12 @@
 package com.github.ferrantemattarutigliano.software.client.httprequest;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
@@ -22,6 +25,10 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
     @Override
     protected O doInBackground(Void... voids) {
         final RestTemplate restTemplate = new RestTemplate();
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(HttpConstant.CONNECTION_TIMEOUT);
+        requestFactory.setReadTimeout(HttpConstant.READ_TIMEOUT);
+        restTemplate.setRequestFactory(requestFactory);
         O result = null;
         try{
             if(httpParameterContainer == null) throw new RuntimeException();
@@ -34,12 +41,16 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             try {
                 switch (type) { //TODO add put, delete
                     case GET:
-                        result = restTemplate.getForObject(Information.SERVER_PATH + path, outputClass);
+                        result = restTemplate.getForObject(HttpConstant.SERVER_PATH + path, outputClass);
                         break;
                     case POST:
-                        result = restTemplate.postForObject(Information.SERVER_PATH + path, postParameters, outputClass);
+                        result = restTemplate.postForObject(HttpConstant.SERVER_PATH + path, postParameters, outputClass);
                         break;
                 }
+            }
+            catch (ResourceAccessException e){
+                Log.d("HTTP_TIMEOUT", "Http connection timeout");
+                asyncResponse.taskFail();
             }
             catch (RuntimeException e){
                 e.fillInStackTrace();
@@ -48,6 +59,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
         }
         catch (Exception e){
             e.fillInStackTrace();
+            asyncResponse.taskFail();
         }
         return result;
     }

@@ -1,6 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.task;
 
-import com.github.ferrantemattarutigliano.software.client.dto.UserDTO;
+import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpParameterContainer;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpRequestType;

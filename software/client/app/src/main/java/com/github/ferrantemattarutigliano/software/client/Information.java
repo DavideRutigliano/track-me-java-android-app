@@ -1,9 +1,9 @@
 package com.github.ferrantemattarutigliano.software.client;
 
 public enum Information {
-    SERVER_PATH("http://10.0.2.2:8080"),
     ASYNC_RESPONSE_NOT_FOUND("AsyncResponse is not instantiated."),
     HTTP_POST_PARAMETERS_NOT_FOUND("Http Request POST is missing parameters."),
+    MISSING_TAB("The selected tab position doesn't exist.")
     ;
 
     private String message;

@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client.dto;
+package com.github.ferrantemattarutigliano.software.client.model;
 
 public class IndividualDTO extends UserDTO{
     private String ssn;

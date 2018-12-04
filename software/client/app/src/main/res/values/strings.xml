@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">TrackMe</string>
+    <string name="text_welcome">Hello big boi :)</string>
+    <string name="text_credentials">Credentials</string>
+    <string name="text_personal_data">Personal Data</string>
+    <string name="text_organization_data">Organization Data</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_repeat_password">Repeat Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_ssn">SSN</string>
+    <string name="hint_birthdate">Birthdate</string>
+    <string name="hint_vat">VAT</string>
+    <string name="hint_organization_name">Organization Name</string>
+    <string name="button_signup">Signup</string>
+    <string name="button_login">Login</string>
+    <string name="button_back">Back</string>
+    <string name="tab_individual">Individual</string>
+    <string name="tab_third_party">Third Party</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_test">test</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
 </resources>
