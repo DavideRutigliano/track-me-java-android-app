@@ -1,8 +1,14 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 @Entity
 public class Individual extends User implements Serializable {
@@ -88,6 +94,13 @@ public class Individual extends User implements Serializable {
 
     public Set<Run> getWatchedRuns() {
         return watchedRuns;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_INDIVIDUAL"));
+        return authorities;
     }
 }
 

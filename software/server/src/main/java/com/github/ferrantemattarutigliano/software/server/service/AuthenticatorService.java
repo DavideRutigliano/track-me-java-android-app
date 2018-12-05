@@ -6,27 +6,27 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class AuthenticatorService {
+public class AuthenticatorService implements UserDetailsService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private IndividualRepository individualRepository;
     @Autowired
     private ThirdPartyRepository thirdPartyRepository;
-
-    public Collection<Individual> getAllIndividuals() {
-        return individualRepository.findAll();
-    }
-
-    public Collection<ThirdParty> getAllThirdParties() {
-        return thirdPartyRepository.findAll();
-    }
 
     private boolean individualAlreadyExists(String username, String email, String ssn) {
         return (individualRepository.existsByUsername(username)
@@ -64,7 +64,7 @@ public class AuthenticatorService {
     }
 
     private boolean ssnIsValid(String ssn) {
-        return true; //match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
+        return match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
     }
 
     private boolean vatIsValid(String vat) {
@@ -72,8 +72,11 @@ public class AuthenticatorService {
     }
 
     public boolean individualRegistration(Individual individual) {
+        String plaintextPass = individual.getPassword();
         if (!individualAlreadyExists(individual.getUsername(), individual.getEmail(), individual.getSsn())
                 && validateIndividual(individual)) {
+            individual.getAuthorities();
+            individual.setPassword(passwordEncoder.encode(plaintextPass));
             individualRepository.save(individual);
             return true;
         }
@@ -81,29 +84,32 @@ public class AuthenticatorService {
     }
 
     public boolean thirdPartyRegistration(ThirdParty thirdParty) {
+        String plaintextPass = thirdParty.getPassword();
         if (!thirdPartyAlreadyExists(thirdParty.getUsername(), thirdParty.getEmail(), thirdParty.getVat())
                 && validateThirdParty(thirdParty)) {
+            thirdParty.getAuthorities();
+            thirdParty.setPassword(passwordEncoder.encode(plaintextPass));
             thirdPartyRepository.save(thirdParty);
             return true;
         }
         else return false;
     }
 
-    public boolean login(User user) { //TODO "real" login + session management
+    public boolean login(User user) {
         String username = user.getUsername();
         String password = user.getPassword();
         try {
             if (individualRepository.existsByUsername(username)) {
                 Individual individual = individualRepository.findByUsername(username);
-                return password.equals(individual.getPassword());
+                return passwordEncoder.matches(password, individual.getPassword());
             }
             if (thirdPartyRepository.existsByUsername(username)) {
                 ThirdParty thirdParty = thirdPartyRepository.findByUsername(username);
-                return password.equals(thirdParty.getPassword());
+                return passwordEncoder.matches(password, thirdParty.getPassword());
             }
         }
         catch (NullPointerException e){
-            e.fillInStackTrace();//should never get here
+            e.fillInStackTrace(); /* should never get here */
         }
         return false;
     }
@@ -132,6 +138,74 @@ public class AuthenticatorService {
             return true;
         }
         else return false;
+    }
+
+    public boolean changeUsername(User user, String newUsername) {
+        String oldUsername = user.getUsername();
+        String password = user.getPassword();
+
+        if (!individualRepository.existsByUsername(newUsername)
+                && thirdPartyRepository.existsByUsername(newUsername)) {
+
+            if (individualRepository.existsByUsername(oldUsername)) {
+                Individual individual = individualRepository.findByUsername(oldUsername);
+                if (passwordEncoder.matches(password, individual.getPassword())) {
+                    individual.setUsername(newUsername);
+                    individualRepository.save(individual);
+                    return true;
+                }
+            }
+            if (thirdPartyRepository.existsByUsername(oldUsername)) {
+                ThirdParty thirdParty = thirdPartyRepository.findByUsername(oldUsername);
+                if (passwordEncoder.matches(password, thirdParty.getPassword())) {
+                    thirdParty.setUsername(newUsername);
+                    thirdPartyRepository.save(thirdParty);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean changePassword(User user, String newPassword) {
+        String username = user.getUsername();
+        String oldPassword = user.getPassword();
+
+        if (individualRepository.existsByUsername(username)) {
+            Individual individual = individualRepository.findByUsername(username);
+            if (passwordEncoder.matches(oldPassword, individual.getPassword())) {
+                individual.setPassword(passwordEncoder.encode(newPassword));
+                individualRepository.save(individual);
+                return true;
+            }
+        }
+        if (thirdPartyRepository.existsByUsername(username)) {
+            ThirdParty thirdParty = thirdPartyRepository.findByUsername(username);
+            if (passwordEncoder.matches(oldPassword, thirdParty.getPassword())) {
+                thirdParty.setPassword(passwordEncoder.encode(newPassword));
+                thirdPartyRepository.save(thirdParty);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        if (username == null || username.isEmpty())
+            throw new UsernameNotFoundException("Please fill out username field");
+
+        final User user;
+        if (individualRepository.existsByUsername(username))
+            user = individualRepository.findByUsername(username);
+        else
+            user = thirdPartyRepository.findByUsername(username);
+
+        if (user == null)
+            throw new UsernameNotFoundException("Username does not exists");
+
+        return user;
     }
 }
 

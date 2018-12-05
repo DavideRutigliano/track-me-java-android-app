@@ -20,26 +20,14 @@ public class AuthenticatorController {
     @Autowired
     private AuthenticatorService authenticatorService;
 
-    @GetMapping("/individuals")
-    @ResponseStatus(HttpStatus.OK)
-    public Collection<Individual> getAllIndividuals() {
-        return authenticatorService.getAllIndividuals();
-    }
-
-    @PostMapping("/individuals/add")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/registration/individual")
     public String individualRegistration(@RequestBody @DTO(IndividualDTO.class) Individual individual) {
         if (authenticatorService.individualRegistration(individual))
             return "Success!";
         else return "Oops, something went wrong.";
     }
 
-    @GetMapping("/thirdparties")
-    @ResponseStatus(HttpStatus.OK)
-    public Collection<ThirdParty> getAllThirdParties() { return authenticatorService.getAllThirdParties(); }
-
-    @PostMapping("/thirdparties/add")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/registration/thirdparty")
     public String thirdPartyRegistration(@RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
         if (authenticatorService.thirdPartyRegistration(thirdParty))
             return "Success!";
@@ -47,7 +35,6 @@ public class AuthenticatorController {
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
     public String login(@RequestBody @DTO(UserDTO.class) User user) {
         if (authenticatorService.login(user))
             return "Welcome "+user.getUsername()+"!";
@@ -55,13 +42,11 @@ public class AuthenticatorController {
     }
 
     @GetMapping("/individuals/{username}")
-    @ResponseStatus(HttpStatus.OK)
     public Individual getIndividualProfile(@PathVariable String username) {
         return authenticatorService.getIndividualProfile(username);
     }
 
     @PutMapping("/individuals/{username}")
-    @ResponseStatus(HttpStatus.OK)
     public String changeIndividualProfile(@PathVariable String username, @DTO(IndividualDTO.class) Individual individual) {
         if (authenticatorService.changeIndividualProfile(individual))
             return "Success!";
@@ -69,7 +54,6 @@ public class AuthenticatorController {
     }
 
     @GetMapping("/thirdparties/{username}")
-    @ResponseStatus(HttpStatus.OK)
     public ThirdParty getThirdPartyProfile(@PathVariable String username) {
         return authenticatorService.getThirdPartyProfile(username);
     }

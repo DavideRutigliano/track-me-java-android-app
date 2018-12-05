@@ -1,7 +1,13 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -59,5 +65,12 @@ public class ThirdParty extends User implements Serializable {
 
     public Set<GroupRequest> getGroupRequests() {
         return groupRequests;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_THIRD_PARTY"));
+        return authorities;
     }
 }
