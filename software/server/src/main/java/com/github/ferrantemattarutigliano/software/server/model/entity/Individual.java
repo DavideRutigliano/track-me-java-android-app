@@ -95,13 +95,5 @@ public class Individual extends User implements Serializable {
     public Set<Run> getWatchedRuns() {
         return watchedRuns;
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        super.setRole("INDIVIDUAL");
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_INDIVIDUAL"));
-        return authorities;
-    }
 }
 

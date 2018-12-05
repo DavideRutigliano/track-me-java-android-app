@@ -67,11 +67,4 @@ public class ThirdParty extends User implements Serializable {
         return groupRequests;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        super.setRole("THIRD_PARTY");
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_THIRD_PARTY"));
-        return authorities;
-    }
 }

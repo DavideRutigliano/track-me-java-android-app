@@ -1,12 +1,14 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @MappedSuperclass
 public class User implements UserDetails {
@@ -78,5 +80,12 @@ public class User implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        this.setRole(role);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        return authorities;
     }
 }
