@@ -1,16 +1,17 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
+@JsonSerialize(as = ThirdParty.class)
+@JsonDeserialize(as = ThirdParty.class)
 public class ThirdParty extends User implements Serializable {
     @Id
     @GeneratedValue
@@ -32,6 +33,7 @@ public class ThirdParty extends User implements Serializable {
 
     protected ThirdParty() {}
 
+    @JsonCreator
     public ThirdParty(String username, String password, String vat, String email, String organizationName) {
         super(username, password);
         this.vat = vat;

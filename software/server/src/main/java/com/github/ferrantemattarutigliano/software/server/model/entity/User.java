@@ -1,5 +1,9 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +15,13 @@ import java.util.Collection;
 import java.util.List;
 
 @MappedSuperclass
+@JsonSerialize(as = User.class)
+@JsonDeserialize(as = User.class)
+@JsonIgnoreProperties({"enabled",
+        "authorities",
+        "accountNonExpired",
+        "accountNonLocked",
+        "credentialsNonExpired"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue
@@ -21,7 +32,6 @@ public class User implements UserDetails {
     private String password;
 
     @Transient
-    @NotNull
     private String role;
 
     public User() { }

@@ -42,7 +42,9 @@ public class AuthenticatorController {
     }
 
     @GetMapping("/individuals/{username}")
-    public Individual getIndividualProfile(@PathVariable String username) {
+    @ResponseBody
+    public @DTO(IndividualDTO.class)
+    Individual getIndividualProfile(@PathVariable String username) {
         return authenticatorService.getIndividualProfile(username);
     }
 
@@ -56,6 +58,8 @@ public class AuthenticatorController {
     }
 
     @GetMapping("/thirdparties/{username}")
+    @ResponseBody
+    @DTO(ThirdPartyDTO.class)
     public ThirdParty getThirdPartyProfile(@PathVariable String username) {
         return authenticatorService.getThirdPartyProfile(username);
     }

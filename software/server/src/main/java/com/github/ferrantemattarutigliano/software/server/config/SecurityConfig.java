@@ -71,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration/**").permitAll()
-                .antMatchers("/individual/**").hasRole("INDIVIDUAL")
-                .antMatchers("/thirdparies/**").hasRole("THIRD_PARTY")
+                .antMatchers("/individuals/**").hasRole("INDIVIDUAL")
+                .antMatchers("/thirdparties/**").hasRole("THIRD_PARTY")
                 .anyRequest()
                 .authenticated();
     }

@@ -57,21 +57,19 @@ public class AuthenticatorService implements UserDetailsService {
         try {
             if (individualRepository.existsByUsername(username)) {
                 Individual individual = individualRepository.findByUsername(username);
-                individual.getAuthorities();
                 if (passwordEncoder.matches(password, individual.getPassword()))
-                    return individual;
+                    user.getAuthorities(individual.getRole());
             }
             if (thirdPartyRepository.existsByUsername(username)) {
                 ThirdParty thirdParty = thirdPartyRepository.findByUsername(username);
-                thirdParty.getAuthorities();
                 if (passwordEncoder.matches(password, thirdParty.getPassword()))
-                    return thirdParty;
+                    user.getAuthorities(thirdParty.getRole());
             }
         }
         catch (NullPointerException e){
             e.fillInStackTrace(); /* should never get here */
         }
-        return new User(username, password);
+        return user;
     }
 
     public Individual getIndividualProfile(String username) {

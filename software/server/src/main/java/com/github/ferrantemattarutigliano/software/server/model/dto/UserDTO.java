@@ -1,5 +1,9 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.ferrantemattarutigliano.software.server.model.entity.User;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -18,8 +22,7 @@ public class UserDTO implements Serializable {
 
     @NotNull
     private String password;
-
-    @NotNull
+    
     private String role;
 
     public String getUsername() { return username; }

@@ -1,16 +1,17 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
+
 @Entity
+@JsonSerialize(as = Individual.class)
+@JsonDeserialize(as = Individual.class)
 public class Individual extends User implements Serializable {
     @Column(name="ssn", unique=true)
     private String ssn;
@@ -36,6 +37,7 @@ public class Individual extends User implements Serializable {
 
     protected Individual() {}
 
+    @JsonCreator
     public Individual(String username, String password, String ssn, String email, String firstname, String lastname, Date birthdate) {
         super(username, password);
         this.email = email;
