@@ -25,10 +25,10 @@
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.HomeIndividualActivity"
+            android:name=".activity.individual.HomeIndividualActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activity.HomeThirdPartyActivity"
+            android:name=".activity.thirdparty.HomeThirdPartyActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

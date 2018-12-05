@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.activity.individual.HomeIndividualActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.HomeThirdPartyActivity;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.HomeGuestPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.HomeGuestView;
