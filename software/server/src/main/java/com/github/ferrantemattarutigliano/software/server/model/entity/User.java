@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,6 +17,10 @@ public class User implements UserDetails {
     @Column(name="username", unique=true)
     private String username;
     private String password;
+
+    @Transient
+    @NotNull
+    private String role;
 
     public User() { }
 
@@ -67,4 +72,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

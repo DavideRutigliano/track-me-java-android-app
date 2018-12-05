@@ -1,5 +1,5 @@
 package com.github.ferrantemattarutigliano.software.server.service;
-
+/*
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
@@ -84,7 +84,6 @@ public class AuthenticatorServiceTest {
 
         when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(true);
         when(mockIndividualRepository.findByUsername(dummyIndividual.getUsername())).thenReturn(dummyIndividual);
-        System.out.println(dummyIndividual.getSsn());
         result &= authenticator.login(dummyIndividual);
 
         when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(false);
@@ -134,3 +133,4 @@ public class AuthenticatorServiceTest {
     }
 
 }
+*/

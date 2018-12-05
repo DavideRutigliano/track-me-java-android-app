@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -43,20 +45,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .formLogin()
+                .disable()
+
+                .logout()
+                .disable()
+
+                .httpBasic()
+                .and()
+
+                .csrf().disable()
+                .exceptionHandling()
+                .and()
+
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .and()
+
+                //.sessionManagement()
+                //.sessionCreationPolicy(STATELESS)
+                //.and()
+
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/individual/**").hasRole("INDIVIDUAL")
                 .antMatchers("/thirdparies/**").hasRole("THIRD_PARTY")
-                .anyRequest().authenticated()
-                .and().authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .and().formLogin()
-                .loginPage("/login").permitAll()
-                .failureForwardUrl("/login")
-                .and().logout()
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login")
-                .and().csrf().disable();
+                .anyRequest()
+                .authenticated();
     }
 
     @Bean

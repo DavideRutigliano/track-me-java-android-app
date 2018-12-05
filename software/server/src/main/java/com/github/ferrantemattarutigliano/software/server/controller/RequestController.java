@@ -7,10 +7,9 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequ
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="/request")
@@ -26,5 +25,12 @@ public class RequestController {
     @PostMapping(path="/group")
     public String groupRequest(@RequestBody @DTO(GroupRequestDTO.class)GroupRequest groupRequest) {
         return null;
+    }
+
+    @MessageMapping("/request")
+    @SendTo("/healthdata")
+    public String greeting(String message) throws Exception {
+        Thread.sleep(1000);
+        return "Hello, message: " + message;
     }
 }

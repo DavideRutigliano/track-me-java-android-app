@@ -19,6 +19,9 @@ public class UserDTO implements Serializable {
     @NotNull
     private String password;
 
+    @NotNull
+    private String role;
+
     public String getUsername() { return username; }
 
     public void setUsername(String username) {
@@ -33,5 +36,12 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
-}
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+}

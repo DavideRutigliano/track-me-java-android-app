@@ -1,5 +1,5 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
-
+/*
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
@@ -144,4 +144,4 @@ public class AuthenticatorControllerTest {
         String result = mockAuthenticator.changeThirdPartyProfile(dummyThirdParty.getUsername(), dummyThirdParty);
         assertEquals("Success!", result);
     }
-}
+}*/

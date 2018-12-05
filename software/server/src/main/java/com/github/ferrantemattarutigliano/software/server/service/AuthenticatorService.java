@@ -22,54 +22,10 @@ public class AuthenticatorService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private IndividualRepository individualRepository;
     @Autowired
     private ThirdPartyRepository thirdPartyRepository;
-
-    private boolean individualAlreadyExists(String username, String email, String ssn) {
-        return (individualRepository.existsByUsername(username)
-                || individualRepository.existsByEmail(email)
-                || individualRepository.existsBySsn(ssn));
-    }
-
-    private boolean thirdPartyAlreadyExists(String username, String email, String vat) {
-        return (thirdPartyRepository.existsByUsername(username)
-                || thirdPartyRepository.existsByEmail(email)
-                || thirdPartyRepository.existsByVat(vat));
-    }
-
-    private boolean validateIndividual(Individual individual) {
-        return ssnIsValid(individual.getSsn())
-                && emailIsValid(individual.getEmail().toLowerCase());
-    }
-
-    private boolean validateThirdParty(ThirdParty thirdParty) {
-        return vatIsValid(thirdParty.getVat())
-                && emailIsValid(thirdParty.getEmail().toLowerCase());
-    }
-
-
-    private boolean match(String regex, String toCompare) {
-        if (toCompare == null)
-            return false;
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(toCompare);
-        return matcher.matches();
-    }
-
-    private boolean emailIsValid(String email) {
-        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net|co\\.uk|edu)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
-    }
-
-    private boolean ssnIsValid(String ssn) {
-        return match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
-    }
-
-    private boolean vatIsValid(String vat) {
-        return match("[0-9]{11}", vat);
-    }
 
     public boolean individualRegistration(Individual individual) {
         String plaintextPass = individual.getPassword();
@@ -95,23 +51,27 @@ public class AuthenticatorService implements UserDetailsService {
         else return false;
     }
 
-    public boolean login(User user) {
+    public User login(User user) {
         String username = user.getUsername();
         String password = user.getPassword();
         try {
             if (individualRepository.existsByUsername(username)) {
                 Individual individual = individualRepository.findByUsername(username);
-                return passwordEncoder.matches(password, individual.getPassword());
+                individual.getAuthorities();
+                if (passwordEncoder.matches(password, individual.getPassword()))
+                    return individual;
             }
             if (thirdPartyRepository.existsByUsername(username)) {
                 ThirdParty thirdParty = thirdPartyRepository.findByUsername(username);
-                return passwordEncoder.matches(password, thirdParty.getPassword());
+                thirdParty.getAuthorities();
+                if (passwordEncoder.matches(password, thirdParty.getPassword()))
+                    return thirdParty;
             }
         }
         catch (NullPointerException e){
             e.fillInStackTrace(); /* should never get here */
         }
-        return false;
+        return new User(username, password);
     }
 
     public Individual getIndividualProfile(String username) {
@@ -145,7 +105,7 @@ public class AuthenticatorService implements UserDetailsService {
         String password = user.getPassword();
 
         if (!individualRepository.existsByUsername(newUsername)
-                && thirdPartyRepository.existsByUsername(newUsername)) {
+                && !thirdPartyRepository.existsByUsername(newUsername)) {
 
             if (individualRepository.existsByUsername(oldUsername)) {
                 Individual individual = individualRepository.findByUsername(oldUsername);
@@ -206,6 +166,49 @@ public class AuthenticatorService implements UserDetailsService {
             throw new UsernameNotFoundException("Username does not exists");
 
         return user;
+    }
+
+    private boolean individualAlreadyExists(String username, String email, String ssn) {
+        return (individualRepository.existsByUsername(username)
+                || individualRepository.existsByEmail(email)
+                || individualRepository.existsBySsn(ssn));
+    }
+
+    private boolean thirdPartyAlreadyExists(String username, String email, String vat) {
+        return (thirdPartyRepository.existsByUsername(username)
+                || thirdPartyRepository.existsByEmail(email)
+                || thirdPartyRepository.existsByVat(vat));
+    }
+
+    private boolean validateIndividual(Individual individual) {
+        return ssnIsValid(individual.getSsn())
+                && emailIsValid(individual.getEmail().toLowerCase());
+    }
+
+    private boolean validateThirdParty(ThirdParty thirdParty) {
+        return vatIsValid(thirdParty.getVat())
+                && emailIsValid(thirdParty.getEmail().toLowerCase());
+    }
+
+
+    private boolean match(String regex, String toCompare) {
+        if (toCompare == null)
+            return false;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(toCompare);
+        return matcher.matches();
+    }
+
+    private boolean emailIsValid(String email) {
+        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net|co\\.uk|edu)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
+    }
+
+    private boolean ssnIsValid(String ssn) {
+        return match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
+    }
+
+    private boolean vatIsValid(String vat) {
+        return match("[0-9]{11}", vat);
     }
 }
 

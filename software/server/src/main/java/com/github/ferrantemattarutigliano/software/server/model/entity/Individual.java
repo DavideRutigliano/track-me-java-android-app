@@ -98,6 +98,7 @@ public class Individual extends User implements Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        super.setRole("INDIVIDUAL");
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_INDIVIDUAL"));
         return authorities;
