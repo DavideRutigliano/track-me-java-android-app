@@ -392,30 +392,37 @@ The choice of using Java and Spring is not a full restriction on the deployment 
 As specified in RASD there are two different user interfaces, one for mobile application and one for web browsers. In this specification we assume the web version of the application will be the same as the mobile application with reduced functions.
 
 \subsection{Mockups}
-The guest who access to the main page can sign-up to the application providing his credentials. Once clicked on the \textit{Sign On} button the guest can decide whether registers as an Individual or as a Third-Party, swiping left and right to choose the wright option. Once registered, on initial page, an user can sign-in in the application inserting Username and Password in the relative boxes and clicking on the \textit{Sign In} button. 
+The guest who access to the main page can sign-up to the application providing his credentials. Once clicked on the \textit{Sign On} button the guest can decide whether registers as an Individual or as a Third-Party, swiping left and right to choose the wright option. Once registered, on the initial page, an user can sign-in in the application inserting Username and Password in the relative boxes and clicking on the \textit{Sign In} button. 
 
 \begin{figure}[!htpb]
     	\centering
     	\includegraphics[height=50mm]{images/mockups/Login_Registration.png}
-    	\includegraphics[height=50mm]{images/mockups/RegistrationForm.png}
+    	\includegraphics[height=50mm]{DD/images/mockups/IndividualRegistration.png}
     	\includegraphics[height=50mm]{images/mockups/ThirdPartyRegistration.png}
         \end{figure}
 
-Once inside the application, the user is redirected to the home page, where he can see the last activities and sign out from \textit{TrackMe}. Swiping left he can access to the profile page which is different whether he is signed in as an Individual or Third-Party. Here the user can access to services provided by \textit{Data4help} and can enable \textit{Automated-SOS} service too. Swiping right instead, the Individual can access to \textit{Track4Run} section.
+Once inside the application, the user is redirected to the home page, where he can see his account data. He can press the top-left menu and navigate from there. Here the user can access to services provided by \textit{Data4help} and can enable \textit{Automated-SOS} service too. Individual can also access to \textit{Track4Run} and \textit{External Devices} section. The Individuals can handle incoming request by accepting or rejecting them on the Manage Request page. 
 
 \begin{figure}[!htpb]
-    	\hfill
-    	\includegraphics[height=50mm]{images/mockups/HomePage.png}
+    	\centering
     	\includegraphics[height=50mm]{images/mockups/IndividualProfile.png}
-    	\includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
-        \end{figure}
+    	\includegraphics[height=50mm]{images/mockups/IndividualProfileOpen.png}
+    	\includegraphics[height=50mm]{images/mockups/ManageRequests.png}
+\end{figure}
 
-Third-parties can choose either individual or group request and can enable the option to subscribe to new data. The Individuals instead, can handle incoming request by accepting or rejecting them. The Third- Party, form the initial page, can also reach the view data section: here she can see and plot the data of sent requests. Furthermore, swiping left and right, it can move between individual and group data.
+Third-parties can choose either individual or group request and can enable the option to subscribe to new data.
+
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[height=50mm]{images/mockups/ThirdPartyProfile.png}
+    \includegraphics[height=50mm]{images/mockups/ThirdPartyProfileOpen.png}
+\end{figure}
+
+The Third- Party, form the Data4Help page, can also reach the view data section: here she can see and plot the data of sent requests. Furthermore, swiping left and right, it can move between individual and group data.
 \begin{figure}[!htpb]		
      	\centering		
      	\includegraphics[height=50mm]{images/mockups/Requests.png}		
      	\includegraphics[height=50mm]{images/mockups/GroupRequest.png}		
-     	\includegraphics[height=50mm]{images/mockups/ManageRequests.png}		
      	\includegraphics[height=50mm]{images/mockups/ViewData.png}		
      	\includegraphics[height=50mm]{images/mockups/ViewData2.png}		
          \end{figure}
@@ -426,15 +433,15 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
     	\centering
     	\includegraphics[height=50mm]{images/mockups/RunManager.png}
     	\includegraphics[height=50mm]{images/mockups/RunCreate.png}
-    	\includegraphics[height=50mm]{images/mockups/ShowMap.png}
     	\includegraphics[height=50mm]{images/mockups/DefineTrack.png}
+    	\includegraphics[height=50mm]{images/mockups/MyRuns.png}
         \end{figure}
      \hfill
 \subsection{User Experience}
     In this specification we include only mobile users' experience because for web application clients the experience will be the same except for the fact that all \textit{Automated-Sos} and most of \textit{Track4Run} function will be unavailable for web browsers.
     \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=\textwidth]{images/ux/UX_TrackMe.png}
+    	\includegraphics[width=\textwidth, height=0.5\paperheight]{images/ux/ux_TrackMe.png}
     	\caption{User eXperience}
     \end{figure}
 
