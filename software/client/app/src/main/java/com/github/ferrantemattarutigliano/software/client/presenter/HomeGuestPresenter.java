@@ -14,9 +14,9 @@ public class HomeGuestPresenter {
 
     public void doLogin(String username, String password){
         UserDTO user = new UserDTO(username, password);
-        new LoginTask(user, new AsyncResponse<String>() {
+        new LoginTask(user, new AsyncResponse<UserDTO>() {
             @Override
-            public void taskFinish(String output) {
+            public void taskFinish(UserDTO output) {
                 homeGuestView.onLoginSuccess(output);
             }
 

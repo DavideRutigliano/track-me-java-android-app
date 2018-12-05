@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Services" android:checkableBehavior="single">
+        <menu>
+            <item
+                android:id="@+id/nav_my_account"
+                android:icon="@drawable/account"
+                android:title="My Account" />
+            <item
+                android:id="@+id/nav_data4help"
+                android:icon="@drawable/book"
+                android:title="Data4Help" />
+            <item
+                android:id="@+id/nav_automatedsos"
+                android:icon="@drawable/ambulance"
+                android:title="AutomatedSos" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+</menu>

@@ -6,10 +6,10 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.HttpParame
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpRequestType;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
 
-public class LoginTask extends HttpTask<String> {
+public class LoginTask extends HttpTask<UserDTO> {
 
-    public LoginTask(UserDTO userDTO, AsyncResponse<String> asyncResponse) {
-        super(String.class, asyncResponse);
+    public LoginTask(UserDTO userDTO, AsyncResponse<UserDTO> asyncResponse) {
+        super(UserDTO.class, asyncResponse);
         String path = "/login";
         HttpRequestType type = HttpRequestType.POST;
         HttpParameterContainer container = new HttpParameterContainer(path, type, userDTO);

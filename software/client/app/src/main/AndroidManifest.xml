@@ -24,8 +24,12 @@
             android:name=".activity.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.IndividualProfileActivity" />
-        <activity android:name=".activity.ThirdPartyProfileActivity" />
+        <activity
+            android:name=".activity.HomeIndividualActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.HomeThirdPartyActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

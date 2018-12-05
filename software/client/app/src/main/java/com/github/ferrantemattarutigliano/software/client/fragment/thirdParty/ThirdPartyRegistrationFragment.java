@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client.fragment;
+package com.github.ferrantemattarutigliano.software.client.fragment.thirdParty;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
-public class ThirdPartyRegistrationFragment extends Fragment {
+public class ThirdPartyRegistrationFragment extends Fragment{
     private RegistrationView registrationView;
 
     public ThirdPartyRegistrationFragment() {}
@@ -60,6 +60,7 @@ public class ThirdPartyRegistrationFragment extends Fragment {
         });
         return v;
     }
+
 
     @Override
     public void onAttach(Context context) {

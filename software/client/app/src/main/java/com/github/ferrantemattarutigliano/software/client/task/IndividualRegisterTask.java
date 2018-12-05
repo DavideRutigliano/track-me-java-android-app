@@ -11,7 +11,7 @@ public class IndividualRegisterTask extends HttpTask<String> {
 
     public IndividualRegisterTask(IndividualDTO individualDTO, AsyncResponse<String> asyncResponse) {
         super(String.class, asyncResponse);
-        String path = "/individuals/registration";
+        String path = "/registration/individual";
         HttpRequestType type = HttpRequestType.POST;
         HttpParameterContainer container = new HttpParameterContainer(path, type, individualDTO);
         setHttpParameterContainer(container);

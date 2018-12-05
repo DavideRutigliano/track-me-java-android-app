@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
-import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,14 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
-import com.github.ferrantemattarutigliano.software.client.fragment.IndividualRegistrationFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.ThirdPartyRegistrationFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
@@ -66,16 +64,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_registration, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();

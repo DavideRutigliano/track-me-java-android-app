@@ -10,7 +10,7 @@ public class ThirdPartyRegisterTask extends HttpTask<String> {
 
     public ThirdPartyRegisterTask(ThirdPartyDTO thirdPartyDTO, AsyncResponse<String> asyncResponse) {
         super(String.class, asyncResponse);
-        String path = "/thirdparties/registration";
+        String path = "/registration/thirdparty";
         HttpRequestType type = HttpRequestType.POST;
         HttpParameterContainer container = new HttpParameterContainer(path, type, thirdPartyDTO);
         setHttpParameterContainer(container);

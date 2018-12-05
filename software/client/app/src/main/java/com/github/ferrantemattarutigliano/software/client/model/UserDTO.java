@@ -6,6 +6,7 @@ public class UserDTO implements Serializable {
     private Long id;
     private String username;
     private String password;
+    private String role;
 
     public UserDTO(String username, String password) {
         this.username = username;
@@ -26,5 +27,12 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
 

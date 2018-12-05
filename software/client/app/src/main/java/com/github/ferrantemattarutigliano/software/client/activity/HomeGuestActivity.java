@@ -9,13 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.HomeGuestPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.HomeGuestView;
 
 public class HomeGuestActivity extends AppCompatActivity implements HomeGuestView {
     private HomeGuestPresenter homeGuestPresenter;
-    private TextView connectionResultText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +28,6 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
         final Button registerButton = findViewById(R.id.button_register);
         final TextView usernameForm = findViewById(R.id.text_registration_individual_username);
         final TextView passwordForm = findViewById(R.id.text_registration_individual_password);
-        connectionResultText = findViewById(R.id.text_login_welcome);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +53,19 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
     }
 
     @Override
-    public void onLoginSuccess(String output) {
-        connectionResultText.setText(output);
+    public void onLoginSuccess(UserDTO userDTO) {
+        Intent intent = null;
+        if(userDTO.getRole().equals("individual")){
+            intent = new Intent(this, HomeIndividualActivity.class);
+        }
+        else if(userDTO.getRole().equals("thirdparty")){
+            intent = new Intent(this, HomeThirdPartyActivity.class);
+        }
+        else{
+            throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());
+        }
+        startActivity(intent);
+        finish();
     }
 
     @Override

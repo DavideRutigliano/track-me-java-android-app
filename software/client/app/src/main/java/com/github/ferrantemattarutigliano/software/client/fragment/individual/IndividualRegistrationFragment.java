@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client.fragment;
+package com.github.ferrantemattarutigliano.software.client.fragment.individual;
 
 import android.content.Context;
 import android.os.Bundle;

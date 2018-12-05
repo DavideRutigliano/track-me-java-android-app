@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Data4Help" android:checkableBehavior="single">
+        <menu>
+            <item
+                android:id="@+id/nav_my_account"
+                android:icon="@drawable/account"
+                android:title="My Account" />
+            <item
+                android:id="@+id/nav_manage_request"
+                android:icon="@drawable/book"
+                android:title="Manage Requests" />
+            <item
+                android:id="@+id/nav_external_device"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="External Device" />
+        </menu>
+    </item>
+
+    <item android:title="Additional Services" android:checkableBehavior="single">
+        <menu>
+            <item
+                android:id="@+id/nav_automatedsos"
+                android:icon="@drawable/ambulance"
+                android:title="AutomatedSos" />
+            <item
+                android:id="@+id/nav_track4run"
+                android:icon="@drawable/run"
+                android:title="Track4Run" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
