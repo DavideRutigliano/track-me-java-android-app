@@ -4,4 +4,5 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequ
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupRequestRepository extends JpaRepository<GroupRequest, Long> {
+
 }

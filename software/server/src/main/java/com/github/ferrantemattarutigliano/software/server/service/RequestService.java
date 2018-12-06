@@ -53,6 +53,10 @@ public class RequestService {
         return individualRepository.findBySsn(individualRequest.getSsn()).getHealthData();
     }
 
+    //  public Collection<HealthData> showGroupData(GroupRequest groupRequest) {
+    //     return   healthDataRepository.findByCriteria(groupRequest.getCriteria());
+    //  }
+
     public Collection<IndividualRequest> showSentIndividualRequest(String vat){
         return null;
     }

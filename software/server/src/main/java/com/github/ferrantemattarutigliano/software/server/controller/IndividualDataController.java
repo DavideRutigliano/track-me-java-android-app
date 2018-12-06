@@ -1,10 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
+import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
@@ -42,12 +40,15 @@ public class IndividualDataController {
     public Collection<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
         return requestor.showIndividualData(individualRequest);
     }
-}
+
+
+    //   @GetMapping(path = "/group")
+    //  public Collection<HealthData> showGroupData(@RequestBody @DTO(GroupRequestDTO.class) GroupRequest groupRequest) {
+    //      return requestor.showGroupData(groupRequest);
     // }
+}
 
-    // @GetMapping(path="/show/group"){
 
-    //}
 
 
 
