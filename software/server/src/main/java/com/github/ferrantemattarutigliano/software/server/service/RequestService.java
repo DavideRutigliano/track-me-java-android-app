@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Service
 public class RequestService {
@@ -46,6 +47,10 @@ public class RequestService {
             healthDataRepository.save(data);
         }
         return "Success";
+    }
+
+    public Collection<HealthData> showIndividualData(IndividualRequest individualRequest) {
+        return individualRepository.findBySsn(individualRequest.getSsn()).getHealthData();
     }
 
     public Collection<IndividualRequest> showSentIndividualRequest(String vat){
