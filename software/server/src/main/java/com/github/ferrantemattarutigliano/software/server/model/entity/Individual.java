@@ -40,6 +40,7 @@ public class Individual extends User implements Serializable {
     @JsonCreator
     public Individual(String username, String password, String ssn, String email, String firstname, String lastname, Date birthdate) {
         super(username, password);
+        this.ssn = ssn;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;

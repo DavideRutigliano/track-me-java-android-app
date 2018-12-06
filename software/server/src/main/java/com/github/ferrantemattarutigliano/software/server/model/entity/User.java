@@ -1,15 +1,16 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +35,10 @@ public class User implements UserDetails {
     @Transient
     private String role;
 
-    public User() { }
+    public User() {
+    }
 
+    @JsonCreator
     public User(String username, String password){
         this.username = username;
         this.password = password;
@@ -43,7 +46,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        return authorities;
     }
 
     @Override
@@ -84,18 +89,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
+    public String getRoles() {
         return role;
     }
 
-    public void setRole(String role) {
+    @JsonProperty
+    public void addRole(String role) {
         this.role = role;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        this.setRole(role);
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-        return authorities;
-    }
 }
