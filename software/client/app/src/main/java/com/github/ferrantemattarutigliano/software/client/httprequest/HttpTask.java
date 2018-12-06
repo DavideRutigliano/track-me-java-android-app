@@ -6,6 +6,7 @@ import android.util.Log;
 import com.github.ferrantemattarutigliano.software.client.Information;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,7 +43,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             if(type.equals(HttpRequestType.POST)
                 && postParameters== null) throw new RuntimeException(Information.HTTP_POST_PARAMETERS_NOT_FOUND.toString());
             try {
-                switch (type) { //TODO add put, delete
+                switch (type) { //TODO add put, delete (if necessary)
                     case GET:
                         result = restTemplate.getForObject(HttpConstant.SERVER_PATH + path, outputClass);
                         break;
@@ -56,8 +57,13 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
                 resultType = HttpRequestStatus.TIMEOUT;
                 return null;
             }
+            catch (HttpMessageNotReadableException e){
+                Log.e("HTTP_JSON_ERROR", "Http json error");
+                resultType = HttpRequestStatus.JSON_FAIL;
+                return null;
+            }
             catch (RuntimeException e){
-                Log.e("HTTP_RUNTIME_EX", "Runtime http exception");
+                Log.e("HTTP_RUNTIME_EX", "Runtime http exception: " + e.getMessage());
                 resultType = HttpRequestStatus.FAILED;
                 return null;
             }
@@ -74,6 +80,15 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
     protected void onPostExecute(O o) {
         try {
             switch (resultType){
+                case RUNTIME_FAIL:
+                    asyncResponse.taskFailMessage("Http runtime failure");
+                    return;
+                case JSON_FAIL:
+                    asyncResponse.taskFailMessage("Failed to convert json");
+                    return;
+                case FAILED:
+                    asyncResponse.taskFailMessage("Failed for unknown reason");
+                    return;
                 case TIMEOUT:
                     asyncResponse.taskFailMessage("Connection timeout");
                     return;

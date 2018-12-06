@@ -8,6 +8,8 @@ public class UserDTO implements Serializable {
     private String password;
     private String role;
 
+    public UserDTO() {}
+
     public UserDTO(String username, String password) {
         this.username = username;
         this.password = password;

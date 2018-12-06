@@ -3,6 +3,7 @@ package com.github.ferrantemattarutigliano.software.client.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -57,10 +58,10 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
     @Override
     public void onLoginSuccess(UserDTO userDTO) {
         Intent intent = null;
-        if(userDTO.getRole().equals("individual")){
+        if(userDTO.getRole().equals("INDIVIDUAL")){
             intent = new Intent(this, HomeIndividualActivity.class);
         }
-        else if(userDTO.getRole().equals("thirdparty")){
+        else if(userDTO.getRole().equals("THIRD_PARTY")){
             intent = new Intent(this, HomeThirdPartyActivity.class);
         }
         else{
@@ -72,6 +73,11 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
 
     @Override
     public void onLoginFail(String output) {
-        Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setPositiveButton("Ok :(", null);
+        alertDialogBuilder.setTitle("Login Failed");
+        alertDialogBuilder.setMessage(output);
+        alertDialogBuilder.show();
     }
 }
