@@ -22,6 +22,7 @@ public class AuthenticatorController {
 
     @PostMapping("/registration/individual")
     public String individualRegistration(@RequestBody @DTO(IndividualDTO.class) Individual individual) {
+
         if (authenticatorService.individualRegistration(individual))
             return "Success!";
         else return "Oops, something went wrong.";
@@ -29,6 +30,7 @@ public class AuthenticatorController {
 
     @PostMapping("/registration/thirdparty")
     public String thirdPartyRegistration(@RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+
         if (authenticatorService.thirdPartyRegistration(thirdParty))
             return "Success!";
         else return "Oops, something went wrong.";
@@ -38,39 +40,66 @@ public class AuthenticatorController {
     @ResponseBody
     public @DTO(UserDTO.class)
     User login(@RequestBody @DTO(UserDTO.class) User user) {
+
         return authenticatorService.login(user);
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "Success!";
+    } //TODO delete "session"
 
     @GetMapping("/individuals/{username}")
     @ResponseBody
     public @DTO(IndividualDTO.class)
     Individual getIndividualProfile(@PathVariable String username) {
+
         return authenticatorService.getIndividualProfile(username);
     }
 
     @PutMapping("/individuals/{username}")
-    public String changeIndividualProfile(@PathVariable String username, @DTO(IndividualDTO.class) Individual individual) {
-        if (username.equals(individual.getUsername()))
-            return "Can't access this resource.";
-        else if (authenticatorService.changeIndividualProfile(individual))
+    public String changeIndividualProfile(@PathVariable String username,
+                                          @RequestBody @DTO(IndividualDTO.class) Individual individual) {
+
+        if (authenticatorService.changeIndividualProfile(individual))
             return "Success!";
         else return "Oops, user " + individual.getUsername() + " does not exists.";
     }
 
     @GetMapping("/thirdparties/{username}")
     @ResponseBody
-    @DTO(ThirdPartyDTO.class)
-    public ThirdParty getThirdPartyProfile(@PathVariable String username) {
+    public @DTO(ThirdPartyDTO.class)
+    ThirdParty getThirdPartyProfile(@PathVariable String username) {
+
         return authenticatorService.getThirdPartyProfile(username);
     }
 
     @PutMapping("/thirdparties/{username}")
-    public String changeThirdPartyProfile(@PathVariable String username, @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
-        if (username.equals(thirdParty.getUsername()))
-            return "Can't access this resource.";
-        else if (authenticatorService.changeThirdPartyProfile(thirdParty))
+    public String changeThirdPartyProfile(@PathVariable String username,
+                                          @RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+
+        if (authenticatorService.changeThirdPartyProfile(thirdParty))
             return "Success!";
         else return "Oops, user " + thirdParty.getUsername() + " does not exists.";
+    }
+
+    @PutMapping("/changeusername/{username}")
+    public String changeUsername(@PathVariable("username") String username,
+                                 @RequestBody @DTO(UserDTO.class) User user) {
+
+        if (authenticatorService.changeUsername(user, username))
+            return "Success!";
+        else return "Oops, something went wrong";
+    }
+
+    @PutMapping("/changepassword/{username}")
+    public String changePassword(@PathVariable("username") String username,
+                                 @RequestBody @DTO(UserDTO.class) User user,
+                                 String password) {
+
+        if (authenticatorService.changePassword(user, password))
+            return "Success!";
+        else return "Oops, something went wrong";
     }
 
 }

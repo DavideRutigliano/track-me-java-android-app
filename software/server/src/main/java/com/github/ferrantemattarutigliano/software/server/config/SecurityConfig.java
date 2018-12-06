@@ -2,15 +2,11 @@ package com.github.ferrantemattarutigliano.software.server.config;
 
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -28,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(authService)
-                .passwordEncoder(passwordEncoder())
+                .passwordEncoder(authService.passwordEncoder())
                 .and()
-                .authenticationProvider(authenticationProvider())
+                .authenticationProvider(authService.authenticationProvider())
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("SELECT username, password, 1 FROM individual "
@@ -52,9 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .disable()
 
-                .httpBasic()
-                .and()
-
                 .csrf().disable()
                 .exceptionHandling()
                 .and()
@@ -64,9 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sameOrigin()
                 .and()
 
-                //.sessionManagement()
-                //.sessionCreationPolicy(STATELESS)
-                //.and()
+                /*
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS)
+                .and()
+                 */
 
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
@@ -74,19 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/individuals/**").hasRole("INDIVIDUAL")
                 .antMatchers("/thirdparties/**").hasRole("THIRD_PARTY")
                 .anyRequest()
-                .authenticated();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(authService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+                .authenticated().and()
+                .httpBasic();
     }
 }

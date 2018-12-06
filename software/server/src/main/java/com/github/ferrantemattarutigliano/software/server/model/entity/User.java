@@ -1,7 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -89,11 +88,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRoles() {
+    public String getRole() {
         return role;
     }
 
-    @JsonProperty
     public void addRole(String role) {
         this.role = role;
     }

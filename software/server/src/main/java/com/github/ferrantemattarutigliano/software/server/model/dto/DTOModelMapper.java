@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
     private static final ModelMapper modelMapper = new ModelMapper();
@@ -30,6 +32,14 @@ public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
 
     public DTOModelMapper(ObjectMapper objectMapper, EntityManager entityManager) {
         super(Collections.singletonList(new MappingJackson2HttpMessageConverter(objectMapper)));
+        this.entityManager = entityManager;
+    }
+
+    public DTOModelMapper(Collection<ObjectMapper> objectMapper, EntityManager entityManager) {
+        super(objectMapper
+                .stream()
+                .map(o -> new MappingJackson2HttpMessageConverter(o))
+                .collect(Collectors.toList()));
         this.entityManager = entityManager;
     }
 
