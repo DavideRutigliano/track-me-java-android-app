@@ -5,6 +5,9 @@
     <string name="text_personal_data">Personal Data</string>
     <string name="text_organization_data">Organization Data</string>
     <string name="text_company_name">Organization Data</string>
+    <string name="text_subscribe">Subscribe</string>
+    <string name="text_motivation">Motivation (Optional)</string>
+    <string name="text_confirm">Confirm</string>
     <string name="text_not_implemented">Not Implemented :(</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
@@ -16,6 +19,8 @@
     <string name="hint_birthdate">Birthdate</string>
     <string name="hint_vat">VAT</string>
     <string name="hint_organization_name">Organization Name</string>
+    <string name="button_view_data">View Data</string>
+    <string name="button_new_request">New Request</string>
     <string name="button_signup">Signup</string>
     <string name="button_login">Login</string>
     <string name="button_back">Back</string>

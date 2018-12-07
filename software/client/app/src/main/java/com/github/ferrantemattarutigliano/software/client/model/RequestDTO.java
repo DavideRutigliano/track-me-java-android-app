@@ -6,6 +6,10 @@ public abstract class RequestDTO {
 
     public RequestDTO() {}
 
+    public RequestDTO(Boolean subscribed) {
+        this.subscribed = subscribed;
+    }
+
     public Long getId() {
         return id;
     }

@@ -3,8 +3,8 @@ package com.github.ferrantemattarutigliano.software.client.presenter;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
-import com.github.ferrantemattarutigliano.software.client.task.IndividualRegisterTask;
-import com.github.ferrantemattarutigliano.software.client.task.ThirdPartyRegisterTask;
+import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualRegisterTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyRegisterTask;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
 public class RegistrationPresenter {

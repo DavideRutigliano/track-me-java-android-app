@@ -30,6 +30,9 @@
         <activity
             android:name=".activity.thirdparty.HomeThirdPartyActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.thirdparty.ThirdPartyRequestActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

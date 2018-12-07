@@ -10,9 +10,9 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="226dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="343dp"
+        android:layout_height="435dp"
+        android:layout_marginTop="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,6 +31,14 @@
                 tools:text="@string/text_credentials" />
 
             <EditText
+                android:id="@+id/text_registration_third_party_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_username"
+                android:inputType="textPersonName" />
+
+            <EditText
                 android:id="@+id/text_registration_third_party_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,14 +47,6 @@
                 android:inputType="text|textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/text_registration_third_party_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/hint_username"
-                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/text_registration_third_party_repeat_password"
@@ -59,11 +59,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_registration_individual_password" />
 
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:text="@string/text_organization_data" />
+
+            <EditText
+                android:id="@+id/text_registration_third_party_vat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_vat"
+                android:inputType="text"
+                android:maxLength="11"
+                android:minEms="11"
+                android:singleLine="false" />
 
             <EditText
                 android:id="@+id/text_registration_third_party_email"
@@ -80,20 +90,6 @@
                 android:ems="10"
                 android:hint="@string/hint_organization_name"
                 android:inputType="textPersonName" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_organization_data" />
-
-            <EditText
-                android:id="@+id/text_registration_third_party_vat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/hint_vat"
-                android:inputType="text"
-                android:singleLine="false" />
 
             <Button
                 android:id="@+id/button_third_party_register"

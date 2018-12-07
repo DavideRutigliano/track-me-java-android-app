@@ -5,128 +5,117 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.individual.IndividualRegistrationFragment"
+    tools:context=".fragment.thirdParty.ThirdPartyRegistrationFragment"
     tools:layout_editor_absoluteY="81dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="230dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="343dp"
+        android:layout_height="435dp"
+        android:layout_marginTop="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/text_credentials" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/text_registration_individual_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_username"
-            android:inputType="textPersonName" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/text_credentials" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_password"
-            android:inputType="text|textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/text_registration_individual_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_username"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_repeat_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_repeat_password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_registration_individual_password" />
+            <EditText
+                android:id="@+id/text_registration_individual_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_password"
+                android:inputType="text|textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/text_registration_individual_repeat_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_repeat_password"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_registration_individual_password" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="230dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button_individual_register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_personal_data" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_personal_data" />
+            <EditText
+                android:id="@+id/text_registration_individual_ssn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_ssn"
+                android:inputType="text"
+                android:maxLength="11"
+                android:minEms="11"
+                android:singleLine="false" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_first_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_first_name"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/text_registration_individual_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_last_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_last_name"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/text_registration_individual_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_first_name"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_email"
-            android:inputType="textEmailAddress" />
+            <EditText
+                android:id="@+id/text_registration_individual_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_last_name"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_ssn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_ssn"
-            android:inputType="text"
-            android:singleLine="false" />
+            <EditText
+                android:id="@+id/text_registration_individual_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_birthdate"
+                android:inputType="text|date"
+                android:singleLine="false" />
 
-        <EditText
-            android:id="@+id/text_registration_individual_birthdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_birthdate"
-            android:inputType="date" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button_individual_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="86dp"
-        android:text="@string/button_signup"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
+            <Button
+                android:id="@+id/button_individual_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_signup"
+                tools:layout_editor_absoluteX="148dp"
+                tools:layout_editor_absoluteY="373dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

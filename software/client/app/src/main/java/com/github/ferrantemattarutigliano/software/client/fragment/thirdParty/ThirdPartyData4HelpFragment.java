@@ -1,13 +1,16 @@
 package com.github.ferrantemattarutigliano.software.client.fragment.thirdParty;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyRequestActivity;
 
 public class ThirdPartyData4HelpFragment extends Fragment {
 
@@ -28,7 +31,25 @@ public class ThirdPartyData4HelpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_third_party_account, container, false);
+        View v = inflater.inflate(R.layout.fragment_third_party_data4help, container, false);
+        Button requestButton = v.findViewById(R.id.button_third_party_new_request);
+        Button viewData = v.findViewById(R.id.button_third_party_view_data);
+
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ThirdPartyRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        viewData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add view data
+            }
+        });
+        return v;
     }
 
 }

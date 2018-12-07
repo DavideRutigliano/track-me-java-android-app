@@ -5,6 +5,8 @@ public enum Information {
     HTTP_POST_PARAMETERS_NOT_FOUND("Http Request POST is missing parameters."),
     MISSING_TAB("The selected tab position doesn't exist."),
     ROLE_NOT_FOUND("Server role is not recognized by client or it's not instantiated."),
+    REQUEST_SUCCESS("Request was successfully sent."),
+    REQUEST_ACCEPT("Request was accepted."),
     ;
 
     private String message;

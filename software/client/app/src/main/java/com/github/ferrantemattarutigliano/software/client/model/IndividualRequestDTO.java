@@ -7,7 +7,8 @@ public class IndividualRequestDTO extends RequestDTO implements Serializable {
 
     public IndividualRequestDTO() {}
 
-    public IndividualRequestDTO(String ssn) {
+    public IndividualRequestDTO(String ssn, Boolean subscribed) {
+        super(subscribed);
         this.ssn = ssn;
     }
 

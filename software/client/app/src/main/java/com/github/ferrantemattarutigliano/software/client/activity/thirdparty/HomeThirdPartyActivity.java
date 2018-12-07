@@ -18,6 +18,7 @@ import android.view.View;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyAccountFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyData4HelpFragment;
 
 public class HomeThirdPartyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,7 +90,7 @@ public class HomeThirdPartyActivity extends AppCompatActivity
                 fragmentClass = ThirdPartyAccountFragment.class;
                 break;
             case R.id.nav_data4help:
-                fragmentClass = NotImplementedFragment.class;
+                fragmentClass = ThirdPartyData4HelpFragment.class;
                 break;
             case R.id.nav_automatedsos:
                 fragmentClass = NotImplementedFragment.class;

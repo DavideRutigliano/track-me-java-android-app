@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client.task;
+package com.github.ferrantemattarutigliano.software.client.task.individual;
 
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpParameterContainer;

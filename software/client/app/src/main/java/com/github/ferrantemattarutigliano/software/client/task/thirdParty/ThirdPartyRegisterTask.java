@@ -1,18 +1,18 @@
-package com.github.ferrantemattarutigliano.software.client.task;
+package com.github.ferrantemattarutigliano.software.client.task.thirdParty;
 
-import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpParameterContainer;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpRequestType;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
 
-public class IndividualRequestTask extends HttpTask<String> {
+public class ThirdPartyRegisterTask extends HttpTask<String> {
 
-    public IndividualRequestTask(IndividualRequestDTO individualRequestDTO, AsyncResponse<String> asyncResponse) {
+    public ThirdPartyRegisterTask(ThirdPartyDTO thirdPartyDTO, AsyncResponse<String> asyncResponse) {
         super(String.class, asyncResponse);
-        String path = "/request/individual";
+        String path = "/registration/thirdparty";
         HttpRequestType type = HttpRequestType.POST;
-        HttpParameterContainer container = new HttpParameterContainer(path, type, individualRequestDTO);
+        HttpParameterContainer container = new HttpParameterContainer(path, type, thirdPartyDTO);
         setHttpParameterContainer(container);
     }
 }
