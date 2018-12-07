@@ -3,6 +3,7 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Set;
 @Entity
 public class Individual extends User implements Serializable {
@@ -74,7 +75,7 @@ public class Individual extends User implements Serializable {
         this.birthdate = birthdate;
     }
 
-    public Set<HealthData> getHealthData() {
+    public Collection<HealthData> getHealthData() {
         return healthData;
     }
 
