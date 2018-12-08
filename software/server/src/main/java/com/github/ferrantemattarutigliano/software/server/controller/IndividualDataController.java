@@ -37,7 +37,8 @@ public class IndividualDataController {
     }
 
     @GetMapping(path = "/individual")
-    public Collection<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
+    public @CollectionDTO(HealthDataDTO.class)
+    Collection<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
         return requestor.showIndividualData(individualRequest);
     }
 
