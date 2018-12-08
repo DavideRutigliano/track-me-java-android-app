@@ -16,7 +16,9 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
+import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
@@ -54,13 +56,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     }
 
     @Override
-    public void onIndividualRegistration(IndividualDTO individualDTO) {
-        registrationPresenter.doIndividualRegistration(individualDTO);
+    public void onIndividualRegistration(IndividualRegistrationDTO individualRegistrationDTO) {
+        registrationPresenter.doIndividualRegistration(individualRegistrationDTO);
     }
 
     @Override
-    public void onThirdPartyRegistration(ThirdPartyDTO thirdPartyDTO) {
-        registrationPresenter.doThirdPartyRegistration(thirdPartyDTO);
+    public void onThirdPartyRegistration(ThirdPartyRegistrationDTO thirdPartyRegistrationDTO) {
+        registrationPresenter.doThirdPartyRegistration(thirdPartyRegistrationDTO);
     }
 
     @Override

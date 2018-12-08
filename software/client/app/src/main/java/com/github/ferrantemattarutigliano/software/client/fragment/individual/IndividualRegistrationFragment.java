@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
+import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
 public class IndividualRegistrationFragment extends Fragment{
@@ -59,8 +61,10 @@ public class IndividualRegistrationFragment extends Fragment{
                 String lastName = lastNametext.getText().toString();
                 String ssn = ssnText.getText().toString();
                 //todo add birthdate
-                IndividualDTO individualDTO = new IndividualDTO(username, password, ssn, email, firstName, lastName);
-                registrationView.onIndividualRegistration(individualDTO);
+                UserDTO userDTO = new UserDTO(username, password, email, "INDIVIDUAL");
+                IndividualDTO individualDTO = new IndividualDTO(ssn, firstName, lastName);
+                IndividualRegistrationDTO registrationDTO = new IndividualRegistrationDTO(userDTO, individualDTO);
+                registrationView.onIndividualRegistration(registrationDTO);
             }
         });
         return v;

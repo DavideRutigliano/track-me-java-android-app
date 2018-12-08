@@ -5,15 +5,16 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.HttpParame
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpRequestType;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 
 public class IndividualRegisterTask extends HttpTask<String> {
 
-    public IndividualRegisterTask(IndividualDTO individualDTO, AsyncResponse<String> asyncResponse) {
+    public IndividualRegisterTask(IndividualRegistrationDTO individualRegistrationDTO, AsyncResponse<String> asyncResponse) {
         super(String.class, asyncResponse);
         String path = "/registration/individual";
         HttpRequestType type = HttpRequestType.POST;
-        HttpParameterContainer container = new HttpParameterContainer(path, type, individualDTO);
+        HttpParameterContainer container = new HttpParameterContainer(path, type, individualRegistrationDTO);
         setHttpParameterContainer(container);
     }
 }

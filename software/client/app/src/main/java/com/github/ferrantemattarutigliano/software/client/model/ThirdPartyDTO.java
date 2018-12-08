@@ -1,18 +1,12 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
-public class ThirdPartyDTO extends UserDTO{
+public class ThirdPartyDTO{
     private String vat;
-    private String email;
     private String organizationName;
 
-    public ThirdPartyDTO(String username, String password) {
-        super(username, password);
-    }
 
-    public ThirdPartyDTO(String username, String password, String vat, String email, String organizationName) {
-        super(username, password);
+    public ThirdPartyDTO(String vat, String organizationName) {
         this.vat = vat;
-        this.email = email;
         this.organizationName = organizationName;
     }
 
@@ -22,14 +16,6 @@ public class ThirdPartyDTO extends UserDTO{
 
     public void setVat(String vat) {
         this.vat = vat;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getOrganizationName() {
