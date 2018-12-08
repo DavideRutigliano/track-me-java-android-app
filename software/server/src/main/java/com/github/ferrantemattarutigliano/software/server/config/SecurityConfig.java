@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.savedrequest.NullRequestCache;
+
 
 import javax.sql.DataSource;
 
@@ -23,20 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authService)
+        auth
+                .userDetailsService(authService)
                 .passwordEncoder(authService.passwordEncoder())
                 .and()
+
                 .authenticationProvider(authService.authenticationProvider())
                 .jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username, password, 1 FROM individual "
-                                        + "UNION "
-                                        + "SELECT username, password, 1 FROM third_party "
-                                        + "WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT username, 'ROLE_INDIVIDUAL' FROM individual "
-                                            + "UNION "
-                                            + "SELECT username, 'ROLE_THIRD_PARTY' FROM third_party "
-                                            + "WHERE username = ?");
+                .usersByUsernameQuery("SELECT username, password, 1 FROM user WHERE username = ?");
     }
 
     @Override
@@ -48,28 +45,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .disable()
 
-                .csrf().disable()
                 .exceptionHandling()
                 .and()
 
-                .headers()
-                .frameOptions()
-                .sameOrigin()
+                .requestCache()
+                .requestCache(new NullRequestCache())
                 .and()
 
-                /*
+                .csrf().disable()
+
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
                 .and()
-                 */
 
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration/**").permitAll()
-                .antMatchers("/individuals/**").hasRole("INDIVIDUAL")
-                .antMatchers("/thirdparties/**").hasRole("THIRD_PARTY")
+                //.antMatchers("/login").permitAll()
+                //.antMatchers("/registration/**").permitAll()
+                //.antMatchers("/individuals/**").hasRole("INDIVIDUAL")
+                //.antMatchers("thirdparties/**").hasRole("THIRD_PARTY")
                 .anyRequest()
-                .authenticated().and()
-                .httpBasic();
+                .permitAll(); //NO SECURITY
+        //.authenticated();
     }
+
 }

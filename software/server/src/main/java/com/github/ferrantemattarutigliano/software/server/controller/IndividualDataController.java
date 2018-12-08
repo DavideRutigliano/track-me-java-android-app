@@ -10,11 +10,4 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class IndividualDataController {
 
-    @Autowired
-    private RequestService requestor;
-
-    @Autowired
-    private SubscriptionService subscriptor;
-
-
 }

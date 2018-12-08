@@ -1,15 +1,12 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -21,7 +18,14 @@ public class AuthenticatorController {
     private AuthenticatorService authenticatorService;
 
     @PostMapping("/registration/individual")
-    public String individualRegistration(@RequestBody @DTO(IndividualDTO.class) Individual individual) {
+    public String individualRegistration(@RequestBody IndividualRegistrationDTO individualRegistration) {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        User user = modelMapper.map(individualRegistration.getUser(), User.class);
+        Individual individual = modelMapper.map(individualRegistration.getIndividual(), Individual.class);
+
+        individual.setUser(user);
 
         if (authenticatorService.individualRegistration(individual))
             return "Success!";
@@ -29,7 +33,14 @@ public class AuthenticatorController {
     }
 
     @PostMapping("/registration/thirdparty")
-    public String thirdPartyRegistration(@RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+    public String thirdPartyRegistration(@RequestBody ThirdPartyRegistrationDTO thirdPartyRegistration) {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        User user = modelMapper.map(thirdPartyRegistration.getUser(), User.class);
+        ThirdParty thirdParty = modelMapper.map(thirdPartyRegistration.getThirdParty(), ThirdParty.class);
+
+        thirdParty.setUser(user);
 
         if (authenticatorService.thirdPartyRegistration(thirdParty))
             return "Success!";
@@ -63,7 +74,7 @@ public class AuthenticatorController {
 
         if (authenticatorService.changeIndividualProfile(individual))
             return "Success!";
-        else return "Oops, user " + individual.getUsername() + " does not exists.";
+        else return "Oops, user does not exists.";
     }
 
     @GetMapping("/thirdparties/{username}")
@@ -80,7 +91,7 @@ public class AuthenticatorController {
 
         if (authenticatorService.changeThirdPartyProfile(thirdParty))
             return "Success!";
-        else return "Oops, user " + thirdParty.getUsername() + " does not exists.";
+        else return "Oops, user does not exists.";
     }
 
     @PutMapping("/changeusername/{username}")

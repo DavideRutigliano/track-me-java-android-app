@@ -1,27 +1,24 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@JsonSerialize(as = ThirdParty.class)
-@JsonDeserialize(as = ThirdParty.class)
-public class ThirdParty extends User implements Serializable {
+public class ThirdParty implements Serializable {
+
     @Id
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "userId", nullable = false, unique = true)
+    private User user;
+
     @Column(name="vat", unique=true)
     private String vat;
-
-    @Column(name="email", unique=true)
-    private String email;
 
     private String organizationName;
 
@@ -33,28 +30,29 @@ public class ThirdParty extends User implements Serializable {
 
     protected ThirdParty() {}
 
-    @JsonCreator
-    public ThirdParty(String username, String password, String vat, String email, String organizationName) {
-        super(username, password);
+    public ThirdParty(String vat, String organizationName) {
         this.vat = vat;
-        this.email = email;
         this.organizationName = organizationName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setVat(String vat) {
+        this.vat = vat;
     }
 
     public String getVat() {
         return vat;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getOrganizationName() {
         return organizationName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setOrganizationName(String organizationName) {

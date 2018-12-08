@@ -13,6 +13,9 @@ public interface IndividualRequestRepository extends JpaRepository<IndividualReq
     Collection<IndividualRequest> findByThirdParty(Long id);
     Collection<IndividualRequest> findBySsn(String ssn);
 
+    @Query("SELECT subscription FROM IndividualRequest WHERE thirdPartyId = ?1")
+    Boolean isSubscriptionRequest(Long id);
+
     @Modifying
     @Query("UPDATE IndividualRequest SET accepted = ?2 WHERE id = ?1")
     Boolean handleRequest(Long id, Boolean accepted);

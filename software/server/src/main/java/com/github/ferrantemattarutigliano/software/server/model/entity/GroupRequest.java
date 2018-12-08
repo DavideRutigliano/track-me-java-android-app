@@ -7,8 +7,6 @@ import java.io.Serializable;
 public class GroupRequest extends Request implements Serializable {
     private String criteria;
 
-    private Boolean anonymized;
-
     protected GroupRequest() {}
 
     public GroupRequest(String criteria) {
@@ -17,13 +15,5 @@ public class GroupRequest extends Request implements Serializable {
 
     public String getCriteria() {
         return criteria;
-    }
-
-    public Boolean isAnonymized() {
-        return anonymized;
-    }
-
-    public void setAnonymized(Boolean anonymized) {
-        this.anonymized = anonymized;
     }
 }

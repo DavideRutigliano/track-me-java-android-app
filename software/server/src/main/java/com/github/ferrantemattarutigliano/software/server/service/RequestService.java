@@ -60,11 +60,9 @@ public class RequestService {
         return individualRequestRepository.findBySsn(ssn);
     }
 
-    public String handleRequest(Long id, boolean accepted) {
+    public boolean handleRequest(Long id, boolean accepted) {
 
-        if (individualRequestRepository.handleRequest(id, accepted))
-            return "Success!";
-        else return "Failure!";
+        return individualRequestRepository.handleRequest(id, accepted);
     }
 
 
