@@ -1,20 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
-public class IndividualDTO extends UserDTO{
+public class IndividualDTO{
     private String ssn;
-    private String email;
     private String firstname;
     private String lastname;
     private String birthdate;
 
-    public IndividualDTO(String username, String password) {
-        super(username, password);
-    }
-
-    public IndividualDTO(String username, String password, String ssn, String email, String firstname, String lastname) {
-        super(username, password);
+    public IndividualDTO(String ssn, String firstname, String lastname) {
         this.ssn = ssn;
-        this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
     }
@@ -25,14 +18,6 @@ public class IndividualDTO extends UserDTO{
 
     public void setSsn(String ssn) {
         this.ssn = ssn;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstname() {

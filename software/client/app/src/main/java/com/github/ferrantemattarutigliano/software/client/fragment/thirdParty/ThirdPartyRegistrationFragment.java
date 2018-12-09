@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
+import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegistrationDTO;
+import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
 public class ThirdPartyRegistrationFragment extends Fragment{
@@ -54,8 +56,10 @@ public class ThirdPartyRegistrationFragment extends Fragment{
                 String email = emailText.getText().toString();
                 String name = orgName.getText().toString();
                 String vat = vatText.getText().toString();
-                ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO(username, password, vat, email, name);
-                registrationView.onThirdPartyRegistration(thirdPartyDTO);
+                UserDTO userDTO = new UserDTO(username, password, email, "THIRD_PARTY");
+                ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO(vat, name);
+                ThirdPartyRegistrationDTO registrationDTO = new ThirdPartyRegistrationDTO(userDTO, thirdPartyDTO);
+                registrationView.onThirdPartyRegistration(registrationDTO);
             }
         });
         return v;

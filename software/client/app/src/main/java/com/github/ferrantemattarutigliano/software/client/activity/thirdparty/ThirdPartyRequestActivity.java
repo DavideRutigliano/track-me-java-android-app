@@ -1,11 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.activity.thirdparty;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -62,11 +64,22 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
     @Override
     public void onRequestSuccess(String output) {
         Toast.makeText(this, output, Toast.LENGTH_LONG);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish(); //close the activity after a request has been made
+            }
+        });
+        alertDialogBuilder.setTitle("Request sent successfully");
+        alertDialogBuilder.setMessage(output);
+        alertDialogBuilder.show();
     }
 
     @Override
     public void onRequestFail(String output) {
-        Toast.makeText(this, output, Toast.LENGTH_LONG);
+        Toast.makeText(this, output, Toast.LENGTH_LONG).show();
     }
 
     @Override

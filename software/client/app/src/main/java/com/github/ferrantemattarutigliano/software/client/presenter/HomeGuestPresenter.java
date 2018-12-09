@@ -13,7 +13,7 @@ public class HomeGuestPresenter {
     }
 
     public void doLogin(String username, String password){
-        UserDTO user = new UserDTO(username, password);
+        UserDTO user = new UserDTO(username, password, null);
         new LoginTask(user, new AsyncResponse<UserDTO>() {
             @Override
             public void taskFinish(UserDTO output) {
