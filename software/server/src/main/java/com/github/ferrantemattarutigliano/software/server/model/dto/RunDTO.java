@@ -1,7 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 import java.util.Date;
 
 public class RunDTO {
@@ -19,6 +20,9 @@ public class RunDTO {
 
     @NotNull
     private String path;
+
+    @DTO(IndividualDTO.class)
+    private Individual organizer;
 
     public Long getId() {
         return id;
@@ -44,8 +48,8 @@ public class RunDTO {
         this.date = date;
     }
 
-    public Time getTime() {
-        return Date;
+    public Date getTime() {
+        return time;
     }
 
     public void setTime(Date time) {
@@ -58,5 +62,13 @@ public class RunDTO {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Individual getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Individual organizer) {
+        this.organizer = organizer;
     }
 }

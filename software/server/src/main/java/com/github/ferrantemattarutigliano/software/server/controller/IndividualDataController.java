@@ -4,6 +4,7 @@ package com.github.ferrantemattarutigliano.software.server.controller;
 import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import com.github.ferrantemattarutigliano.software.server.service.SubscriptionService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Null;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -24,7 +27,6 @@ public class IndividualDataController {
 
     @Autowired
     private RequestService requestor;
-
     @Autowired
     private SubscriptionService subscriptor;
 
@@ -32,13 +34,23 @@ public class IndividualDataController {
 // TODO SHOW INDIVIDUAL DATA, SHOW GROUP DATA
 
     @PostMapping(path = "/insert")
-    public String insertData(@RequestBody @CollectionDTO(HealthDataDTO.class) Collection<HealthData> healthData) {
-        return requestor.insertData(healthData);
-    }
+    public String insertData(@RequestBody Set<HealthDataDTO> healthDataDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        Set<HealthData> healthDatac = new HashSet<HealthData>();
+        for (HealthDataDTO data : healthDataDTO) {
+            HealthData healthData = modelMapper.map(data, HealthData.class);
+            Individual individual = requestor.findIndividual(data.getUsername());
+            healthData.setIndividual(individual);
+            healthDatac.add(healthData);
 
+        }
+        for (HealthData data : healthDatac) {
+            System.out.println(healthDatac.iterator().next().getName());
+        }
+        return requestor.insertData(healthDatac);
+    }
     @GetMapping(path = "/individual")
-    public @CollectionDTO(HealthDataDTO.class)
-    Collection<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
+    public Set<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
         return requestor.showIndividualData(individualRequest);
     }
 

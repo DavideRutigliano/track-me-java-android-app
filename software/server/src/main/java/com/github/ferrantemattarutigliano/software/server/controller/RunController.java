@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/Run")
+@RequestMapping(path = "/run")
 public class RunController {
 
     @Autowired

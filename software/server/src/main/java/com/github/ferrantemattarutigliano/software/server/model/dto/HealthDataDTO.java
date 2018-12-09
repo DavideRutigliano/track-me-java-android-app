@@ -21,8 +21,8 @@ public class HealthDataDTO {
     private Date timestamp;
 
 
-    @DTO(IndividualDTO.class)
-    private Individual individual;
+    @NotNull
+    private String username;
 
     public long getId() {
         return id;
@@ -56,11 +56,13 @@ public class HealthDataDTO {
         this.timestamp = timestamp;
     }
 
-    public Individual getIndividual() {
-        return individual;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIndividual(Individual individual) {
-        this.individual = individual;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
+
 }

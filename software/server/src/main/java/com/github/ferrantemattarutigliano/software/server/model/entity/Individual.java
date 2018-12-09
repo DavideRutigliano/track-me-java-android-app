@@ -75,7 +75,7 @@ public class Individual extends User implements Serializable {
         this.birthdate = birthdate;
     }
 
-    public Collection<HealthData> getHealthData() {
+    public Set<HealthData> getHealthData() {
         return healthData;
     }
 
