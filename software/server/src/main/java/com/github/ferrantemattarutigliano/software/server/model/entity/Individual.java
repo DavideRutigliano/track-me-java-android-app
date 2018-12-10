@@ -1,11 +1,18 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"user",
+        "healthData",
+        "createdRuns",
+        "enrolledRuns",
+        "watchedRuns"})
 public class Individual implements Serializable {
 
     @Id
@@ -25,6 +32,9 @@ public class Individual implements Serializable {
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
     private Set<HealthData> healthData;
+
+    @OneToOne(mappedBy = "individual") //references 'individual' attribute on Position class
+    private Position position;
 
     @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
     private Set<Run> createdRuns;

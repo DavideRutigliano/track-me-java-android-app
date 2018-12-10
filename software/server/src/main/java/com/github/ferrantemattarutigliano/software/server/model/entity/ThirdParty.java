@@ -1,12 +1,16 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"user",
+        "individualRequests",
+        "groupRequests"})
 public class ThirdParty implements Serializable {
 
     @Id

@@ -16,14 +16,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/heathdata");
-        //config.enableSimpleBroker("/request");
+        config.enableSimpleBroker("/heathdata", "/request");
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/server");
+        registry.addEndpoint("/server").withSockJS();
     }
 
 }

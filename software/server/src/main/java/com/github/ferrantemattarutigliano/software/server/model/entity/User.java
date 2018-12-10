@@ -16,7 +16,6 @@ import java.util.List;
         "accountNonExpired",
         "accountNonLocked",
         "credentialsNonExpired"})
-
 public class User implements UserDetails {
     @Id
     @GeneratedValue

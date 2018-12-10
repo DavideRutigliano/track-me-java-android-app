@@ -58,7 +58,7 @@ public class AuthenticatorController {
     @GetMapping("/logout")
     public String logout() {
         return "Success!";
-    } //TODO delete "session"
+    }
 
     @GetMapping("/individuals/{username}")
     @ResponseBody

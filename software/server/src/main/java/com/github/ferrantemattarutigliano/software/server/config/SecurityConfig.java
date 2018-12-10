@@ -1,13 +1,18 @@
 package com.github.ferrantemattarutigliano.software.server.config;
 
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
+import com.github.ferrantemattarutigliano.software.server.token.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
+import org.springframework.stereotype.Component;
 
 
 import javax.sql.DataSource;
@@ -22,6 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticatorService authService;
     @Autowired
     private DataSource dataSource;
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
+        TokenAuthenticationFilter authenticationTokenFilter = new TokenAuthenticationFilter();
+        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationTokenFilter;
+    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -39,33 +57,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                .formLogin()
-                .disable()
+                .formLogin().disable()
 
-                .logout()
-                .disable()
+                .logout().disable()
 
-                .exceptionHandling()
-                .and()
+                .httpBasic().disable()
 
-                .requestCache()
-                .requestCache(new NullRequestCache())
-                .and()
+                .anonymous().disable()
 
                 .csrf().disable()
+
+                .exceptionHandling().and()
+
+                .requestCache()
+                .requestCache(new NullRequestCache()).and()
 
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
                 .and()
 
+                .addFilterBefore(tokenAuthenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
+
                 .authorizeRequests()
-                //.antMatchers("/login").permitAll()
-                //.antMatchers("/registration/**").permitAll()
-                //.antMatchers("/individuals/**").hasRole("INDIVIDUAL")
-                //.antMatchers("thirdparties/**").hasRole("THIRD_PARTY")
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration/**").permitAll()
+                .antMatchers("/individuals/**").hasRole("INDIVIDUAL")
+                .antMatchers("/thirdparties/**").hasRole("THIRD_PARTY")
                 .anyRequest()
-                .permitAll(); //NO SECURITY
-        //.authenticated();
+                //.permitAll(); //NO SECURITY
+                .authenticated();
     }
 
 }

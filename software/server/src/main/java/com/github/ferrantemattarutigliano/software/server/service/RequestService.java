@@ -5,14 +5,19 @@ import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDT
 import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
+import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -27,12 +32,29 @@ public class RequestService {
     private IndividualRepository individualRepository;
     @Autowired
     private HealthDataRepository healthDataRepository;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     public String individualRequest(IndividualRequest individualRequest){ //TODO Add subscription topic
 
         String ssn = individualRequest.getSsn();
         if (individualRepository.existsBySsn(ssn)) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            ThirdParty sender = (ThirdParty) authentication.getPrincipal();
+            individualRequest.setThirdParty(sender);
             individualRequestRepository.save(individualRequest);
+
+            Individual receiver = individualRepository.findBySsn(ssn);
+            String username = receiver.getUser().getUsername();
+
+            simpMessagingTemplate
+                    .convertAndSendToUser(username,
+                            "/request/" + username,
+                            "request from: " +
+                                    individualRequest.getThirdParty().getOrganizationName() +
+                                    ", sent: " +
+                                    individualRequest.getTimestamp());
+
             return Message.REQUEST_SUCCESS.toString();
         }
         return Message.REQUEST_INVALID_SSN.toString();

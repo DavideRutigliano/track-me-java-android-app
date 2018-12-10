@@ -52,6 +52,7 @@ public class AuthenticatorService implements UserDetailsService {
         String plaintextPass = individual.getUser().getPassword();
 
         if (!individualAlreadyExists(individual.getUser().getUsername(), individual.getUser().getEmail(), individual.getSsn())
+                && emailIsValid(individual.getUser().getEmail())
                 && validateIndividual(individual)) {
             individual.getUser().setPassword(passwordEncoder().encode(plaintextPass));
             userRepository.save(individual.getUser());
@@ -66,6 +67,7 @@ public class AuthenticatorService implements UserDetailsService {
         String plaintextPass = thirdParty.getUser().getPassword();
 
         if (!thirdPartyAlreadyExists(thirdParty.getUser().getUsername(), thirdParty.getUser().getEmail(), thirdParty.getVat())
+                && emailIsValid(thirdParty.getUser().getEmail())
                 && validateThirdParty(thirdParty)) {
             thirdParty.getUser().setPassword(passwordEncoder().encode(plaintextPass));
             userRepository.save(thirdParty.getUser());
@@ -87,13 +89,7 @@ public class AuthenticatorService implements UserDetailsService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(auth);
 
-        User auhtenticated = (User) auth.getPrincipal();
-
-        if (auth.isAuthenticated()) {
-            user.addRole(auth.getAuthorities().stream().findFirst().get().toString());
-        }
-
-        return auhtenticated;
+        return (User) auth.getPrincipal();
     }
 
     @Transactional(readOnly = true)
@@ -111,9 +107,12 @@ public class AuthenticatorService implements UserDetailsService {
 
             if (individualRepository.existsByUser(user))
                 user.addRole("INDIVIDUAL");
+
             else if (thirdPartyRepository.existsByUser(user))
                 user.addRole("THIRD_PARTY");
-        } else throw new UsernameNotFoundException("Username does not exists");
+
+        } else
+            throw new UsernameNotFoundException("Username does not exists");
 
         user.getAuthorities();
         return user;
@@ -126,8 +125,7 @@ public class AuthenticatorService implements UserDetailsService {
 
     public boolean changeIndividualProfile(Individual individual) {
 
-        if (individualAlreadyExists(individual.getUser().getUsername(), individual.getUser().getEmail(), individual.getSsn())
-                && validateIndividual(individual)) {
+        if (validateIndividual(individual)) {
             individualRepository.save(individual);
             return true;
         }
@@ -141,8 +139,7 @@ public class AuthenticatorService implements UserDetailsService {
 
     public boolean changeThirdPartyProfile(ThirdParty thirdParty) {
 
-        if (thirdPartyAlreadyExists(thirdParty.getUser().getUsername(), thirdParty.getUser().getEmail(), thirdParty.getVat())
-                && validateThirdParty(thirdParty)) {
+        if (validateThirdParty(thirdParty)) {
             thirdPartyRepository.save(thirdParty);
             return true;
         }
@@ -154,10 +151,12 @@ public class AuthenticatorService implements UserDetailsService {
         String oldUsername = user.getUsername();
         String password = user.getPassword();
 
-        if (!userRepository.existsByUsername(newUsername)) {
+        if (userRepository.existsByUsername(oldUsername)
+                && !userRepository.existsByUsername(newUsername)) {
+
             User u = userRepository.findByUsername(oldUsername);
-            if (passwordEncoder().matches(password, user.getPassword())) {
-                user.setUsername(newUsername);
+            if (passwordEncoder().matches(password, u.getPassword())) {
+
                 userRepository.save(user);
                 return true;
             }
@@ -197,16 +196,13 @@ public class AuthenticatorService implements UserDetailsService {
 
     private boolean validateIndividual(Individual individual) {
 
-        return ssnIsValid(individual.getSsn())
-                && emailIsValid(individual.getUser().getEmail().toLowerCase());
+        return ssnIsValid(individual.getSsn());
     }
 
     private boolean validateThirdParty(ThirdParty thirdParty) {
 
-        return vatIsValid(thirdParty.getVat())
-                && emailIsValid(thirdParty.getUser().getEmail().toLowerCase());
+        return vatIsValid(thirdParty.getVat());
     }
-
 
     private boolean match(String regex, String toCompare) {
 
