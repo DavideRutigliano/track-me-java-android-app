@@ -325,7 +325,9 @@ The system is deployed on three different layers: the Client layer, the Server l
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
     \subsubsection{Architecture}
-    In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
+    \begin{description}
+        \item[RESTful Service:] to ensure a better scalability and reliability the best decision is to use a REST architecture. Also performance is an important factor, and this is achieved due to requests following the simple HTTP protocols. Statelessness ensure that is also very simple to add parallel servers and make a distributed network: scalability is improved because the server doesn't have to store the state (no session or sticky session). Clients need to provide every information necessary in each request: the server doesn't have to manage resources across requests.
+    \end{description}
     \begin{description}
         \item[Three Tier Architecture:] as showed previously in this document, the layered architecture pattern allows to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services.
         The overall architecture is structured as a three tier architecture: the \textit{Client Layer}, the \textit{Server Layer} and the \textit{Database Layer}.
@@ -343,7 +345,7 @@ The system is deployed on three different layers: the Client layer, the Server l
         This was done to add \textbf{separation of concerns}: each layer is specialized in a specific activity.
         
         \newpage
-        \item[Model View Presenter (MVP):] in this pattern there are three entities: the \textit{Model} which essentially maintains all the data, the \textit{View} that is responsible of showing the model's data and routes user commands to the presenter, and finally the \textit{Presenter} that is responsible of handling the data access from \textit{Model} and to format it to display in the view.
+        \item[Model View Presenter (MVP):] in this architecture there are three entities: the \textit{Model} which essentially maintains all the data, the \textit{View} that is responsible of showing the model's data and routes user commands to the presenter, and finally the \textit{Presenter} that is responsible of handling the data access from \textit{Model} and to format it to display in the view.
         This architecture is used in the \textit{Client Layer}.
         \begin{figure}[!hb]
             \centering
