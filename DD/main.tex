@@ -159,7 +159,7 @@ The system is deployed on three different layers: the Client layer, the Server l
 \hfill
 \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm,height=45mm]{images/highlevel2.png}
+    	\includegraphics[width=80mm]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
 \newpage
@@ -257,7 +257,7 @@ The system is deployed on three different layers: the Client layer, the Server l
 \end{figure}
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
+    \includegraphics[width=80mm,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
     \caption{AutomatedSos Component Diagram}
     \label{fig:component_automatedsos}
 \end{figure}
@@ -361,9 +361,10 @@ The system is deployed on three different layers: the Client layer, the Server l
         \caption{Pub/Sub Pattern}
         \label{fig:pubsub}
     \end{figure}
+    
     This is necessary for performance reasons: \textit{TrackMe} is a data-intensive real-time system, so \textit{polling} is not a viable strategy in this case.
     \textit{WebSockets} are clearly the best solution and this is why this pattern shall be used.\\
-    Suppose a scenario where a Third Party wants to subscribe to the data of an Individual named Pippo. When Pippo registers to the application, \textit{TrackMe} creates a \textit{topic} associated with him. The Third Party becomes a subscriber of that topic: every time Pippo (Publisher) upload his data, the associated topic is updated and all Third Parties subscribed to him (Subscriber) are notified. 
+    Suppose a scenario where a Third Party wants to subscribe to the data of an Individual named Pippo. When Pippo registers to the application, \textit{TrackMe} creates a \textit{topic} associated with him. The Third Party becomes a subscriber of that topic: every time Pippo (Publisher) upload his data, the associated topic is updated and all Third Parties subscribed to him (Subscriber) are notified.
     \end{description}
 
 \subsection{Other Design Decisions}
