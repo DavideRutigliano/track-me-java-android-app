@@ -19,6 +19,7 @@
 \include{frontpage}
 \pagenumbering{roman}
 \tableofcontents
+\listoffigures
 \rfoot{\includegraphics[width=30mm]{Images/trackme-logo-mini.png}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -285,8 +286,8 @@ The system is deployed on three different layers: the Client layer, the Server l
 \subsection{Class Diagram}
 \begin{figure}[!htpb]
     \centering
-    \advance\leftskip-3cm
-    \includegraphics[width=1.5\textwidth,keepaspectratio]{DD/images/UML/ClassDiagram.jpg}
+    \advance\leftskip-3.3cm
+    \includegraphics[width=1.6\textwidth,keepaspectratio]{DD/images/UML/ClassDiagram.jpg}
     \caption{Class Diagram}
     \label{fig:class_diagram}
 \end{figure} 
@@ -295,6 +296,7 @@ The system is deployed on three different layers: the Client layer, the Server l
     \centering
     \advance\leftskip-0.3cm
     \includegraphics[width=1.1\textwidth,keepaspectratio]{DD/images/UML/ClassDiagram1.jpg}
+    \caption{Class Diagram (Entities)}
     \label{fig:class_diagram_entities}
 \end{figure} 
     
@@ -340,7 +342,7 @@ The system is deployed on three different layers: the Client layer, the Server l
 \subsection{Selected Architectural Styles and Patterns}
     \subsubsection{Architecture}
     \begin{description}
-        \item[RESTful Service:] to ensure a better scalability and reliability the best decision is to use a REST architecture. Also performance is an important factor, and this is achieved due to requests following the simple HTTP protocols. Statelessness ensure that is also very simple to add parallel servers and make a distributed network: scalability is improved because the server doesn't have to store the state (no session or sticky session). Clients need to provide every information necessary in each request: the server doesn't have to manage resources across requests.
+        \item[RESTful Service:] to ensure a better scalability and reliability the best decision is to use a REST architecture \cite{archroyfielding}. Also performance is an important factor, and this is achieved due to requests following the simple HTTP protocols. Statelessness ensure that is also very simple to add parallel servers and make a distributed network: scalability is improved because the server doesn't have to store the state (no session or sticky session). Clients need to provide every information necessary in each request: the server doesn't have to manage resources across requests.
     \end{description}
     \begin{description}
         \item[Three Tier Architecture:] as showed previously in this document, the layered architecture pattern allows to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services.
