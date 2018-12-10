@@ -176,9 +176,6 @@ The system is deployed on three different layers: the Client layer, the Server l
     
     \paragraph{Automated-Sos Controller:}
     allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
-    
-    \paragraph{Position Controller:}
-    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
 
     \paragraph{Run Controller:}
     handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
@@ -187,12 +184,12 @@ The system is deployed on three different layers: the Client layer, the Server l
 
     \paragraph{Authenticator Service:}
     handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
+    
+    \paragraph{IndividualData Service:}
+    is the first core component of \textit{Data4Help} logic, it handles all Individual's health data and positions.
 
     \paragraph{Request Service:}
-    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
-    
-    \paragraph{Subscription Service:}
-    allows third parties to receive Individual's data as soon they are produced and is in charge of synchronization with new data.
+    is the second core component of \textit{Data4Help} logic, it handles all the requests coming from the Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
     
     \paragraph{Automated-Sos Service:}
     monitors Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
@@ -204,6 +201,9 @@ The system is deployed on three different layers: the Client layer, the Server l
         
     \paragraph{Health Data Repository:}
     saves and get individuals' health data from the database.
+    
+    \paragraph{Position Repository:}
+    saves and get individuals' position from the database.
     
     \paragraph{Individual Repository:}
     saves and get individuals' data from the database.
@@ -452,30 +452,29 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{1}{A customer not signed-on must be able to begin the Individual's registration process to TrackMe providing a username, a password and its organization data.}
     {Authenticator Controller}
     {Authenticator Service}
+    {User Repository}
     {Individual Repository}
      
      \con{2}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
      {Authenticator Controller}
      {Authenticator Service}
+     {User Repository}
      {Third Party Repository}
     
      \con{3}{The system must provide a log-in interface for already registered users, not previously signed into the application.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{4}{TrackMe must provide to users the possibility to change their username.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{5}{TrackMe must provide to registered users the possibility to change their password.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{6}{The system must provide the possibility to the user of logging out.}
      {Authenticator Controller}
@@ -506,12 +505,11 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{11}{The system must be able to anonymize users' requested data.}
      {Request Controller}
      {Request Service}
-     {Individual Repository}
+     {Health Data Repository}
      {Group Request Repository}
      
      \con{12}{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
-     {Individual Request Controller}
-     {Individual Request Service}
+     {Request Controller}
      {Request Service}
      {Individual Request Repository}
      {Group Request Repository}
@@ -519,7 +517,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 
      \con{13}{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
      {Request Controller}
-     {Subscription Service}
+     {Request Service}
      {Individual Request Repository}
      {Group Request Repository}
      {Health Data Repository}
@@ -546,37 +544,36 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Provisioning Repository}
+     {Third Party Repository}
+     {Dispatcher Repository}
      
      \con{19}{The system must be able to assign an ambulance dispatcher to the SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Provisioning Repository}
      {Dispatcher Repository}
      
      \con{20}{The system must allow the Individual to activate Automated-SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Third Party Repository}
      
      \con{21}{The system should allow the Individual to choose between third parties who has enabled the service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Individual Repository}
+     {Third Party Repository}
      
      \con{22}{The system must be able to get the Individual position.}
      {Sos Controller}
      {Sos Service}
      {Individual Repository}
+     {Position Repository}
      
      \con{23}{The system must be able to send the position to the nearest ambulance.}
      {Sos Controller}
      {Sos Service}
-     {Individual Repository}
      {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Individual Repository}
      {Dispatcher Repository}
      
      \con{24}{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
@@ -601,21 +598,18 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Run Controller}
      {Run Service}
      {Run Repository}
-     {Enroll Repository}
      
      \con{29}{Track4Run must allow the Athlete to unroll a run.}
      {Run Controller}
      {Run Service}
-     {Enroll Repository}
+     {Run Repository}
      
      \con{30}{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
-     {Position Controller}
+     {Run Controller}
      {Run Service}
      {Run Repository}
+     {Position Repository}
      {Individual Repository}
-     {Watch Repository}
-     {Run Repository}
-
      
 \end{description}
 
