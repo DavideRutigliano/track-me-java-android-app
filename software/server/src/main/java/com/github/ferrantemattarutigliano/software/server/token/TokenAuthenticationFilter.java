@@ -5,8 +5,12 @@ import com.github.ferrantemattarutigliano.software.server.config.ContentCacheReq
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.*;
@@ -25,7 +29,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException {
+            throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -34,28 +38,26 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 ? (httpRequest.getServletPath())
                 : (httpRequest.getPathInfo() + httpRequest.getServletPath());
 
-        if (!currentLink.equals("/error")                               /*  Do not check  */
-                && !currentLink.equals("/registration/individual")      /*  X-Auth-Token  */
-                && !currentLink.equals("/registration/thirdparty")) {   /* for these url  */
 
-            if (currentLink.equals("/login")) {
+        if (currentLink.equals("/login")) {
 
-                requestWrapper = new ContentCacheRequestWrapper(httpRequest); /* cache login request */
-                doLogin(requestWrapper, httpResponse);                        /* content in order to */
-                requestWrapper.resetInputStream();                            /* get the body twice. */
-            } else if (currentLink.equals("/logout")) {
+            requestWrapper = new ContentCacheRequestWrapper(httpRequest);
+            doLogin(requestWrapper, httpResponse);
+            requestWrapper.resetInputStream();
+        } else if (!currentLink.equals("/registration/individual")
+                && !currentLink.equals("/registration/thirdparty")) {
 
+            checkLogin(httpRequest, httpResponse);
+
+            if (currentLink.equals("/logout"))
                 doLogout(httpRequest);
-            } else checkLogin(httpRequest, httpResponse);
         }
 
-        /* Forward request to controllers and end the filters chain */
-        final RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher(currentLink);
+        if (!currentLink.equals("/error")
+                && httpResponse.getStatus() != HttpServletResponse.SC_UNAUTHORIZED) {
 
-        try {
+            final RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher(currentLink);
             requestDispatcher.forward((requestWrapper == null) ? httpRequest : requestWrapper, httpResponse);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -66,15 +68,15 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
             String requestBody = extractPostRequestBody(httpRequest);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            User user = (User) objectMapper.readValue(requestBody, User.class);
+            User user = objectMapper.readValue(requestBody, User.class);
 
             String username = user.getUsername();
             String password = user.getPassword();
 
             if (username != null && !username.isEmpty())
                 tokenUtils.addHeader(httpResponse, username, password);
-        }
 
+        }
     }
 
     private static String extractPostRequestBody(HttpServletRequest request) {
@@ -90,27 +92,41 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     private void checkLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
 
-        String tokenInfo = tokenUtils.getUsernameAndPassFromToken(httpRequest);
-        String[] login = tokenInfo.split(":");
-        String username = login[0];
-        String password = login[1];
+        String[] login = tokenUtils.getUsernameAndPassFromToken(httpRequest);
 
-        if (username != null && !username.isEmpty()) {
-
+        if (login != null) {
+            String username = login[0];
+            String password = login[1];
             checkUsernameAndPassword(username, password, httpResponse);
+        } else {
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
     }
 
     private void checkUsernameAndPassword(String username, String password, HttpServletResponse httpResponse) throws IOException {
 
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authService.authenticationProvider().authenticate(authReq);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication;
 
-        if (authentication.isAuthenticated()) {
-            tokenUtils.addHeader(httpResponse, username, password);
-        } else {
+        if (authReq != null) {
+
+            try {
+                authentication = authService.authenticationProvider().authenticate(authReq);
+            } catch (UsernameNotFoundException | BadCredentialsException e) {
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            if (authentication.isAuthenticated()) {
+                tokenUtils.addHeader(httpResponse, username, password);
+                securityContext.setAuthentication(authentication);
+            } else {
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } else
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        }
     }
 
     private void doLogout(HttpServletRequest httpRequest) {

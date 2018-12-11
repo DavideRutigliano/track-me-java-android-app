@@ -8,6 +8,7 @@ import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyR
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,12 +83,20 @@ public class AuthenticatorService implements UserDetailsService {
 
         String username = user.getUsername();
         String password = user.getPassword();
+        SecurityContext securityContext = SecurityContextHolder.getContext();
 
         UsernamePasswordAuthenticationToken authReq =
                 new UsernamePasswordAuthenticationToken(username, password);
 
-        Authentication auth = authenticationProvider().authenticate(authReq);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        Authentication auth;
+
+        try {
+            auth = authenticationProvider().authenticate(authReq);
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
+            return null;
+        }
+
         securityContext.setAuthentication(auth);
 
         return (User) auth.getPrincipal();
@@ -119,8 +129,13 @@ public class AuthenticatorService implements UserDetailsService {
     }
 
     public Individual getIndividualProfile(String username) {
+
         User user = userRepository.findByUsername(username);
-        return individualRepository.findByUser(user);
+        User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authenticated.getUsername().equals(username))
+            return individualRepository.findByUser(user);
+        else return null;
     }
 
     public boolean changeIndividualProfile(Individual individual) {
@@ -134,7 +149,10 @@ public class AuthenticatorService implements UserDetailsService {
 
     public ThirdParty getThirdPartyProfile(String username) {
         User user = userRepository.findByUsername(username);
-        return thirdPartyRepository.findByUser(user);
+        User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (authenticated.getUsername().equals(username))
+            return thirdPartyRepository.findByUser(user);
+        else return null;
     }
 
     public boolean changeThirdPartyProfile(ThirdParty thirdParty) {

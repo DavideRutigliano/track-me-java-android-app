@@ -21,7 +21,10 @@ public class ContentCacheRequestWrapper extends HttpServletRequestWrapper {
     }
 
     public void resetInputStream() {
-        servletStream.stream = new ByteArrayInputStream(rawData);
+        try {
+            servletStream.stream = new ByteArrayInputStream(rawData);
+        } catch (NullPointerException e) {
+        }
     }
 
     @Override

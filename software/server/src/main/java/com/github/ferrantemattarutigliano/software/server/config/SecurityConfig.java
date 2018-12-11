@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
-import org.springframework.stereotype.Component;
 
 
 import javax.sql.DataSource;
@@ -76,8 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(STATELESS)
                 .and()
 
-                .addFilterBefore(tokenAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()

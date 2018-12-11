@@ -27,15 +27,21 @@ public class TokenUtils {
         tokenService.setSecureRandom(new SecureRandom());
     }
 
-    public String getUsernameAndPassFromToken(HttpServletRequest request) {
+    public String[] getUsernameAndPassFromToken(HttpServletRequest request) {
         String header = request.getHeader(HEADER_SECURITY_TOKEN);
-        return (header == null || header.isEmpty()) ? "" : extractUserNameAndPassword(header);
+        return (header == null || header.isEmpty()) ? null : extractUserNameAndPassword(header);
     }
 
-    private String extractUserNameAndPassword(String value) {
-        Token token = tokenService.verifyToken(value);
-        String[] login = token.getExtendedInformation().split(":");
-        return login[0] + ":" + login[1];
+    private String[] extractUserNameAndPassword(String value) {
+
+        Token token = null;
+        try {
+            token = tokenService.verifyToken(value);
+        } catch (Exception e) {
+            return null;
+        }
+
+        return token.getExtendedInformation().split(":");
     }
 
     public void addHeader(HttpServletResponse response, String username, String password) {
