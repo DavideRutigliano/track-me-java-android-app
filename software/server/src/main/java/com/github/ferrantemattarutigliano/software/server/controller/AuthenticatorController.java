@@ -9,8 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 @RestController
 public class AuthenticatorController {
 
@@ -27,9 +25,7 @@ public class AuthenticatorController {
 
         individual.setUser(user);
 
-        if (authenticatorService.individualRegistration(individual))
-            return "Success!";
-        else return "Oops, something went wrong.";
+        return authenticatorService.individualRegistration(individual);
     }
 
     @PostMapping("/registration/thirdparty")
@@ -42,9 +38,7 @@ public class AuthenticatorController {
 
         thirdParty.setUser(user);
 
-        if (authenticatorService.thirdPartyRegistration(thirdParty))
-            return "Success!";
-        else return "Oops, something went wrong.";
+        return authenticatorService.thirdPartyRegistration(thirdParty);
     }
 
     @PostMapping("/login")
@@ -72,9 +66,7 @@ public class AuthenticatorController {
     public String changeIndividualProfile(@PathVariable String username,
                                           @RequestBody @DTO(IndividualDTO.class) Individual individual) {
 
-        if (authenticatorService.changeIndividualProfile(individual))
-            return "Success!";
-        else return "Oops, user does not exists.";
+        return authenticatorService.changeIndividualProfile(username, individual);
     }
 
     @GetMapping("/thirdparties/{username}")
@@ -89,28 +81,21 @@ public class AuthenticatorController {
     public String changeThirdPartyProfile(@PathVariable String username,
                                           @RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
 
-        if (authenticatorService.changeThirdPartyProfile(thirdParty))
-            return "Success!";
-        else return "Oops, user does not exists.";
+        return authenticatorService.changeThirdPartyProfile(username, thirdParty);
     }
 
     @PutMapping("/changeusername/{username}")
     public String changeUsername(@PathVariable("username") String username,
-                                 @RequestBody @DTO(UserDTO.class) User user) {
+                                 @RequestBody String newUsername) {
 
-        if (authenticatorService.changeUsername(user, username))
-            return "Success!";
-        else return "Oops, something went wrong";
+        return authenticatorService.changeUsername(username, newUsername);
     }
 
     @PutMapping("/changepassword/{username}")
     public String changePassword(@PathVariable("username") String username,
-                                 @RequestBody @DTO(UserDTO.class) User user,
-                                 String password) {
+                                 @RequestBody String password) {
 
-        if (authenticatorService.changePassword(user, password))
-            return "Success!";
-        else return "Oops, something went wrong";
+        return authenticatorService.changePassword(username, password);
     }
 
 }

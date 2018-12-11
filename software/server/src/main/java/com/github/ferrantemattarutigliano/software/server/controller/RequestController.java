@@ -73,7 +73,6 @@ public class RequestController {
                                 @PathVariable("id") Long id,
                                 Boolean accepted) {
 
-        requestService.handleRequest(id, accepted);
-        return "Success!";
+        return requestService.handleRequest(id, accepted);
     }
 }

@@ -1,15 +1,10 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
-import com.github.ferrantemattarutigliano.software.server.message.Message;
-import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,32 +28,37 @@ public class RequestService {
 
     public String individualRequest(IndividualRequest individualRequest){ //TODO Add subscription topic
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
         String ssn = individualRequest.getSsn();
-        if (individualRepository.existsBySsn(ssn)) {
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = (User) authentication.getPrincipal();
-
-            ThirdParty sender = thirdPartysRepository.findByUser(user);
-
-            individualRequest.setThirdParty(sender);
-            individualRequestRepository.save(individualRequest);
-
-            Individual receiver = individualRepository.findBySsn(ssn);
-            String username = receiver.getUser().getUsername();
-            simpMessagingTemplate.setUserDestinationPrefix(username);
-
-            simpMessagingTemplate
-                    .convertAndSendToUser(username,
-                            "/request/",
-                            "request from: " +
-                                    individualRequest.getThirdParty().getOrganizationName() +
-                                    ", sent: " +
-                                    individualRequest.getTimestamp());
-
-            return Message.REQUEST_SUCCESS.toString();
+        if (user == null || !thirdPartysRepository.existsByUser(user)) {
+            return Message.BAD_REQUEST.toString();
         }
-        return Message.REQUEST_INVALID_SSN.toString();
+
+        ThirdParty sender = thirdPartysRepository.findByUser(user);
+
+        if (!individualRepository.existsBySsn(ssn)) {
+            return Message.REQUEST_INVALID_SSN.toString();
+        }
+
+        individualRequest.setThirdParty(sender);
+        individualRequestRepository.save(individualRequest);
+
+        Individual receiver = individualRepository.findBySsn(ssn);
+        String username = receiver.getUser().getUsername();
+
+        simpMessagingTemplate.setUserDestinationPrefix(username);
+        simpMessagingTemplate
+                .convertAndSendToUser(username,
+                        "/request/",
+                        "request from: " +
+                                individualRequest.getThirdParty().getOrganizationName() +
+                                ", sent: " +
+                                individualRequest.getTimestamp());
+
+        return Message.REQUEST_SUCCESS.toString();
     }
 
     public String groupRequest(GroupRequest groupRequest){ //TODO Add subscription topic
@@ -83,9 +83,11 @@ public class RequestService {
         return individualRequestRepository.findBySsn(ssn);
     }
 
-    public boolean handleRequest(Long id, boolean accepted) {
-
-        return individualRequestRepository.handleRequest(id, accepted);
+    public String handleRequest(Long id, boolean accepted) {
+        if (individualRequestRepository.handleRequest(id, accepted)) {
+            return Message.REQUEST_ACCEPTED.toString();
+        }
+        return Message.REQUEST_REJECTED.toString();
     }
 
 

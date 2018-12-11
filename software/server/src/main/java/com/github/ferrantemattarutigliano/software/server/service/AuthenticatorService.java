@@ -1,5 +1,7 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
+import com.github.ferrantemattarutigliano.software.server.constant.Message;
+import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
@@ -22,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,34 +50,54 @@ public class AuthenticatorService implements UserDetailsService {
         return new BCryptPasswordEncoder(12);
     }
 
-    public boolean individualRegistration(Individual individual) {
+    public String individualRegistration(Individual individual) {
 
         String plaintextPass = individual.getUser().getPassword();
 
-        if (!individualAlreadyExists(individual.getUser().getUsername(), individual.getUser().getEmail(), individual.getSsn())
-                && emailIsValid(individual.getUser().getEmail())
-                && validateIndividual(individual)) {
-            individual.getUser().setPassword(passwordEncoder().encode(plaintextPass));
-            userRepository.save(individual.getUser());
-            individualRepository.save(individual);
-            return true;
+        if (individualAlreadyExists(individual.getUser().getUsername(),
+                individual.getUser().getEmail(),
+                individual.getSsn())) {
+            return Message.INDIVIDUAL_ALREADY_EXISTS.toString();
         }
-        else return false;
+
+        if (!emailIsValid(individual.getUser().getEmail())) {
+            return Message.INVALID_EMAIL.toString();
+        }
+
+        if (!validateIndividual(individual)) {
+            return Message.BAD_PARAMETERS.toString();
+        }
+
+        individual.getUser().setPassword(passwordEncoder().encode(plaintextPass));
+        userRepository.save(individual.getUser());
+        individualRepository.save(individual);
+
+        return Message.REGISTRATION_SUCCESS.toString();
     }
 
-    public boolean thirdPartyRegistration(ThirdParty thirdParty) {
+    public String thirdPartyRegistration(ThirdParty thirdParty) {
 
         String plaintextPass = thirdParty.getUser().getPassword();
 
-        if (!thirdPartyAlreadyExists(thirdParty.getUser().getUsername(), thirdParty.getUser().getEmail(), thirdParty.getVat())
-                && emailIsValid(thirdParty.getUser().getEmail())
-                && validateThirdParty(thirdParty)) {
-            thirdParty.getUser().setPassword(passwordEncoder().encode(plaintextPass));
-            userRepository.save(thirdParty.getUser());
-            thirdPartyRepository.save(thirdParty);
-            return true;
+        if (thirdPartyAlreadyExists(thirdParty.getUser().getUsername(),
+                thirdParty.getUser().getEmail(),
+                thirdParty.getVat())) {
+            return Message.THIRD_PARTY_ALREADY_EXISTS.toString();
         }
-        else return false;
+
+        if (!emailIsValid(thirdParty.getUser().getEmail())) {
+            return Message.INVALID_EMAIL.toString();
+        }
+
+        if (!validateThirdParty(thirdParty)) {
+            return Message.BAD_PARAMETERS.toString();
+        }
+
+        thirdParty.getUser().setPassword(passwordEncoder().encode(plaintextPass));
+        userRepository.save(thirdParty.getUser());
+        thirdPartyRepository.save(thirdParty);
+
+        return Message.REGISTRATION_SUCCESS.toString();
     }
 
     public User login(User user) {
@@ -107,7 +128,7 @@ public class AuthenticatorService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
         if (username == null || username.isEmpty())
-            throw new UsernameNotFoundException("Username is empty");
+            throw new UsernameNotFoundException(Message.USERNAME_IS_EMPTY.toString());
 
         final User user;
 
@@ -116,86 +137,166 @@ public class AuthenticatorService implements UserDetailsService {
             user = userRepository.findByUsername(username);
 
             if (individualRepository.existsByUser(user))
-                user.addRole("INDIVIDUAL");
+                user.addRole(Role.ROLE_INDIVIDUAL.toString());
 
             else if (thirdPartyRepository.existsByUser(user))
-                user.addRole("THIRD_PARTY");
-
+                user.addRole(Role.ROLE_THIRD_PARTY.toString());
         } else
-            throw new UsernameNotFoundException("Username does not exists");
+            throw new UsernameNotFoundException(Message.USERNAME_DO_NOT_EXISTS.toString());
 
         user.getAuthorities();
+
         return user;
     }
 
     public Individual getIndividualProfile(String username) {
 
-        User user = userRepository.findByUsername(username);
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (authenticated.getUsername().equals(username))
-            return individualRepository.findByUser(user);
+        if (authenticated != null
+                && authenticated.getUsername().equals(username))
+            return individualRepository.findByUser(authenticated);
         else return null;
     }
 
-    public boolean changeIndividualProfile(Individual individual) {
+    public String changeIndividualProfile(String username, Individual individual) {
 
-        if (validateIndividual(individual)) {
-            individualRepository.save(individual);
-            return true;
+        User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authenticated == null) {
+            return Message.BAD_LOGIN.toString();
         }
-        else return false;
+
+        if (!authenticated.getUsername().equals(username)) {
+            return Message.BAD_REQUEST.toString();
+        }
+
+        if (!validateIndividual(individual)) {
+            return Message.BAD_PARAMETERS.toString();
+        }
+
+        if (!individualRepository.existsBySsn(individual.getSsn())) {
+            return Message.BAD_SSN_UPDATE.toString() + individualRepository.findByUser(authenticated).getSsn();
+        }
+
+        Individual i = individualRepository.findBySsn(individual.getSsn());
+
+        if (individual.getFirstname() != null
+                && !i.getFirstname().equals(individual.getFirstname())) {
+
+            i.setFirstname(individual.getFirstname());
+        }
+
+        if (individual.getLastname() != null
+                && !i.getLastname().equals(individual.getLastname())) {
+
+            i.setLastname(individual.getLastname());
+        }
+
+        if (individual.getBirthdate() != null
+                && !i.getBirthdate().equals(individual.getBirthdate())) {
+
+            i.setBirthdate(individual.getBirthdate());
+        }
+
+        individualRepository.save(i);
+
+        return Message.CHANGE_PROFILE_SUCCESS.toString();
     }
 
     public ThirdParty getThirdPartyProfile(String username) {
-        User user = userRepository.findByUsername(username);
+
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticated.getUsername().equals(username))
-            return thirdPartyRepository.findByUser(user);
+
+        if (authenticated != null
+                && authenticated.getUsername().equals(username))
+            return thirdPartyRepository.findByUser(authenticated);
         else return null;
     }
 
-    public boolean changeThirdPartyProfile(ThirdParty thirdParty) {
+    public String changeThirdPartyProfile(String username, ThirdParty thirdParty) {
+
+        User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authenticated != null) {
+            return Message.BAD_LOGIN.toString();
+        }
+
+        if (authenticated.getUsername().equals(username)) {
+            return Message.BAD_REQUEST.toString();
+        }
 
         if (validateThirdParty(thirdParty)) {
-            thirdPartyRepository.save(thirdParty);
-            return true;
+            return Message.BAD_PARAMETERS.toString();
         }
-        else return false;
+
+        if (thirdPartyRepository.existsByVat(thirdParty.getVat())) {
+            return Message.BAD_VAT_UPDATE.toString() + thirdPartyRepository.findByUser(authenticated).getVat();
+        }
+
+        ThirdParty tp = thirdPartyRepository.findByVat(thirdParty.getVat());
+
+        if (tp != null
+                && thirdParty.getOrganizationName() != null
+                && !tp.getOrganizationName().equals(thirdParty.getOrganizationName())) {
+
+            tp.setOrganizationName(thirdParty.getOrganizationName());
+        }
+
+        thirdPartyRepository.save(tp);
+
+        return Message.CHANGE_PROFILE_SUCCESS.toString();
     }
 
-    public boolean changeUsername(User user, String newUsername) {
+    public String changeUsername(String oldUsername, String newUsername) {
 
-        String oldUsername = user.getUsername();
-        String password = user.getPassword();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (userRepository.existsByUsername(oldUsername)
-                && !userRepository.existsByUsername(newUsername)) {
-
-            User u = userRepository.findByUsername(oldUsername);
-            if (passwordEncoder().matches(password, u.getPassword())) {
-
-                userRepository.save(user);
-                return true;
-            }
+        if (user != null) {
+            return Message.BAD_LOGIN.toString();
         }
-        return false;
+
+        if (user.getUsername().equals(oldUsername)) {
+            return Message.BAD_REQUEST.toString();
+        }
+
+        if (!userRepository.existsByUsername(newUsername)) {
+            return Message.USERNAME_ALREADY_EXISTS.toString() + newUsername;
+
+        }
+
+        if (individualRepository.existsByUser(user)) {
+            Individual individual = individualRepository.findByUser(user);
+            user.setUsername(newUsername);
+            userRepository.save(user);
+            individual.setUser(user);
+            individualRepository.save(individual);
+        } else if (thirdPartyRepository.existsByUser(user)) {
+            ThirdParty thirdParty = thirdPartyRepository.findByUser(user);
+            user.setUsername(newUsername);
+            userRepository.save(user);
+            thirdParty.setUser(user);
+            individualRepository.save(thirdParty);
+        }
+        return Message.CHANGE_USERNAME_SUCCESS.toString() + newUsername;
     }
 
-    public boolean changePassword(User user, String newPassword) {
+    public String changePassword(String username, String newPassword) {
 
-        String username = user.getUsername();
-        String oldPassword = user.getPassword();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (userRepository.existsByUsername(username)) {
-            User u = userRepository.findByUsername(username);
-            if (passwordEncoder().matches(oldPassword, u.getPassword())) {
-                u.setPassword(newPassword);
-                userRepository.save(u);
-                return true;
-            }
+        if (user != null) {
+            return Message.BAD_LOGIN.toString();
         }
-        return false;
+
+        if (user.getUsername().equals(username)) {
+            return Message.BAD_REQUEST.toString();
+        }
+
+        user.setPassword(passwordEncoder().encode(newPassword));
+        userRepository.save(user);
+
+        return Message.CHANGE_PASSWORD_SUCCESS.toString();
     }
 
     private boolean individualAlreadyExists(String username, String email, String ssn) {
@@ -246,6 +347,3 @@ public class AuthenticatorService implements UserDetailsService {
         return match("[0-9]{11}", vat);
     }
 }
-
-
-

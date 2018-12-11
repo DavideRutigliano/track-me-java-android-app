@@ -34,7 +34,7 @@ public class TokenUtils {
 
     private String[] extractUserNameAndPassword(String value) {
 
-        Token token = null;
+        Token token;
         try {
             token = tokenService.verifyToken(value);
         } catch (Exception e) {
@@ -42,6 +42,17 @@ public class TokenUtils {
         }
 
         return token.getExtendedInformation().split(":");
+    }
+
+    public Long getTokenCreationTime(HttpServletRequest request) {
+        String header = request.getHeader(HEADER_SECURITY_TOKEN);
+        Token token = null;
+        try {
+            token = tokenService.verifyToken(header);
+        } catch (Exception e) {
+            return Long.parseLong("0");
+        }
+        return token.getKeyCreationTime();
     }
 
     public void addHeader(HttpServletResponse response, String username, String password) {
@@ -54,8 +65,8 @@ public class TokenUtils {
         return token.getKey();
     }
 
-    public void deleteToken(HttpServletRequest httpRequest) {
-        httpRequest.setAttribute(HEADER_SECURITY_TOKEN, "");
+    public void deleteToken(HttpServletResponse httpResponse) {
+        httpResponse.setHeader(HEADER_SECURITY_TOKEN, "");
     }
 
 }

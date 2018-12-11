@@ -50,7 +50,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
             checkLogin(httpRequest, httpResponse);
 
             if (currentLink.equals("/logout"))
-                doLogout(httpRequest);
+                doLogout(httpResponse);
         }
 
         if (!currentLink.equals("/error")
@@ -93,11 +93,18 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
     private void checkLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
 
         String[] login = tokenUtils.getUsernameAndPassFromToken(httpRequest);
+        Long creationTime = tokenUtils.getTokenCreationTime(httpRequest);
 
         if (login != null) {
             String username = login[0];
             String password = login[1];
-            checkUsernameAndPassword(username, password, httpResponse);
+            Long now = System.currentTimeMillis();
+
+            if (now - creationTime < 1800000) //Token valid half an hour
+                checkUsernameAndPassword(username, password, httpResponse);
+            else {
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         } else {
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
@@ -129,7 +136,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-    private void doLogout(HttpServletRequest httpRequest) {
-        tokenUtils.deleteToken(httpRequest);
+    private void doLogout(HttpServletResponse httpResponse) {
+        tokenUtils.deleteToken(httpResponse);
     }
 }

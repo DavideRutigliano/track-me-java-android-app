@@ -22,6 +22,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private String USERS_QUERY = "SELECT username, password, 1 FROM user WHERE username = ?";
+    private String AUTH_QUERY = "SELECT userId, 'ROLE_INDIVIDUAL' FROM individual" +
+            " UNION " +
+            "SELECT userId, 'ROLE_THIRD_PARTY' FROM thirdParty" +
+            "WHERE userId =" +
+            "(SELECT id FROM user WHERE username = ?)";
     @Autowired
     private AuthenticatorService authService;
     @Autowired
@@ -50,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationProvider(authService.authenticationProvider())
                 .jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username, password, 1 FROM user WHERE username = ?");
+                .usersByUsernameQuery(USERS_QUERY)
+                .authoritiesByUsernameQuery(AUTH_QUERY);
     }
 
     @Override
