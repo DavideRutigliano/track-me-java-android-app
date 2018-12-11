@@ -8,6 +8,7 @@
     <string name="text_subscribe">Subscribe</string>
     <string name="text_motivation">Motivation (Optional)</string>
     <string name="text_confirm">Confirm</string>
+    <string name="text_logging_out">Logging out...</string>
     <string name="text_view_old_requests">View Old Requests</string>
     <string name="text_no_request_received">No request received yet!</string>
     <string name="text_not_implemented">Not Implemented :(</string>

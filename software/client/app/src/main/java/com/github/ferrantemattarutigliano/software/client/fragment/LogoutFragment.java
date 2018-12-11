@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.LoginActivity;
 
 public class LogoutFragment extends Fragment {
@@ -15,8 +16,6 @@ public class LogoutFragment extends Fragment {
     public LogoutFragment() {
         // Required empty public constructor
     }
-
-    //todo implement real logout
 
     public static LogoutFragment newInstance() {
         LogoutFragment fragment = new LogoutFragment();
@@ -34,7 +33,7 @@ public class LogoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(null, container, false);
+        return inflater.inflate(R.layout.fragment_logout, container, false);
     }
 
 }

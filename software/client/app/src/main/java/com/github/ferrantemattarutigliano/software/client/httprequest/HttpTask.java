@@ -115,6 +115,9 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
 
     @Override
     protected void onPostExecute(O o) {
+        if(asyncResponse == null)
+            throw new RuntimeException(Information.ASYNC_RESPONSE_NOT_FOUND.toString());
+
         try {
             switch (resultType){
                 case RUNTIME_FAIL:
@@ -134,7 +137,8 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             }
         }
         catch (NullPointerException e){
-            throw new RuntimeException(Information.ASYNC_RESPONSE_NOT_FOUND.toString());
+            e.fillInStackTrace();
+            Log.e("NULL_POINTER_EX", e.getMessage());
         }
     }
 

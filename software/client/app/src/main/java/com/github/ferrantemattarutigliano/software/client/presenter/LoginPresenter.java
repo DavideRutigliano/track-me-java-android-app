@@ -16,7 +16,8 @@ public class LoginPresenter extends Presenter<LoginView>{
         new LoginTask(user, new AsyncResponse<UserDTO>() {
             @Override
             public void taskFinish(UserDTO output) {
-                view.onLoginSuccess(output);
+                if(output != null) view.onLoginSuccess(output);
+                view.onLoginFail("Bad credentials");
             }
 
             @Override
