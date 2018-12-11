@@ -1,15 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
-import com.github.ferrantemattarutigliano.software.server.message.Message;
-import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
-import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
-import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
-import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRequestRepository;
+import com.github.ferrantemattarutigliano.software.server.constant.Message;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
+import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
