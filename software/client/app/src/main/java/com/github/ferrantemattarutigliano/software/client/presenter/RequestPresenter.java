@@ -7,23 +7,21 @@ import com.github.ferrantemattarutigliano.software.client.task.thirdParty.GroupR
 import com.github.ferrantemattarutigliano.software.client.task.thirdParty.IndividualRequestTask;
 import com.github.ferrantemattarutigliano.software.client.view.RequestView;
 
-public class RequestPresenter {
-    private RequestView requestView;
-
-    public RequestPresenter(RequestView requestView) {
-        this.requestView = requestView;
+public class RequestPresenter extends Presenter<RequestView>{
+    public RequestPresenter(RequestView view) {
+        super(view);
     }
 
     public void doIndividualRequest(IndividualRequestDTO individualRequestDTO){
         new IndividualRequestTask(individualRequestDTO, new AsyncResponse<String>() {
             @Override
             public void taskFinish(String output) {
-                requestView.onRequestSuccess(output);
+                view.onRequestSuccess(output);
             }
 
             @Override
             public void taskFailMessage(String message) {
-                requestView.onRequestFail(message);
+                view.onRequestFail(message);
             }
         }).execute();
     }
@@ -32,12 +30,12 @@ public class RequestPresenter {
         new GroupRequestTask(groupRequestDTO, new AsyncResponse<String>() {
             @Override
             public void taskFinish(String output) {
-                requestView.onRequestSuccess(output);
+                view.onRequestSuccess(output);
             }
 
             @Override
             public void taskFailMessage(String message) {
-                requestView.onRequestFail(message);
+                view.onRequestFail(message);
             }
         }).execute();
     }

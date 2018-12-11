@@ -14,17 +14,17 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.GuestHomePresenter;
-import com.github.ferrantemattarutigliano.software.client.view.GuestHomeView;
+import com.github.ferrantemattarutigliano.software.client.presenter.LoginPresenter;
+import com.github.ferrantemattarutigliano.software.client.view.LoginView;
 
-public class GuestHomeActivity extends AppCompatActivity implements GuestHomeView {
-    private GuestHomePresenter guestHomePresenter;
+public class LoginActivity extends AppCompatActivity implements LoginView {
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_guest);
-        guestHomePresenter = new GuestHomePresenter(this);
+        loginPresenter = new LoginPresenter(this);
 
         final Button loginButton = findViewById(R.id.button_login);
         final Button registerButton = findViewById(R.id.button_register);
@@ -36,14 +36,14 @@ public class GuestHomeActivity extends AppCompatActivity implements GuestHomeVie
             public void onClick(View v) {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
-                guestHomePresenter.doLogin(username, password);
+                loginPresenter.doLogin(username, password);
             }
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GuestHomeActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
             }
         });

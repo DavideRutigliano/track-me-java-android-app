@@ -14,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyAccountFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyData4HelpFragment;
@@ -39,6 +41,7 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
             }
         });
 
+        //create left navigation menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -47,6 +50,8 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //on start select the page my account
         changeShowedFragment(ThirdPartyAccountFragment.class);
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
@@ -94,6 +99,9 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
                 break;
             case R.id.nav_automatedsos:
                 fragmentClass = NotImplementedFragment.class;
+                break;
+            case R.id.nav_logout:
+                fragmentClass = LogoutFragment.class;
                 break;
             default:
                 fragmentClass = NotImplementedFragment.class;

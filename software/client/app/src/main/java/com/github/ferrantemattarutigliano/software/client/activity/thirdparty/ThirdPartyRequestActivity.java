@@ -15,17 +15,11 @@ import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
-import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyGroupRequestFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyIndividualRequestFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
-import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
-import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
 import com.github.ferrantemattarutigliano.software.client.presenter.RequestPresenter;
-import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 import com.github.ferrantemattarutigliano.software.client.view.RequestView;
 
 public class ThirdPartyRequestActivity extends AppCompatActivity implements RequestView {

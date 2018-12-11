@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyRequestActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyViewDataActivity;
 
 public class ThirdPartyData4HelpFragment extends Fragment {
 
@@ -46,7 +47,8 @@ public class ThirdPartyData4HelpFragment extends Fragment {
         viewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add view data
+                Intent intent = new Intent(getActivity(), ThirdPartyViewDataActivity.class);
+                startActivity(intent);
             }
         });
         return v;

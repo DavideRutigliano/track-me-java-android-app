@@ -2,11 +2,10 @@ package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualManageRequestsFragment;
 
 public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,11 +35,12 @@ public class IndividualHomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Not implemented", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
+        //create left navigation menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -46,6 +49,8 @@ public class IndividualHomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //on start select the page my account
         changeShowedFragment(IndividualAccountFragment.class);
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
@@ -92,7 +97,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = NotImplementedFragment.class;
                 break;
             case R.id.nav_manage_request:
-                fragmentClass = NotImplementedFragment.class;
+                fragmentClass = IndividualManageRequestsFragment.class;
                 break;
             case R.id.nav_automatedsos:
                 fragmentClass = NotImplementedFragment.class;
@@ -101,7 +106,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = NotImplementedFragment.class;
                 break;
             case R.id.nav_logout:
-                fragmentClass = NotImplementedFragment.class;
+                fragmentClass = LogoutFragment.class;
                 break;
             default:
                 fragmentClass = NotImplementedFragment.class;

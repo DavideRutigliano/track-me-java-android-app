@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
-import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.view.RequestView;
 
 public class ThirdPartyGroupRequestFragment extends Fragment{

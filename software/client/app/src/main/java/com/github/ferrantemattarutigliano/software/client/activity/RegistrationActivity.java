@@ -1,13 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,9 +15,7 @@ import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
-import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
-import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
