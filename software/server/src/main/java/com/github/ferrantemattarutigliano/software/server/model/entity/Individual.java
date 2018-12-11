@@ -1,17 +1,31 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Set;
+
 @Entity
-public class Individual extends User implements Serializable {
+@JsonIgnoreProperties({"user",
+        "healthData",
+        "createdRuns",
+        "enrolledRuns",
+        "watchedRuns"})
+public class Individual implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "userId", nullable = false, unique = true)
+    private User user;
+
     @Column(name="ssn", unique=true)
     private String ssn;
-
-    @Column(name="email", unique=true)
-    private String email;
 
     private String firstname;
     private String lastname;
@@ -19,6 +33,9 @@ public class Individual extends User implements Serializable {
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
     private Set<HealthData> healthData;
+
+    @OneToOne(mappedBy = "individual") //references 'individual' attribute on Position class
+    private Position position;
 
     @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
     private Set<Run> createdRuns;
@@ -31,20 +48,28 @@ public class Individual extends User implements Serializable {
 
     protected Individual() {}
 
-    public Individual(String username, String password, String ssn, String email, String firstname, String lastname, Date birthdate) {
-        super(username, password);
-        this.email = email;
+    public Individual(User user, String ssn, String firstname, String lastname, Date birthdate) {
+        this.user = user;
+        this.ssn = ssn;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
     }
 
-    public String getSsn() {
-        return ssn;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getEmail() {
-        return email;
+    public User getUser() {
+        return user;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
+
+    public String getSsn() {
+        return ssn;
     }
 
     public String getFirstname() {
@@ -57,10 +82,6 @@ public class Individual extends User implements Serializable {
 
     public Date getBirthdate() {
         return birthdate;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setFirstname(String firstname) {

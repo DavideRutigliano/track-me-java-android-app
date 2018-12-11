@@ -35,13 +35,13 @@ public class RequestServiceTest {
     @Test
     public void testIndividualRequest(){
         Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "123456789";
+        String ssn = "TESTER00D40V300A";
 
         Individual dummyIndividual = new Individual("user", "test", ssn, "test@ho.com", "A", "B", birthDate);
         when(mockIndividualRepository.existsBySsn(ssn)).thenReturn(true);
         when(mockIndividualRepository.findBySsn(ssn)).thenReturn(dummyIndividual);
 
-        IndividualRequest dummyRequest = new IndividualRequest("123456789");
+        IndividualRequest dummyRequest = new IndividualRequest("TESTER00D40V300A");
         String result = requestService.individualRequest(dummyRequest);
 
         assertEquals(Message.REQUEST_SUCCESS.toString(), result);
@@ -50,7 +50,7 @@ public class RequestServiceTest {
     @Test
     public void testInvalidIndividualRequest(){
         Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "123456789";
+        String ssn = "TESTER00D40V300A";
 
         Individual dummyIndividual = new Individual("user", "test", ssn, "test@ho.com", "A", "B", birthDate);
         when(mockIndividualRepository.existsBySsn(ssn)).thenReturn(true);

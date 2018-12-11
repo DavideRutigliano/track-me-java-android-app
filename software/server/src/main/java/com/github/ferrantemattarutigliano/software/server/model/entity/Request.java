@@ -29,4 +29,8 @@ public abstract class Request {
     public ThirdParty getThirdParty() {
         return thirdParty;
     }
+
+    public void setThirdParty(ThirdParty thirdParty) {
+        this.thirdParty = thirdParty;
+    }
 }

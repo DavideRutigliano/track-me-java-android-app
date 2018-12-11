@@ -1,18 +1,13 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 public class AuthenticatorController {
@@ -20,63 +15,87 @@ public class AuthenticatorController {
     @Autowired
     private AuthenticatorService authenticatorService;
 
-    @GetMapping("/individuals")
-    public Collection<Individual> getAllIndividuals() {
-        return authenticatorService.getAllIndividuals();
+    @PostMapping("/registration/individual")
+    public String individualRegistration(@RequestBody IndividualRegistrationDTO individualRegistration) {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        User user = modelMapper.map(individualRegistration.getUser(), User.class);
+        Individual individual = modelMapper.map(individualRegistration.getIndividual(), Individual.class);
+
+        individual.setUser(user);
+
+        return authenticatorService.individualRegistration(individual);
     }
 
-    @PostMapping("/individuals/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String individualRegistration(@RequestBody @DTO(IndividualDTO.class) Individual individual) {
-        if (authenticatorService.individualRegistration(individual))
-            return "Success!";
-        else return "Oops, something went wrong.";
-    }
+    @PostMapping("/registration/thirdparty")
+    public String thirdPartyRegistration(@RequestBody ThirdPartyRegistrationDTO thirdPartyRegistration) {
 
-    @GetMapping("/thirdparties")
-    @ResponseStatus(HttpStatus.OK)
-    public Collection<ThirdParty> getAllThirdParties() { return authenticatorService.getAllThirdParties(); }
+        ModelMapper modelMapper = new ModelMapper();
 
-    @PostMapping("/thirdparties/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String thirdPartyRegistration(@RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
-        if (authenticatorService.thirdPartyRegistration(thirdParty))
-            return "Success!";
-        else return "Oops, something went wrong.";
+        User user = modelMapper.map(thirdPartyRegistration.getUser(), User.class);
+        ThirdParty thirdParty = modelMapper.map(thirdPartyRegistration.getThirdParty(), ThirdParty.class);
+
+        thirdParty.setUser(user);
+
+        return authenticatorService.thirdPartyRegistration(thirdParty);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody @DTO(UserDTO.class) User user) {
-        if (authenticatorService.login(user))
-            return "Welcome "+user.getUsername()+"!";
-        else return "Oops, something went wrong.";
+    @ResponseBody
+    public @DTO(UserDTO.class)
+    User login(@RequestBody @DTO(UserDTO.class) User user) {
+
+        return authenticatorService.login(user);
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "Success!";
     }
 
     @GetMapping("/individuals/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    public Individual getIndividualProfile(@PathVariable String username) {
+    @ResponseBody
+    public @DTO(IndividualDTO.class)
+    Individual getIndividualProfile(@PathVariable String username) {
+
         return authenticatorService.getIndividualProfile(username);
     }
 
     @PutMapping("/individuals/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    public String changeIndividualProfile(@PathVariable String username, @DTO(IndividualDTO.class) Individual individual) {
-        if (authenticatorService.changeIndividualProfile(individual))
-            return "Success!";
-        else return "Oops, user "+individual.getUsername()+" does not exists";
+    public String changeIndividualProfile(@PathVariable String username,
+                                          @RequestBody @DTO(IndividualDTO.class) Individual individual) {
+
+        return authenticatorService.changeIndividualProfile(username, individual);
     }
 
     @GetMapping("/thirdparties/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    public ThirdParty getThirdPartyProfile(@PathVariable String username) {
+    @ResponseBody
+    public @DTO(ThirdPartyDTO.class)
+    ThirdParty getThirdPartyProfile(@PathVariable String username) {
+
         return authenticatorService.getThirdPartyProfile(username);
     }
 
     @PutMapping("/thirdparties/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    public String changeThirdPartyProfile(@PathVariable String username, @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
-        if (authenticatorService.changeThirdPartyProfile(thirdParty))
-            return "Success!";
-        else return "Oops, user "+thirdParty.getUsername()+" does not exists";
+    public String changeThirdPartyProfile(@PathVariable String username,
+                                          @RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
+
+        return authenticatorService.changeThirdPartyProfile(username, thirdParty);
     }
+
+    @PutMapping("/changeusername/{username}")
+    public String changeUsername(@PathVariable("username") String username,
+                                 @RequestBody String newUsername) {
+
+        return authenticatorService.changeUsername(username, newUsername);
+    }
+
+    @PutMapping("/changepassword/{username}")
+    public String changePassword(@PathVariable("username") String username,
+                                 @RequestBody String password) {
+
+        return authenticatorService.changePassword(username, password);
+    }
+
 }

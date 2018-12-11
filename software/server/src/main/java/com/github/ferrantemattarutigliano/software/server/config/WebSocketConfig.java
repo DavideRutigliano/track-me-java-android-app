@@ -1,5 +1,5 @@
 package com.github.ferrantemattarutigliano.software.server.config;
-/*
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -12,7 +12,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/heathdata", "/request");
         config.setApplicationDestinationPrefixes("/app");
     }
 
@@ -22,4 +22,3 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
 }
-*/

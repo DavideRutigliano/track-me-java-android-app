@@ -39,8 +39,8 @@ public class IndividualDataController {
         Set<HealthData> healthDatac = new HashSet<HealthData>();
         for (HealthDataDTO data : healthDataDTO) {
             HealthData healthData = modelMapper.map(data, HealthData.class);
-            Individual individual = requestor.findIndividual(data.getUsername());
-            healthData.setIndividual(individual);
+            //Individual individual = requestor.findIndividual(data.getUsername());
+            //healthData.setIndividual(individual);
             healthDatac.add(healthData);
 
         }
