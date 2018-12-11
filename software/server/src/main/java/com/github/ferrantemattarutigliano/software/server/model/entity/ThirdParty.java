@@ -1,20 +1,28 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class ThirdParty extends User implements Serializable {
+@JsonIgnoreProperties({"user",
+        "individualRequests",
+        "groupRequests"})
+public class ThirdParty implements Serializable {
+
     @Id
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "userId", nullable = false, unique = true)
+    private User user;
+
     @Column(name="vat", unique=true)
     private String vat;
-
-    @Column(name="email", unique=true)
-    private String email;
 
     private String organizationName;
 
@@ -26,27 +34,29 @@ public class ThirdParty extends User implements Serializable {
 
     protected ThirdParty() {}
 
-    public ThirdParty(String username, String password, String vat, String email, String organizationName) {
-        super(username, password);
+    public ThirdParty(String vat, String organizationName) {
         this.vat = vat;
-        this.email = email;
         this.organizationName = organizationName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setVat(String vat) {
+        this.vat = vat;
     }
 
     public String getVat() {
         return vat;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getOrganizationName() {
         return organizationName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setOrganizationName(String organizationName) {
@@ -60,4 +70,5 @@ public class ThirdParty extends User implements Serializable {
     public Set<GroupRequest> getGroupRequests() {
         return groupRequests;
     }
+
 }

@@ -3,6 +3,7 @@ package com.github.ferrantemattarutigliano.software.server.model.dto;
 public abstract class RequestDTO {
     private Long id;
     private Boolean subscribed;
+    private String senderVat;
 
     public RequestDTO() {}
 
@@ -20,5 +21,9 @@ public abstract class RequestDTO {
 
     public void setSubscribed(Boolean subscribed) {
         this.subscribed = subscribed;
+    }
+
+    public String getSenderVat() {
+        return senderVat;
     }
 }

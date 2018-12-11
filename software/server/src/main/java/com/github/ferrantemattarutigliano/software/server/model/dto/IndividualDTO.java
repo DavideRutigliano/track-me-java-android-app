@@ -7,12 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-public class IndividualDTO extends UserDTO{
-    @NotNull
-    private String ssn;
+public class IndividualDTO {
 
     @NotNull
-    private String email;
+    private String ssn;
 
     @NotNull
     private String firstname;
@@ -29,14 +27,6 @@ public class IndividualDTO extends UserDTO{
 
     public void setSsn(String ssn) {
         this.ssn = ssn;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstname() {
