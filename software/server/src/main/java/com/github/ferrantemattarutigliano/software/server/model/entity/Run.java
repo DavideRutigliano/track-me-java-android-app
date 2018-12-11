@@ -70,4 +70,8 @@ public class Run {
     public Set<Individual> getSpectators() {
         return spectators;
     }
+
+    public void setOrganizer(Individual organizer) {
+        this.organizer = organizer;
+    }
 }

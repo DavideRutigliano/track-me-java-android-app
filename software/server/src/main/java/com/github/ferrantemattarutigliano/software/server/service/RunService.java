@@ -12,6 +12,7 @@ public class RunService {
     private RunRepository runRepository;
 
     public String createRun(Run run) {
+        run.setOrganizer(run.getOrganizer());
         runRepository.save(run);
         return "Success";
     }

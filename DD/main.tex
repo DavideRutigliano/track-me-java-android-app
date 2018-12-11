@@ -19,6 +19,7 @@
 \include{frontpage}
 \pagenumbering{roman}
 \tableofcontents
+\listoffigures
 \rfoot{\includegraphics[width=30mm]{Images/trackme-logo-mini.png}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -159,7 +160,7 @@ The system is deployed on three different layers: the Client layer, the Server l
 \hfill
 \begin{figure}[!htpb]
     	\centering
-    	\includegraphics[width=100mm,height=45mm]{images/highlevel2.png}
+    	\includegraphics[width=80mm]{images/highlevel2.png}
     	\caption{High Level components diagram}
 \end{figure}
 \newpage
@@ -176,9 +177,6 @@ The system is deployed on three different layers: the Client layer, the Server l
     
     \paragraph{Automated-Sos Controller:}
     allows both individual and Third-Party to enable the Sos service. In particular, it allows Individual to chose a Third-Party among the ones that have enabled the Sos service.
-    
-    \paragraph{Position Controller:}
-    is responsible of the communication with the individuals' GPS device in order to get their position through \textit{Google Maps API}.
 
     \paragraph{Run Controller:}
     handles the creation of a run and allows both Athletes and Spectators to respectively enroll and watch run. This component also handles for organizer definition of the path of the run and, for spectators, watching that run to see athletes position and the predefined path on an interactive map.
@@ -187,12 +185,12 @@ The system is deployed on three different layers: the Client layer, the Server l
 
     \paragraph{Authenticator Service:}
     handles all the logic related to the login and registration functions. This module receives data from the \textit{User Session Controller}.
+    
+    \paragraph{IndividualData Service:}
+    is the first core component of \textit{Data4Help} logic, it handles all Individual's health data and positions.
 
     \paragraph{Request Service:}
-    is the core component of \textit{Data4Help} logic, it handles all the requests coming from the Data Controller and Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
-    
-    \paragraph{Subscription Service:}
-    allows third parties to receive Individual's data as soon they are produced and is in charge of synchronization with new data.
+    is the second core component of \textit{Data4Help} logic, it handles all the requests coming from the Request Controller and manages all the Users' private and public data. It validates group and individual requests and return the responses from \textit{Individuals}.
     
     \paragraph{Automated-Sos Service:}
     monitors Individuals' data who activated the service and is able to notify the \textit{Dispatcher} in case of accident.
@@ -204,6 +202,9 @@ The system is deployed on three different layers: the Client layer, the Server l
         
     \paragraph{Health Data Repository:}
     saves and get individuals' health data from the database.
+    
+    \paragraph{Position Repository:}
+    saves and get individuals' position from the database.
     
     \paragraph{Individual Repository:}
     saves and get individuals' data from the database.
@@ -257,32 +258,47 @@ The system is deployed on three different layers: the Client layer, the Server l
 \end{figure}
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
+    \includegraphics[width=80mm,keepaspectratio]{DD/images/UML/component_AutomatedSos.jpg}
     \caption{AutomatedSos Component Diagram}
     \label{fig:component_automatedsos}
 \end{figure}
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=100mm,keepaspectratio]{DD/images/UML/component_Track4Run.jpg}
+    \includegraphics[width=60mm,keepaspectratio]{DD/images/UML/component_Track4Run.jpg}
     \caption{Track4Run Component Diagram}
     \label{fig:component_track4run}
 \end{figure}
-
 \begin{figure}[!htpb]
     \centering
     \includegraphics[width=\textwidth,keepaspectratio]{DD/images/er_diagram.png}
     \caption{ER Diagram}
     \label{fig:ER_trackme}
 \end{figure}
-
 \newpage
 \subsection{Deployment View}
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=100mm,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
+    \includegraphics[width=90mm,keepaspectratio]{images/UML/deployment_TrackMe.jpg}
     \caption{TrackMe Deployment Diagram}
     \label{fig:deployment_trackme}
 \end{figure}    
+
+\subsection{Class Diagram}
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-3.3cm
+    \includegraphics[width=1.6\textwidth,keepaspectratio]{DD/images/UML/ClassDiagram.jpg}
+    \caption{Class Diagram}
+    \label{fig:class_diagram}
+\end{figure} 
+
+\begin{figure}[!htpb]
+    \centering
+    \advance\leftskip-0.3cm
+    \includegraphics[width=1.1\textwidth,keepaspectratio]{DD/images/UML/ClassDiagram1.jpg}
+    \caption{Class Diagram (Entities)}
+    \label{fig:class_diagram_entities}
+\end{figure} 
     
 \newpage
 \subsection{Runtime View}
@@ -325,7 +341,9 @@ The system is deployed on three different layers: the Client layer, the Server l
 \newpage
 \subsection{Selected Architectural Styles and Patterns}
     \subsubsection{Architecture}
-    In order to implement such architecture, based on RESTful API, the following architectural style and design pattern should be taken into account:
+    \begin{description}
+        \item[RESTful Service:] to ensure a better scalability and reliability the best decision is to use a REST architecture \cite{archroyfielding}. Also performance is an important factor, and this is achieved due to requests following the simple HTTP protocols. Statelessness ensure that is also very simple to add parallel servers and make a distributed network: scalability is improved because the server doesn't have to store the state (no session or sticky session). Clients need to provide every information necessary in each request: the server doesn't have to manage resources across requests.
+    \end{description}
     \begin{description}
         \item[Three Tier Architecture:] as showed previously in this document, the layered architecture pattern allows to separate the presentation from the business logic and to realize a thin client with only the user interfaces and input forms and a more complex server that handles all the software services.
         The overall architecture is structured as a three tier architecture: the \textit{Client Layer}, the \textit{Server Layer} and the \textit{Database Layer}.
@@ -343,7 +361,7 @@ The system is deployed on three different layers: the Client layer, the Server l
         This was done to add \textbf{separation of concerns}: each layer is specialized in a specific activity.
         
         \newpage
-        \item[Model View Presenter (MVP):] in this pattern there are three entities: the \textit{Model} which essentially maintains all the data, the \textit{View} that is responsible of showing the model's data and routes user commands to the presenter, and finally the \textit{Presenter} that is responsible of handling the data access from \textit{Model} and to format it to display in the view.
+        \item[Model View Presenter (MVP):] in this architecture there are three entities: the \textit{Model} which essentially maintains all the data, the \textit{View} that is responsible of showing the model's data and routes user commands to the presenter, and finally the \textit{Presenter} that is responsible of handling the data access from \textit{Model} and to format it to display in the view.
         This architecture is used in the \textit{Client Layer}.
         \begin{figure}[!hb]
             \centering
@@ -361,9 +379,10 @@ The system is deployed on three different layers: the Client layer, the Server l
         \caption{Pub/Sub Pattern}
         \label{fig:pubsub}
     \end{figure}
+    
     This is necessary for performance reasons: \textit{TrackMe} is a data-intensive real-time system, so \textit{polling} is not a viable strategy in this case.
     \textit{WebSockets} are clearly the best solution and this is why this pattern shall be used.\\
-    Suppose a scenario where a Third Party wants to subscribe to the data of an Individual named Pippo. When Pippo registers to the application, \textit{TrackMe} creates a \textit{topic} associated with him. The Third Party becomes a subscriber of that topic: every time Pippo (Publisher) upload his data, the associated topic is updated and all Third Parties subscribed to him (Subscriber) are notified. 
+    Suppose a scenario where a Third Party wants to subscribe to the data of an Individual named Pippo. When Pippo registers to the application, \textit{TrackMe} creates a \textit{topic} associated with him. The Third Party becomes a subscriber of that topic: every time Pippo (Publisher) upload his data, the associated topic is updated and all Third Parties subscribed to him (Subscriber) are notified.
     \end{description}
 
 \subsection{Other Design Decisions}
@@ -451,30 +470,29 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{1}{A customer not signed-on must be able to begin the Individual's registration process to TrackMe providing a username, a password and its organization data.}
     {Authenticator Controller}
     {Authenticator Service}
+    {User Repository}
     {Individual Repository}
      
      \con{2}{A customer not signed-on must be able to begin the Third Party's registration process to TrackMe providing a username, a password and its organization data.}
      {Authenticator Controller}
      {Authenticator Service}
+     {User Repository}
      {Third Party Repository}
     
      \con{3}{The system must provide a log-in interface for already registered users, not previously signed into the application.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{4}{TrackMe must provide to users the possibility to change their username.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{5}{TrackMe must provide to registered users the possibility to change their password.}
      {Authenticator Controller}
      {Authenticator Service}
-     {Individual Repository}
-     {Third Party Repository}
+     {User Repository}
      
      \con{6}{The system must provide the possibility to the user of logging out.}
      {Authenticator Controller}
@@ -505,12 +523,11 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{11}{The system must be able to anonymize users' requested data.}
      {Request Controller}
      {Request Service}
-     {Individual Repository}
+     {Health Data Repository}
      {Group Request Repository}
      
      \con{12}{Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual.}
-     {Individual Request Controller}
-     {Individual Request Service}
+     {Request Controller}
      {Request Service}
      {Individual Request Repository}
      {Group Request Repository}
@@ -518,7 +535,7 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
 
      \con{13}{The system must be able to periodically query the database in order to get new data as soon as they are produced.}
      {Request Controller}
-     {Subscription Service}
+     {Request Service}
      {Individual Request Repository}
      {Group Request Repository}
      {Health Data Repository}
@@ -545,37 +562,36 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      \con{18}{The system must allow the Third-Party to activate Automated-SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Provisioning Repository}
+     {Third Party Repository}
+     {Dispatcher Repository}
      
      \con{19}{The system must be able to assign an ambulance dispatcher to the SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Provisioning Repository}
      {Dispatcher Repository}
      
      \con{20}{The system must allow the Individual to activate Automated-SOS service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Third Party Repository}
      
      \con{21}{The system should allow the Individual to choose between third parties who has enabled the service.}
      {Sos Controller}
      {Sos Service}
-     {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Individual Repository}
+     {Third Party Repository}
      
      \con{22}{The system must be able to get the Individual position.}
      {Sos Controller}
      {Sos Service}
      {Individual Repository}
+     {Position Repository}
      
      \con{23}{The system must be able to send the position to the nearest ambulance.}
      {Sos Controller}
      {Sos Service}
-     {Individual Repository}
      {Sos Subscription Repository}
-     {Sos Provisioning Controller}
+     {Individual Repository}
      {Dispatcher Repository}
      
      \con{24}{Track4Run must allow the organizer to create a run with a date, time, duration and a path.}
@@ -600,21 +616,18 @@ Once in the \textit{Truck4Run} section, the individual can create, watch, enroll
      {Run Controller}
      {Run Service}
      {Run Repository}
-     {Enroll Repository}
      
      \con{29}{Track4Run must allow the Athlete to unroll a run.}
      {Run Controller}
      {Run Service}
-     {Enroll Repository}
+     {Run Repository}
      
      \con{30}{Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.}
-     {Position Controller}
+     {Run Controller}
      {Run Service}
      {Run Repository}
+     {Position Repository}
      {Individual Repository}
-     {Watch Repository}
-     {Run Repository}
-
      
 \end{description}
 

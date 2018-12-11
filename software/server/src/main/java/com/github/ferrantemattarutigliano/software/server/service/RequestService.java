@@ -4,6 +4,7 @@ import com.github.ferrantemattarutigliano.software.server.message.Message;
 import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
@@ -41,15 +42,19 @@ public class RequestService {
         return Message.REQUEST_SUCCESS.toString();
     }
 
-    public String insertData(Collection<HealthData> healthdata) {
+    public String insertData(Set<HealthData> healthdata) {
         for (HealthData data : healthdata) {
-            data.setIndividual(individualRepository.findByUsername(data.getIndividual().getUsername()));
             healthDataRepository.save(data);
+            System.out.println("il nome è" + data.getName());
         }
         return "Success";
     }
 
-    public Collection<HealthData> showIndividualData(IndividualRequest individualRequest) {
+    public Individual findIndividual(String username) {
+        return individualRepository.findByUsername(username);
+    }
+
+    public Set<HealthData> showIndividualData(IndividualRequest individualRequest) {
         return individualRepository.findBySsn(individualRequest.getSsn()).getHealthData();
     }
 

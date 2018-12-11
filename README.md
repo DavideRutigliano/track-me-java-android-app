@@ -51,9 +51,7 @@ We used a professional UML diagrams software [magicDraw](https://www.magicdraw.c
 
 *TrackMe* allows Third-Party to access Individual's health data exploiting the functionality of *Data4help* service: Third-Parties can make individual requests that the Individuals can accept or reject, or group requests handled directly by TrackMe that approves them if it is able to properly anonymize the requested data. For sake of simplicity, we already assumed that TrackMe will accept any request for which the number of individuals whose data satisfy the request is higher than 1000. The application may also allow individual users to connect external devices such as smart-watches, specific pathology's monitoring devices or other types of external devices able to monitor health parameters with BT or NFC connection.
 
-In addition, the system permits to enable the *Automated-SOS* service that guarantees that the GPS position of the user who has enabled *Automated SOS*, can be send to the nearest ambulance available, when user's health parameters overcome some critical thresholds. This procedure takes place thanks to an ambulance dispatcher connected to the Third-Party which has enabled automated sos service and has been selected by that individual to provide this service.
-
-*Track4Run* features will be neither implemented or tested.
+*Track4Run* provides to users signed in the application the possibility of creating runs: competition in which other individuals can either participate as *athletes* or watch as *spectators*. Additionally, this feature may exploits other services functionality for keeping track of athletes progresses and show their position to spectators through an interactive map.
 
 ## Architecture
 <p align="center">
@@ -65,7 +63,7 @@ Instructions to build and install *trackMe* are available [here](INSTALL.md).
 
 ## Tools
 ### Spring Framework
-In order to develop the proposed system we decided to use Java as back-end and front-end language and in particular, we used [Spring](https://spring.io) Framework. This framework fits very well the architectural style of the proposed software solution,  has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services. This choice also allowed us to produce code documentation through spring rest-docs.
+In order to develop the proposed system we decided to use Java as back-end and front-end language and in particular, we used [Spring](https://spring.io) Framework. This framework fits very well the architectural style of the proposed software solution, has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services.
 
 ---
 
@@ -74,8 +72,7 @@ In order to develop the proposed system we decided to use Java as back-end and f
 ├── DD                  : Design Document Latex project
 ├── DeliveryFolder      : pdf version of delivered documents
 ├── Images              : common "Logo" images
-├── RASD                : Requirement Analysis and
-Specification Document Latex project
+├── RASD                : Requirement Analysis and Specification Document Latex project
 ├── software            : TrackMe application source code
 └── README.md           : this file
 ```
