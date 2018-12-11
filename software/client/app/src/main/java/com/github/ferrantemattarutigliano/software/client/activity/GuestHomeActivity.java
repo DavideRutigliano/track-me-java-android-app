@@ -8,43 +8,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
-import com.github.ferrantemattarutigliano.software.client.activity.individual.HomeIndividualActivity;
-import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.HomeThirdPartyActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.HomeGuestPresenter;
-import com.github.ferrantemattarutigliano.software.client.view.HomeGuestView;
+import com.github.ferrantemattarutigliano.software.client.presenter.GuestHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.view.GuestHomeView;
 
-public class HomeGuestActivity extends AppCompatActivity implements HomeGuestView {
-    private HomeGuestPresenter homeGuestPresenter;
+public class GuestHomeActivity extends AppCompatActivity implements GuestHomeView {
+    private GuestHomePresenter guestHomePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_guest);
-        homeGuestPresenter = new HomeGuestPresenter(this);
+        guestHomePresenter = new GuestHomePresenter(this);
 
         final Button loginButton = findViewById(R.id.button_login);
         final Button registerButton = findViewById(R.id.button_register);
-        final TextView usernameForm = findViewById(R.id.text_registration_individual_username);
-        final TextView passwordForm = findViewById(R.id.text_registration_individual_password);
+        final TextView usernameForm = findViewById(R.id.text_login_username);
+        final TextView passwordForm = findViewById(R.id.text_login_password);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
-                homeGuestPresenter.doLogin(username, password);
+                guestHomePresenter.doLogin(username, password);
             }
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeGuestActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(GuestHomeActivity.this, RegistrationActivity.class);
                 startActivity(intent);
             }
         });
@@ -59,10 +58,10 @@ public class HomeGuestActivity extends AppCompatActivity implements HomeGuestVie
     public void onLoginSuccess(UserDTO userDTO) {
         Intent intent = null;
         if(userDTO.getRole().equals("INDIVIDUAL")){
-            intent = new Intent(this, HomeIndividualActivity.class);
+            intent = new Intent(this, IndividualHomeActivity.class);
         }
         else if(userDTO.getRole().equals("THIRD_PARTY")){
-            intent = new Intent(this, HomeThirdPartyActivity.class);
+            intent = new Intent(this, ThirdPartyHomeActivity.class);
         }
         else{
             throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());

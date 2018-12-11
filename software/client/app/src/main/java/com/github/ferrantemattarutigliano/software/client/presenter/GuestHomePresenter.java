@@ -3,13 +3,13 @@ package com.github.ferrantemattarutigliano.software.client.presenter;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.task.LoginTask;
-import com.github.ferrantemattarutigliano.software.client.view.HomeGuestView;
+import com.github.ferrantemattarutigliano.software.client.view.GuestHomeView;
 
-public class HomeGuestPresenter {
-    private HomeGuestView homeGuestView;
+public class GuestHomePresenter {
+    private GuestHomeView guestHomeView;
 
-    public HomeGuestPresenter(HomeGuestView homeGuestView) {
-        this.homeGuestView = homeGuestView;
+    public GuestHomePresenter(GuestHomeView guestHomeView) {
+        this.guestHomeView = guestHomeView;
     }
 
     public void doLogin(String username, String password){
@@ -17,12 +17,12 @@ public class HomeGuestPresenter {
         new LoginTask(user, new AsyncResponse<UserDTO>() {
             @Override
             public void taskFinish(UserDTO output) {
-                homeGuestView.onLoginSuccess(output);
+                guestHomeView.onLoginSuccess(output);
             }
 
             @Override
             public void taskFailMessage(String message){
-                homeGuestView.onLoginFail(message);
+                guestHomeView.onLoginFail(message);
             }
         }).execute();
     }

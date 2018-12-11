@@ -17,6 +17,11 @@
     <string name="hint_email">Email</string>
     <string name="hint_ssn">SSN</string>
     <string name="hint_birthdate">Birthdate</string>
+    <string name="hint_height">Height</string>
+    <string name="hint_weight">Weight</string>
+    <string name="hint_state">State</string>
+    <string name="hint_city">City</string>
+    <string name="hint_address">Address</string>
     <string name="hint_vat">VAT</string>
     <string name="hint_organization_name">Organization Name</string>
     <string name="button_view_data">View Data</string>
@@ -44,4 +49,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_run_map">Map</string>
 </resources>

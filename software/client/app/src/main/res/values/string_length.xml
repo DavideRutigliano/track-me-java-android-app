@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="default_length">10</integer>
+    <integer name="vat_length">11</integer>
+    <integer name="ssn_length">11</integer>
+    <integer name="biometric_length">3</integer>
+    <integer name="address_length">25</integer>
+</resources>

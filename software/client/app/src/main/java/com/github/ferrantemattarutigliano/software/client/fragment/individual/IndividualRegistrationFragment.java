@@ -45,6 +45,11 @@ public class IndividualRegistrationFragment extends Fragment{
         final TextView lastNametext = v.findViewById(R.id.text_registration_individual_last_name);
         final TextView ssnText = v.findViewById(R.id.text_registration_individual_ssn);
         final TextView birthdateText = v.findViewById(R.id.text_registration_individual_birthdate);
+        final TextView stateText = v.findViewById(R.id.text_registration_individual_state);
+        final TextView cityText = v.findViewById(R.id.text_registration_individual_city);
+        final TextView addressText = v.findViewById(R.id.text_registration_individual_address);
+        final TextView weightText = v.findViewById(R.id.text_registration_individual_weight);
+        final TextView heightText = v.findViewById(R.id.text_registration_individual_height);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +65,22 @@ public class IndividualRegistrationFragment extends Fragment{
                 String firstName = firstNameText.getText().toString();
                 String lastName = lastNametext.getText().toString();
                 String ssn = ssnText.getText().toString();
-                //todo add birthdate
+                String state = stateText.getText().toString();
+                String city = cityText.getText().toString();
+                String address = addressText.getText().toString();
+                int weight = Integer.valueOf(weightText.getText().toString());
+                int height = Integer.valueOf(heightText.getText().toString());
+                //todo add other attributes (eg birthdate)
                 UserDTO userDTO = new UserDTO(username, password, email, "INDIVIDUAL");
-                IndividualDTO individualDTO = new IndividualDTO(ssn, firstName, lastName);
+                IndividualDTO individualDTO = new IndividualDTO();
+                individualDTO.setSsn(ssn);
+                individualDTO.setFirstname(firstName);
+                individualDTO.setLastname(lastName);
+                individualDTO.setState(state);
+                individualDTO.setCity(city);
+                individualDTO.setAddress(address);
+                individualDTO.setWeight(weight);
+                individualDTO.setHeight(height);
                 IndividualRegistrationDTO registrationDTO = new IndividualRegistrationDTO(userDTO, individualDTO);
                 registrationView.onIndividualRegistration(registrationDTO);
             }

@@ -5,11 +5,13 @@ public class IndividualDTO{
     private String firstname;
     private String lastname;
     private String birthdate;
+    private int height;
+    private int weight;
+    private String state;
+    private String city;
+    private String address;
 
-    public IndividualDTO(String ssn, String firstname, String lastname) {
-        this.ssn = ssn;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public IndividualDTO() {
     }
 
     public String getSsn() {
@@ -42,5 +44,45 @@ public class IndividualDTO{
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
