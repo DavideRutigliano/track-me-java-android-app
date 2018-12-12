@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.activity.thirdparty;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,9 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.LoadingViewFactory;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyGroupRequestFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyIndividualRequestFragment;
@@ -27,6 +30,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
     private RequestPresenter requestPresenter;
+    private LinearLayout loadingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = findViewById(R.id.container_request);
+        viewPager = findViewById(R.id.container_tab_request);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.container_tabs_request);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -47,17 +51,31 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
 
     @Override
     public void onIndividualRequest(IndividualRequestDTO individualRequestDTO) {
+        createLoadingScreen();
         requestPresenter.doIndividualRequest(individualRequestDTO);
     }
 
     @Override
     public void onGroupRequest(GroupRequestDTO groupRequestDTO) {
+        createLoadingScreen();
         requestPresenter.doGroupRequest(groupRequestDTO);
+    }
+
+    private void createLoadingScreen(){
+        LoadingViewFactory loadingViewFactory = new LoadingViewFactory();
+        loadingLayout = loadingViewFactory.create(this, "Sending...");
+        CoordinatorLayout container = findViewById(R.id.container_third_party_request);
+        container.addView(loadingLayout);
+    }
+
+    private void deleteLoadingScreen(){
+        CoordinatorLayout container = findViewById(R.id.container_third_party_request);
+        container.removeView(loadingLayout);
     }
 
     @Override
     public void onRequestSuccess(String output) {
-        Toast.makeText(this, output, Toast.LENGTH_LONG);
+        deleteLoadingScreen();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setCancelable(true);
         alertDialogBuilder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -73,6 +91,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
 
     @Override
     public void onRequestFail(String output) {
+        deleteLoadingScreen();
         Toast.makeText(this, output, Toast.LENGTH_LONG).show();
     }
 

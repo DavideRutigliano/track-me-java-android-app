@@ -3,13 +3,16 @@ package com.github.ferrantemattarutigliano.software.client.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.LoadingViewFactory;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
@@ -19,15 +22,17 @@ import com.github.ferrantemattarutigliano.software.client.view.LoginView;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
     private LoginPresenter loginPresenter;
+    private LinearLayout loadingLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_guest);
+        setContentView(R.layout.activity_login);
         loginPresenter = new LoginPresenter(this);
 
+        final ConstraintLayout container = findViewById(R.id.container_login);
         final Button loginButton = findViewById(R.id.button_login);
-        final Button registerButton = findViewById(R.id.button_register);
+        final Button signupButton = findViewById(R.id.button_register);
         final TextView usernameForm = findViewById(R.id.text_login_username);
         final TextView passwordForm = findViewById(R.id.text_login_password);
 
@@ -36,11 +41,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             public void onClick(View v) {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
+                LoadingViewFactory loadingViewFactory = new LoadingViewFactory();
+                loadingLayout = loadingViewFactory.create(getApplicationContext(), "Logging in...");
+                container.addView(loadingLayout);
                 loginPresenter.doLogin(username, password);
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
@@ -56,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void onLoginSuccess(UserDTO userDTO) {
-        Intent intent = null;
+        Intent intent;
         if(userDTO.getRole().equals("INDIVIDUAL")){
             intent = new Intent(this, IndividualHomeActivity.class);
         }
@@ -72,9 +80,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void onLoginFail(String output) {
+        final ConstraintLayout container = findViewById(R.id.container_login);
+        container.removeView(loadingLayout);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setPositiveButton("Ok :(", null);
+        alertDialogBuilder.setPositiveButton("Okay :(", null);
         alertDialogBuilder.setTitle("Login Failed");
         alertDialogBuilder.setMessage(output);
         alertDialogBuilder.show();

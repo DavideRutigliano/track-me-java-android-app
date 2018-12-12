@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client.activity.thirdparty;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.github.ferrantemattarutigliano.software.client.R;
-import com.github.ferrantemattarutigliano.software.client.activity.LoginActivity;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyAccountFragment;

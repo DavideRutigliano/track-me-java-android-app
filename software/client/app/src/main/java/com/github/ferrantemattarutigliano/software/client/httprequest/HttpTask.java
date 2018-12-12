@@ -15,8 +15,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-
 public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
     private AsyncResponse<O> asyncResponse;
     private Class<O> outputClass;

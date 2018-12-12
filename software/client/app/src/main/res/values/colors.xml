@@ -6,4 +6,5 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorGreen">#31ac31</color>
     <color name="colorSoftBlue">#454599</color>
+    <color name="colorSoftBlueTransparent">#90454599</color>
 </resources>
