@@ -1,6 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        CoordinatorLayout layout = findViewById(R.id.layout_registration);
         Toolbar toolbar = findViewById(R.id.container_toolbar_registration);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
@@ -44,7 +46,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         registrationPresenter = new RegistrationPresenter(this);
-        loadingScreen = new LoadingScreen(viewPager, "Sending...");
+        loadingScreen = new LoadingScreen(layout, "Sending...");
     }
 
     @Override
@@ -55,6 +57,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
     @Override
     public void onRegistrationFail(String output) {
+        loadingScreen.hide();
         Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT).show();
     }
 

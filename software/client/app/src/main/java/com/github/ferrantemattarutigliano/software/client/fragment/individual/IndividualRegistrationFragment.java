@@ -3,6 +3,7 @@ package com.github.ferrantemattarutigliano.software.client.fragment.individual;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +69,15 @@ public class IndividualRegistrationFragment extends Fragment{
                 String state = stateText.getText().toString();
                 String city = cityText.getText().toString();
                 String address = addressText.getText().toString();
-                int weight = Integer.valueOf(weightText.getText().toString());
-                int height = Integer.valueOf(heightText.getText().toString());
+                int weight = 0;
+                int height = 0;
+                try{
+                    weight = Integer.valueOf(weightText.getText().toString());
+                    height = Integer.valueOf(heightText.getText().toString());
+                }
+                catch (NumberFormatException e) {
+                    Log.w("MALFORMED_BIO", "Biometrics are empty or not numbers");
+                }
                 //todo add other attributes (eg birthdate)
                 UserDTO userDTO = new UserDTO(username, password, email, "INDIVIDUAL");
                 IndividualDTO individualDTO = new IndividualDTO();

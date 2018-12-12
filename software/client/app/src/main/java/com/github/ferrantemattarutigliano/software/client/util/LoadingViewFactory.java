@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +13,14 @@ import com.github.ferrantemattarutigliano.software.client.R;
 
 public class LoadingViewFactory {
     public LinearLayout create(Context context, @Nullable String message){
+        LinearLayout layout = buildLayout(context);
+        ProgressBar progressBar = buildProgressBar(context);
+        TextView textView = buildTextView(context, message);
+        assembleParts(layout, progressBar, textView);
+        return layout;
+    }
+
+    private LinearLayout buildLayout(Context context){
         LinearLayout layout = new LinearLayout(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -23,27 +32,31 @@ public class LoadingViewFactory {
         layout.bringToFront();
         int layoutColor = ContextCompat.getColor(context, R.color.colorSoftBlueTransparent);
         layout.setBackgroundColor(layoutColor);
+        return layout;
+    }
 
-        ProgressBar progressBar = new ProgressBar(context);
+    private ProgressBar buildProgressBar(Context context){
+        return new ProgressBar(context);
+    }
+
+    private TextView buildTextView(Context context, String message){
         TextView textMessage = new TextView(context);
-        layout.addView(progressBar);
-        layout.addView(textMessage);
-
-        progressBar.getLayoutParams().width = 200;
-        progressBar.getLayoutParams().height = 200;
-        progressBar.invalidate(); //redraw progress bar with changes
-        progressBar.setX(layout.getX()/2);
-        progressBar.setY(layout.getY()/2);
-
-        textMessage.setText(message);
         int textColor = ContextCompat.getColor(context, R.color.colorWhite);
+        textMessage.setText(message);
         textMessage.setTextColor(textColor);
         textMessage.setGravity(Gravity.CENTER);
-        textMessage.setX(progressBar.getX());
-        textMessage.setY(progressBar.getY()+10);
+        return textMessage;
+    }
 
+    private void assembleParts(ViewGroup layout, ProgressBar progressBar, TextView textView){
+        progressBar.setX(layout.getX()/2);
+        progressBar.setY(layout.getY()/2);
+        textView.setX(progressBar.getX());
+        textView.setY(progressBar.getY()+10);
+
+        layout.addView(progressBar);
+        layout.addView(textView);
         layout.bringChildToFront(progressBar);
-        layout.bringChildToFront(textMessage);
-        return layout;
+        layout.bringChildToFront(textView);
     }
 }

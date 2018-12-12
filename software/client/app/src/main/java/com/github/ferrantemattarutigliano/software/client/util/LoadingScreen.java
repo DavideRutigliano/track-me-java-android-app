@@ -28,6 +28,10 @@ public class LoadingScreen {
         if(isShowing) show();
     }
 
+    public boolean isShowing() {
+        return isShowing;
+    }
+
     private void buildLoadingScreen(ViewGroup viewGroup, String message){
         LoadingViewFactory loadingViewFactory = new LoadingViewFactory();
         loadingScreen = loadingViewFactory.create(viewGroup.getContext(), message);
