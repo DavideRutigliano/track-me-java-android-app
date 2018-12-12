@@ -16,7 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
-import com.github.ferrantemattarutigliano.software.client.LoadingViewFactory;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingViewFactory;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyGroupRequestFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyIndividualRequestFragment;
@@ -30,52 +31,44 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
     private RequestPresenter requestPresenter;
-    private LinearLayout loadingLayout;
+    private LoadingScreen loadingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_party_request);
         Toolbar toolbar = findViewById(R.id.container_toolbar_request);
+        TabLayout tabLayout = findViewById(R.id.container_tabs_request);
+        CoordinatorLayout container = findViewById(R.id.container_third_party_request);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.container_tab_request);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.container_tabs_request);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         requestPresenter = new RequestPresenter(this);
+        loadingScreen = new LoadingScreen(container, "Sending...");
     }
 
     @Override
     public void onIndividualRequest(IndividualRequestDTO individualRequestDTO) {
-        createLoadingScreen();
+        loadingScreen.show();
         requestPresenter.doIndividualRequest(individualRequestDTO);
     }
 
     @Override
     public void onGroupRequest(GroupRequestDTO groupRequestDTO) {
-        createLoadingScreen();
+        loadingScreen.show();
         requestPresenter.doGroupRequest(groupRequestDTO);
-    }
-
-    private void createLoadingScreen(){
-        LoadingViewFactory loadingViewFactory = new LoadingViewFactory();
-        loadingLayout = loadingViewFactory.create(this, "Sending...");
-        CoordinatorLayout container = findViewById(R.id.container_third_party_request);
-        container.addView(loadingLayout);
-    }
-
-    private void deleteLoadingScreen(){
-        CoordinatorLayout container = findViewById(R.id.container_third_party_request);
-        container.removeView(loadingLayout);
     }
 
     @Override
     public void onRequestSuccess(String output) {
-        deleteLoadingScreen();
+        loadingScreen.hide();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setCancelable(true);
         alertDialogBuilder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -91,7 +84,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
 
     @Override
     public void onRequestFail(String output) {
-        deleteLoadingScreen();
+        loadingScreen.hide();
         Toast.makeText(this, output, Toast.LENGTH_LONG).show();
     }
 

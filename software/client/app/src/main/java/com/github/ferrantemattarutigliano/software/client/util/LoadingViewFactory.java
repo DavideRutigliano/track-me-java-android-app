@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client;
+package com.github.ferrantemattarutigliano.software.client.util;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.github.ferrantemattarutigliano.software.client.R;
 
 public class LoadingViewFactory {
     public LinearLayout create(Context context, @Nullable String message){

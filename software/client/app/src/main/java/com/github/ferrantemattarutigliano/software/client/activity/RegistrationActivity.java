@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingViewFactory;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
@@ -25,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
     private RegistrationPresenter registrationPresenter;
+    private LoadingScreen loadingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,12 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         registrationPresenter = new RegistrationPresenter(this);
+        loadingScreen = new LoadingScreen(viewPager, "Sending...");
     }
 
     @Override
     public void onRegistrationSuccess(String output) {
+        loadingScreen.hide();
         Toast.makeText(getBaseContext(), output, Toast.LENGTH_LONG).show();
     }
 
@@ -55,11 +60,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
     @Override
     public void onIndividualRegistration(IndividualRegistrationDTO individualRegistrationDTO) {
+        loadingScreen.show();
         registrationPresenter.doIndividualRegistration(individualRegistrationDTO);
     }
 
     @Override
     public void onThirdPartyRegistration(ThirdPartyRegistrationDTO thirdPartyRegistrationDTO) {
+        loadingScreen.show();
         registrationPresenter.doThirdPartyRegistration(thirdPartyRegistrationDTO);
     }
 

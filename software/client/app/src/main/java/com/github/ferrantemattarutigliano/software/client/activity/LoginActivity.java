@@ -8,11 +8,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
-import com.github.ferrantemattarutigliano.software.client.LoadingViewFactory;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
@@ -22,7 +21,7 @@ import com.github.ferrantemattarutigliano.software.client.view.LoginView;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
     private LoginPresenter loginPresenter;
-    private LinearLayout loadingLayout;
+    private LoadingScreen loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,14 +35,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         final TextView usernameForm = findViewById(R.id.text_login_username);
         final TextView passwordForm = findViewById(R.id.text_login_password);
 
+        loadingScreen = new LoadingScreen(container, "Logging in...");
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
-                LoadingViewFactory loadingViewFactory = new LoadingViewFactory();
-                loadingLayout = loadingViewFactory.create(getApplicationContext(), "Logging in...");
-                container.addView(loadingLayout);
+                loadingScreen.show();
                 loginPresenter.doLogin(username, password);
             }
         });
@@ -80,8 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void onLoginFail(String output) {
-        final ConstraintLayout container = findViewById(R.id.container_login);
-        container.removeView(loadingLayout);
+        loadingScreen.hide();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setCancelable(true);
         alertDialogBuilder.setPositiveButton("Okay :(", null);

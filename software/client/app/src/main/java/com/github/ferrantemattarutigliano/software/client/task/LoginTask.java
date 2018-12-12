@@ -13,7 +13,7 @@ public class LoginTask extends HttpTask<UserDTO> {
 
     public LoginTask(UserDTO userDTO, AsyncResponse<UserDTO> asyncResponse) {
         super(UserDTO.class, asyncResponse);
-        String path = "/login";
+        String path = "/users/login";
         HttpMethod type = HttpMethod.POST;
         HttpInformationContainer container = new HttpInformationContainer(path, type, userDTO);
         setHttpInformationContainer(container);
