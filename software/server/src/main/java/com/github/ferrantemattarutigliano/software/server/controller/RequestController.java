@@ -8,8 +8,6 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequ
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,37 +39,34 @@ public class RequestController {
     }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
-    @GetMapping("/{username}/indiviudal")
+    @GetMapping("/{username}/individual")
     public @CollectionDTO(IndividualRequestDTO.class)
-    Collection<IndividualRequest> showSentIndividualRequest(@PathVariable("username") String username,
-                                                            Long id) {
+    Collection<IndividualRequest> showSentIndividualRequest(@PathVariable("username") String username) {
 
-        return requestService.showSentIndividualRequest(id);
+        return requestService.showSentIndividualRequest();
     }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @GetMapping("/{username}/group")
     public @CollectionDTO(GroupRequestDTO.class)
-    Collection<GroupRequest> showSentGroupRequest(@PathVariable("username") String username,
-                                                  Long id) {
+    Collection<GroupRequest> showSentGroupRequest(@PathVariable("username") String username) {
 
-        return requestService.showSentGroupRequest(id);
+        return requestService.showSentGroupRequest();
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @GetMapping("/{username}/incoming")
+    @GetMapping("/{username}/received")
     public @CollectionDTO(IndividualRequestDTO.class)
-    Collection<IndividualRequest> showIncomingRequest(@PathVariable("username") String username,
-                                                      String ssn) {
+    Collection<IndividualRequest> showIncomingRequest(@PathVariable("username") String username) {
 
-        return requestService.showIncomingRequest(ssn);
+        return requestService.showIncomingRequest();
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PutMapping("/{username}/{id}")
+    @PutMapping("/{username}/incoming/{id}")
     public String handleRequest(@PathVariable("username") String username,
                                 @PathVariable("id") Long id,
-                                Boolean accepted) {
+                                @RequestBody Boolean accepted) {
 
         return requestService.handleRequest(id, accepted);
     }

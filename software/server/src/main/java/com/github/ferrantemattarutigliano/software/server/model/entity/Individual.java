@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -30,6 +29,11 @@ public class Individual implements Serializable {
     private String firstname;
     private String lastname;
     private Date birthdate;
+    private String state;
+    private String city;
+    private String address;
+    private float height;
+    private float weight;
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
     private Set<HealthData> healthData;
@@ -94,6 +98,46 @@ public class Individual implements Serializable {
 
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
     public Set<HealthData> getHealthData() {

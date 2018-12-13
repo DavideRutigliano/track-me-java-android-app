@@ -22,7 +22,9 @@ public enum Message {
     REQUEST_INVALID_SSN("Request has an invalid SSN."),
     REQUEST_NOT_ANONYMOUS("Request has too strict criteria: cannot guarantee anonymity."),
     REQUEST_ACCEPTED("Request accepted."),
-    REQUEST_REJECTED("Request rejected.");
+    REQUEST_REJECTED("Request rejected."),
+
+    INSERT_DATA_SUCCESS("Data registered successfully.");
 
     private String msg;
 

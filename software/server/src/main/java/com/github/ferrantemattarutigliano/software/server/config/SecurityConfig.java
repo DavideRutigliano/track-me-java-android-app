@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 
-
 import javax.sql.DataSource;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -23,11 +22,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private String USERS_QUERY = "SELECT username, password, 1 FROM user WHERE username = ?";
-    private String AUTH_QUERY = "SELECT userId, 'ROLE_INDIVIDUAL' FROM individual" +
-            " UNION " +
-            "SELECT userId, 'ROLE_THIRD_PARTY' FROM thirdParty" +
-            "WHERE userId =" +
+    private String AUTH_QUERY = "SELECT userId, 'ROLE_INDIVIDUAL' FROM individual " +
+            "UNION " +
+            "SELECT userId, 'ROLE_THIRD_PARTY' FROM thirdParty " +
+            "WHERE userId = " +
             "(SELECT id FROM user WHERE username = ?)";
+
     @Autowired
     private AuthenticatorService authService;
     @Autowired
@@ -90,7 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/individuals/**").hasRole("INDIVIDUAL")
                 .antMatchers("/thirdparties/**").hasRole("THIRD_PARTY")
                 .anyRequest()
-                //.permitAll(); //NO SECURITY
                 .authenticated();
     }
 

@@ -154,7 +154,8 @@ public class AuthenticatorService implements UserDetailsService {
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticated != null
-                && authenticated.getUsername().equals(username))
+                && authenticated.getUsername().equals(username)
+                && individualRepository.existsByUser(authenticated))
             return individualRepository.findByUser(authenticated);
         else return null;
     }
@@ -167,7 +168,8 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (!authenticated.getUsername().equals(username)) {
+        if (!authenticated.getUsername().equals(username)
+                || !individualRepository.existsByUser(authenticated)) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -175,7 +177,8 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        if (!individualRepository.existsBySsn(individual.getSsn())) {
+        if (!individualRepository.existsBySsn(individual.getSsn())
+                && !individualRepository.findByUser(authenticated).getSsn().equals(individual.getSsn())) {
             return Message.BAD_SSN_UPDATE.toString() + individualRepository.findByUser(authenticated).getSsn();
         }
 
@@ -209,7 +212,8 @@ public class AuthenticatorService implements UserDetailsService {
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticated != null
-                && authenticated.getUsername().equals(username))
+                && authenticated.getUsername().equals(username)
+                && thirdPartyRepository.existsByUser(authenticated))
             return thirdPartyRepository.findByUser(authenticated);
         else return null;
     }
@@ -218,11 +222,12 @@ public class AuthenticatorService implements UserDetailsService {
 
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (authenticated != null) {
+        if (authenticated == null) {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (authenticated.getUsername().equals(username)) {
+        if (!authenticated.getUsername().equals(username)
+                || !thirdPartyRepository.existsByUser(authenticated)) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -230,7 +235,8 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        if (thirdPartyRepository.existsByVat(thirdParty.getVat())) {
+        if (thirdPartyRepository.existsByVat(thirdParty.getVat())
+                && !thirdPartyRepository.findByUser(authenticated).getVat().equals(thirdParty.getVat())) {
             return Message.BAD_VAT_UPDATE.toString() + thirdPartyRepository.findByUser(authenticated).getVat();
         }
 
@@ -252,17 +258,17 @@ public class AuthenticatorService implements UserDetailsService {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (user != null) {
+        if (user == null) {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (user.getUsername().equals(oldUsername)) {
+        if (!user.getUsername().equals(oldUsername)
+                || !userRepository.existsByUsername(oldUsername)) {
             return Message.BAD_REQUEST.toString();
         }
 
-        if (!userRepository.existsByUsername(newUsername)) {
+        if (userRepository.existsByUsername(newUsername)) {
             return Message.USERNAME_ALREADY_EXISTS.toString() + newUsername;
-
         }
 
         if (individualRepository.existsByUser(user)) {
@@ -285,11 +291,12 @@ public class AuthenticatorService implements UserDetailsService {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (user != null) {
+        if (user == null) {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (user.getUsername().equals(username)) {
+        if (!user.getUsername().equals(username)
+                || !userRepository.existsByUsername(username)) {
             return Message.BAD_REQUEST.toString();
         }
 

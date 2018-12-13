@@ -1,13 +1,14 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @MappedSuperclass
 public abstract class Request {
     @Id
     @GeneratedValue
     private Long id;
-    private String timestamp;
+    private Date timestamp;
     private Boolean subscription;
 
     @ManyToOne
@@ -18,7 +19,7 @@ public abstract class Request {
         return id;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

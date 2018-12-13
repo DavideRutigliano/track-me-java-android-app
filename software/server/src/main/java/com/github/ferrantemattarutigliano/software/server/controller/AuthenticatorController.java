@@ -7,9 +7,13 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
+@RequestMapping("/users")
 public class AuthenticatorController {
 
     @Autowired
@@ -44,17 +48,42 @@ public class AuthenticatorController {
     @PostMapping("/login")
     @ResponseBody
     public @DTO(UserDTO.class)
-    User login(@RequestBody @DTO(UserDTO.class) User user) {
+    User login(@RequestBody @DTO(UserDTO.class) User user,
+               HttpServletResponse response) {
 
-        return authenticatorService.login(user);
+        User authenticated = authenticatorService.login(user);
+
+        if (authenticated == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+
+        return authenticated;
     }
 
+    @PreAuthorize("hasAnyRole('INDIVIDUAL','THIRD_PARTY')")
     @GetMapping("/logout")
     public String logout() {
         return "Success!";
     }
 
-    @GetMapping("/individuals/{username}")
+    @PreAuthorize("hasAnyRole('INDIVIDUAL','THIRD_PARTY')")
+    @PutMapping("/{username}/username")
+    public String changeUsername(@PathVariable("username") String username,
+                                 @RequestBody String newUsername) {
+
+        return authenticatorService.changeUsername(username, newUsername);
+    }
+
+    @PreAuthorize("hasAnyRole('INDIVIDUAL','THIRD_PARTY')")
+    @PutMapping("/{username}/password")
+    public String changePassword(@PathVariable("username") String username,
+                                 @RequestBody String password) {
+
+        return authenticatorService.changePassword(username, password);
+    }
+
+    @PreAuthorize("hasRole('INDIVIDUAL')")
+    @GetMapping("/individual/data/{username}")
     @ResponseBody
     public @DTO(IndividualDTO.class)
     Individual getIndividualProfile(@PathVariable String username) {
@@ -62,14 +91,16 @@ public class AuthenticatorController {
         return authenticatorService.getIndividualProfile(username);
     }
 
-    @PutMapping("/individuals/{username}")
+    @PreAuthorize("hasRole('INDIVIDUAL')")
+    @PutMapping("/individual/data/{username}")
     public String changeIndividualProfile(@PathVariable String username,
                                           @RequestBody @DTO(IndividualDTO.class) Individual individual) {
 
         return authenticatorService.changeIndividualProfile(username, individual);
     }
 
-    @GetMapping("/thirdparties/{username}")
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping("/thirdparty/data/{username}")
     @ResponseBody
     public @DTO(ThirdPartyDTO.class)
     ThirdParty getThirdPartyProfile(@PathVariable String username) {
@@ -77,25 +108,12 @@ public class AuthenticatorController {
         return authenticatorService.getThirdPartyProfile(username);
     }
 
-    @PutMapping("/thirdparties/{username}")
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @PutMapping("/thirdparty/data/{username}")
     public String changeThirdPartyProfile(@PathVariable String username,
                                           @RequestBody @DTO(ThirdPartyDTO.class) ThirdParty thirdParty) {
 
         return authenticatorService.changeThirdPartyProfile(username, thirdParty);
-    }
-
-    @PutMapping("/changeusername/{username}")
-    public String changeUsername(@PathVariable("username") String username,
-                                 @RequestBody String newUsername) {
-
-        return authenticatorService.changeUsername(username, newUsername);
-    }
-
-    @PutMapping("/changepassword/{username}")
-    public String changePassword(@PathVariable("username") String username,
-                                 @RequestBody String password) {
-
-        return authenticatorService.changePassword(username, password);
     }
 
 }
