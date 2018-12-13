@@ -243,7 +243,8 @@ public class RequestService {
             }
         }
 
-        Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
+        if (specification != null)
+            Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
 
         if (receivers.size() < 1000)
             return Message.REQUEST_NOT_ANONYMOUS.toString();
