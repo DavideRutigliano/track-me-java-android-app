@@ -18,15 +18,8 @@ import javax.sql.DataSource;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private String USERS_QUERY = "SELECT username, password, 1 FROM user WHERE username = ?";
-    private String AUTH_QUERY = "SELECT userId, 'ROLE_INDIVIDUAL' FROM individual " +
-            "UNION " +
-            "SELECT userId, 'ROLE_THIRD_PARTY' FROM thirdParty " +
-            "WHERE userId = " +
-            "(SELECT id FROM user WHERE username = ?)";
 
     @Autowired
     private AuthenticatorService authService;
@@ -55,9 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authenticationProvider(authService.authenticationProvider())
                 .jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery(USERS_QUERY)
-                .authoritiesByUsernameQuery(AUTH_QUERY);
+                .dataSource(dataSource);
     }
 
     @Override

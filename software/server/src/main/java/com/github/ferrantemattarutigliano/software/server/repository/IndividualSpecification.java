@@ -1,6 +1,7 @@
 package com.github.ferrantemattarutigliano.software.server.repository;
 
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.sql.Date;
@@ -8,6 +9,172 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class IndividualSpecification {
+
+    public static Specification<Individual> findByCriteriaSpecification(String[] criteria) {
+        Specification<Individual> specification = null;
+
+        for (String criterion : criteria) {
+
+            if (criterion.contains("state")) {
+                String state = StringUtils.substringAfter(criterion, "state=");
+
+                specification = (specification != null) ? specification.and(inState(state)) : inState(state);
+            }
+
+            if (criterion.contains("city")) {
+                String city = StringUtils.substringAfter(criterion, "city=");
+
+                specification = (specification != null) ? specification.and(inCity(city)) : inCity(city);
+            }
+
+            if (criterion.contains("address")) {
+                String address = StringUtils.substringAfter(criterion, "address=");
+
+                specification = (specification != null) ? specification.and(withAddress(address)) : withAddress(address);
+            }
+
+            if (criterion.contains("firstname")) {
+                String firstname;
+                if (criterion.contains("like")) {
+                    firstname = StringUtils.substringAfter(criterion, "like-firstname=");
+
+                    specification = (specification != null) ? specification.and(likeFirstname(firstname)) : likeFirstname(firstname);
+                } else {
+                    firstname = StringUtils.substringAfter(criterion, "firstname=");
+
+                    specification = (specification != null) ? specification.and(withFirstname(firstname)) : withFirstname(firstname);
+                }
+            }
+
+            if (criterion.contains("lastname")) {
+                String lastname;
+
+                if (criterion.contains("like")) {
+                    lastname = StringUtils.substringAfter(criterion, "like-lastname=");
+
+                    specification = (specification != null) ? specification.and(likeLastname(lastname)) : likeLastname(lastname);
+                } else {
+                    lastname = StringUtils.substringAfter(criterion, "lastname=");
+
+                    specification = (specification != null) ? specification.and(withLastname(lastname)) : withLastname(lastname);
+                }
+            }
+
+            if (criterion.contains("birtdate")) {
+
+                if (criterion.contains(",")) {
+                    String from = StringUtils.substringBetween(criterion, "birthdate:", ",");
+                    String to = StringUtils.substringAfter(criterion, ",");
+
+                    specification = (specification != null) ? specification.and(beetweenBirthDates(from, to)) : beetweenBirthDates(from, to);
+                } else {
+                    String birtdate;
+                    if (criterion.contains("<")) {
+
+                        if (criterion.contains("=")) {
+                            birtdate = StringUtils.substringAfter(criterion, "birthdate<=");
+
+                            specification = (specification != null)
+                                    ? specification.and(lessThanBirthDate(birtdate).or(withBirthDate(birtdate)))
+                                    : lessThanBirthDate(birtdate).or(withBirthDate(birtdate));
+                        } else {
+                            birtdate = StringUtils.substringAfter(criterion, "birthdate<");
+
+                            specification = (specification != null) ? specification.and(lessThanBirthDate(birtdate)) : lessThanBirthDate(birtdate);
+                        }
+                    } else if (criterion.contains(">")) {
+
+                        if (criterion.contains("=")) {
+                            birtdate = StringUtils.substringAfter(criterion, "birthdate>=");
+
+                            specification = (specification != null)
+                                    ? specification.and(greaterThanBirthDate(birtdate).or(withBirthDate(birtdate)))
+                                    : greaterThanBirthDate(birtdate).or(withBirthDate(birtdate));
+                        } else {
+                            birtdate = StringUtils.substringAfter(criterion, "birthdate>");
+
+                            specification = (specification != null) ? specification.and(greaterThanBirthDate(birtdate)) : greaterThanBirthDate(birtdate);
+                        }
+                    } else if (criterion.contains("=")) {
+                        birtdate = StringUtils.substringAfter(criterion, "birthdate=");
+
+                        specification = (specification != null) ? specification.and(withBirthDate(birtdate)) : withBirthDate(birtdate);
+                    }
+                }
+            }
+
+            if (criterion.contains("height")) {
+                String height;
+
+                if (criterion.contains("<")) {
+                    if (criterion.contains("=")) {
+                        height = StringUtils.substringAfter(criterion, "height<=");
+
+                        specification = (specification != null)
+                                ? specification.and(shorterThanHeight(height).or(withHeight(height)))
+                                : shorterThanHeight(height).or(withHeight(height));
+                    } else {
+                        height = StringUtils.substringAfter(criterion, "height<");
+
+                        specification = (specification != null) ? specification.and(shorterThanHeight(height)) : shorterThanHeight(height);
+                    }
+                } else if (criterion.contains(">")) {
+                    if (criterion.contains("=")) {
+                        height = StringUtils.substringAfter(criterion, "height>=");
+
+                        specification = (specification != null)
+                                ? specification.and(tallerThanHeight(height).or(withHeight(height)))
+                                : tallerThanHeight(height).or(withHeight(height));
+                    } else {
+                        height = StringUtils.substringAfter(criterion, "height>");
+
+                        specification = (specification != null) ? specification.and(tallerThanHeight(height)) : tallerThanHeight(height);
+                    }
+                } else if (criterion.contains("=")) {
+                    height = StringUtils.substringAfter(criterion, "height=");
+
+                    specification = (specification != null) ? specification.and(withHeight(height)) : withHeight(height);
+
+                }
+            }
+
+            if (criterion.contains("weight")) {
+                String weight;
+
+                if (criterion.contains("<")) {
+                    if (criterion.contains("=")) {
+                        weight = StringUtils.substringAfter(criterion, "weight<=");
+
+                        specification = (specification != null)
+                                ? specification.and(lighterThanWeight(weight).or(withWeight(weight)))
+                                : lighterThanWeight(weight).or(withWeight(weight));
+                    } else {
+                        weight = StringUtils.substringAfter(criterion, "weight<");
+
+                        specification = (specification != null) ? specification.and(lighterThanWeight(weight)) : lighterThanWeight(weight);
+                    }
+                } else if (criterion.contains(">")) {
+                    if (criterion.contains("=")) {
+                        weight = StringUtils.substringAfter(criterion, "weight>=");
+
+                        specification = (specification != null)
+                                ? specification.and(heavierThanWeight(weight).or(withWeight(weight)))
+                                : heavierThanWeight(weight).or(withWeight(weight));
+                    } else {
+                        weight = StringUtils.substringAfter(criterion, "weight>");
+
+                        specification = (specification != null) ? specification.and(heavierThanWeight(weight)) : heavierThanWeight(weight);
+                    }
+                } else if (criterion.contains("=")) {
+                    weight = StringUtils.substringAfter(criterion, "weight=");
+
+                    specification = (specification != null) ? specification.and(withWeight(weight)) : withWeight(weight);
+                }
+            }
+        }
+
+        return specification;
+    }
 
     public static Specification<Individual> withFirstname(String firstname) {
         if (firstname == null) {

@@ -5,9 +5,13 @@ import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
+import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,5 +73,19 @@ public class RequestController {
                                 @RequestBody Boolean accepted) {
 
         return requestService.handleRequest(id, accepted);
+    }
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping(path = "/individual/{id}/data")
+    public Collection<HealthData> showIndividualData(@PathVariable("id") String id,
+                                                     @RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
+        return requestService.showIndividualData(individualRequest);
+    }
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping(path = "/group/{id}/data")
+    public Collection<HealthData> showGroupData(@PathVariable("id") String id,
+                                                @RequestBody @DTO(GroupRequestDTO.class) GroupRequest groupRequest) {
+        return requestService.showGroupData(groupRequest);
     }
 }
