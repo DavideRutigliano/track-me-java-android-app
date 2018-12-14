@@ -2,6 +2,9 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -22,13 +25,13 @@ public class Run {
     @JoinTable(name = "runEnroll",
             joinColumns = {@JoinColumn(name = "runId")},
             inverseJoinColumns = {@JoinColumn(name = "athleteId")})
-    private Set<Individual> athletes;
+    private Collection<Individual> athletes = new ArrayList(new LinkedHashSet());
 
     @ManyToMany
     @JoinTable(name = "runWatch",
             joinColumns = {@JoinColumn(name = "runId")},
             inverseJoinColumns = {@JoinColumn(name = "spectatorId")})
-    private Set<Individual> spectators;
+    private Collection<Individual> spectators = new ArrayList(new LinkedHashSet());
 
     protected Run() {}
 
@@ -43,35 +46,71 @@ public class Run {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getDate() {
         return date;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Date getTime() {
         return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public String getPath() {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Individual getOrganizer() {
         return organizer;
     }
 
-    public Set<Individual> getAthletes() {
+    public void setOrganizer(Individual organizer) {
+        this.organizer = organizer;
+    }
+
+    public Collection<Individual> getAthletes() {
         return athletes;
     }
 
-    public Set<Individual> getSpectators() {
+    public void enrollAthlete(Individual athlete) {
+        this.athletes.add(athlete);
+    }
+
+    public void removeAthlete(Individual athlete) {
+        this.athletes.remove(athlete);
+    }
+
+    public Collection<Individual> getSpectators() {
         return spectators;
     }
 
-    public void setOrganizer(Individual organizer) {
-        this.organizer = organizer;
+    public void addSpectator(Individual spectator) {
+        this.spectators.add(spectator);
+    }
+
+    public void removeSpectator(Individual spectator) {
+        this.athletes.remove(spectator);
     }
 }
