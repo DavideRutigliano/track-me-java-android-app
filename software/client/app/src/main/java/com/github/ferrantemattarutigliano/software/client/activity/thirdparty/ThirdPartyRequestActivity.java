@@ -77,7 +77,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
                 finish(); //close the activity after a request has been made
             }
         });
-        alertDialogBuilder.setTitle("Request sent successfully");
+        alertDialogBuilder.setTitle("Information");
         alertDialogBuilder.setMessage(output);
         alertDialogBuilder.show();
     }

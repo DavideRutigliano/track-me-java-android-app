@@ -10,6 +10,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/spring.schemas'
+        exclude 'META-INF/spring.tooling'
+        exclude 'META-INF/spring.handlers'
     }
     compileSdkVersion 28
     defaultConfig {
@@ -30,6 +33,18 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
+
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -40,14 +55,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-
-repositories {
-    maven {
-        url 'https://repo.spring.io/libs-milestone'
-    }
 }

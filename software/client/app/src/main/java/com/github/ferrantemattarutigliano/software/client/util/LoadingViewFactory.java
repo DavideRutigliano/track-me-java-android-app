@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.github.ferrantemattarutigliano.software.client.R;
 
 public class LoadingViewFactory {
-    public LinearLayout create(Context context, @Nullable String message){
+    public LinearLayout create(Context context){
+        return create(context, "");
+    }
+
+    public LinearLayout create(Context context, String message){
         LinearLayout layout = buildLayout(context);
         ProgressBar progressBar = buildProgressBar(context);
         TextView textView = buildTextView(context, message);
