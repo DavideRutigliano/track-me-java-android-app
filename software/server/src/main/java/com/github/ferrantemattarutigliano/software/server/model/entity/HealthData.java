@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.server.model.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 public class HealthData {
@@ -10,7 +11,8 @@ public class HealthData {
     private Long id;
     private String name;
     private String value;
-    private Date timestamp;
+    private Date date;
+    private Time time;
 
     @ManyToOne
     @JoinColumn(name="individualId", nullable=false)
@@ -18,10 +20,10 @@ public class HealthData {
 
     protected HealthData() {}
 
-    public HealthData(String name, String value, Date timestamp) {
+    public HealthData(String name, String value, Date date) {
         this.name = name;
         this.value = value;
-        this.timestamp = timestamp;
+        this.date = date;
 
     }
 
@@ -37,11 +39,6 @@ public class HealthData {
         this.value = value;
     }
 
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public Long getId() {
         return id;
     }
@@ -54,9 +51,6 @@ public class HealthData {
         return value;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
 
     public Individual getIndividual() {
         return individual;
@@ -66,4 +60,19 @@ public class HealthData {
         this.individual = individual;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
 }

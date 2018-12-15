@@ -1,23 +1,17 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Collection;
 
 public class RunDTO {
-    @NotNull
     private Long id;
-
-    @NotNull
     private String title;
-
-    @NotNull
     private Date date;
+    private Time time;
+    private Collection<PositionDTO> path;
 
-    @NotNull
-    private Date time;
-
-    @NotNull
-    private String path;
+    public RunDTO() {}
 
     public Long getId() {
         return id;
@@ -43,19 +37,19 @@ public class RunDTO {
         this.date = date;
     }
 
-    public Date getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 
-    public String getPath() {
+    public Collection<PositionDTO> getPath() {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(Collection<PositionDTO> path) {
         this.path = path;
     }
 }

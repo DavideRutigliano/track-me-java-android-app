@@ -1,15 +1,17 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.*;
-import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
+import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
-import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.IndividualDataService;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 

@@ -3,7 +3,6 @@ package com.github.ferrantemattarutigliano.software.server.service;
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,12 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Optional;
-
-import static com.github.ferrantemattarutigliano.software.server.repository.IndividualSpecification.*;
 
 @Service
 public class RequestService {
@@ -58,11 +54,11 @@ public class RequestService {
 
         //TODO Add subscription topic
         String username = receiver.getUser().getUsername();
-
+        /*
         simpMessagingTemplate
                 .convertAndSendToUser(username, "/server/request", "request from: " +
                         individualRequest.getThirdParty().getOrganizationName() + ", sent: " +
-                                individualRequest.getTimestamp());
+                                individualRequest.getTimestamp()); //TODO FIX WITH DATE AND TIME!!! */
 
         return Message.REQUEST_SUCCESS.toString();
     }
@@ -157,8 +153,9 @@ public class RequestService {
         if (individualRequestRepository.isSubscriptionRequest(request.getId())) {
             return healthDataRepository.findByIndividual(individualRepository.findBySsn(ssn));
         } else {
-            Date timestamp = request.getTimestamp();
-            return healthDataRepository.findUntilTimestamp(ssn, timestamp);
+            //Date timestamp = request.getTimestamp(); TODO FIX WITH DATE AND TIME!!!
+            //return healthDataRepository.findUntilTimestamp(ssn, timestamp);
+            return null;
         }
     }
 

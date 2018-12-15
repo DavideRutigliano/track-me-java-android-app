@@ -78,14 +78,15 @@ public class AuthenticatorService implements UserDetailsService {
     public String thirdPartyRegistration(ThirdParty thirdParty) {
 
         String plaintextPass = thirdParty.getUser().getPassword();
+        User user = thirdParty.getUser();
 
-        if (thirdPartyAlreadyExists(thirdParty.getUser().getUsername(),
-                thirdParty.getUser().getEmail(),
+        if (thirdPartyAlreadyExists(user.getUsername(),
+                user.getEmail(),
                 thirdParty.getVat())) {
             return Message.THIRD_PARTY_ALREADY_EXISTS.toString();
         }
 
-        if (!emailIsValid(thirdParty.getUser().getEmail())) {
+        if (!emailIsValid(user.getEmail())) {
             return Message.INVALID_EMAIL.toString();
         }
 
@@ -282,7 +283,7 @@ public class AuthenticatorService implements UserDetailsService {
             user.setUsername(newUsername);
             userRepository.save(user);
             thirdParty.setUser(user);
-            individualRepository.save(thirdParty);
+            thirdPartyRepository.save(thirdParty);
         }
         return Message.CHANGE_USERNAME_SUCCESS.toString() + newUsername;
     }
@@ -340,13 +341,11 @@ public class AuthenticatorService implements UserDetailsService {
     }
 
     private boolean emailIsValid(String email) {
-
-        return match("([a-z0-9][-a-z0-9_\\+\\.]*[a-z0-9])@([a-z0-9][-a-z0-9\\.]*[a-z0-9]\\.(com|it|org|net|co\\.uk|edu)|([0-9]{1,3}\\.{3}[0-9]{1,3}))", email);
+        return match("^(.+)@(.+)$", email);
     }
 
     private boolean ssnIsValid(String ssn) {
-
-        return match("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ssn);
+        return match("[0-9]{9}", ssn);
     }
 
     private boolean vatIsValid(String vat) {

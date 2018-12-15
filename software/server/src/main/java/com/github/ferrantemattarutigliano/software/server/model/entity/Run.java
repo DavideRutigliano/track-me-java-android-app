@@ -1,20 +1,27 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({
+        "organizer",
+        "athletes",
+        "spectators"
+})
 public class Run {
     @Id
     @GeneratedValue
     private Long id;
     private String title;
     private Date date;
-    private Date time;
+    private Time time;
     private String path;
 
     @ManyToOne
@@ -35,7 +42,7 @@ public class Run {
 
     protected Run() {}
 
-    public Run(String title, Date date, Date time, String path) {
+    public Run(String title, Date date, Time time, String path) {
         this.title = title;
         this.date = date;
         this.time = time;
@@ -66,11 +73,11 @@ public class Run {
         this.date = date;
     }
 
-    public Date getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 

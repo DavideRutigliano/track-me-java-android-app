@@ -1,16 +1,26 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserDTO implements Serializable {
     private Long id;
-    @NotNull
     private String username;
-    @NotNull
     private String password;
     private String email;
     private String role;
+
+    public UserDTO() {}
+
+    public UserDTO(String username, String password, String email) {
+        this(username, password, email, null);
+    }
+
+    public UserDTO(String username, String password, String email, String role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -20,7 +30,9 @@ public class UserDTO implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -49,5 +61,5 @@ public class UserDTO implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-
 }
+

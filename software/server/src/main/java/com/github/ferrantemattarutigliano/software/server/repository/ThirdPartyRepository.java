@@ -4,7 +4,7 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdPart
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ThirdPartyRepository<T extends ThirdParty> extends JpaRepository<T, Long> {
+public interface ThirdPartyRepository extends JpaRepository<ThirdParty, Long> {
     Boolean existsByUser(User user);
 
     ThirdParty findByUser(User user);

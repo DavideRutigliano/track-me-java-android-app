@@ -1,14 +1,14 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-import javax.validation.constraints.NotNull;
-
-public class ThirdPartyDTO {
-
-    @NotNull
+public class ThirdPartyDTO{
     private String vat;
-
-    @NotNull
     private String organizationName;
+
+
+    public ThirdPartyDTO(String vat, String organizationName) {
+        this.vat = vat;
+        this.organizationName = organizationName;
+    }
 
     public String getVat() {
         return vat;

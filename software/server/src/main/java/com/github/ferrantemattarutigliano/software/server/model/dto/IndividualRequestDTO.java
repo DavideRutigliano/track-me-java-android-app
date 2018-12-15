@@ -1,7 +1,16 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-public class IndividualRequestDTO extends RequestDTO {
+import java.io.Serializable;
+
+public class IndividualRequestDTO extends RequestDTO implements Serializable {
     private String ssn;
+
+    public IndividualRequestDTO() {}
+
+    public IndividualRequestDTO(String ssn, Boolean subscribed) {
+        super(subscribed);
+        this.ssn = ssn;
+    }
 
     public String getSsn() {
         return ssn;

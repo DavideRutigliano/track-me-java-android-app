@@ -8,11 +8,13 @@ import java.sql.Date;
 import java.util.Set;
 
 @Entity
-@JsonIgnoreProperties({"user",
+@JsonIgnoreProperties({
+        "user",
         "healthData",
         "createdRuns",
         "enrolledRuns",
-        "watchedRuns"})
+        "watchedRuns"
+})
 public class Individual implements Serializable {
 
     @Id
@@ -154,6 +156,38 @@ public class Individual implements Serializable {
 
     public Set<Run> getWatchedRuns() {
         return watchedRuns;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setHealthData(Set<HealthData> healthData) {
+        this.healthData = healthData;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setCreatedRuns(Set<Run> createdRuns) {
+        this.createdRuns = createdRuns;
+    }
+
+    public void setEnrolledRuns(Set<Run> enrolledRuns) {
+        this.enrolledRuns = enrolledRuns;
+    }
+
+    public void setWatchedRuns(Set<Run> watchedRuns) {
+        this.watchedRuns = watchedRuns;
     }
 }
 

@@ -1,11 +1,19 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public abstract class RequestDTO {
     private Long id;
     private Boolean subscribed;
-    private String senderVat;
+    private Date date;
+    private Time time;
 
     public RequestDTO() {}
+
+    public RequestDTO(Boolean subscribed) {
+        this.subscribed = subscribed;
+    }
 
     public Long getId() {
         return id;
@@ -23,7 +31,19 @@ public abstract class RequestDTO {
         this.subscribed = subscribed;
     }
 
-    public String getSenderVat() {
-        return senderVat;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }

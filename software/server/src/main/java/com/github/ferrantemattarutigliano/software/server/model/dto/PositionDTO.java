@@ -1,12 +1,12 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
+import java.sql.Date;
 import java.sql.Time;
-import java.util.Date;
 
-public class HealthDataDTO {
+public class PositionDTO {
     private Long id;
-    private String name;
-    private String value;
+    private float latitude;
+    private float longitude;
     private Date date;
     private Time time;
 
@@ -18,20 +18,20 @@ public class HealthDataDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
-    public String getValue() {
-        return value;
+    public float getLongitude() {
+        return longitude;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
     public Date getDate() {

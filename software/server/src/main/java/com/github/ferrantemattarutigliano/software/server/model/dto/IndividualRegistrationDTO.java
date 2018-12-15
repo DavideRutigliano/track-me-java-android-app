@@ -1,14 +1,13 @@
 package com.github.ferrantemattarutigliano.software.server.model.dto;
 
-import javax.validation.constraints.NotNull;
-
 public class IndividualRegistrationDTO {
-
-    @NotNull
     private UserDTO user;
-
-    @NotNull
     private IndividualDTO individual;
+
+    public IndividualRegistrationDTO(UserDTO user, IndividualDTO individual) {
+        this.user = user;
+        this.individual = individual;
+    }
 
     public UserDTO getUser() {
         return user;
