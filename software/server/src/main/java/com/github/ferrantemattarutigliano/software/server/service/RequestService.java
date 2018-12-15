@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -27,8 +29,6 @@ public class RequestService {
     private ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private HealthDataRepository healthDataRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
 
     public String individualRequest(IndividualRequest individualRequest) {
 
@@ -50,15 +50,7 @@ public class RequestService {
         individualRequest.setThirdParty(sender);
         individualRequestRepository.save(individualRequest);
 
-        Individual receiver = individualRepository.findBySsn(ssn);
-
         //TODO Add subscription topic
-        String username = receiver.getUser().getUsername();
-        /*
-        simpMessagingTemplate
-                .convertAndSendToUser(username, "/server/request", "request from: " +
-                        individualRequest.getThirdParty().getOrganizationName() + ", sent: " +
-                                individualRequest.getTimestamp()); //TODO FIX WITH DATE AND TIME!!! */
 
         return Message.REQUEST_SUCCESS.toString();
     }
@@ -153,9 +145,9 @@ public class RequestService {
         if (individualRequestRepository.isSubscriptionRequest(request.getId())) {
             return healthDataRepository.findByIndividual(individualRepository.findBySsn(ssn));
         } else {
-            //Date timestamp = request.getTimestamp(); TODO FIX WITH DATE AND TIME!!!
-            //return healthDataRepository.findUntilTimestamp(ssn, timestamp);
-            return null;
+            Date date = request.getDate();
+            Time time = request.getTime();
+            return healthDataRepository.findUntilTimestamp(ssn, date, time);
         }
     }
 
