@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    implementation 'com.github.NaikSoftware:StompProtocolAndroid:1.1.5'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
