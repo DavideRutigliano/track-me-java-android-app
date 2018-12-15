@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.Information;
-import com.github.ferrantemattarutigliano.software.client.TestActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -69,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             intent = new Intent(this, IndividualHomeActivity.class);
         }
         else if(userDTO.getRole().equals("THIRD_PARTY")){
-            intent = new Intent(this, TestActivity.class); //TODO CHANGE THIS! DEBUG!
+            intent = new Intent(this, ThirdPartyHomeActivity.class);
         }
         else{
             throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());

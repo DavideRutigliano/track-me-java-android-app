@@ -3,17 +3,12 @@ package com.github.ferrantemattarutigliano.software.client.model;
 import java.sql.Date;
 import java.sql.Time;
 
-public abstract class RequestDTO {
+public class PositionDTO {
     private Long id;
-    private Boolean subscribed;
+    private float latitude;
+    private float longitude;
     private Date date;
     private Time time;
-
-    public RequestDTO() {}
-
-    public RequestDTO(Boolean subscribed) {
-        this.subscribed = subscribed;
-    }
 
     public Long getId() {
         return id;
@@ -23,12 +18,20 @@ public abstract class RequestDTO {
         this.id = id;
     }
 
-    public Boolean getSubscribed() {
-        return subscribed;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setSubscribed(Boolean subscribed) {
-        this.subscribed = subscribed;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
     public Date getDate() {

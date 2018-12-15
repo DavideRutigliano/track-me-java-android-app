@@ -15,12 +15,12 @@ import java.util.Map;
 
 @Authorized
 public class IndividualGetRequestsTask extends HttpTask<Collection<IndividualRequestDTO>> {
-    public IndividualGetRequestsTask(Long individualId, AsyncResponse<Collection<IndividualRequestDTO>> asyncResponse) {
+    public IndividualGetRequestsTask(String username, AsyncResponse<Collection<IndividualRequestDTO>> asyncResponse) {
         super(new ParameterizedTypeReference<Collection<IndividualRequestDTO>>(){}, asyncResponse);
-        String path = "/request/individual/{individual_id}";
+        String path = "/request/{username}/received";
         HttpMethod type = HttpMethod.GET;
         Map<String, Object> getParameters = new HashMap<>();
-        getParameters.put("individual_id", individualId);
+        getParameters.put("username", username);
         HttpInformationContainer container = new HttpInformationContainer(path, type, getParameters);
         setHttpInformationContainer(container);
     }

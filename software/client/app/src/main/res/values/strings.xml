@@ -37,6 +37,10 @@
     <string name="button_change_view_data">View Data</string>
     <string name="button_view_requests">View Requests</string>
     <string name="switch_automated_sos">Automated Sos</string>
+    <string name="button_created_runs">Created Runs</string>
+    <string name="button_watched_runs">Watched Runs</string>
+    <string name="button_enrolled_runs">Enrolled Runs</string>
+    <string name="button_search_runs">Search Runs</string>
     <string name="tab_individual">Individual</string>
     <string name="tab_third_party">Third Party</string>
     <string name="tab_request_group">Group</string>

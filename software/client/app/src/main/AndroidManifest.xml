@@ -3,13 +3,9 @@
     package="com.github.ferrantemattarutigliano.software.client">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -40,9 +36,11 @@
         <activity
             android:name=".activity.thirdparty.ThirdPartyRequestActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_run_map" />
+        <activity android:name=".activity.individual.IndividualMapActivity" />
+        <activity android:name=".activity.individual.IndividualCreatedRunsActivity" />
+        <activity android:name=".activity.individual.IndividualWatchedRunsActivity" />
+        <activity android:name=".activity.individual.IndividualEnrolledRunsActivity" />
+        <activity android:name=".activity.individual.IndividualNewRunActivity"></activity>
     </application>
 
 </manifest>

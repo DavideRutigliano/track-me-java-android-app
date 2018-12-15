@@ -90,7 +90,10 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
     private O sendRequest(RestTemplate restTemplate, HttpMethod httpMethod, String path, Object parameter, HttpHeaders headers){
         HttpEntity<Object> requestEntity = new HttpEntity<>(parameter, headers);
         ResponseEntity<O> responseEntity;
-        responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputClass);
+        if(outputClass != null)
+            responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputClass);
+        else
+            responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputCollection);
         resultType = HttpRequestStatus.SUCCESS;
         O result = null; //todo add error handling
         try{

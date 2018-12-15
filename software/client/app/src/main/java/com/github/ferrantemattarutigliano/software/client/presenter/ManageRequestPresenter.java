@@ -1,5 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.presenter;
 
+import com.github.ferrantemattarutigliano.software.client.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualGetRequestsTask;
@@ -13,9 +14,8 @@ public class ManageRequestPresenter extends Presenter<ManageRequestView>{
         super(view);
     }
 
-    public Collection<IndividualRequestDTO> getRequests(){
-        //todo add real individual id
-        new IndividualGetRequestsTask(1L, new AsyncResponse<Collection<IndividualRequestDTO>>() {
+    public void getRequests(){
+        new IndividualGetRequestsTask(SessionDirector.USERNAME, new AsyncResponse<Collection<IndividualRequestDTO>>() {
             @Override
             public void taskFinish(Collection<IndividualRequestDTO> output) {
                 if(output.isEmpty()){
@@ -27,9 +27,9 @@ public class ManageRequestPresenter extends Presenter<ManageRequestView>{
 
             @Override
             public void taskFailMessage(String message) {
+
                 view.onShowRequestsFail(message);
             }
-        });
-        return null;
+        }).execute();
     }
 }

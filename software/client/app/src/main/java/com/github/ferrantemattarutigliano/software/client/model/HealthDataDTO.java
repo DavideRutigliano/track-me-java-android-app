@@ -1,12 +1,14 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class HealthDataDTO {
     private Long id;
     private String name;
     private String value;
-    private Date timestamp;
+    private Date date;
+    private Time time;
 
     public Long getId() {
         return id;
@@ -32,11 +34,19 @@ public class HealthDataDTO {
         this.value = value;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }

@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_vat"
                     android:inputType="text"
-                    android:maxLength="@integer/ssn_length" />
+                    android:maxLength="@integer/vat_length" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

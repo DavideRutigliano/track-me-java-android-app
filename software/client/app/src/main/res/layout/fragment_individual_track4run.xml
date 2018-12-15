@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="81dp">
+
+    <Button
+        android:id="@+id/button_individual_created_runs"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:text="@string/button_created_runs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_individual_enrolled_runs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:text="@string/button_enrolled_runs"
+        app:layout_constraintEnd_toEndOf="@+id/button_individual_watched_runs"
+        app:layout_constraintStart_toStartOf="@+id/button_individual_watched_runs"
+        app:layout_constraintTop_toBottomOf="@+id/button_individual_created_runs" />
+
+    <Button
+        android:id="@+id/button_individual_watched_runs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="@string/button_watched_runs"
+        app:layout_constraintEnd_toEndOf="@+id/button_individual_search_runs"
+        app:layout_constraintStart_toStartOf="@+id/button_individual_search_runs"
+        app:layout_constraintTop_toBottomOf="@+id/button_individual_enrolled_runs" />
+
+    <Button
+        android:id="@+id/button_individual_search_runs"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/button_search_runs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_individual_watched_runs" />
+
+</android.support.constraint.ConstraintLayout>

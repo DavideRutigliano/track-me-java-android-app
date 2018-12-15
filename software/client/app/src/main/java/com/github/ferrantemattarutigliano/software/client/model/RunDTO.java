@@ -2,18 +2,16 @@ package com.github.ferrantemattarutigliano.software.client.model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Collection;
 
-public abstract class RequestDTO {
+public class RunDTO {
     private Long id;
-    private Boolean subscribed;
+    private String title;
     private Date date;
     private Time time;
+    private Collection<PositionDTO> path;
 
-    public RequestDTO() {}
-
-    public RequestDTO(Boolean subscribed) {
-        this.subscribed = subscribed;
-    }
+    public RunDTO() {}
 
     public Long getId() {
         return id;
@@ -23,12 +21,12 @@ public abstract class RequestDTO {
         this.id = id;
     }
 
-    public Boolean getSubscribed() {
-        return subscribed;
+    public String getTitle() {
+        return title;
     }
 
-    public void setSubscribed(Boolean subscribed) {
-        this.subscribed = subscribed;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getDate() {
@@ -45,5 +43,13 @@ public abstract class RequestDTO {
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    public Collection<PositionDTO> getPath() {
+        return path;
+    }
+
+    public void setPath(Collection<PositionDTO> path) {
+        this.path = path;
     }
 }

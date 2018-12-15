@@ -1,5 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client;
-
+/*
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -109,4 +109,4 @@ public class TestActivity extends AppCompatActivity {
             }
         });
     }
-}
+} */

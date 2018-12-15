@@ -20,6 +20,7 @@ import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragmen
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualManageRequestsFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 
 public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,7 +104,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = NotImplementedFragment.class;
                 break;
             case R.id.nav_track4run:
-                fragmentClass = NotImplementedFragment.class;
+                fragmentClass = IndividualTrack4RunFragment.class;
                 break;
             case R.id.nav_logout:
                 fragmentClass = LogoutFragment.class;
