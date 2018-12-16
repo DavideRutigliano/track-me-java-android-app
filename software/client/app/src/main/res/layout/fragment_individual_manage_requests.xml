@@ -2,39 +2,61 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_individual_manage_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.individual.IndividualManageRequests"
+    tools:context=".fragment.individual.IndividualManageRequestsFragment"
     tools:layout_editor_absoluteY="81dp">
 
-    <LinearLayout
-        android:id="@+id/container_individual_manage_requests"
+    <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button_individual_view_old_requests"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/container_individual_manage_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="110dp">
 
-    <Button
-        android:id="@+id/button_individual_view_old_requests"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="219dp"
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="@string/text_view_old_requests"
-        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container_individual_manage_requests" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+
+        <Button
+            android:id="@+id/button_individual_view_old_requests"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="41dp"
+            android:text="@string/text_view_old_requests"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

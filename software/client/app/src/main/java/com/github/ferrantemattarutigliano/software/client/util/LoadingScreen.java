@@ -1,5 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.util;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -7,6 +8,10 @@ public class LoadingScreen {
     private LinearLayout loadingScreen;
     private ViewGroup viewGroup;
     private boolean isShowing;
+
+    public LoadingScreen(ViewGroup viewGroup) {
+        this(viewGroup, "");
+    }
 
     public LoadingScreen(ViewGroup viewGroup, String message) {
         buildLoadingScreen(viewGroup, message);
@@ -23,7 +28,7 @@ public class LoadingScreen {
         isShowing = false;
     }
 
-    public void changeMessage(String message){
+    public void changeMessage(@NonNull String message){
         buildLoadingScreen(viewGroup, message);
         if(isShowing) show();
     }

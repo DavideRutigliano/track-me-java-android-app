@@ -6,18 +6,16 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.HttpInform
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
 import com.github.ferrantemattarutigliano.software.client.model.ReceivedRequestDTO;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 
-import java.util.Collection;
-
 @Authorized
-public class IndividualGetRequestsTask extends HttpTask<Collection<ReceivedRequestDTO>> {
-    public IndividualGetRequestsTask(String username, AsyncResponse<Collection<ReceivedRequestDTO>> asyncResponse) {
-        super(new ParameterizedTypeReference<Collection<ReceivedRequestDTO>>(){}, asyncResponse);
-        String path = "/request/" + username + "/received";
-        HttpMethod type = HttpMethod.GET;
-        HttpInformationContainer container = new HttpInformationContainer(path, type);
+public class IndividualHandleRequest extends HttpTask<String> {
+
+    public IndividualHandleRequest(String username, ReceivedRequestDTO receivedRequestDTO, AsyncResponse<String> asyncResponse) {
+        super(String.class, asyncResponse);
+        String path = "request/" + username + "/incoming/" + receivedRequestDTO.getId();
+        HttpMethod type = HttpMethod.PUT;
+        HttpInformationContainer container = new HttpInformationContainer(path, type, receivedRequestDTO.getAccepted());
         setHttpInformationContainer(container);
     }
 }

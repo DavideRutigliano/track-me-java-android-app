@@ -3,9 +3,12 @@ package com.github.ferrantemattarutigliano.software.client.presenter;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.client.model.RequestDTO;
 import com.github.ferrantemattarutigliano.software.client.task.thirdParty.GroupRequestTask;
 import com.github.ferrantemattarutigliano.software.client.task.thirdParty.IndividualRequestTask;
 import com.github.ferrantemattarutigliano.software.client.view.RequestView;
+
+import java.sql.Date;
 
 public class RequestPresenter extends Presenter<RequestView>{
     public RequestPresenter(RequestView view) {

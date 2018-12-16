@@ -71,7 +71,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             Log.e("HTTP_TIMEOUT", "Http connection timeout");
             resultType = HttpRequestStatus.TIMEOUT;
         } catch (HttpMessageNotReadableException e) {
-            Log.e("HTTP_JSON_ERROR", "Http json error");
+            Log.e("HTTP_JSON_ERROR", "Http json error: " + e.getMessage());
             e.fillInStackTrace();
             resultType = HttpRequestStatus.JSON_FAIL;
         } catch (RuntimeException e) {
