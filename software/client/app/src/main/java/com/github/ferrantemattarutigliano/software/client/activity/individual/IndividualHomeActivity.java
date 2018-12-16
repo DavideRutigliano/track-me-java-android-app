@@ -1,9 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
@@ -21,25 +20,28 @@ import com.github.ferrantemattarutigliano.software.client.fragment.NotImplemente
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualManageRequestsFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
+import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.client.presenter.IndividualHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.session.Profile;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
+import com.github.ferrantemattarutigliano.software.client.view.IndividualHomeView;
 
 public class IndividualHomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IndividualHomeView {
+    private IndividualHomePresenter individualHomePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_individual);
+        individualHomePresenter = new IndividualHomePresenter(this);
+        individualHomePresenter.doFetchProfile();
+    }
+
+    @Override
+    public void onProfileFetch(IndividualDTO individualDTO) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Not implemented", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         //create left navigation menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -50,6 +52,12 @@ public class IndividualHomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //populate with profile info
+        String profileName = individualDTO.getFirstname() + "\n" + individualDTO.getLastname();
+        String profileInfo = individualDTO.getSsn();
+        Profile profile = new Profile(profileName, profileInfo);
+        SessionDirector.setProfile(profile);
 
         //on start select the page my account
         changeShowedFragment(IndividualAccountFragment.class);

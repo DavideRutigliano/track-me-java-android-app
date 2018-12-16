@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -52,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
                     editor.putString("password", password);
+                    editor.putBoolean("remember", true);
                     editor.apply();
                 }
                 loginPresenter.doLogin(username, password);
@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("username");
         editor.remove("password");
+        editor.remove("remember");
         editor.apply();
         //alert user that login failed
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

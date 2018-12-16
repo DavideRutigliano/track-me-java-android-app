@@ -1,6 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
 public class IndividualDTO{
+    private Long id;
     private String ssn;
     private String firstname;
     private String lastname;
@@ -12,6 +13,14 @@ public class IndividualDTO{
     private String address;
 
     public IndividualDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSsn() {

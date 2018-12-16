@@ -3,7 +3,7 @@ package com.github.ferrantemattarutigliano.software.client.httprequest;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -12,30 +12,36 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
+public abstract class HttpTask<O> extends AsyncTask<Void, Void, O>{
     private AsyncResponse<O> asyncResponse;
     private Class<O> outputClass;
     private ParameterizedTypeReference<O> outputCollection;
     private HttpInformationContainer httpInformationContainer;
     private HttpRequestStatus resultType;
+    private int errorCode;
 
     //this is tricky: we need to pass the actual output class to the constructor
     //because Java can't handle generic type at runtime, only compile time
     public HttpTask(Class<O> outputClass, AsyncResponse<O> asyncResponse) {
-        super();
+        this(asyncResponse);
         this.outputClass = outputClass;
-        this.asyncResponse = asyncResponse;
-        resultType = HttpRequestStatus.CREATED;
     }
 
     //this constructor is necessary to receive java generics
     public HttpTask(ParameterizedTypeReference<O> outputCollection, AsyncResponse<O> asyncResponse) {
+        this(asyncResponse);
+        this.outputCollection = outputCollection;
+
+    }
+
+    private HttpTask(AsyncResponse<O> asyncResponse) {
         super();
         this.asyncResponse = asyncResponse;
-        this.outputCollection = outputCollection;
         resultType = HttpRequestStatus.CREATED;
     }
 
@@ -64,7 +70,6 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             throw new RuntimeException(Information.HTTP_POST_PARAMETERS_NOT_FOUND.toString());
         if((outputClass == null && outputCollection == null))
             throw new RuntimeException();
-
         try {
             return sendRequest(restTemplate, httpMethod, path, parameter, headers);
         } catch (ResourceAccessException e) {
@@ -72,16 +77,20 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
             resultType = HttpRequestStatus.TIMEOUT;
         } catch (HttpMessageNotReadableException e) {
             Log.e("HTTP_JSON_ERROR", "Http json error: " + e.getMessage());
-            e.fillInStackTrace();
             resultType = HttpRequestStatus.JSON_FAIL;
+        } catch (HttpServerErrorException e){
+            Log.e("HTTP_SERVER_EX", "Server exception: " + e.getMessage());
+            resultType = HttpRequestStatus.SERVER_FAIL;
+            errorCode = e.getStatusCode().value();
+        } catch (HttpClientErrorException e){
+            Log.e("HTTP_CLIENT_EX", "Client exception: " + e.getMessage());
+            resultType = HttpRequestStatus.CLIENT_FAIL;
+            errorCode = e.getStatusCode().value();
         } catch (RuntimeException e) {
             Log.e("HTTP_RUNTIME_EX", "Runtime http exception: " + e.getMessage());
-            e.fillInStackTrace();
             resultType = HttpRequestStatus.RUNTIME_FAIL;
-        }
-        catch (Exception e) {
-            Log.e("HTTP_EX", "Http exception: " + e.getMessage());
-            e.fillInStackTrace();
+        } catch (Exception e) {
+            Log.e("HTTP_GENERIC_EX", "Http exception: " + e.getMessage());
             resultType = HttpRequestStatus.FAILED;
         }
         return null;
@@ -95,7 +104,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
         else
             responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputCollection);
         resultType = HttpRequestStatus.SUCCESS;
-        O result = null; //todo add error handling
+        O result = null;
         try{
             result = responseEntity.getBody();
             //if this is an @Authentication task add the login token to AuthorizationToken.
@@ -121,17 +130,23 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
 
         try {
             switch (resultType){
-                case RUNTIME_FAIL:
-                    asyncResponse.taskFailMessage("Http runtime failure");
+                case TIMEOUT:
+                    asyncResponse.taskFailMessage(HttpOutputMessage.TIMEOUT.toString());
                     return;
                 case JSON_FAIL:
-                    asyncResponse.taskFailMessage("Failed to convert json");
+                    asyncResponse.taskFailMessage(HttpOutputMessage.JSON_FAIL.toString());
+                    return;
+                case SERVER_FAIL:
+                    asyncResponse.taskFailMessage(HttpOutputMessage.SERVER_FAIL.toString());
+                    break;
+                case CLIENT_FAIL:
+                    asyncResponse.taskFailMessage(HttpOutputMessage.CLIENT_FAIL.toString());
+                    break;
+                case RUNTIME_FAIL:
+                    asyncResponse.taskFailMessage(HttpOutputMessage.RUNTIME_FAIL.toString());
                     return;
                 case FAILED:
-                    asyncResponse.taskFailMessage("Failed for unknown reason");
-                    return;
-                case TIMEOUT:
-                    asyncResponse.taskFailMessage("Connection timeout");
+                    asyncResponse.taskFailMessage(HttpOutputMessage.UNKNOWN_FAIL.toString());
                     return;
                 case SUCCESS:
                     asyncResponse.taskFinish(o);
@@ -145,5 +160,9 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O> {
 
     public void setHttpInformationContainer(HttpInformationContainer httpInformationContainer) {
         this.httpInformationContainer = httpInformationContainer;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
     }
 }

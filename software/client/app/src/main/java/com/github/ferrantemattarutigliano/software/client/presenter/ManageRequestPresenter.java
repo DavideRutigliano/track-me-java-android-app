@@ -1,8 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.presenter;
 
-import com.github.ferrantemattarutigliano.software.client.SessionDirector;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
-import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ReceivedRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualGetRequestsTask;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualHandleRequest;
