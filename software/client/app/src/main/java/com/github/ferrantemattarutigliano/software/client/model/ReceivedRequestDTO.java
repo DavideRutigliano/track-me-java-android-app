@@ -55,6 +55,6 @@ public class ReceivedRequestDTO {
 
     @Override
     public String toString() {
-        return thirdParty + "\n" + date.toString() + " " + time.toString();
+        return thirdParty + "\n" + date.toString() + "\n" + time.toString();
     }
 }

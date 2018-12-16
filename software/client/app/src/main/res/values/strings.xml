@@ -12,6 +12,7 @@
     <string name="text_view_old_requests">View Old Requests</string>
     <string name="text_no_request_received">No request received yet!</string>
     <string name="text_not_implemented">Not Implemented :(</string>
+    <string name="text_remember_me">Remember me</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_repeat_password">Repeat Password</string>
