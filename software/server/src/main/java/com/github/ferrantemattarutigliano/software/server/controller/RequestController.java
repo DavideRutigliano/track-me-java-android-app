@@ -1,9 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
-import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
@@ -39,6 +36,7 @@ public class RequestController {
         return requestService.groupRequest(groupRequest);
     }
 
+    /*
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @GetMapping("/{username}/individual")
     public @CollectionDTO(IndividualRequestDTO.class)
@@ -54,12 +52,17 @@ public class RequestController {
 
         return requestService.showSentGroupRequest();
     }
+    */
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping("/{username}/sent")
+    public SentRequestDTO showSentRequests(@PathVariable("username") String username){
+        return requestService.showSentRequest();
+    }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
     @GetMapping("/{username}/received")
-    public @CollectionDTO(IndividualRequestDTO.class)
-    Collection<IndividualRequest> showIncomingRequest(@PathVariable("username") String username) {
-
+    public Collection<ReceivedRequestDTO> showIncomingRequest(@PathVariable("username") String username) {
         return requestService.showIncomingRequest();
     }
 
