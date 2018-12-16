@@ -42,7 +42,7 @@ public class Individual implements Serializable {
     private Set<HealthData> healthData;
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Position class
-    private Position position;
+    private Set<Position> position;
 
     @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
     private Set<Run> createdRuns;
@@ -171,11 +171,11 @@ public class Individual implements Serializable {
         this.healthData = healthData;
     }
 
-    public Position getPosition() {
+    public Set<Position> getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Set<Position> position) {
         this.position = position;
     }
 
