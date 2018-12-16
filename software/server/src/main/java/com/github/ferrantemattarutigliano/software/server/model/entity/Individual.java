@@ -13,7 +13,8 @@ import java.util.Set;
         "healthData",
         "createdRuns",
         "enrolledRuns",
-        "watchedRuns"
+        "watchedRuns",
+        "position"
 })
 public class Individual implements Serializable {
 
@@ -40,7 +41,7 @@ public class Individual implements Serializable {
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
     private Set<HealthData> healthData;
 
-    @OneToOne(mappedBy = "individual") //references 'individual' attribute on Position class
+    @OneToMany(mappedBy = "individual") //references 'individual' attribute on Position class
     private Position position;
 
     @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
