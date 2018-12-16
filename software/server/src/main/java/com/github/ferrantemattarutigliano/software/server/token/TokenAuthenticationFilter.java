@@ -55,6 +55,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
         }
 
         if (!currentLink.equals("/error")
+                && httpResponse.getStatus() != HttpServletResponse.SC_FORBIDDEN
                 && httpResponse.getStatus() != HttpServletResponse.SC_UNAUTHORIZED) {
 
             final RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher(currentLink);
@@ -94,39 +95,45 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
     private void checkLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
 
         String[] login = tokenUtils.getUsernameAndPassFromToken(httpRequest);
-        Long creationTime = tokenUtils.getTokenCreationTime(httpRequest);
 
         if (login == null) {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+        } else {
+            Long creationTime;
+
+            try {
+                creationTime = tokenUtils.getTokenCreationTime(httpRequest);
+            } catch (Exception e) {
+                creationTime = Long.parseLong("0");
+            }
+
+            String username = login[0];
+            String password = login[1];
+            Long currentTime = System.currentTimeMillis();
+
+            if (currentTime - creationTime < 1800000) //Token valid half an hour
+                checkUsernameAndPassword(username, password, httpResponse);
+            else {
+                tokenUtils.deleteToken(httpResponse);
+                httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+            }
         }
-
-        String username = login[0];
-        String password = login[1];
-        Long now = System.currentTimeMillis();
-
-        if (now - creationTime < 1800000) //Token valid half an hour
-            checkUsernameAndPassword(username, password, httpResponse);
-        else {
-            tokenUtils.deleteToken(httpResponse);
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-
     }
 
     private void checkUsernameAndPassword(String username, String password, HttpServletResponse httpResponse) throws IOException {
 
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication;
+        Authentication authentication = null;
 
         try {
             authentication = authService.authenticationProvider().authenticate(authReq);
         } catch (UsernameNotFoundException | BadCredentialsException e) {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
         }
 
-        if (authentication.isAuthenticated()) {
+        if (authentication != null
+                && authentication.isAuthenticated()) {
             tokenUtils.addHeader(httpResponse, username, password);
             securityContext.setAuthentication(authentication);
         } else {

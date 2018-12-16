@@ -6,6 +6,7 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.HealthDat
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,17 @@ public class RequestController {
 
     @Autowired
     private RequestService requestService;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @PostMapping("/individual")
     public String individualRequest(@RequestBody
                                     @DTO(IndividualRequestDTO.class)
                                             IndividualRequest individualRequest) {
+
+        simpMessagingTemplate
+                .convertAndSend("/request", "request from");
 
         return requestService.individualRequest(individualRequest);
     }

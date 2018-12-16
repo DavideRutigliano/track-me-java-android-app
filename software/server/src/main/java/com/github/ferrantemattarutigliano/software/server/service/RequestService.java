@@ -210,7 +210,6 @@ public class RequestService {
         if (individualRequestRepository.isSubscriptionRequest(request.getId())) {
             return healthDataRepository.findByIndividual(individualRepository.findBySsn(ssn));
         }
-
         Date date = request.getDate();
         Time time = request.getTime();
         return healthDataRepository.findUntilTimestamp(ssn, date, time);

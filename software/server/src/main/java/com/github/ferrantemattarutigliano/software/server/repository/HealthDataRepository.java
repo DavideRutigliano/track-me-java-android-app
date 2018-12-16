@@ -13,7 +13,7 @@ public interface HealthDataRepository extends JpaRepository<HealthData, Long> {
 
     Collection<HealthData> findByIndividual(Individual individual);
 
-    @Query(value = "SELECT * FROM HealthData AS h WHERE h.ssn = ?1 AND h.date <= ?2 AND h.time <= ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM HealthData WHERE ssn = ?1 AND date <= ?2 AND time <= ?3", nativeQuery = true)
     Collection<HealthData> findUntilTimestamp(String ssn, Date date, Time time);
 
 }
