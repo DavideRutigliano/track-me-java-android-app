@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.client;
+package com.github.ferrantemattarutigliano.software.client.util;
 
 public enum Information {
     ASYNC_RESPONSE_NOT_FOUND("AsyncResponse is not instantiated."),

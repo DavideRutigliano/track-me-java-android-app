@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -47,11 +46,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
                 loadingScreen.show();
-                if(rememberCheck.isChecked()){
+                if (rememberCheck.isChecked()) {
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
                     editor.putString("password", password);
+                    editor.putBoolean("remember", true);
                     editor.apply();
                 }
                 loginPresenter.doLogin(username, password);
@@ -75,13 +75,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void onLoginSuccess(UserDTO userDTO) {
         Intent intent;
-        if(userDTO.getRole().equals("INDIVIDUAL")){
+        if (userDTO.getRole().equals("INDIVIDUAL")) {
             intent = new Intent(this, IndividualHomeActivity.class);
-        }
-        else if(userDTO.getRole().equals("THIRD_PARTY")){
+        } else if (userDTO.getRole().equals("THIRD_PARTY")) {
             intent = new Intent(this, ThirdPartyHomeActivity.class);
-        }
-        else{
+        } else {
             throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());
         }
         startActivity(intent);
@@ -96,13 +94,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("username");
         editor.remove("password");
+        editor.remove("remember");
         editor.apply();
         //alert user that login failed
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setPositiveButton("Okay :(", null);
-        alertDialogBuilder.setTitle("Login Failed");
-        alertDialogBuilder.setMessage(output);
-        alertDialogBuilder.show();
+        AlertDialog.Builder dialogFactory = new AlertDialog.Builder(this);
+        dialogFactory.setTitle("Login Failed")
+                .setMessage(output)
+                .setPositiveButton("Okay :(", null)
+                .show();
     }
 }

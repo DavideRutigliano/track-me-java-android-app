@@ -27,12 +27,18 @@
     <string name="hint_city">City</string>
     <string name="hint_address">Address</string>
     <string name="hint_vat">VAT</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time">Time</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_new_username">New Username</string>
+    <string name="hint_new_password">New Password</string>
     <string name="hint_organization_name">Organization Name</string>
     <string name="button_view_data">View Data</string>
     <string name="button_new_request">New Request</string>
     <string name="button_signup">Signup</string>
     <string name="button_login">Login</string>
     <string name="button_back">Back</string>
+    <string name="button_create">Create</string>
     <string name="button_change_credentials">Change Credentials</string>
     <string name="button_change_new_request">New Request</string>
     <string name="button_change_view_data">View Data</string>
@@ -42,6 +48,8 @@
     <string name="button_watched_runs">Watched Runs</string>
     <string name="button_enrolled_runs">Enrolled Runs</string>
     <string name="button_search_runs">Search Runs</string>
+    <string name="button_change_username">Change Username</string>
+    <string name="button_change_password">Change Password</string>
     <string name="tab_individual">Individual</string>
     <string name="tab_third_party">Third Party</string>
     <string name="tab_request_group">Group</string>

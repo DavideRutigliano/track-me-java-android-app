@@ -2,6 +2,9 @@ package com.github.ferrantemattarutigliano.software.client.model;
 
 public class ThirdPartyRegistrationDTO {
 
+    public ThirdPartyRegistrationDTO() {
+    }
+
     public ThirdPartyRegistrationDTO(UserDTO user, ThirdPartyDTO thirdParty) {
         this.user = user;
         this.thirdParty = thirdParty;

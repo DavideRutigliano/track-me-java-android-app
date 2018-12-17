@@ -36,11 +36,15 @@
         <activity
             android:name=".activity.thirdparty.ThirdPartyRequestActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.individual.IndividualMapActivity" />
+        <activity
+            android:name=".activity.thirdparty.ThirdPartyViewDataActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.individual.IndividualCreateMapActivity" />
         <activity android:name=".activity.individual.IndividualCreatedRunsActivity" />
         <activity android:name=".activity.individual.IndividualWatchedRunsActivity" />
         <activity android:name=".activity.individual.IndividualEnrolledRunsActivity" />
-        <activity android:name=".activity.individual.IndividualNewRunActivity"></activity>
+        <activity android:name=".activity.individual.IndividualNewRunActivity" />
+        <activity android:name=".activity.ChangeCredentialsActivity"></activity>
     </application>
 
 </manifest>

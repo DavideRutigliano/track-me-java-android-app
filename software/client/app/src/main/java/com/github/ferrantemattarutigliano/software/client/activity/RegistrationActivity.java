@@ -12,9 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
-import com.github.ferrantemattarutigliano.software.client.util.LoadingViewFactory;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
@@ -53,6 +52,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     public void onRegistrationSuccess(String output) {
         loadingScreen.hide();
         Toast.makeText(getBaseContext(), output, Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override

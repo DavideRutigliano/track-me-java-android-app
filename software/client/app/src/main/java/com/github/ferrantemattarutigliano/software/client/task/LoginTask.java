@@ -1,6 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.task;
 
-import com.github.ferrantemattarutigliano.software.client.SessionDirector;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.httprequest.Authentication;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpInformationContainer;
@@ -18,6 +18,5 @@ public class LoginTask extends HttpTask<UserDTO> {
         HttpMethod type = HttpMethod.POST;
         HttpInformationContainer container = new HttpInformationContainer(path, type, userDTO);
         setHttpInformationContainer(container);
-        SessionDirector.USERNAME = userDTO.getUsername();
     }
 }

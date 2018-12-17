@@ -1,9 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.activity.thirdparty;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -13,32 +11,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyAccountFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyData4HelpFragment;
+import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
+import com.github.ferrantemattarutigliano.software.client.presenter.ThirdPartyHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.session.Profile;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
+import com.github.ferrantemattarutigliano.software.client.view.ThirdPartyHomeView;
 
 public class ThirdPartyHomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ThirdPartyHomeView {
+    private ThirdPartyHomePresenter thirdPartyHomePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_third_party);
+        thirdPartyHomePresenter = new ThirdPartyHomePresenter(this);
+        thirdPartyHomePresenter.doFetchProfile();
+    }
+
+    @Override
+    public void onProfileFetch(ThirdPartyDTO thirdPartyDTO) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Not implemented", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         //create left navigation menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -50,10 +52,17 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //populate profile with info
+        String profileName = thirdPartyDTO.getOrganizationName();
+        String profileInfo = thirdPartyDTO.getVat();
+        Profile profile = new Profile(profileName, profileInfo);
+        SessionDirector.setProfile(profile);
+
         //on start select the page my account
         changeShowedFragment(ThirdPartyAccountFragment.class);
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
+
     }
 
     @Override

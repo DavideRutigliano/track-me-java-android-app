@@ -5,9 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.github.ferrantemattarutigliano.software.client.Information;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
@@ -28,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements LoginView {
         loadingScreen.show();
         loginPresenter = new LoginPresenter(this);
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        boolean isAutoLoginEnabled = sharedPreferences.contains("username")
-                                    && sharedPreferences.contains("password");
+        boolean isAutoLoginEnabled = sharedPreferences.contains("remember");
+
         if(isAutoLoginEnabled){
             String username = sharedPreferences.getString("username", "");
             String password = sharedPreferences.getString("password", "");

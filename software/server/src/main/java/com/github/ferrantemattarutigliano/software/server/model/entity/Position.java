@@ -20,8 +20,8 @@ public class Position {
     private Date date;
     private Time time;
 
-    @OneToOne
-    @JoinColumn(name = "individualId", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "individualId", nullable = false)
     private Individual individual;
 
     public Position() {
