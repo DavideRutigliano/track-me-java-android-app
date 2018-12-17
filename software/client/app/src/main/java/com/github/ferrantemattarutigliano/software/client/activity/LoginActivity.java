@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
                 loadingScreen.show();
-                if(rememberCheck.isChecked()){
+                if (rememberCheck.isChecked()) {
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
@@ -75,13 +75,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void onLoginSuccess(UserDTO userDTO) {
         Intent intent;
-        if(userDTO.getRole().equals("INDIVIDUAL")){
+        if (userDTO.getRole().equals("INDIVIDUAL")) {
             intent = new Intent(this, IndividualHomeActivity.class);
-        }
-        else if(userDTO.getRole().equals("THIRD_PARTY")){
+        } else if (userDTO.getRole().equals("THIRD_PARTY")) {
             intent = new Intent(this, ThirdPartyHomeActivity.class);
-        }
-        else{
+        } else {
             throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());
         }
         startActivity(intent);
@@ -99,11 +97,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         editor.remove("remember");
         editor.apply();
         //alert user that login failed
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setPositiveButton("Okay :(", null);
-        alertDialogBuilder.setTitle("Login Failed");
-        alertDialogBuilder.setMessage(output);
-        alertDialogBuilder.show();
+        AlertDialog.Builder dialogFactory = new AlertDialog.Builder(this);
+        dialogFactory.setTitle("Login Failed")
+                .setMessage(output)
+                .setPositiveButton("Okay :(", null)
+                .show();
     }
 }

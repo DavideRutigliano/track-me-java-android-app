@@ -30,6 +30,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
     private ViewPager viewPager;
     private RequestPresenter requestPresenter;
     private LoadingScreen loadingScreen;
+    private AlertDialog.Builder dialogFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        dialogFactory = new AlertDialog.Builder(this);
         viewPager = findViewById(R.id.container_tab_request);
         viewPager.setAdapter(sectionsPagerAdapter);
 
@@ -67,17 +69,15 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
     @Override
     public void onRequestSuccess(String output) {
         loadingScreen.hide();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish(); //close the activity after a request has been made
-            }
-        });
-        alertDialogBuilder.setTitle("Information");
-        alertDialogBuilder.setMessage(output);
-        alertDialogBuilder.show();
+        dialogFactory.setTitle("Information")
+                .setMessage(output)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish(); //close the activity after a request has been made
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ThirdPartyRequestActivity extends AppCompatActivity implements Requ
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     return ThirdPartyIndividualRequestFragment.newInstance();
                 case 1:

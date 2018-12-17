@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.presenter.ChangeCredentialsPresenter;
-import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.ChangeCredentialsView;
 
 public class ChangeCredentialsActivity extends AppCompatActivity implements ChangeCredentialsView {
     private LoadingScreen loadingScreen;
+    private AlertDialog.Builder dialogFactory;
     private ChangeCredentialsPresenter changeCredentialsPresenter;
 
     @Override
@@ -28,6 +28,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
         changeCredentialsPresenter = new ChangeCredentialsPresenter(this);
         ViewGroup layout = findViewById(R.id.layout_change_credentials);
         loadingScreen = new LoadingScreen(layout, "Sending...");
+        dialogFactory = new AlertDialog.Builder(this);
         final TextView usernameText = findViewById(R.id.text_change_credentials_username);
         final TextView passwordText = findViewById(R.id.text_change_credentials_password);
         final TextView passwordRepeatText = findViewById(R.id.text_change_credentials_repeat_password);
@@ -48,7 +49,10 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
                 String password = passwordText.getText().toString();
                 String repeatPassword = passwordRepeatText.getText().toString();
                 if(!password.equals(repeatPassword)){
-                    createDialog("Password don't match", "Change password fail");
+                    dialogFactory.setTitle("Password don't match")
+                            .setMessage("Change password fail")
+                            .setPositiveButton("Okay", null)
+                            .show();
                     return;
                 }
                 loadingScreen.show();
@@ -68,7 +72,9 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
 
     @Override
     public void onChangeUsernameSuccess(String output) {
-        createDialog(output, "Change username success");
+        dialogFactory.setTitle("Change username success")
+                    .setPositiveButton("Okay", null)
+                    .show();
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean isAutoLoginEnabled = sharedPreferences.contains("remember");
         if(isAutoLoginEnabled){
@@ -82,7 +88,9 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
 
     @Override
     public void onChangePasswordSuccess(String output) {
-        createDialog(output, "Change password success");
+        dialogFactory.setTitle("Change password success")
+                .setPositiveButton("Okay", null)
+                .show();
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean isAutoLoginEnabled = sharedPreferences.contains("remember");
         if(isAutoLoginEnabled){
@@ -96,21 +104,15 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
 
     @Override
     public void onChangeUsernameFail(String output) {
-        createDialog(output, "Change username fail");
+        dialogFactory.setTitle("Change username fail")
+                .setPositiveButton("Okay", null)
+                .show();
     }
 
     @Override
     public void onChangePasswordFail(String output) {
-        createDialog(output, "Change password fail");
-    }
-
-    private void createDialog(String message, String title){
-        loadingScreen.hide();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setPositiveButton("Okay", null);
-        alertDialogBuilder.setTitle(title);
-        alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.show();
+        dialogFactory.setTitle("Change password fail")
+                .setPositiveButton("Okay", null)
+                .show();
     }
 }
