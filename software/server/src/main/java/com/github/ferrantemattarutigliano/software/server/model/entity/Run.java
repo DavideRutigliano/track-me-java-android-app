@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 
 @Entity
 @JsonIgnoreProperties({
@@ -32,13 +30,13 @@ public class Run {
     @JoinTable(name = "runEnroll",
             joinColumns = {@JoinColumn(name = "runId")},
             inverseJoinColumns = {@JoinColumn(name = "athleteId")})
-    private Collection<Individual> athletes = new ArrayList(new LinkedHashSet());
+    private Collection<Individual> athletes;
 
     @ManyToMany
     @JoinTable(name = "runWatch",
             joinColumns = {@JoinColumn(name = "runId")},
             inverseJoinColumns = {@JoinColumn(name = "spectatorId")})
-    private Collection<Individual> spectators = new ArrayList(new LinkedHashSet());
+    private Collection<Individual> spectators;
 
     protected Run() {}
 
@@ -81,14 +79,6 @@ public class Run {
         this.time = time;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public Individual getOrganizer() {
         return organizer;
     }
@@ -119,5 +109,13 @@ public class Run {
 
     public void removeSpectator(Individual spectator) {
         this.athletes.remove(spectator);
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
