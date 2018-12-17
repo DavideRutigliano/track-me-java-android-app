@@ -23,9 +23,10 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     @Autowired
     private TokenUtils tokenUtils;
-
     @Autowired
     private AuthenticatorService authService;
+
+    private Long TOKEN_VALIDITY_PERIOD = 1800000L; //token valid half an hour
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -111,7 +112,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
             String password = login[1];
             Long currentTime = System.currentTimeMillis();
 
-            if (currentTime - creationTime < 1800000) //Token valid half an hour
+            if (currentTime - creationTime <= TOKEN_VALIDITY_PERIOD)
                 checkUsernameAndPassword(username, password, httpResponse);
             else {
                 tokenUtils.deleteToken(httpResponse);

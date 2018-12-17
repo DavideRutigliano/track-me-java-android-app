@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 
 public interface RunRepository extends JpaRepository<Run, Long> {
-    Collection<Run> findByOrganizer(Individual individual);
 }

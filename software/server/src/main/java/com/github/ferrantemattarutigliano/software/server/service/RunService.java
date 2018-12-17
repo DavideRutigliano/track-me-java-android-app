@@ -34,7 +34,33 @@ public class RunService {
 
         Individual organizer = individualRepository.findByUser(user);
 
-        return runRepository.findByOrganizer(organizer);
+        return organizer.getCreatedRuns();
+    }
+
+    public Collection<Run> showEnrolledRuns() {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user == null || !individualRepository.existsByUser(user)) {
+            return null;
+        }
+
+        Individual athlete = individualRepository.findByUser(user);
+
+        return athlete.getEnrolledRuns();
+    }
+
+    public Collection<Run> showWatchedRuns() {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user == null || !individualRepository.existsByUser(user)) {
+            return null;
+        }
+
+        Individual spectator = individualRepository.findByUser(user);
+
+        return spectator.getWatchedRuns();
     }
 
     public String createRun(Run run) {

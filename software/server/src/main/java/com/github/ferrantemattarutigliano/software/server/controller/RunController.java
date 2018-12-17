@@ -39,9 +39,22 @@ public class RunController {
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
+    @GetMapping(path = "/show/enrolled")
+    public @CollectionDTO(RunDTO.class)
+    Collection<Run> showEnrolledRuns() {
+        return runService.showEnrolledRuns();
+    }
+
+    @PreAuthorize("hasRole('INDIVIDUAL')")
+    @GetMapping(path = "/show/watched")
+    public @CollectionDTO(RunDTO.class)
+    Collection<Run> showWatchedRuns() {
+        return runService.showWatchedRuns();
+    }
+
+    @PreAuthorize("hasRole('INDIVIDUAL')")
     @PutMapping(path = "/edit/{id}")
-    public String editRun(@PathVariable("id") String runId,
-                          @DTO(RunDTO.class) Run run) {
+    public String editRun(@RequestBody @DTO(RunDTO.class) Run run) {
         return runService.editRun(run);
     }
 

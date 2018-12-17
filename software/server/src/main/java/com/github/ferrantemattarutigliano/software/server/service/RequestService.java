@@ -37,8 +37,8 @@ public class RequestService {
     private ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private HealthDataRepository healthDataRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+
+    private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
 
     public String individualRequest(IndividualRequest individualRequest) {
         addCurrentDateTime(individualRequest);
@@ -65,6 +65,7 @@ public class RequestService {
 
         //TODO Add subscription topic
         String username = receiver.getUser().getUsername();
+
         /*
         simpMessagingTemplate
                 .convertAndSendToUser(username, "/server/request", "request from: " +
@@ -90,7 +91,7 @@ public class RequestService {
         if (specification != null)
             Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
 
-        if (receivers.size() < 1000)
+        if (receivers.size() < GROUP_REQUEST_ANONYMIZATION_LIMIT)
             return Message.REQUEST_NOT_ANONYMOUS.toString();
 
         ThirdParty sender = thirdPartyRepository.findByUser(user);
@@ -109,7 +110,6 @@ public class RequestService {
         request.setTime(new Time(date.getTime()));
     }
 
-    /*
     public Collection<IndividualRequest> showSentIndividualRequest() {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -136,7 +136,7 @@ public class RequestService {
         if (sender != null) {
             return groupRequestRepository.findByThirdParty(sender);
         } else return null;
-    } */
+    }
 
     public SentRequestDTO showSentRequest() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
