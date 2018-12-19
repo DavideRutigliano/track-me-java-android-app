@@ -2,7 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.presenter;
 
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
-import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualShowCreatedRunsTask;
+import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualShowRunsTask;
 import com.github.ferrantemattarutigliano.software.client.view.IndividualCreatedRunsView;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ public class IndividualCreatedRunsPresenter extends Presenter<IndividualCreatedR
     }
 
     public void doFetchRun(){
-        new IndividualShowCreatedRunsTask(new AsyncResponse<Collection<RunDTO>>() {
+        new IndividualShowRunsTask("created", new AsyncResponse<Collection<RunDTO>>() {
             @Override
             public void taskFinish(Collection<RunDTO> output) {
                 if(output.isEmpty()){

@@ -88,7 +88,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         }
         loadingScreen.hide();
     }
-
+    //todo finish the functionality of buttons
     private void createDeleteButton(ViewGroup layout) {
         ImageButton deleteButton = new ImageButton(getApplicationContext());
         deleteButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));

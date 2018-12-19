@@ -12,10 +12,10 @@ import org.springframework.http.HttpMethod;
 import java.util.Collection;
 
 @Authorized
-public class IndividualShowCreatedRunsTask extends HttpTask<Collection<RunDTO>> {
-    public IndividualShowCreatedRunsTask(AsyncResponse<Collection<RunDTO>> asyncResponse) {
+public class IndividualShowRunsTask extends HttpTask<Collection<RunDTO>> {
+    public IndividualShowRunsTask(String runPath, AsyncResponse<Collection<RunDTO>> asyncResponse) {
         super(new ParameterizedTypeReference<Collection<RunDTO>>(){}, asyncResponse);
-        String path = "/run/show/created";
+        String path = "/run/show/" + runPath;
         HttpMethod type = HttpMethod.GET;
         HttpInformationContainer container = new HttpInformationContainer(path, type);
         setHttpInformationContainer(container);
