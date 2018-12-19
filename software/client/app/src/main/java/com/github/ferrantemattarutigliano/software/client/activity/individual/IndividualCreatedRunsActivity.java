@@ -80,7 +80,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             linearLayout.addView(titleView);
             //create buttons
             createDeleteButton(linearLayout);
-            createInfoButton(linearLayout);
+            createInfoButton(linearLayout, runDTO);
             createModifyButton(linearLayout);
             createStartButton(linearLayout);
 
@@ -88,6 +88,15 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         }
         loadingScreen.hide();
     }
+
+    @Override
+    public void onDeleteRun(String message) {
+        dialogFactory.setTitle("Run Deleted")
+                .setMessage(message)
+                .setPositiveButton("Okay", null)
+                .show();
+    }
+
     //todo finish the functionality of buttons
     private void createDeleteButton(ViewGroup layout) {
         ImageButton deleteButton = new ImageButton(getApplicationContext());
@@ -109,12 +118,16 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         layout.addView(deleteButton);
     }
 
-    private void createInfoButton(ViewGroup layout) {
+    private void createInfoButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton infoButton = new ImageButton(getApplicationContext());
         infoButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_info_details));
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogFactory.setTitle("Run Information")
+                        .setMessage(runDTO.toString())
+                        .setPositiveButton("Okay", null)
+                        .show();
             }
         });
         layout.addView(infoButton);
@@ -142,6 +155,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //todo add a way to start the run
                             }
                         })
                         .setNegativeButton("No", null)

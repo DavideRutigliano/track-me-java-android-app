@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.presenter;
 
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
+import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualDeleteRunTask;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualShowRunsTask;
 import com.github.ferrantemattarutigliano.software.client.view.IndividualCreatedRunsView;
 
@@ -26,6 +27,20 @@ public class IndividualCreatedRunsPresenter extends Presenter<IndividualCreatedR
             @Override
             public void taskFailMessage(String message) {
                 //todo finish with timeout...
+            }
+        }).execute();
+    }
+
+    public void doDeleteRun(Long runId){
+        new IndividualDeleteRunTask(runId, new AsyncResponse<String>() {
+            @Override
+            public void taskFinish(String output) {
+                view.onDeleteRun(output);
+            }
+
+            @Override
+            public void taskFailMessage(String message) {
+
             }
         }).execute();
     }

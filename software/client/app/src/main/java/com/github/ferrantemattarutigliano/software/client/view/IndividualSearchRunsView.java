@@ -4,8 +4,8 @@ import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
 
 import java.util.Collection;
 
-public interface IndividualCreatedRunsView {
+public interface IndividualSearchRunsView {
     void onRunFetch(Collection<RunDTO> output);
-    void noCreatedRuns();
-    void onDeleteRun(String message);
+    void noAvailableRuns();
+    void onRunInteraction(String message);
 }

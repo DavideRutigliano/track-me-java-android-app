@@ -35,7 +35,7 @@ public class IndividualEnrolledRunsPresenter extends Presenter<IndividualEnrolle
         new IndividualModifyRunTask(runId, "unenroll", new AsyncResponse<String>() {
             @Override
             public void taskFinish(String output) {
-
+                view.onRunUnroll(output);
             }
 
             @Override
