@@ -21,6 +21,7 @@ public class Run {
     private Date date;
     private Time time;
     private String path;
+    private String state;
 
     @ManyToOne
     @JoinColumn(name = "organizerId", nullable = false)
@@ -117,5 +118,13 @@ public class Run {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

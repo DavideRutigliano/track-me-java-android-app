@@ -40,6 +40,12 @@ public class RequestService {
 
     private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
 
+    private void addCurrentDateTime(Request request) {
+        java.util.Date date = new java.util.Date();
+        request.setDate(new Date(date.getTime()));
+        request.setTime(new Time(date.getTime()));
+    }
+
     public String individualRequest(IndividualRequest individualRequest) {
         addCurrentDateTime(individualRequest);
 
@@ -102,12 +108,6 @@ public class RequestService {
         //TODO Add subscription topic
 
         return Message.REQUEST_SUCCESS.toString();
-    }
-
-    private void addCurrentDateTime(Request request) {
-        java.util.Date date = new java.util.Date();
-        request.setDate(new Date(date.getTime()));
-        request.setTime(new Time(date.getTime()));
     }
 
     public Collection<IndividualRequest> showSentIndividualRequest() {

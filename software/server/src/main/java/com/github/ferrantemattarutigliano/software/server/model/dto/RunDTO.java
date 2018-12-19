@@ -10,6 +10,7 @@ public class RunDTO {
     private Date date;
     private Time time;
     private Collection<PositionDTO> path;
+    private String state;
 
     public RunDTO() {}
 
@@ -51,5 +52,13 @@ public class RunDTO {
 
     public void setPath(Collection<PositionDTO> path) {
         this.path = path;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
