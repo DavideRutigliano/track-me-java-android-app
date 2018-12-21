@@ -88,8 +88,11 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     boolean isRunStarted = runDate.before(currentDate) ||
                             (runDate.equals(currentDate) && runTime.before(currentTime));
                     if(!isRunStarted){
-                        Toast.makeText(IndividualWatchedRunsActivity.this, "This run is not started yet", Toast.LENGTH_LONG)
-                            .show();
+                        dialogFactory.setTitle("Run not started")
+                                .setMessage("This run is not started yet. Wait until:" +
+                                        "\n" + runDate + "\n" + runTime)
+                                .setPositiveButton("Okay", null)
+                                .show();
                     }
                     else {
                         loadingScreen.show();

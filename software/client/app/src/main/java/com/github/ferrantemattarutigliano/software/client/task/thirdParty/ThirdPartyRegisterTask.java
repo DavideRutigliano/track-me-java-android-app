@@ -8,7 +8,6 @@ import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegist
 
 import org.springframework.http.HttpMethod;
 
-@Authorized
 public class ThirdPartyRegisterTask extends HttpTask<String> {
 
     public ThirdPartyRegisterTask(ThirdPartyRegistrationDTO thirdPartyRegistrationDTO, AsyncResponse<String> asyncResponse) {

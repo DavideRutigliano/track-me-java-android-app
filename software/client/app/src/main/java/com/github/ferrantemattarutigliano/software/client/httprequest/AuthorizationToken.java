@@ -1,8 +1,8 @@
 package com.github.ferrantemattarutigliano.software.client.httprequest;
 
 public class AuthorizationToken {
-    private static String authToken = "cipollecrude";
-    private static String authName = "test";
+    private static String authToken = "";
+    private static String authName = "";
 
     public static void addAuthorizationToken(HttpInformationContainer httpInformationContainer){
         httpInformationContainer.addHeader(authName, authToken);

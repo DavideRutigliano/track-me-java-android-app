@@ -51,7 +51,7 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
     public void noAvailableRuns() {
         ViewGroup container = findViewById(R.id.container_search_runs);
         TextView textView = new TextView(getApplicationContext());
-        CharSequence text = "No run created yet!";
+        CharSequence text = "No run available yet!";
         textView.setText(text);
         container.addView(textView);
         loadingScreen.hide();

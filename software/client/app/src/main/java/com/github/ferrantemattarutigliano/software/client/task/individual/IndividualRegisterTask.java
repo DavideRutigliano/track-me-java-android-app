@@ -8,7 +8,6 @@ import com.github.ferrantemattarutigliano.software.client.model.IndividualRegist
 
 import org.springframework.http.HttpMethod;
 
-@Authorized
 public class IndividualRegisterTask extends HttpTask<String> {
 
     public IndividualRegisterTask(IndividualRegistrationDTO individualRegistrationDTO, AsyncResponse<String> asyncResponse) {

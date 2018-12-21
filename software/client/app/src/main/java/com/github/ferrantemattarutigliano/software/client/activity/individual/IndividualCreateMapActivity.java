@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -57,8 +59,7 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         dialogFactory = new AlertDialog.Builder(this);
         setupLateralButtons();
         addMapEventsOverlay();
-        //initLocationService();
-        showInfoToast();
+        initLocationService();
         setMapPositionToCurrentLocation();
     }
 
@@ -66,53 +67,66 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            AlertDialog.Builder alert = null;//dialogFactory.createDialog(this,"Location permission is required");
-            alert.setCancelable(false);
-            alert.setMessage("Without this permission it's not possible to use this feature. Do you want to " +
-                    "give the permission?");
-            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ActivityCompat.requestPermissions(IndividualCreateMapActivity.this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-                    initLocationService();
-                }
-            });
-            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            alert.show();
-        }
-        else {
+            //if position permission wasn't granted, ask for it
+            ActivityCompat.requestPermissions(IndividualCreateMapActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, new LocationProvider());
+            showInfoToast();
         }
     }
 
-    private void setMapPositionToCurrentLocation(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode != 200) return;
+        //permission granted
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            initLocationService();
+        }
+        //permission not granted
+        else{
+            dialogFactory.setTitle("Location permission is required")
+                    .setCancelable(false)
+                    .setMessage("Without this permission it's not possible to use this feature. Do you want to " +
+                            "give the permission?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            initLocationService();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void setMapPositionToCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             //GeoPoint geoPoint = new GeoPoint(currentLocation);
             //individualCreateMapPresenter.centerToGeoPoint(geoPoint);
+            //todo fix this
         }
     }
 
-    private void showInfoToast(){
+    private void showInfoToast() {
         Toast.makeText(getApplicationContext(), "Long press to add a waypoint to the map", Toast.LENGTH_LONG).show();
     }
 
-    private void setupLateralButtons(){
+    private void setupLateralButtons() {
         final FloatingActionButton markerButton = findViewById(R.id.button_individual_map_delete_marker);
         markerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 individualCreateMapPresenter.invertDeletingMarker();
-                if(individualCreateMapPresenter.isDeletingMarker()){
+                if (individualCreateMapPresenter.isDeletingMarker()) {
                     markerButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_input_add));
-                }
-                else{
+                } else {
                     markerButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
                 }
             }
@@ -174,7 +188,7 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void addMapEventsOverlay(){
+    private void addMapEventsOverlay() {
         final MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -194,7 +208,7 @@ public class IndividualCreateMapActivity extends AppCompatActivity
 
     @Override
     public void drawRunPath(Road road) {
-        if(road != null){
+        if (road != null) {
             Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
             map.getOverlays().add(roadOverlay);
         }

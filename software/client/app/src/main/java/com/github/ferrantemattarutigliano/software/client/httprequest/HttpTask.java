@@ -2,7 +2,6 @@ package com.github.ferrantemattarutigliano.software.client.httprequest;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.github.ferrantemattarutigliano.software.client.util.Information;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -96,13 +95,16 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O>{
         return null;
     }
 
-    private O sendRequest(RestTemplate restTemplate, HttpMethod httpMethod, String path, Object parameter, HttpHeaders headers){
+    private O sendRequest(RestTemplate restTemplate, HttpMethod httpMethod, String accessPath, Object parameter, HttpHeaders headers){
         HttpEntity<Object> requestEntity = new HttpEntity<>(parameter, headers);
         ResponseEntity<O> responseEntity;
+        String serverIp = HttpConstant.SERVER_IP;
+        String serverPort = HttpConstant.SERVER_PORT;
+        String serverPath = "http://".concat(serverIp).concat(":").concat(serverPort).concat("/" + accessPath);
         if(outputClass != null)
-            responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputClass);
+            responseEntity = restTemplate.exchange(serverPath, httpMethod, requestEntity, outputClass);
         else
-            responseEntity = restTemplate.exchange(HttpConstant.SERVER_PATH + path, httpMethod, requestEntity, outputCollection);
+            responseEntity = restTemplate.exchange(serverPath, httpMethod, requestEntity, outputCollection);
         resultType = HttpRequestStatus.SUCCESS;
         O result = null;
         try{

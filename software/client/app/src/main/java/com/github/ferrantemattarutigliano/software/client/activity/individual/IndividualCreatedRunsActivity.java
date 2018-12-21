@@ -79,7 +79,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             titleView.setText(runDTO.getTitle());
             linearLayout.addView(titleView);
             //create buttons
-            createDeleteButton(linearLayout);
+            createDeleteButton(linearLayout, runDTO);
             createInfoButton(linearLayout, runDTO);
             createModifyButton(linearLayout);
             createStartButton(linearLayout);
@@ -98,7 +98,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     }
 
     //todo finish the functionality of buttons
-    private void createDeleteButton(ViewGroup layout) {
+    private void createDeleteButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton deleteButton = new ImageButton(getApplicationContext());
         deleteButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +109,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                individualCreatedRunsPresenter.doDeleteRun(runDTO.getId());
                             }
                         })
                         .setNegativeButton("No", null)
@@ -139,6 +140,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //todo add this feature
             }
         });
         layout.addView(modifyButton);

@@ -8,19 +8,17 @@
     tools:context=".fragment.thirdParty.ThirdPartyRegistrationFragment"
     tools:layout_editor_absoluteY="81dp">
 
+
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="0dp"
+        android:layout_width="322dp"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -92,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_ssn"
-                    android:inputType="text"
+                    android:inputType="text|numberDecimal"
                     android:maxLength="@integer/ssn_length" />
             </android.support.design.widget.TextInputLayout>
 
@@ -228,6 +226,10 @@
                 android:text="@string/button_signup"
                 tools:layout_editor_absoluteX="148dp"
                 tools:layout_editor_absoluteY="373dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
         </LinearLayout>
     </ScrollView>
 

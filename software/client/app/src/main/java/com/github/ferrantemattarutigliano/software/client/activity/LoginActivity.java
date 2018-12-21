@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.github.ferrantemattarutigliano.software.client.httprequest.HttpOutputMessage;
 import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
@@ -89,6 +90,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void onLoginFail(String output) {
         loadingScreen.hide();
+        //alert user that login failed
+        AlertDialog.Builder dialogFactory = new AlertDialog.Builder(this);
+        dialogFactory.setTitle("Login Failed")
+                .setMessage(output)
+                .setPositiveButton("Okay :(", null)
+                .show();
+        //don't delete "remember me" info in case of timeout
+        if(output.equals(HttpOutputMessage.TIMEOUT.toString()))
+            return;
         //remove "remember me" info
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -96,11 +106,5 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         editor.remove("password");
         editor.remove("remember");
         editor.apply();
-        //alert user that login failed
-        AlertDialog.Builder dialogFactory = new AlertDialog.Builder(this);
-        dialogFactory.setTitle("Login Failed")
-                .setMessage(output)
-                .setPositiveButton("Okay :(", null)
-                .show();
     }
 }

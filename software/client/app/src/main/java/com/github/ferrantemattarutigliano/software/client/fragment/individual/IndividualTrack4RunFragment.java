@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualCreatedRunsActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualEnrolledRunsActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualSearchRunsActivity;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualWatchedRunsActivity;
 
 public class IndividualTrack4RunFragment extends Fragment {
@@ -38,39 +39,39 @@ public class IndividualTrack4RunFragment extends Fragment {
         Button watchedRuns = v.findViewById(R.id.button_individual_watched_runs);
         Button enrolledRuns = v.findViewById(R.id.button_individual_enrolled_runs);
         Button searchRuns = v.findViewById(R.id.button_individual_search_runs);
-
         createdRuns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), IndividualCreatedRunsActivity.class);
-                startActivity(intent);
+                changeActivity(IndividualCreatedRunsActivity.class);
             }
         });
 
         watchedRuns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), IndividualWatchedRunsActivity.class);
-                startActivity(intent);
+                changeActivity(IndividualWatchedRunsActivity.class);
             }
         });
 
         enrolledRuns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), IndividualEnrolledRunsActivity.class);
-                startActivity(intent);
+                changeActivity(IndividualEnrolledRunsActivity.class);
             }
         });
 
         searchRuns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getActivity(), .class);
-                //startActivity(intent);
+                changeActivity(IndividualSearchRunsActivity.class);
             }
         });
         return v;
+    }
+
+    private void changeActivity(Class destination){
+        Intent intent = new Intent(getActivity(), destination);
+        startActivity(intent);
     }
 
 }
