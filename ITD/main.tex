@@ -8,6 +8,12 @@
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
 
 \addbibresource{references.bib}
 \newcommand{\comment}[1]{\textbf{Comment: #1}}
@@ -114,6 +120,98 @@ Server-side code has been tested using the tools provided by Java with some addi
 
 \newpage
 \section{Install Instructions}
+
+First of all you should install git and then clone \textit{TrackMe} repository from:
+\begin{lstlisting}
+https://github.com/DavideRutigliano/FerranteMattaRutigliano
+\end{lstlisting}
+
+Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper.
+
+\subsection{Server Build and Installation}
+\begin{enumerate}
+    \item Install MySQL;
+    \item Create a new database schema called \textit{"trackme\_db"};
+    \item Create an user with username \textit{"trackmeadmin}" identified by password \textit{"password"} with all privileges on the schema created in step 2; \item Alternatively to step 3, you can use an existing user changing
+    \newline\textit{"spring.datasource.username"} and \textit{"spring.datasource.password"}\newline in \textit{"application.properties"}. 
+\end{enumerate}
+
+\subsubsection{Build with IDE}
+\begin{enumerate}
+    \item Open as a project: \textit{"ferrantemattarutigliano/software/server/src/pom.xml"} and wait until import is complete;
+    \item Setup project sdk: file ${->}$ project structure ${->}$ project sdk (you need at least project language level 11);
+    \item Add configuration ${->}$ application ${->}$ main class: ServerApplication.
+\end{enumerate}
+
+\subsubsection{Build with Maven}
+
+\paragraph{Unix:} in order to build \textit{TrackMe} server with Maven you do:
+
+\begin{lstlisting}[language=bash]
+cd FerranteMattaRutigliano/software/server
+sudo chmod +x mvnw
+./mvnw package
+\end{lstlisting}
+
+Then, you run the application:
+
+\begin{lstlisting}[language=bash]
+java -jar ./target/server/server-0.0.1-SNAPSHOT.jar
+\end{lstlisting}
+
+\paragraph{Windows:} in order to build \textit{TrackMe} server with Maven you do:
+
+\begin{lstlisting}[language=bash]
+cd FerranteMattaRutigliano\software\server
+mvnw.cmd package
+\end{lstlisting}
+
+Then, you run the application:
+
+\begin{lstlisting}[language=bash]
+java -jar .\target\server\server-0.0.1-SNAPSHOT.jar
+\end{lstlisting}
+
+\subsection{Client Build and Installation}
+In order to build client mobile application within an IDE, you should use Android Studio.
+
+\subsubsection{Build with Android Studio}
+\begin{enumerate}
+    \item Download android studio;
+    \item Install android studio and Android Virtual Device;
+    \item Open an existing android studio project:
+    \newline\textit{"ferrantemattarutigliano/software/client/build.gradle"} and wait until import is complete;
+    \item Select file ${->}$ project structure. Make sure that Android NDK is installed;
+    \item Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API with version ${>=}$ 16;
+\end{enumerate}
+
+\paragraph{Known Error}
+Emulator: ERROR: x86 emulation currently requires hardware acceleration!
+
+\textbf{Solution:} tools ${->}$ SDK Manager ${->}$ SDK Tools (tab) and make sure that Intel x86 Emulator Accelerator is installed. If not, install it; if already installed, uninstall and re-install it.
+
+\paragraph{Important Notes}
+\begin{itemize}
+    \item When you create the android SDK directory, don't use white space or '-' characters. This causes problem with the Android framework;
+    \item If you prefer to launch the application on your own android device you can do that: enable USB debug on your android device and connect it to your PC with an USB cable.
+\end{itemize}
+
+\subsubsection{Build with Gradle}
+
+\paragraph{Unix:} in order to build \textit{TrackMe} server with Gradle you do:
+
+\begin{lstlisting}[language=bash]
+cd FerranteMattaRutigliano/software/client
+sudo chmod +x gradlew
+./gradlew installDebug
+\end{lstlisting}
+
+\paragraph{Windows:} in order to build \textit{TrackMe} server with Gradle you do:
+
+\begin{lstlisting}[language=bash]
+cd FerranteMattaRutigliano\software\client
+gradlew.bat installDebug
+\end{lstlisting}
 
 \newpage
 \section{Effort Spent}
