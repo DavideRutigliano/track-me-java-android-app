@@ -52,7 +52,7 @@ java -jar .\target\server\server-0.0.1-SNAPSHOT.jar #runs the server
 
 * Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API >= 16.
 
-* __(Optional)__ If you prefer to launch the application on your own android device you can do so: you just have to enable developer option on your android device and connect it to your PC with an USB cable.
+* __(Optional)__ If you prefer to launch the application on your own android device you can do so: you just have to enable USB debug on your smartphone and connect it to your PC with an USB cable.
 
   * Enabling developer option on your device depends on your OS version.
   

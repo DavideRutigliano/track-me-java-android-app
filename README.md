@@ -72,8 +72,10 @@ In order to develop the proposed system we decided to use Java as back-end and f
 ├── DD                  : Design Document Latex project
 ├── DeliveryFolder      : pdf version of delivered documents
 ├── Images              : common "Logo" images
+├── ITD                 : Implementation and Testing Document Latex project
 ├── RASD                : Requirement Analysis and Specification Document Latex project
 ├── software            : TrackMe application source code
+├── INSTALL.md          : build and installation instructions
 └── README.md           : this file
 ```
 

@@ -58,7 +58,7 @@ For both server and client side application the adopted language is Java: versio
     \item Code Verbosity
 \end{itemize}
 
-\subsection{Frameworks, Libraries and Others}
+\subsection{Frameworks, Libraries and Other Software}
 
 \paragraph{Server-Side Frameworks}
 \begin{itemize}
@@ -66,20 +66,17 @@ For both server and client side application the adopted language is Java: versio
 \end{itemize}
 
 \paragraph{Client-Side Libraries}
-In the Design Document we proposed Google for Map libraries, but since June 2018 Google Maps is not free anymore, we implemented our custom version of the map, using following libraries:
+In the Design Document we proposed Google for Map libraries, but since June 2018 Google Maps is not free anymore, we implemented our custom version  of the map\footnote{In a production system it may be better to use Google Maps API to manage maps as their libraries are widely used and tested with respect to a custom map implementation.}, using following libraries:
 \begin{itemize}
-    \item Osmdroid
-    \item Osmbonuspack
-    \item GraphView
+    \item Osmdroid;
+    \item Osmbonuspack;
+    \item GraphView;
+    \item StompClient\footnote{For STOMP protocol, we implemented our set of libraries in order to make it work because public libraries available online works bad or does not work at all.}.
 \end{itemize}
-
-\paragraph{NOTE:} In a production system it may be better to use Google Maps API to manage maps as their libraries are widely used and tested with respect to a custom map implementation.
-
-Moreover, for STOMP protocol, we implemented our set of libraries in order to make it work because public libraries available online does not or does bad work.
 
 \paragraph{Other Software}
 \begin{itemize}
-    \item MySQL Database as database system
+    \item MySQL Database as database system.
 \end{itemize}
 
 \subsection{API}
@@ -126,7 +123,7 @@ First of all you should install git and then clone \textit{TrackMe} repository f
 https://github.com/DavideRutigliano/FerranteMattaRutigliano
 \end{lstlisting}
 
-Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper.
+Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper. The latter option is widely advised, as it allows to build and run the source code without installing anything else.
 
 \subsection{Server Build and Installation}
 \begin{enumerate}
@@ -144,6 +141,7 @@ Then, to build and install the application, independently server or client, you 
 \end{enumerate}
 
 \subsubsection{Build with Maven}
+With Maven wrapper you can build, install and run the application without installing any other software component, as Maven will download it for you from Maven central repository.
 
 \paragraph{Unix:} in order to build \textit{TrackMe} server with Maven you do:
 
@@ -193,10 +191,11 @@ Emulator: ERROR: x86 emulation currently requires hardware acceleration!
 \paragraph{Important Notes}
 \begin{itemize}
     \item When you create the android SDK directory, don't use white space or '-' characters. This causes problem with the Android framework;
-    \item If you prefer to launch the application on your own android device you can do that: enable USB debug on your android device and connect it to your PC with an USB cable.
+    \item If you prefer to launch the application on your own android device you can do that: enable USB debug on your android phone and connect it to your PC with an USB cable.
 \end{itemize}
 
 \subsubsection{Build with Gradle}
+With Gradle wrapper you can build, install and run the application without installing any other software component, as Gradle will download it for you from Maven central repository.
 
 \paragraph{Unix:} in order to build \textit{TrackMe} server with Gradle you do:
 
