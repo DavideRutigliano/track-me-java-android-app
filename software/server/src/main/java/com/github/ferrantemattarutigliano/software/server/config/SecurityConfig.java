@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = true) //todo remember to disable this
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -55,15 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .formLogin().disable()
-
                 .logout().disable()
-
                 .httpBasic().disable()
-
                 .anonymous().disable()
-
                 .csrf().disable()
-
                 .exceptionHandling().and()
 
                 .requestCache()
