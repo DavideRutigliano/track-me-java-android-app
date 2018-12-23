@@ -1,18 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -22,7 +17,6 @@ import android.widget.Toast;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.IndividualCreateMapPresenter;
-import com.github.ferrantemattarutigliano.software.client.util.LocationProvider;
 import com.github.ferrantemattarutigliano.software.client.view.IndividualCreateMapView;
 
 import org.osmdroid.bonuspack.routing.Road;
@@ -64,21 +58,20 @@ public class IndividualCreateMapActivity extends AppCompatActivity
     }
 
     private void initLocationService() {
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        /*locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             //if position permission wasn't granted, ask for it
             ActivityCompat.requestPermissions(IndividualCreateMapActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, new LocationProvider());
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, new LocationProvider());*/
             showInfoToast();
-        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode != 200) return;
+        /*if(requestCode != 200) return;
         //permission granted
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             initLocationService();
@@ -102,16 +95,19 @@ public class IndividualCreateMapActivity extends AppCompatActivity
                         }
                     })
                     .show();
-        }
+        }*/
     }
 
     private void setMapPositionToCurrentLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            //GeoPoint geoPoint = new GeoPoint(currentLocation);
-            //individualCreateMapPresenter.centerToGeoPoint(geoPoint);
-            //todo fix this
-        }
+        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            GeoPoint geoPoint = new GeoPoint(currentLocation);
+            individualCreateMapPresenter.centerToGeoPoint(geoPoint);
+        }*/
+        //set the position to Milan. In the real application this would set the position
+        //to the current position
+        GeoPoint geoPoint = new GeoPoint(45.4642, 9.1900);
+        individualCreateMapPresenter.centerToGeoPoint(geoPoint);
     }
 
     private void showInfoToast() {

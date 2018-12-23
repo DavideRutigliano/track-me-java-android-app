@@ -32,7 +32,7 @@ public class IndividualCreateMapPresenter extends Presenter<IndividualCreateMapV
     public void centerToGeoPoint(GeoPoint geoPoint){
         IMapController mapController = map.getController();
         mapController.setCenter(geoPoint);
-        mapController.setZoom(16.5);
+        mapController.setZoom(18f);
     }
 
     public void manageActionMarker(final Context context, GeoPoint p){
