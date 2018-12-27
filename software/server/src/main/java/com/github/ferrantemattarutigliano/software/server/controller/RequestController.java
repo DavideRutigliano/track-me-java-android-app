@@ -20,8 +20,6 @@ public class RequestController {
 
     @Autowired
     private RequestService requestService;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @PostMapping("/individual")

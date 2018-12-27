@@ -10,10 +10,9 @@ import java.util.Collection;
 public interface GroupRequestRepository extends JpaRepository<GroupRequest, Long> {
     Collection<GroupRequest> findByThirdParty(ThirdParty thirdParty);
 
-    @Query("SELECT subscription FROM GroupRequest WHERE thirdPartyId = ?1")
+    @Query("SELECT subscription FROM GroupRequest WHERE id = ?1")
     Boolean isSubscriptionRequest(Long id);
-/*
-    @Query("SELECT subscription FROM GroupRequest WHERE thirdPartyId = #{groupRequest.id}")
-    Boolean isAnonymized(GroupRequest groupRequest);
-*/
+
+    @Query(value = "SELECT * FROM group_request WHERE subscription = TRUE", nativeQuery = true)
+    Collection<GroupRequest> findSubscriptionRequest();
 }

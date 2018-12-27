@@ -22,12 +22,6 @@ public class AuthenticatorController {
     @Autowired
     private AuthenticatorService authenticatorService;
 
-    @MessageMapping("/testsocket")
-    @SendTo("/topic/test")
-    public String test(String message) {
-        return message;
-    } //TODO REMOVE THIS
-
     @PostMapping("/registration/individual")
     public String individualRegistration(@RequestBody IndividualRegistrationDTO individualRegistration) {
 

@@ -13,7 +13,7 @@ public interface IndividualRequestRepository extends JpaRepository<IndividualReq
     Collection<IndividualRequest> findByThirdParty(ThirdParty thirdParty);
     Collection<IndividualRequest> findBySsn(String ssn);
 
-    @Query("SELECT subscription FROM IndividualRequest WHERE thirdPartyId = ?1")
+    @Query("SELECT subscription FROM IndividualRequest WHERE id = ?1")
     Boolean isSubscriptionRequest(Long id);
 
     @Modifying

@@ -37,8 +37,10 @@ public class RequestService {
     private ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private HealthDataRepository healthDataRepository;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-    private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
+    private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1;
 
     private void addCurrentDateTime(Request request) {
         java.util.Date date = new java.util.Date();
@@ -69,15 +71,15 @@ public class RequestService {
 
         Individual receiver = individualRepository.findBySsn(ssn);
 
-        //TODO Add subscription topic
         String username = receiver.getUser().getUsername();
 
-        /*
         simpMessagingTemplate
-                .convertAndSendToUser(username, "/server/request", "request from: " +
-                        individualRequest.getThirdParty().getOrganizationName() + ", sent: " +
-                                individualRequest.getTimestamp()); //TODO FIX WITH DATE AND TIME!!! */
-        return Message.REQUEST_SUCCESS.toString();
+                .convertAndSend("/request/" + username,
+                        "New individual request from: " + sender.getOrganizationName()
+                                + ". Received: " + individualRequest.getDate()
+                                + ", at: " + individualRequest.getTime() + ".");
+
+        return Message.REQUEST_SUCCESS.toString() + " Receiver: " + username;
     }
 
     public String groupRequest(GroupRequest groupRequest) {
@@ -105,7 +107,20 @@ public class RequestService {
 
         groupRequestRepository.save(groupRequest);
 
-        //TODO Add subscription topic
+        for (Individual receiver : receivers) {
+            String username = receiver.getUser().getUsername();
+            simpMessagingTemplate
+                    .convertAndSend("/request/" + username,
+                            "New group request from: " + sender.getOrganizationName()
+                                    + ". Received: " + groupRequest.getDate()
+                                    + ", at: " + groupRequest.getTime() + ".");
+        }
+
+        if (groupRequest.getSubscription()) {
+            simpMessagingTemplate
+                    .convertAndSend("/notification/" + groupRequest.getThirdParty().getUser().getUsername(),
+                            "Request accepted. Topic: groupreq-" + groupRequest.getId() + ".");
+        }
 
         return Message.REQUEST_SUCCESS.toString();
     }
@@ -196,8 +211,21 @@ public class RequestService {
 
     public String handleRequest(Long id, boolean accepted) {
         individualRequestRepository.handleRequest(id, accepted);
-        if (accepted)
+        IndividualRequest individualRequest = null;
+
+        if (individualRequestRepository.findById(id).isPresent())
+            individualRequest = individualRequestRepository.findById(id).get();
+
+        if (accepted) {
+            String receiver = individualRepository.findBySsn(individualRequest.getSsn()).getUser().getUsername();
+
+            simpMessagingTemplate
+                    .convertAndSend("/notification/" +
+                                    individualRequest.getThirdParty().getUser().getUsername(),
+                            "Request accepted. Topic: " + receiver + ".");
+
             return Message.REQUEST_ACCEPTED.toString();
+        }
         return Message.REQUEST_REJECTED.toString();
     }
 
@@ -219,11 +247,23 @@ public class RequestService {
 
         GroupRequest request = groupRequestRepository.findById(groupRequest.getId()).get();
 
+        Specification<Individual> specification = IndividualSpecification.findByCriteriaSpecification(request.getCriteria().split(";"));
+
+        Collection<Individual> receivers = new LinkedHashSet<>();
+        Collection<HealthData> healthData = new LinkedHashSet<>();
+
+        if (specification != null)
+            Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
+
         if (groupRequestRepository.isSubscriptionRequest(request.getId())) {
-
+            for (Individual i : receivers) {
+                healthData.addAll(healthDataRepository.findByIndividual(individualRepository.findBySsn(i.getSsn())));
+            }
         } else {
-
+            for (Individual i : receivers) {
+                healthData.addAll(healthDataRepository.findUntilTimestamp(i.getSsn(), request.getDate(), request.getTime()));
+            }
         }
-        return null;
+        return healthData;
     }
 }
