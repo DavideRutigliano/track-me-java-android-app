@@ -1,8 +1,10 @@
 package com.github.ferrantemattarutigliano.software.client.fragment.individual;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.activity.DateActivity;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
+import java.sql.Date;
+
 public class IndividualRegistrationFragment extends Fragment{
     private RegistrationView registrationView;
+    private Date birtDate;
+    private final int DATE_CODE = 100;
 
     public IndividualRegistrationFragment() {}
 
@@ -37,6 +44,16 @@ public class IndividualRegistrationFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_individual_registration, container, false);
+
+        TextView birthDateContainer = v.findViewById(R.id.container_registration_individual_birthdate);
+        birthDateContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DateActivity.class);
+                startActivityForResult(intent, DATE_CODE);
+            }
+        });
+
         final Button signUpButton = v.findViewById(R.id.button_individual_register);
         final TextView usernameText = v.findViewById(R.id.text_registration_individual_username);
         final TextView passwordText = v.findViewById(R.id.text_registration_individual_password);
@@ -45,7 +62,6 @@ public class IndividualRegistrationFragment extends Fragment{
         final TextView firstNameText = v.findViewById(R.id.text_registration_individual_first_name);
         final TextView lastNametext = v.findViewById(R.id.text_registration_individual_last_name);
         final TextView ssnText = v.findViewById(R.id.text_registration_individual_ssn);
-        final TextView birthdateText = v.findViewById(R.id.text_registration_individual_birthdate);
         final TextView stateText = v.findViewById(R.id.text_registration_individual_state);
         final TextView cityText = v.findViewById(R.id.text_registration_individual_city);
         final TextView addressText = v.findViewById(R.id.text_registration_individual_address);
@@ -78,7 +94,6 @@ public class IndividualRegistrationFragment extends Fragment{
                 catch (NumberFormatException e) {
                     Log.w("MALFORMED_BIO", "Biometrics are empty or not numbers");
                 }
-                //todo add other attributes (eg birthdate)
                 UserDTO userDTO = new UserDTO(username, password, email, "INDIVIDUAL");
                 IndividualDTO individualDTO = new IndividualDTO();
                 individualDTO.setSsn(ssn);
@@ -89,11 +104,22 @@ public class IndividualRegistrationFragment extends Fragment{
                 individualDTO.setAddress(address);
                 individualDTO.setWeight(weight);
                 individualDTO.setHeight(height);
+                individualDTO.setBirthdate(birtDate);
                 IndividualRegistrationDTO registrationDTO = new IndividualRegistrationDTO(userDTO, individualDTO);
                 registrationView.onIndividualRegistration(registrationDTO);
             }
         });
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == DATE_CODE && resultCode == AppCompatActivity.RESULT_OK){
+            Date date = (Date) data.getSerializableExtra("date");
+            TextView birthDateText = getView().findViewById(R.id.text_registration_individual_birthdate);
+            birtDate = date;
+            birthDateText.setText(date.toString());
+        }
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
+import java.sql.Date;
+
 public class IndividualDTO{
     private Long id;
     private String ssn;
     private String firstname;
     private String lastname;
-    private String birthdate;
+    private Date birthdate;
     private int height;
     private int weight;
     private String state;
@@ -47,11 +49,11 @@ public class IndividualDTO{
         this.lastname = lastname;
     }
 
-    public String getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 

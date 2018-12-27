@@ -135,18 +135,27 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:id="@+id/container_registration_individual_birthdate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/text_registration_individual_birthdate"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/image_registration_individual_birthdate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+                <TextView
+                    android:id="@+id/text_registration_individual_birthdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:hint="@string/hint_birthdate"
-                    android:inputType="date"
-                    android:maxLength="@integer/default_length" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textSize="19sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
