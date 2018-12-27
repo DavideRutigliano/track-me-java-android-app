@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -23,6 +24,8 @@ import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RequestPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.RequestView;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class ThirdPartyRequestActivity extends AppCompatActivity implements RequestView {
 

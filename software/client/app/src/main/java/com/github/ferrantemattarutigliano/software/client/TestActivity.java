@@ -29,7 +29,7 @@ public class TestActivity extends AppCompatActivity {
                 //use response.getStompBody() to get the message received.
 
                 //ignore below line, was used to test on screen
-                //output(response.getStompBody());
+                output(new String(response.getStompBody().getBytes()));
             }
         });
         //connect after login. disconnect BEFORE logout.
@@ -37,26 +37,33 @@ public class TestActivity extends AppCompatActivity {
         //so you have to save them before disconnect. You can use shared preferences
         //to do this. (see login/registration activity to see the process)
 
-        //connection
-        stompClient.connect("ws://192.168.0.51:8080/server_endpoint");
-        //subscribe a topic
-        stompClient.subscribe("/topic/test");
         //send a plain text message
-        stompClient.send("/app/testsocket", "messageeeee");
+        //stompClient.send("/app/testsocket", "messageeeee");
         //send a json message (like a class in json)
-        stompClient.sendJson("/app/......", "jsonMessage");
+        //stompClient.sendJson("/app/......", "jsonMessage");
         //unsubscribe a topic
-        stompClient.unsubscribe("/topic/test");
+        //stompClient.unsubscribe("/topic/test");
         //disconnect
-        stompClient.disconnect(); //REMEMBER TO DISCONNECT WHEN DONE.
+        //stompClient.disconnect(); //REMEMBER TO DISCONNECT WHEN DONE.
         //check if websocket is connected
-        stompClient.isConnected();
+        //stompClient.isConnected();
+
+        //connection
+        stompClient.connect("ws://192.168.1.84:8080/server_endpoint");
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //subscribe a topic
+                stompClient.subscribe("/request/davvv");
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        stompClient.disconnect();
+        super.onDestroy();
     }
     private void output(final String txt) {
         runOnUiThread(new Runnable() {

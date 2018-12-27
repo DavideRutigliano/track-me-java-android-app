@@ -84,6 +84,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
             editor.putString("username", username);
             editor.apply();
         }
+        loadingScreen.hide();
     }
 
     @Override
@@ -100,6 +101,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
             editor.putString("password", password);
             editor.apply();
         }
+        loadingScreen.hide();
     }
 
     @Override
@@ -107,6 +109,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
         dialogFactory.setTitle("Change username fail")
                 .setPositiveButton("Okay", null)
                 .show();
+        loadingScreen.hide();
     }
 
     @Override
@@ -114,5 +117,6 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
         dialogFactory.setTitle("Change password fail")
                 .setPositiveButton("Okay", null)
                 .show();
+        loadingScreen.hide();
     }
 }

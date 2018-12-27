@@ -1,9 +1,16 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
+import android.app.PendingIntent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,9 +30,13 @@ import com.github.ferrantemattarutigliano.software.client.presenter.IndividualHo
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.view.IndividualHomeView;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
+import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
 
 public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IndividualHomeView {
+
     private IndividualHomePresenter individualHomePresenter;
 
     @Override
@@ -61,6 +72,46 @@ public class IndividualHomeActivity extends AppCompatActivity
         changeShowedFragment(IndividualAccountFragment.class);
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
+
+        SessionDirector.getStompClient().subscribe("/request/" + SessionDirector.USERNAME);
+    }
+
+    @Override
+    public void notifyUser() {
+        Intent intent = new Intent(this, IndividualHomeActivity.class);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        SessionDirector.setStompClient(new StompClient(new StompCallback() {
+            @Override
+            public void onResponseReceived(StompFrame response) {
+                if (response.getStompBody() != "") {
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "trackme")
+                            .setSmallIcon(R.drawable.trackme_logo)
+                            .setContentTitle("Incoming Requests")
+                            .setContentText(response.getStompBody())
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setContentIntent(pendingIntent);
+
+                    if (Build.VERSION.SDK_INT < 26) {
+                        notificationBuilder.setChannelId("trackme");
+                    }
+                    if (Build.VERSION.SDK_INT >= 26) { //push notifications require API level 26
+                        NotificationChannel channel = new NotificationChannel(
+                                "trackme",
+                                "Incoming Requests",
+                                NotificationManager.IMPORTANCE_DEFAULT
+                        );
+                        if (notificationManager != null) {
+                            notificationManager.createNotificationChannel(channel);
+                        }
+                    }
+                    notificationManager.notify(0, notificationBuilder.build());
+                }
+            }
+        }));
+        SessionDirector.connect();
     }
 
     @Override

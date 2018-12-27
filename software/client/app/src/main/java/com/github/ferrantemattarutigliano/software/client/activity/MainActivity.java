@@ -1,11 +1,15 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
@@ -14,6 +18,9 @@ import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.LoginPresenter;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.LoginView;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
+import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
 
 public class MainActivity extends AppCompatActivity implements LoginView {
     private LoginPresenter loginPresenter;

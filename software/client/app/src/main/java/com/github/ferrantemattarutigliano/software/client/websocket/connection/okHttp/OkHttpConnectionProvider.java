@@ -121,9 +121,7 @@ public class OkHttpConnectionProvider implements ConnectionProvider {
         int unsubscribeId = subscriptions.get(topic);
         StompFrame stompFrame = new StompFrame();
         stompFrame.addStompCommand(StompCommandName.UNSUBSCRIBE)
-                .addStompHeader(StompHeaderName.ID, String.valueOf(unsubscribeId))
-                .addStompHeader(StompHeaderName.DESTINATION, topic)
-                .addStompHeader(StompHeaderName.ACK, "client");
+                .addStompHeader(StompHeaderName.ID, String.valueOf(unsubscribeId));
         webSocket.send(stompFrame.build());
     }
 

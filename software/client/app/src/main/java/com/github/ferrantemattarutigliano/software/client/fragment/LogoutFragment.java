@@ -12,6 +12,13 @@ import android.view.ViewGroup;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.LoginActivity;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
+import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
+import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
+
+import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_IP;
+import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_PORT;
 
 public class LogoutFragment extends Fragment {
 
@@ -27,6 +34,7 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SessionDirector.getStompClient().disconnect();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("username");
