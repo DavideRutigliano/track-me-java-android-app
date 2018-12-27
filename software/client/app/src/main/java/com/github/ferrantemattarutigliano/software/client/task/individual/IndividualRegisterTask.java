@@ -1,7 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.task.individual;
 
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
-import com.github.ferrantemattarutigliano.software.client.httprequest.Authorized;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpInformationContainer;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;

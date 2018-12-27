@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,20 +19,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
-import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyAccountFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyData4HelpFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.thirdparty.ThirdPartyAccountFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.thirdparty.ThirdPartyData4HelpFragment;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.ThirdPartyHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.presenter.thirdparty.ThirdPartyHomePresenter;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
-import com.github.ferrantemattarutigliano.software.client.view.ThirdPartyHomeView;
+import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyHomeView;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
@@ -86,7 +84,7 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
         SessionDirector.setStompClient(new StompClient(new StompCallback() {
             @Override
             public void onResponseReceived(StompFrame response) {
-                if (response.getStompBody() != "") {
+                if (!response.getStompBody().isEmpty()) {
                     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "trackme")
@@ -151,7 +149,7 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Class fragmentClass;

@@ -1,26 +1,23 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualWatchedRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualWatchedRunsPresenter;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
-import com.github.ferrantemattarutigliano.software.client.view.IndividualWatchedRunsView;
+import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualWatchedRunsView;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 
 public class IndividualWatchedRunsActivity extends AppCompatActivity implements IndividualWatchedRunsView {

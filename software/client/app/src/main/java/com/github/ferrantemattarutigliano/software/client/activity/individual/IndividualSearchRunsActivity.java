@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualSearchRunsPresenter;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualWatchedRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualSearchRunsPresenter;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
-import com.github.ferrantemattarutigliano.software.client.view.IndividualSearchRunsView;
+import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualSearchRunsView;
 
 import java.util.Collection;
 

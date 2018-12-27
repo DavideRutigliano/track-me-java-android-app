@@ -1,9 +1,9 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,9 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_credentials);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getParent() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        }
         changeCredentialsPresenter = new ChangeCredentialsPresenter(this);
         ViewGroup layout = findViewById(R.id.layout_change_credentials);
         loadingScreen = new LoadingScreen(layout, "Sending...");

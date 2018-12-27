@@ -1,6 +1,5 @@
 package com.github.ferrantemattarutigliano.software.client.task;
 
-import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.httprequest.Authentication;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpInformationContainer;

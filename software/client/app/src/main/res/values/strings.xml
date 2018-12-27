@@ -37,6 +37,7 @@
     <string name="button_new_request">New Request</string>
     <string name="button_signup">Signup</string>
     <string name="button_login">Login</string>
+    <string name="button_accept">Accept</string>
     <string name="button_back">Back</string>
     <string name="button_create">Create</string>
     <string name="button_change_credentials">Change Credentials</string>

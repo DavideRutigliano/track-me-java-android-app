@@ -12,14 +12,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.github.ferrantemattarutigliano.software.client.httprequest.HttpOutputMessage;
-import com.github.ferrantemattarutigliano.software.client.util.Information;
-import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
-import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualHomeActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.thirdparty.ThirdPartyHomeActivity;
+import com.github.ferrantemattarutigliano.software.client.httprequest.HttpOutputMessage;
 import com.github.ferrantemattarutigliano.software.client.model.UserDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.LoginPresenter;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.LoginView;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         final TextView usernameForm = findViewById(R.id.text_login_username);
         final TextView passwordForm = findViewById(R.id.text_login_password);
         final CheckBox rememberCheck = findViewById(R.id.check_remember_me);
+        final SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
         loadingScreen = new LoadingScreen(container, "Logging in...");
 
@@ -47,14 +48,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 String username = usernameForm.getText().toString();
                 String password = passwordForm.getText().toString();
                 loadingScreen.show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (rememberCheck.isChecked()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
                     editor.putString("password", password);
                     editor.putBoolean("remember", true);
-                    editor.apply();
                 }
+                else
+                    editor.clear();
+                editor.apply();
                 loginPresenter.doLogin(username, password);
             }
         });
@@ -66,6 +68,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 startActivity(intent);
             }
         });
+        //if remember me it's active, add the latest login data
+        //in case autologin doesn't succeed
+        if(sharedPreferences.contains("remember")){
+            CharSequence username = sharedPreferences.getString("username", "");
+            CharSequence password = sharedPreferences.getString("username", "");
+            usernameForm.setText(username);
+            passwordForm.setText(password);
+            rememberCheck.setChecked(true);
+        }
     }
 
     @Override
@@ -76,12 +87,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void onLoginSuccess(UserDTO userDTO) {
         Intent intent;
-        if (userDTO.getRole().equals("INDIVIDUAL")) {
-            intent = new Intent(this, IndividualHomeActivity.class);
-        } else if (userDTO.getRole().equals("THIRD_PARTY")) {
-            intent = new Intent(this, ThirdPartyHomeActivity.class);
-        } else {
-            throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());
+        switch (userDTO.getRole()){
+            case "INDIVIDUAL":
+                intent = new Intent(this, IndividualHomeActivity.class);
+                break;
+            case "THIRD_PARTY":
+                intent = new Intent(this, ThirdPartyHomeActivity.class);
+                break;
+            default:
+                throw new RuntimeException(Information.ROLE_NOT_FOUND.toString());
         }
         startActivity(intent);
         finish();
@@ -102,9 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         //remove "remember me" info
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("username");
-        editor.remove("password");
-        editor.remove("remember");
+        editor.clear();
         editor.apply();
     }
 }

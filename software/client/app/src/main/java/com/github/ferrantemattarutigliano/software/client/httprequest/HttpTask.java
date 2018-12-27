@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.httprequest;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.github.ferrantemattarutigliano.software.client.util.Information;
 
 import org.springframework.core.ParameterizedTypeReference;

@@ -19,4 +19,10 @@ public class IndividualRequestDTO extends RequestDTO implements Serializable {
     public void setSsn(String ssn) {
         this.ssn = ssn;
     }
+
+
+    @Override
+    public String toString() {
+        return "Individual\n" + ssn + "\n" + getDate().toString() + " " + getTime().toString();
+    }
 }

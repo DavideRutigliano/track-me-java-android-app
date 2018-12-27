@@ -3,6 +3,7 @@ package com.github.ferrantemattarutigliano.software.client.fragment.individual;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,6 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.ChangeCredentialsActivity;
-import com.github.ferrantemattarutigliano.software.client.activity.LoginActivity;
-import com.github.ferrantemattarutigliano.software.client.activity.MainActivity;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 
@@ -24,8 +23,7 @@ public class IndividualAccountFragment extends Fragment {
     }
 
     public static IndividualAccountFragment newInstance() {
-        IndividualAccountFragment fragment = new IndividualAccountFragment();
-        return fragment;
+        return new IndividualAccountFragment();
     }
 
     @Override
@@ -34,7 +32,7 @@ public class IndividualAccountFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_my_individual_account, container, false);
         TextView nameText = v.findViewById(R.id.text_individual_account_name);

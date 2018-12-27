@@ -5,7 +5,7 @@
     android:id="@+id/layout_individual_manage_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.individual.IndividualManageRequestsFragment"
+    tools:context=".fragment.individual.IndividualIndividualManageRequestsFragment"
     tools:layout_editor_absoluteY="81dp">
 
     <ScrollView

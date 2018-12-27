@@ -13,8 +13,8 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="98dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/container_individual_new_run_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,52 +27,68 @@
             android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout6"
+    <LinearLayout
+        android:id="@+id/container_individual_new_run_date"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout7"
+        android:layout_marginBottom="14dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/container_individual_new_run_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/text_individual_new_run_date"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/image_individual_new_run_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_date"
-            android:inputType="date" />
-    </android.support.design.widget.TextInputLayout>
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout7"
+        <TextView
+            android:id="@+id/text_individual_new_run_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/hint_date"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_individual_new_run_time"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/container_individual_new_run_date">
 
-        <android.support.design.widget.TextInputEditText
+        <ImageView
+            android:id="@+id/image_individual_new_run_time"
+            android:layout_width="33dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+
+        <TextView
             android:id="@+id/text_individual_new_run_time"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_time"
-            android:inputType="time" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_weight="1"
+            android:text="@string/hint_time"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="231dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="118dp"
+        android:layout_marginBottom="117dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
+        app:layout_constraintTop_toBottomOf="@+id/container_individual_new_run_time">
 
         <LinearLayout
             android:layout_width="match_parent"

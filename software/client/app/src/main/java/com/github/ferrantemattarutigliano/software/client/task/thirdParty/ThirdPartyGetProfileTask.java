@@ -4,7 +4,6 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncRespo
 import com.github.ferrantemattarutigliano.software.client.httprequest.Authorized;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpInformationContainer;
 import com.github.ferrantemattarutigliano.software.client.httprequest.HttpTask;
-import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 
 import org.springframework.http.HttpMethod;

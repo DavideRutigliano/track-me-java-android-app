@@ -12,14 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.github.ferrantemattarutigliano.software.client.util.Information;
-import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualRegistrationFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.thirdParty.ThirdPartyRegistrationFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.thirdparty.ThirdPartyRegistrationFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.RegistrationPresenter;
+import com.github.ferrantemattarutigliano.software.client.util.Information;
+import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationView {

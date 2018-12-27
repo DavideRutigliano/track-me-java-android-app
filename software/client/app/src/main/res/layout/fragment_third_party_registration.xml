@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.thirdParty.ThirdPartyRegistrationFragment"
+    tools:context=".fragment.thirdparty.ThirdPartyRegistrationFragment"
     tools:layout_editor_absoluteY="81dp">
 
     <ScrollView
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_vat"
-                    android:inputType="text"
+                    android:inputType="text|numberDecimal"
                     android:maxLength="@integer/vat_length" />
             </android.support.design.widget.TextInputLayout>
 

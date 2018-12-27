@@ -19,11 +19,13 @@ public class LoadingScreen {
     }
 
     public void show(){
+        if(isShowing) return;
         viewGroup.addView(loadingScreen);
         isShowing = true;
     }
 
     public void hide(){
+        if(!isShowing) return;
         viewGroup.removeView(loadingScreen);
         isShowing = false;
     }

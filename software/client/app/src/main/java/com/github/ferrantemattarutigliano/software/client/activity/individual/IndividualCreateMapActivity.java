@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualCreateMapPresenter;
-import com.github.ferrantemattarutigliano.software.client.view.IndividualCreateMapView;
+import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualCreateMapPresenter;
+import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualCreateMapView;
 
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -35,7 +35,6 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         implements IndividualCreateMapView {
     private MapView map;
     private IndividualCreateMapPresenter individualCreateMapPresenter;
-    private LocationManager locationManager;
     private AlertDialog.Builder dialogFactory;
 
     @Override
@@ -44,7 +43,8 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         setContentView(R.layout.activity_individual_create_map);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
@@ -55,55 +55,30 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         addMapEventsOverlay();
         initLocationService();
         setMapPositionToCurrentLocation();
+        reloadMap();
+
+    }
+
+    private void reloadMap(){
+        Intent intent = getIntent();
+        if(intent.hasExtra("path")){
+            //recreate the map
+            ArrayList<PositionDTO> path = (ArrayList)intent.getSerializableExtra("path");
+            individualCreateMapPresenter.addPositions(this, path);
+            //center to last marker inserted
+            PositionDTO lastPosition = path.get(path.size() - 1);
+            double lat = lastPosition.getLatitude();
+            double lon = lastPosition.getLongitude();
+            GeoPoint lastMarkerPosition = new GeoPoint(lat, lon);
+            individualCreateMapPresenter.centerToGeoPoint(lastMarkerPosition);
+        }
     }
 
     private void initLocationService() {
-        /*locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            //if position permission wasn't granted, ask for it
-            ActivityCompat.requestPermissions(IndividualCreateMapActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, new LocationProvider());*/
-            showInfoToast();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        /*if(requestCode != 200) return;
-        //permission granted
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            initLocationService();
-        }
-        //permission not granted
-        else{
-            dialogFactory.setTitle("Location permission is required")
-                    .setCancelable(false)
-                    .setMessage("Without this permission it's not possible to use this feature. Do you want to " +
-                            "give the permission?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            initLocationService();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .show();
-        }*/
+        showInfoToast();
     }
 
     private void setMapPositionToCurrentLocation() {
-        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            GeoPoint geoPoint = new GeoPoint(currentLocation);
-            individualCreateMapPresenter.centerToGeoPoint(geoPoint);
-        }*/
         //set the position to Milan. In the real application this would set the position
         //to the current position
         GeoPoint geoPoint = new GeoPoint(45.4642, 9.1900);
@@ -165,7 +140,7 @@ public class IndividualCreateMapActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent();
                                 ArrayList<PositionDTO> positionDTOS = individualCreateMapPresenter.convertMarkersToPositions();
-                                intent.putExtra("positions", positionDTOS);
+                                intent.putExtra("path", positionDTOS);
                                 setResult(RESULT_OK, intent);
                                 finish();
                             }

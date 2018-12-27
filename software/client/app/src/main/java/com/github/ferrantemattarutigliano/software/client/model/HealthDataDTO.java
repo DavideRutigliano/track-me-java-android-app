@@ -1,9 +1,10 @@
 package com.github.ferrantemattarutigliano.software.client.model;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
-public class HealthDataDTO {
+public class HealthDataDTO implements Serializable {
     private Long id;
     private String name;
     private String value;

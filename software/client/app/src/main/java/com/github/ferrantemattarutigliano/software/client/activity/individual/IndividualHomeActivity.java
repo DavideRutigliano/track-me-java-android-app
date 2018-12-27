@@ -1,12 +1,13 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
-import android.app.PendingIntent;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,13 +24,13 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualManageRequestsFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualIndividualManageRequestsFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualHomePresenter;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
-import com.github.ferrantemattarutigliano.software.client.view.IndividualHomeView;
+import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualHomeView;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
@@ -83,7 +84,7 @@ public class IndividualHomeActivity extends AppCompatActivity
         SessionDirector.setStompClient(new StompClient(new StompCallback() {
             @Override
             public void onResponseReceived(StompFrame response) {
-                if (response.getStompBody() != "") {
+                if (!response.getStompBody().isEmpty()) {
                     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "trackme")
@@ -143,7 +144,7 @@ public class IndividualHomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Class fragmentClass;
@@ -155,7 +156,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = NotImplementedFragment.class;
                 break;
             case R.id.nav_manage_request:
-                fragmentClass = IndividualManageRequestsFragment.class;
+                fragmentClass = IndividualIndividualManageRequestsFragment.class;
                 break;
             case R.id.nav_automatedsos:
                 fragmentClass = NotImplementedFragment.class;

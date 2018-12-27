@@ -2,10 +2,10 @@ package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
-import com.github.ferrantemattarutigliano.software.client.presenter.IndividualCreatedRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualCreatedRunsPresenter;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
-import com.github.ferrantemattarutigliano.software.client.view.IndividualCreatedRunsView;
+import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualCreatedRunsView;
 
 import java.util.Collection;
 
@@ -45,6 +45,13 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                 startActivity(intent);
             }
         });
+        individualCreatedRunsPresenter.doFetchRun();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadingScreen.show();
         individualCreatedRunsPresenter.doFetchRun();
     }
 
