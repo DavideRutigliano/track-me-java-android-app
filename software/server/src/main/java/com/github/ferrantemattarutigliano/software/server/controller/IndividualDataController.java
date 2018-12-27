@@ -3,15 +3,14 @@ package com.github.ferrantemattarutigliano.software.server.controller;
 
 import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
+import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.IndividualDataService;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -24,6 +23,22 @@ public class IndividualDataController {
     private RequestService requestService;
     @Autowired
     private IndividualDataService individualDataService;
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping("/individual/{requestid}")
+    public @CollectionDTO(HealthDataDTO.class)
+    Collection<HealthData> showIndividualHealthData(@PathVariable(value = "requestid") Long id) {
+        //todo implement this
+        return null;
+    }
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping("/group/{requestid}")
+    public @CollectionDTO(HealthDataDTO.class)
+    Collection<HealthData> showGroupHealthData(@PathVariable(value = "requestid") Long id) {
+        //todo implement this
+        return null;
+    }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
     @PostMapping(path = "/insert")

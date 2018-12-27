@@ -57,9 +57,16 @@ public class RequestController {
     }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
-    @GetMapping("/{username}/sent")
-    public SentRequestDTO showSentRequests(){
+    @GetMapping("/{username}/sent/all")
+    public SentRequestDTO showAllSentRequests(){
         return requestService.showSentRequest();
+    }
+
+    @PreAuthorize("hasRole('THIRD_PARTY')")
+    @GetMapping("/{username}/sent/subscribed")
+    public SentRequestDTO showSubscribedSentRequests(){
+        //TODO IMPLEMENT THIS
+        return null;
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
