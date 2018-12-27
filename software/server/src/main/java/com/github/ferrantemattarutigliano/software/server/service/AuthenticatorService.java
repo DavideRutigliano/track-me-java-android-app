@@ -203,6 +203,34 @@ public class AuthenticatorService implements UserDetailsService {
             i.setBirthdate(individual.getBirthdate());
         }
 
+        if (individual.getState() != null
+                && !i.getState().equals(individual.getState())) {
+
+            i.setState(individual.getState());
+        }
+
+        if (individual.getCity() != null
+                && !i.getCity().equals(individual.getCity())) {
+
+            i.setCity(individual.getCity());
+        }
+
+        if (individual.getAddress() != null
+                && !i.getAddress().equals(individual.getAddress())) {
+
+            i.setAddress(individual.getAddress());
+        }
+
+        if (i.getHeight() != individual.getHeight()) {
+
+            i.setHeight(individual.getHeight());
+        }
+
+        if (i.getWeight() != individual.getWeight()) {
+
+            i.setWeight(individual.getWeight());
+        }
+
         individualRepository.save(i);
 
         return Message.CHANGE_PROFILE_SUCCESS.toString();

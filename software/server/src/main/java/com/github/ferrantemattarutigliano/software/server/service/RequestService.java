@@ -40,7 +40,7 @@ public class RequestService {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1;
+    private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
 
     private void addCurrentDateTime(Request request) {
         java.util.Date date = new java.util.Date();

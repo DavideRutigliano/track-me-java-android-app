@@ -5,8 +5,8 @@ import java.sql.Time;
 
 public class PositionDTO {
     private Long id;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private Date date;
     private Time time;
 
@@ -18,19 +18,19 @@ public class PositionDTO {
         this.id = id;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

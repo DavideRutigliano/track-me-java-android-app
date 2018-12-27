@@ -80,6 +80,26 @@ public class RunService {
         return "Success";
     }
 
+    public String startRun(Long runId) {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user == null || !individualRepository.existsByUser(user)) {
+            return Message.BAD_REQUEST.toString();
+        }
+
+        Run r = runRepository.findById(runId).get();
+
+        Individual organizer = individualRepository.findByUser(user);
+
+        if (!r.getOrganizer().getSsn().equals(organizer.getSsn()))
+            return "run away";
+
+        runRepository.startRun(runId);
+
+        return "Success";
+    }
+
     public String editRun(Run run) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
