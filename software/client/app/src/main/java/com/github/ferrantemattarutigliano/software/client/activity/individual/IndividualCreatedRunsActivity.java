@@ -60,6 +60,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     @Override
     public void noCreatedRuns() {
         ViewGroup container = findViewById(R.id.container_created_runs);
+        container.removeAllViews();
         TextView textView = new TextView(getApplicationContext());
         CharSequence text = "No run created yet!";
         textView.setText(text);
@@ -82,11 +83,19 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             createDeleteButton(linearLayout, runDTO);
             createInfoButton(linearLayout, runDTO);
             createModifyButton(linearLayout);
-            createStartButton(linearLayout);
+            createStartButton(linearLayout, runDTO);
 
             container.addView(linearLayout);
         }
         loadingScreen.hide();
+    }
+
+    @Override
+    public void onStartRun(String message) {
+        dialogFactory.setTitle("Run Started")
+                .setMessage(message)
+                .setPositiveButton("Okay", null)
+                .show();
     }
 
     @Override
@@ -95,6 +104,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                 .setMessage(message)
                 .setPositiveButton("Okay", null)
                 .show();
+        individualCreatedRunsPresenter.doFetchRun();
     }
 
     //todo finish the functionality of buttons
@@ -146,7 +156,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         layout.addView(modifyButton);
     }
 
-    private void createStartButton(ViewGroup layout) {
+    private void createStartButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton startButton = new ImageButton(getApplicationContext());
         startButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_media_play));
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +167,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //todo add a way to start the run
+                                individualCreatedRunsPresenter.doStartRun(runDTO.getId());
                             }
                         })
                         .setNegativeButton("No", null)
