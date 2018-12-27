@@ -103,7 +103,16 @@ Furthermore, the overall structure of both client and server application is orga
 
 \subsection{Client Code Packages}
 \begin{itemize}
-\item[]
+\item \textbf{model: models in the MVP pattern. Contains DTO classes (i.e java beans), that will contain all the data shared between server and client.}
+\item \textbf{view:} views in the MVP pattern. Contains interfaces that provide the UI methods that will be implemented in every activity.
+\item \textbf{presenter:} presenters in the MVP pattern. Contains logic classes that handles the communication between server and client, and other business logic.
+\item \textbf{activity:} contains android activity classes that implements a view. Activities represent a single screen in the android environment.
+\item \textbf{fragment:} contains android fragment classes. They are similar to activities, but they can't exist on their own. They must be instantiated inside an activity.
+\item \textbf{httprequest:} contains all http logic to send and receive http messages.
+\item \textbf{task:} contains android asynchronous task classes. An asynchronous task is like a new thread, that will send a callback when completed. They are used by presenters to do the business and communication logic.
+\item \textbf{websocket:} contains all the websockets logic and the STOMP protocol implementation.
+\item \textbf{session:} contains classes that handles the application session.
+\item \textbf{util: contains utility classes, for example a factory that builds a loading screen.}
 \end{itemize}
 
 \newpage
