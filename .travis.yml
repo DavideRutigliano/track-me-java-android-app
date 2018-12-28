@@ -13,6 +13,8 @@ matrix:
         components:
           - android-28
           - extra-google-google_play_services
+        licenses:
+          - 'android-sdk-license-.+'
       before_script:
         - cd software/client
         - chmod +x gradlew
