@@ -31,8 +31,7 @@ public class LogoutFragment extends Fragment {
         SessionDirector.getStompClient().disconnect();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("username");
-        editor.remove("password");
+        editor.clear();
         editor.apply();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
