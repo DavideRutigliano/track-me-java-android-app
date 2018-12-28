@@ -1,15 +1,8 @@
-language:
-  - java
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-  
 matrix:
   include:
     - language: java
       jdk: oraclejdk8
       before_script:
-        - jdk_switcher use oraclejdk8
         - cd software/server
         - chmod +x mvnw
       script:
@@ -22,7 +15,6 @@ matrix:
           - android-28
           - extra-google-google_play_services
       before_script:
-        - jdk_switcher use oraclejdk7
         - cd software/client
         - chmod +x gradlew
       script:
