@@ -37,6 +37,7 @@ public class RunController {
         }
 
         run.setPath(pathString);
+        run.setState("created");
 
         return runService.createRun(run);
     }
@@ -45,6 +46,12 @@ public class RunController {
     @GetMapping(path = "/show")
     public Collection<RunDTO> showRuns() {
         return convertRuns(runService.showRuns());
+    }
+
+    @PreAuthorize("hasRole('INDIVIDUAL')")
+    @GetMapping(path = "/show/new")
+    public Collection<RunDTO> showNewRuns() {
+        return convertRuns(runService.showNewRuns());
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
@@ -84,25 +91,25 @@ public class RunController {
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PostMapping(path = "/enroll/{id}")
+    @PutMapping(path = "/enroll/{id}")
     public String enrollRun(@PathVariable("id") String runId) {
         return runService.enrollRun(Long.parseLong(runId));
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PostMapping(path = "/unenroll/{id}")
+    @PutMapping(path = "/unenroll/{id}")
     public String unenrollRun(@PathVariable("id") String runId) {
         return runService.unenrollRun(Long.parseLong(runId));
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PostMapping(path = "/watch/{id}")
+    @PutMapping(path = "/watch/{id}")
     public String watchRun(@PathVariable("id") String runId) {
         return runService.watchRun(Long.parseLong(runId));
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PostMapping(path = "/unwatch/{id}")
+    @PutMapping(path = "/unwatch/{id}")
     public String unwatchRun(@PathVariable("id") String runId) {
         return runService.unwatchRun(Long.parseLong(runId));
     }

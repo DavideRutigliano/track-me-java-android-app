@@ -25,88 +25,74 @@ public class RunService {
     }
 
     public Collection<Run> showCreatedRuns() {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if(user == null)
             return null;
-        }
-
         Individual organizer = individualRepository.findByUser(user);
-
         return organizer.getCreatedRuns();
     }
 
-    public Collection<Run> showEnrolledRuns() {
-
+    public Collection<Run> showNewRuns(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if(user == null)
             return null;
+        Individual individual = individualRepository.findByUser(user);
+        Collection<Run> allRuns = showCreatedRuns();
+        for(Run run : allRuns){
+            boolean isOrganizer = individual.getEnrolledRuns().contains(run);
+            boolean isWatched = individual.getWatchedRuns().contains(run);
+            boolean isEnrolled = individual.getEnrolledRuns().contains(run);
+            if(isOrganizer || isWatched || isEnrolled){
+                allRuns.remove(run);
+            }
         }
+        return allRuns;
+    }
 
+    public Collection<Run> showEnrolledRuns() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null)
+            return null;
         Individual athlete = individualRepository.findByUser(user);
-
         return athlete.getEnrolledRuns();
     }
 
     public Collection<Run> showWatchedRuns() {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if(user == null)
             return null;
-        }
-
         Individual spectator = individualRepository.findByUser(user);
-
         return spectator.getWatchedRuns();
     }
 
     public String createRun(Run run) {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
-            return Message.BAD_REQUEST.toString();
-        }
-
+        if(user == null)
+            return null;
         Individual organizer = individualRepository.findByUser(user);
-
         run.setOrganizer(organizer);
-
         runRepository.save(run);
-
         return "Success";
     }
 
     public String startRun(Long runId) {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
-            return Message.BAD_REQUEST.toString();
-        }
-
+        if(user == null)
+            return null;
         Run r = runRepository.findById(runId).get();
-
         Individual organizer = individualRepository.findByUser(user);
 
         if (!r.getOrganizer().getSsn().equals(organizer.getSsn()))
             return "run away";
 
         runRepository.startRun(runId);
-
         return "Success";
     }
 
     public String editRun(Run run) {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
-            return Message.BAD_REQUEST.toString();
-        }
+        if(user == null)
+            return null;
 
         if (!runRepository.findById(run.getId()).isPresent()) {
             return "fail";
@@ -148,8 +134,7 @@ public class RunService {
     public String deleteRun(Long runId) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if (user == null) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -177,8 +162,7 @@ public class RunService {
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if (user == null) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -202,8 +186,7 @@ public class RunService {
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if (user == null) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -227,8 +210,7 @@ public class RunService {
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if (user == null) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -252,8 +234,7 @@ public class RunService {
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (user == null || !individualRepository.existsByUser(user)) {
+        if (user == null) {
             return Message.BAD_REQUEST.toString();
         }
 
@@ -264,7 +245,7 @@ public class RunService {
             return "not watcher";
         }
 
-        run.removeAthlete(spectator);
+        run.removeSpectator(spectator);
         runRepository.save(run);
 
         return "Success";
