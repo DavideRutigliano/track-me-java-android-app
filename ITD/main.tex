@@ -36,13 +36,13 @@ Finally, it contains all the installation and build instruction both for client 
 This document is intended for developers or anyone interested in the impleme-\newline ntation details of \textit{TrackMe}.
 
 \section{Requirements and Functions}
-This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not imple-\newline mented because not requested by the customer.
+This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not implemented because not requested by the customer.
 
 With respect to the Requirement Analysis document, non implemented requirement are the following:
 \begin{itemize}
-    \item \textbf{(REQ-18)} The system must allow the Third-Party to activate Automated-\newline SOS service;
+    \item \textbf{(REQ-18)} The system must allow the Third-Party to activate Automated-SOS service;
     \item \textbf{(REQ-19)} The system must be able to assign an ambulance dispatcher to the SOS service;
-    \item \textbf{(REQ-20)} The system must allow the Individual to activate Automated-\newline SOS service;
+    \item \textbf{(REQ-20)} The system must allow the Individual to activate Automated-SOS service;
     \item \textbf{(REQ-21)} The system should allow the Individual to choose between third parties who has enabled the service.
 \end{itemize}
 
@@ -76,6 +76,7 @@ For both server and client side application the adopted language is Java: versio
     \item Spring Framework: this choice is an alternative to Java Enterprise Edition and Enterprise Java Bean based models. The main advantage of this framework is indeed that allows programmers to write less code and to focus on critical parts of the application instead of \textit{"simple and standard"} things. For instance, Spring Boot allows developers to create application with embedded web server such as Tomcat or Jetty with few lines of configuration without installing the web server itself. In addition, this framework also supports dependency injection and inversion of control. These latter features also allows developer to speed up and facilitate unit testing.
 \end{itemize}
 
+\newpage
 \paragraph{Client-Side Libraries}
 In the Design Document we proposed Google for Map libraries, but since June 2018 Google Maps is not free anymore, we implemented our custom version  of the map\footnote{In a production system it may be better to use Google Maps API to manage maps as their libraries are widely used and tested with respect to a custom map implementation.}, using following libraries:
 \begin{itemize}
@@ -160,7 +161,7 @@ Then, to build and install the application, independently server or client, you 
     \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}, then Save.
 \end{enumerate}
 
-You should have the above configuration at the end:
+You should have the following configuration:
 \begin{figure}[!htpb]
     \centering
     \includegraphics[height=73mm]{ITD/images/postgresql_install.png}
