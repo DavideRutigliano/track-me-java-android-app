@@ -1,5 +1,6 @@
 jobs:
      include:
+             stage: build
              name: "Server"
              language: java
                      jdk:
@@ -17,6 +18,7 @@ jobs:
                      script:
                       - ./mvnw package
               
+              stage: build
               name: "Client"
               language: java
                       jdk:
