@@ -117,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_first_name"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords|textPersonName"
                     android:maxLength="@integer/default_length" />
             </android.support.design.widget.TextInputLayout>
 
@@ -130,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_last_name"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords|textPersonName"
                     android:maxLength="@integer/default_length" />
 
             </android.support.design.widget.TextInputLayout>
@@ -171,7 +171,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_weight"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:maxLength="@integer/biometric_length" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -184,7 +184,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_height"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:maxLength="@integer/biometric_length" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -198,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_state"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords|textPersonName"
                     android:maxLength="@integer/default_length" />
             </android.support.design.widget.TextInputLayout>
 
@@ -211,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_city"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords|textPersonName"
                     android:maxLength="@integer/default_length" />
             </android.support.design.widget.TextInputLayout>
 
@@ -224,7 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_address"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords|textShortMessage"
                     android:maxLength="@integer/address_length" />
             </android.support.design.widget.TextInputLayout>
 

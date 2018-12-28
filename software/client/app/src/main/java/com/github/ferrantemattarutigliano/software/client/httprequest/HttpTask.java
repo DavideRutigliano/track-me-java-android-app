@@ -99,9 +99,8 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O>{
     private O sendRequest(RestTemplate restTemplate, HttpMethod httpMethod, String accessPath, Object parameter, HttpHeaders headers){
         HttpEntity<Object> requestEntity = new HttpEntity<>(parameter, headers);
         ResponseEntity<O> responseEntity;
-        String serverIp = HttpConstant.SERVER_IP;
-        String serverPort = HttpConstant.SERVER_PORT;
-        String serverPath = "http://".concat(serverIp).concat(":").concat(serverPort).concat("/" + accessPath);
+        String serverDomain = HttpConstant.SERVER_DOMAIN;
+        String serverPath = "http://".concat(serverDomain).concat("/" + accessPath);
         if(outputClass != null)
             responseEntity = restTemplate.exchange(serverPath, httpMethod, requestEntity, outputClass);
         else

@@ -2,7 +2,6 @@ package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -86,18 +85,21 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         for (RunDTO runDTO : output) {
             LinearLayout linearLayout = new LinearLayout(getApplicationContext());
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            //add vertical spacing
+            addSpace(container, true);
             //create title
             TextView titleView = new TextView(getApplicationContext());
             titleView.setText(runDTO.getTitle());
+            titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(titleView);
             //create buttons
-            addHorizontalSpace(linearLayout);
+            addSpace(linearLayout);
             createDeleteButton(linearLayout, runDTO);
-            addHorizontalSpace(linearLayout);
+            addSpace(linearLayout);
             createInfoButton(linearLayout, runDTO);
-            addHorizontalSpace(linearLayout);
+            addSpace(linearLayout);
             createModifyButton(linearLayout);
-            addHorizontalSpace(linearLayout);
+            addSpace(linearLayout);
             createStartButton(linearLayout, runDTO);
 
             container.addView(linearLayout);
@@ -199,9 +201,19 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         layout.addView(startButton);
     }
 
-    private void addHorizontalSpace(ViewGroup layout){
+    private void addSpace(ViewGroup layout){
+        addSpace(layout, false);
+    }
+
+    private void addSpace(ViewGroup layout, boolean isVertical){
+        int width = 0;
+        int height = 0;
+
+        if(isVertical) height = 70;
+        else width = 40;
+
         Space space = new Space(getApplicationContext());
-        space.setLayoutParams(new LinearLayout.LayoutParams(40, 0));
+        space.setLayoutParams(new LinearLayout.LayoutParams(width, height));
         layout.addView(space);
     }
 }

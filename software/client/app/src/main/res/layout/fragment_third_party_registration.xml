@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_vat"
-                    android:inputType="text|numberDecimal"
+                    android:inputType="numberDecimal"
                     android:maxLength="@integer/vat_length" />
             </android.support.design.widget.TextInputLayout>
 
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_organization_name"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapSentences|textPersonName"
                     android:maxLength="@integer/default_length" />
             </android.support.design.widget.TextInputLayout>
 

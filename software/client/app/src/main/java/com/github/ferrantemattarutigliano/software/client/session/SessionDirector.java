@@ -2,14 +2,13 @@ package com.github.ferrantemattarutigliano.software.client.session;
 
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 
-import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_IP;
-import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_PORT;
+import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_DOMAIN;
 
 public class SessionDirector {
     public static String USERNAME = "";
     private static Profile profile;
     private static StompClient stompClient;
-    private static final String SERVER_WEB_SOCKET_ADDR = "ws://" + SERVER_IP + ":" + SERVER_PORT + "/server_endpoint";
+    private static final String SERVER_WEB_SOCKET_ADDR = "ws://" + SERVER_DOMAIN + "/server_endpoint";
 
     public static Profile getProfile() {
         return profile;

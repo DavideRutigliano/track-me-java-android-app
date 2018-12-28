@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         final TextView usernameForm = findViewById(R.id.text_login_username);
         final TextView passwordForm = findViewById(R.id.text_login_password);
         final CheckBox rememberCheck = findViewById(R.id.check_remember_me);
+        rememberCheck.setChecked(false);
         final SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
         loadingScreen = new LoadingScreen(container, "Logging in...");
