@@ -12,7 +12,7 @@ public class IndividualModifyRunTask extends HttpTask<String> {
     public IndividualModifyRunTask(Long runId, String runPath, AsyncResponse<String> asyncResponse) {
         super(String.class, asyncResponse);
         String path = "run/" + runPath + "/" + runId;
-        HttpMethod type = HttpMethod.POST;
+        HttpMethod type = HttpMethod.PUT;
         HttpInformationContainer container = new HttpInformationContainer(path, type);
         setHttpInformationContainer(container);
     }

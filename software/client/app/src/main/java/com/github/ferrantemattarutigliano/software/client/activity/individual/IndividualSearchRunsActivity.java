@@ -49,6 +49,7 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
     @Override
     public void noAvailableRuns() {
         ViewGroup container = findViewById(R.id.container_search_runs);
+        container.removeAllViews();
         TextView textView = new TextView(getApplicationContext());
         CharSequence text = "No run available yet!";
         textView.setText(text);

@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -25,6 +27,8 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     private IndividualCreatedRunsPresenter individualCreatedRunsPresenter;
     private LoadingScreen loadingScreen;
     private AlertDialog.Builder dialogFactory;
+    private final int BUTTON_WIDTH = 90;
+    private final int BUTTON_HEIGHT = 90;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +91,13 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             titleView.setText(runDTO.getTitle());
             linearLayout.addView(titleView);
             //create buttons
+            addHorizontalSpace(linearLayout);
             createDeleteButton(linearLayout, runDTO);
+            addHorizontalSpace(linearLayout);
             createInfoButton(linearLayout, runDTO);
+            addHorizontalSpace(linearLayout);
             createModifyButton(linearLayout);
+            addHorizontalSpace(linearLayout);
             createStartButton(linearLayout, runDTO);
 
             container.addView(linearLayout);
@@ -102,6 +110,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         dialogFactory.setTitle("Run Started")
                 .setMessage(message)
                 .setPositiveButton("Okay", null)
+                .setNegativeButton(null, null)
                 .show();
     }
 
@@ -110,6 +119,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         dialogFactory.setTitle("Run Deleted")
                 .setMessage(message)
                 .setPositiveButton("Okay", null)
+                .setNegativeButton(null, null)
                 .show();
         individualCreatedRunsPresenter.doFetchRun();
     }
@@ -118,6 +128,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     private void createDeleteButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton deleteButton = new ImageButton(getApplicationContext());
         deleteButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
+        deleteButton.setLayoutParams(new LinearLayout.LayoutParams(BUTTON_WIDTH, BUTTON_HEIGHT));
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,12 +150,14 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     private void createInfoButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton infoButton = new ImageButton(getApplicationContext());
         infoButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_info_details));
+        infoButton.setLayoutParams(new LinearLayout.LayoutParams(BUTTON_WIDTH, BUTTON_HEIGHT));
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogFactory.setTitle("Run Information")
                         .setMessage(runDTO.toString())
                         .setPositiveButton("Okay", null)
+                        .setNegativeButton(null, null)
                         .show();
             }
         });
@@ -154,6 +167,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     private void createModifyButton(ViewGroup layout) {
         ImageButton modifyButton = new ImageButton(getApplicationContext());
         modifyButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+        modifyButton.setLayoutParams(new LinearLayout.LayoutParams(BUTTON_WIDTH, BUTTON_HEIGHT));
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +180,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     private void createStartButton(ViewGroup layout, final RunDTO runDTO) {
         ImageButton startButton = new ImageButton(getApplicationContext());
         startButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_media_play));
+        startButton.setLayoutParams(new LinearLayout.LayoutParams(BUTTON_WIDTH, BUTTON_HEIGHT));
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,5 +197,11 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             }
         });
         layout.addView(startButton);
+    }
+
+    private void addHorizontalSpace(ViewGroup layout){
+        Space space = new Space(getApplicationContext());
+        space.setLayoutParams(new LinearLayout.LayoutParams(40, 0));
+        layout.addView(space);
     }
 }

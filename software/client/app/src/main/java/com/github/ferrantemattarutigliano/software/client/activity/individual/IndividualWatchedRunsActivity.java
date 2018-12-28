@@ -51,6 +51,7 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
     @Override
     public void noWatchedRuns() {
         ViewGroup container = findViewById(R.id.container_watched_runs);
+        container.removeAllViews();
         TextView textView = new TextView(getApplicationContext());
         CharSequence text = "No run watched yet!";
         textView.setText(text);

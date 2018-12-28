@@ -49,6 +49,7 @@ public class IndividualEnrolledRunsActivity extends AppCompatActivity implements
     @Override
     public void noEnrolledRuns() {
         ViewGroup container = findViewById(R.id.container_enrolled_runs);
+        container.removeAllViews();
         TextView textView = new TextView(getApplicationContext());
         CharSequence text = "No run enrolled yet!";
         textView.setText(text);
@@ -70,6 +71,8 @@ public class IndividualEnrolledRunsActivity extends AppCompatActivity implements
             //create buttons
             final Long runId = runDTO.getId();
             Button unrollButton = new Button(getApplicationContext());
+            CharSequence text = "Unroll";
+            unrollButton.setText(text);
             unrollButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

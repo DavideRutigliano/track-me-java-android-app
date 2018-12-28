@@ -15,7 +15,7 @@ public class IndividualSearchRunsPresenter extends Presenter<IndividualSearchRun
     }
 
     public void doFetchRun(){
-        new IndividualShowRunsTask("enrolled", new AsyncResponse<Collection<RunDTO>>() {
+        new IndividualShowRunsTask("new", new AsyncResponse<Collection<RunDTO>>() {
             @Override
             public void taskFinish(Collection<RunDTO> output) {
                 if(output.isEmpty()){

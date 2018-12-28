@@ -45,7 +45,7 @@ public class IndividualRegistrationFragment extends Fragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_individual_registration, container, false);
 
-        TextView birthDateContainer = v.findViewById(R.id.container_registration_individual_birthdate);
+        ViewGroup birthDateContainer = v.findViewById(R.id.container_registration_individual_birthdate);
         birthDateContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
