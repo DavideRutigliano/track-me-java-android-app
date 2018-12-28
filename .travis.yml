@@ -1,3 +1,7 @@
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  
 matrix:
   include:
     - language: java
