@@ -48,6 +48,7 @@ We used a professional UML diagrams software [magicDraw](https://www.magicdraw.c
 
 # Software
 [![Build Status](https://travis-ci.com/DavideRutigliano/FerranteMattaRutigliano.svg?token=ybH961spbndNDMu3qqgS&branch=master)](https://travis-ci.com/DavideRutigliano/FerranteMattaRutigliano)
+[![codecov](https://codecov.io/gh/DavideRutigliano/FerranteMattaRutigliano/branch/master/graph/badge.svg?token=0Xy33hXqeu)](https://codecov.io/gh/DavideRutigliano/FerranteMattaRutigliano)
 
 *TrackMe* is a company that wants to develop an ease of use health monitoring application which offers different services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
 
