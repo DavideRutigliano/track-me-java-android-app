@@ -9,7 +9,7 @@ matrix:
         - ./mvnw package
 
     - language: android
-      jdk: oraclejdk7
+      jdk: oraclejdk9
       android:
         components:
           - android-28
