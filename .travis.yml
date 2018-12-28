@@ -14,8 +14,8 @@ matrix:
       android:
         components:
           - build-tools-26.0.2
-          - android-16
-          - extra
+          - android-26
+          - extra-google-google_play_services
       before_script:
         - jdk_switcher use oraclejdk7
         - cd software/client
