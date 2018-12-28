@@ -3,22 +3,22 @@ matrix:
     - language: java
       jdk: oraclejdk8
       before_script:
-        - jdk_switcher use oraclejdk8
         - cd software/server
         - chmod +x mvnw
       script:
         - ./mvnw package
 
     - language: android
-      jdk: oraclejdk7
       android:
         components:
-          - build-tools-26.0.2
-          - android-16
-          - extra
+          - build-tools-28.0.3
+          - android-28
+          - extra-google-google_play_services
+        licenses:
+          - 'android-sdk-license-28.0.3'
       before_script:
-        - jdk_switcher use oraclejdk7
         - cd software/client
         - chmod +x gradlew
+        - yes | sdkmanager "platforms;android-28"
       script:
         - ./gradlew assembleDebug
