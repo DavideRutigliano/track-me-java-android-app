@@ -8,13 +8,11 @@ cache:
 jobs:
      include:
              - stage: build
-             name: "Server"
                      script:
                       - cd software/server
                       - chmod +x mvnw
                       - ./mvnw package
-              
-              name: "Client"
+                      
                       script:
                        - cd software/client
                        - chmod +x gradlew
