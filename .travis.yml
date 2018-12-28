@@ -9,9 +9,9 @@ matrix:
         - ./mvnw package
 
     - language: android
-      jdk: oraclejdk9
       android:
         components:
+          - build-tools-28.0.2
           - android-28
           - extra-google-google_play_services
       before_script:
