@@ -1,15 +1,35 @@
-language: java
-jdk:
- - oraclejdk8
+jobs:
+     include:
+             name: "Server"
+             language: java
+                     jdk:
+                      - oraclejdk8
 
-cache:
-  directories:
-    - $HOME/.m2
+                     cache:
+                       directories:
+                         - $HOME/.m2
 
-before_install:
- - cd software/server
- - chmod +x mvnw
+                     before_install:
+                      - cd software/server
+                      - chmod +x mvnw
 
-install: true
-script:
-  - ./mvnw package
+                     install: true
+                     script:
+                      - ./mvnw package
+              
+              name: "Client"
+              language: java
+                      jdk:
+                       - oraclejdk8
+
+                      cache:
+                        directories:
+                          - $HOME/.m2
+
+                      before_install:
+                       - cd software/client
+                       - chmod +x gradlew
+
+                      install: true
+                      script:
+                       - ./gradlew assembleDebug
