@@ -13,12 +13,4 @@ stages:
 jobs:
   include:
     - stage: build
-    - script:
-      - cd software/server
-      - chmod +x mvnw
-      - ./mvnw package
-                      
-    - script:
-      - cd software/client
-      - chmod +x gradlew
-      - ./gradlew assembleDebug
+    - script: cd software/server
