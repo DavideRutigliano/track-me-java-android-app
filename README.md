@@ -48,7 +48,6 @@ We used a professional UML diagrams software [magicDraw](https://www.magicdraw.c
 
 # Software
 [![Build Status](https://travis-ci.com/DavideRutigliano/FerranteMattaRutigliano.svg?token=ybH961spbndNDMu3qqgS&branch=master)](https://travis-ci.com/DavideRutigliano/FerranteMattaRutigliano)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6c9c587c5ea04565a98e464a63e619c8)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DavideRutigliano/FerranteMattaRutigliano&amp;utm_campaign=Badge_Grade)
 
 *TrackMe* is a company that wants to develop an ease of use health monitoring application which offers different services for both young and old people who needs to keep track of their personal data in order to to keep their health safe.
 
@@ -78,6 +77,7 @@ In order to develop the proposed system we decided to use Java as back-end and f
 ├── ITD                 : Implementation and Testing Document Latex project
 ├── RASD                : Requirement Analysis and Specification Document Latex project
 ├── software            : TrackMe application source code
+├── .travis.yml         : Travis-CI yaml configuration file
 ├── INSTALL.md          : build and installation instructions
 └── README.md           : this file
 ```
