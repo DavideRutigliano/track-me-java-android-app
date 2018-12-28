@@ -13,7 +13,6 @@ matrix:
       jdk: openjdk7
       android:
         components:
-          - build-tools-26.0.2
           - android-28
           - extra-google-google_play_services
       before_script:
