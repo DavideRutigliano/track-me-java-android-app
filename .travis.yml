@@ -1,15 +1,14 @@
+language: java
+  jdk:
+     - oraclejdk8
+
+cache:
+     directories:
+          - $HOME/.m2
 jobs:
      include:
              - stage: "Server build"
              name: "Server"
-                  language: java
-                          jdk:
-                           - oraclejdk8
-
-                     cache:
-                       directories:
-                         - $HOME/.m2
-
                      before_install:
                       - cd software/server
                       - chmod +x mvnw
@@ -20,14 +19,6 @@ jobs:
               
               - stage: "Client build"
               name: "Client"
-                   language: java
-                           jdk:
-                            - oraclejdk8
-
-                      cache:
-                        directories:
-                          - $HOME/.m2
-
                       before_install:
                        - cd software/client
                        - chmod +x gradlew
