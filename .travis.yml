@@ -1,27 +1,24 @@
-cache:
-  directories:
-    - $HOME/.m2
-    
 matrix:
   include:
     - language: java
-    jdk: oraclejdk8
+      jdk: oraclejdk8
       before_script:
         - jdk_switcher use oraclejdk8
         - cd software/server
         - chmod +x mvnw
       script:
-      - ./mvnw package
+        - ./mvnw package
+
     - language: android
-    jdk: oraclejdk7
-    android:
-      components:
-        - build-tools-26.0.2
-        - android-16
-        - extra
+      jdk: oraclejdk7
+      android:
+        components:
+          - build-tools-26.0.2
+          - android-16
+          - extra
       before_script:
         - jdk_switcher use oraclejdk7
         - cd software/client
         - chmod +x gradlew
       script:
-      - ./gradlew assembleDebug
+        - ./gradlew assembleDebug
