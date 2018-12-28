@@ -10,14 +10,14 @@ matrix:
         - ./mvnw package
 
     - language: android
-      jdk: oraclejdk8
+      jdk: openjdk7
       android:
         components:
           - build-tools-26.0.2
           - android-28
           - extra-google-google_play_services
       before_script:
-        - jdk_switcher use oraclejdk7
+        - jdk_switcher use openjdk7
         - cd software/client
         - chmod +x gradlew
       script:
