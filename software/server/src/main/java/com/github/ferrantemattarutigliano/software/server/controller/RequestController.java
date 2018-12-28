@@ -62,13 +62,6 @@ public class RequestController {
         return requestService.showSentRequest();
     }
 
-    @PreAuthorize("hasRole('THIRD_PARTY')")
-    @GetMapping("/{username}/sent/subscribed")
-    public SentRequestDTO showSubscribedSentRequests(){
-        //TODO IMPLEMENT THIS
-        return null;
-    }
-
     @PreAuthorize("hasRole('INDIVIDUAL')")
     @GetMapping("/{username}/received")
     public Collection<ReceivedRequestDTO> showIncomingRequest() {
