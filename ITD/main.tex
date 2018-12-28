@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{indentfirst}
-\usepackage[none]{hyphenat}
+\usepackage[htt]{hyphenat}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -13,7 +13,8 @@
 \lstset{basicstyle=\ttfamily,
   showstringspaces=false,
   commentstyle=\color{red},
-  keywordstyle=\color{blue}
+  keywordstyle=\color{blue},
+  breaklines=true
 }
 
 \addbibresource{references.bib}
@@ -35,8 +36,17 @@ Finally, it contains all the installation and build instruction both for client 
 This document is intended for developers or anyone interested in the impleme-\newline ntation details of \textit{TrackMe}.
 
 \section{Requirements and Functions}
-This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not imple-\newline mented because not requested by the customer.
+This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not implemented because not requested by the customer.
 
+With respect to the Requirement Analysis document, non implemented requirement are the following:
+\begin{itemize}
+    \item \textbf{(REQ-18)} The system must allow the Third-Party to activate Automated-SOS service;
+    \item \textbf{(REQ-19)} The system must be able to assign an ambulance dispatcher to the SOS service;
+    \item \textbf{(REQ-20)} The system must allow the Individual to activate Automated-SOS service;
+    \item \textbf{(REQ-21)} The system should allow the Individual to choose between third parties who has enabled the service.
+\end{itemize}
+
+\newpage
 \section{Adopted Development Frameworks}
 
 \subsection{Programming Language}
@@ -66,6 +76,7 @@ For both server and client side application the adopted language is Java: versio
     \item Spring Framework: this choice is an alternative to Java Enterprise Edition and Enterprise Java Bean based models. The main advantage of this framework is indeed that allows programmers to write less code and to focus on critical parts of the application instead of \textit{"simple and standard"} things. For instance, Spring Boot allows developers to create application with embedded web server such as Tomcat or Jetty with few lines of configuration without installing the web server itself. In addition, this framework also supports dependency injection and inversion of control. These latter features also allows developer to speed up and facilitate unit testing.
 \end{itemize}
 
+\newpage
 \paragraph{Client-Side Libraries}
 In the Design Document we proposed Google for Map libraries, but since June 2018 Google Maps is not free anymore, we implemented our custom version  of the map\footnote{In a production system it may be better to use Google Maps API to manage maps as their libraries are widely used and tested with respect to a custom map implementation.}, using following libraries:
 \begin{itemize}
@@ -81,7 +92,7 @@ In addition, other client libraries are:
 
 \paragraph{Other Software}
 \begin{itemize}
-    \item MySQL Database as database system.
+    \item PostgreSQL Database as database system.
 \end{itemize}
 
 \subsection{API}
@@ -129,14 +140,13 @@ Server-side code has been tested using the tools provided by Java with some addi
 
 \subsection{Client Side Testing}
 \newpage
-\section{Final User Install Instructions}
+\section{End User Install Instructions}
 
 \newpage
 \section{Developer Install Instructions}
-
-First of all you should install git and then clone \textit{TrackMe} repository from:
+First of all you should install git and then clone \textit{TrackMe} repository:
 \begin{lstlisting}
-https://github.com/DavideRutigliano/FerranteMattaRutigliano
+git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 \end{lstlisting}
 
 Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper. The latter option is widely advised, as it allows to build and run the source code without installing anything else.
@@ -144,25 +154,28 @@ Then, to build and install the application, independently server or client, you 
 \subsection{Server Build and Installation}
 \subsubsection{Install PostgreSQL Database}
 \begin{enumerate}
-    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{PostgreSQL}. \textbf{Remember to write down/remember your password, you will need it later.}
+    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{\underline{PostgreSQL}}. \textbf{Remember to write down/remember your password, you will need it later.}
     \item Launch pgAdmin and create a new Server. Under the tab \textit{Connection}, set Host name/address to: \textit{localhost}. Press Save. \textbf{Don't edit the username} (it should be \textit{postgres}) but add the password you used during the installation.
     \item Right click on Login/Group Roles and create a new user: \textit{trackmeadmin} identified by password \textit{password}. \item Alternatively you can use an existing user changing
     \newline\textit{spring.datasource.username} and \textit{spring.datasource.password}\newline in \textit{application.properties} in the server Java application.
-    \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}. Press Save.
-    \item Right click on Databases and create a new database called \textit{trackme\_db}.
+    \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}, then Save.
 \end{enumerate}
 
+You should have the following configuration:
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[height=73mm]{ITD/postgresql_install.png}
-    \caption{You should have the above configuration at the end.}
+    \includegraphics[height=73mm]{ITD/images/postgresql_install.png}
 \end{figure}
+\newpage
 
 \subsubsection{Build with IDE}
 \begin{enumerate}
     \item Open as a project: \textit{"ferrantemattarutigliano/software/server/src/pom.xml"} and wait until import is complete;
-    \item Setup project sdk: file ${->}$ project structure ${->}$ project sdk (you need at least project language level 11);
-    \item Add configuration ${->}$ application ${->}$ main class: ServerApplication.
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[height=50mm]{ITD/images/intellij_idea1.png}
+    \includegraphics[height=50mm]{ITD/images/intellij_idea2.png}
+    \end{figure}
 \end{enumerate}
 
 \subsubsection{Build with Maven}
@@ -176,12 +189,6 @@ sudo chmod +x mvnw
 ./mvnw package
 \end{lstlisting}
 
-Then, you run the application:
-
-\begin{lstlisting}[language=bash]
-java -jar ./target/server/server-0.0.1-SNAPSHOT.jar
-\end{lstlisting}
-
 \paragraph{Windows:} in order to build \textit{TrackMe} server with Maven you do:
 
 \begin{lstlisting}[language=bash]
@@ -189,23 +196,35 @@ cd FerranteMattaRutigliano\software\server
 mvnw.cmd package
 \end{lstlisting}
 
-Then, you run the application:
+\newpage
+The script should return something like:
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/maven.png}
+\end{figure}
+
+Then, you can run the application:
 
 \begin{lstlisting}[language=bash]
-java -jar .\target\server\server-0.0.1-SNAPSHOT.jar
+java -jar ./target/server/server-0.0.1-SNAPSHOT.jar
 \end{lstlisting}
 
+\newpage
 \subsection{Client Build and Installation}
 In order to build client mobile application within an IDE, you should use Android Studio.
 
 \subsubsection{Build with Android Studio}
 \begin{enumerate}
-    \item Download android studio;
-    \item Install android studio and Android Virtual Device;
+    \item Download \href{https://developer.android.com/studio/}{\underline{Android Studio}};
+    \item Install android studio and
+    \href{https://developer.android.com/studio/run/managing-avds}{\underline{Android Virtual Device}};
     \item Open an existing android studio project:
     \newline\textit{"ferrantemattarutigliano/software/client/build.gradle"} and wait until import is complete;
-    \item Select file ${->}$ project structure. Make sure that Android NDK is installed;
-    \item Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API with version ${>=}$ 16;
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[height=50mm]{ITD/images/android_studio1.png}
+    \includegraphics[height=50mm]{ITD/images/android_studio2.png}
+    \end{figure}
 \end{enumerate}
 
 \paragraph{Known Error}
@@ -236,6 +255,12 @@ sudo chmod +x gradlew
 cd FerranteMattaRutigliano\software\client
 gradlew.bat installDebug
 \end{lstlisting}
+
+The script should return something like:
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/gradle.png}
+\end{figure}
 
 \newpage
 \section{Effort Spent}
