@@ -5,7 +5,7 @@ language: java
 cache:
      directories:
           - $HOME/.m2
-jobs:
+matrix:
      include:
              - stage: build
                      script:
