@@ -8,6 +8,7 @@
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{hyperref}
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily,
   showstringspaces=false,
@@ -127,9 +128,11 @@ Testing code is available within the project directory in "test" package.
 Server-side code has been tested using the tools provided by Java with some additional libraries. In particular were used the JUnit to test the part that works in local without using external resources such as DBMS or network and Mockito, a popular mock framework which can be used in conjunction with JUnit.
 
 \subsection{Client Side Testing}
+\newpage
+\section{Final User Install Instructions}
 
 \newpage
-\section{Install Instructions}
+\section{Developer Install Instructions}
 
 First of all you should install git and then clone \textit{TrackMe} repository from:
 \begin{lstlisting}
@@ -139,12 +142,21 @@ https://github.com/DavideRutigliano/FerranteMattaRutigliano
 Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper. The latter option is widely advised, as it allows to build and run the source code without installing anything else.
 
 \subsection{Server Build and Installation}
+\subsubsection{Install PostgreSQL Database}
 \begin{enumerate}
-    \item Install MySQL;
-    \item Create a new database schema called \textit{"trackme\_db"};
-    \item Create an user with username \textit{"trackmeadmin}" identified by password \textit{"password"} with all privileges on the schema created in step 2; \item Alternatively to step 3, you can use an existing user changing
-    \newline\textit{"spring.datasource.username"} and \textit{"spring.datasource.password"}\newline in \textit{"application.properties"}. 
+    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{PostgreSQL}. \textbf{Remember to write down/remember your password, you will need it later.}
+    \item Launch pgAdmin and create a new Server. Under the tab \textit{Connection}, set Host name/address to: \textit{localhost}. Press Save. \textbf{Don't edit the username} (it should be \textit{postgres}) but add the password you used during the installation.
+    \item Right click on Login/Group Roles and create a new user: \textit{trackmeadmin} identified by password \textit{password}. \item Alternatively you can use an existing user changing
+    \newline\textit{spring.datasource.username} and \textit{spring.datasource.password}\newline in \textit{application.properties} in the server Java application.
+    \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}. Press Save.
+    \item Right click on Databases and create a new database called \textit{trackme\_db}.
 \end{enumerate}
+
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[height=73mm]{ITD/postgresql_install.png}
+    \caption{You should have the above configuration at the end.}
+\end{figure}
 
 \subsubsection{Build with IDE}
 \begin{enumerate}
