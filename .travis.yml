@@ -13,4 +13,4 @@ stages:
 jobs:
   include:
     - stage: build
-    - script: cd software/server
+        script: cd software/server
