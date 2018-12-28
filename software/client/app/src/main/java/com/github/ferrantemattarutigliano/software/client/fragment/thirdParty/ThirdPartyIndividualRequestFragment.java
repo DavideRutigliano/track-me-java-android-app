@@ -32,7 +32,7 @@ public class ThirdPartyIndividualRequestFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_individual_request, container, false);
+        View v = inflater.inflate(R.layout.fragment_third_party_individual_request, container, false);
         final Button confirmButton = v.findViewById(R.id.button_individual_request_send);
         final TextView ssnText = v.findViewById(R.id.text_individual_request_ssn);
         final CheckBox subscribeCheck = v.findViewById(R.id.check_individual_request_subscribe);

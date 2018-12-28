@@ -16,7 +16,7 @@ public class ThirdPartyGetHealthDataTask extends HttpTask<Collection<HealthDataD
     public ThirdPartyGetHealthDataTask(String requestType, Long requestId, AsyncResponse<Collection<HealthDataDTO>> asyncResponse) {
         super(new ParameterizedTypeReference<Collection<HealthDataDTO>>(){}, asyncResponse);
         //todo implement this :)
-        String path = "/healthdata" + requestType + requestId;
+        String path = "/healthdata/" + requestType + "/" + requestId;
         HttpMethod type = HttpMethod.GET;
         HttpInformationContainer container = new HttpInformationContainer(path, type);
         setHttpInformationContainer(container);

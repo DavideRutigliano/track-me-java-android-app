@@ -24,9 +24,8 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_credentials);
-        if(getParent() != null){
+        if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
-        }
         changeCredentialsPresenter = new ChangeCredentialsPresenter(this);
         ViewGroup layout = findViewById(R.id.layout_change_credentials);
         loadingScreen = new LoadingScreen(layout, "Sending...");

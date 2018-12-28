@@ -68,6 +68,7 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             //create title
             TextView titleView = new TextView(getApplicationContext());
+            titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
             titleView.setText(runDTO.getTitle());
             linearLayout.addView(titleView);
             //create buttons

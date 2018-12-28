@@ -21,12 +21,12 @@ public class ThirdPartyViewDataPresenter extends Presenter<ThirdPartyViewData> {
     }
 
     public void doFetchSubscribedRequests(){
-        new ThirdPartySentRequestsTask(SessionDirector.USERNAME, "/subscribed", new AsyncResponse<SentRequestDTO>() {
+        new ThirdPartySentRequestsTask(SessionDirector.USERNAME, "/all", new AsyncResponse<SentRequestDTO>() {
             @Override
             public void taskFinish(SentRequestDTO output) {
                 if(output.getGroupRequestDTOS().isEmpty()
                         && output.getIndividualRequestDTOS().isEmpty()){
-                    view.noSubscribedRequests("No subscribed requests found.");
+                    view.noSentRequests("No subscribed requests found.");
                     return;
                 }
                 Collection<TaggedRequest> requests = new LinkedHashSet<>();
@@ -35,7 +35,7 @@ public class ThirdPartyViewDataPresenter extends Presenter<ThirdPartyViewData> {
                     requests.add(request);
                 }
                 for(GroupRequestDTO Greq : output.getGroupRequestDTOS()){
-                    TaggedRequest<GroupRequestDTO> request = new TaggedRequest<>("Individual", Greq);
+                    TaggedRequest<GroupRequestDTO> request = new TaggedRequest<>("Group", Greq);
                     requests.add(request);
                 }
                 view.onRequestFetchSuccess(requests);

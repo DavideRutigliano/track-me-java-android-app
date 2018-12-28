@@ -34,7 +34,7 @@ public class ThirdPartyAccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.fragment_my_third_party_account, container, false);
+        View v =  inflater.inflate(R.layout.fragment_third_party_account, container, false);
         TextView nameText = v.findViewById(R.id.text_third_party_account_name);
         TextView infoText = v.findViewById(R.id.text_third_party_account_vat);
         Profile profile = SessionDirector.getProfile();

@@ -8,6 +8,6 @@ import java.util.Collection;
 public interface ThirdPartyViewData {
 
     void onRequestFetchSuccess(Collection<TaggedRequest> subscribedRequests);
-    void noSubscribedRequests(String output);
+    void noSentRequests(String output);
     void onDataFetchSuccess(Collection<HealthDataDTO> healthData);
 }

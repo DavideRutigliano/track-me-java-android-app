@@ -2,6 +2,7 @@ package com.github.ferrantemattarutigliano.software.client.activity.thirdparty;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
@@ -18,7 +19,8 @@ public class ThirdPartyHealthDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_party_health_data);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         graphView = findViewById(R.id.graph_third_party_healthdata);
         try{
             healthData = (Collection<HealthDataDTO>)savedInstanceState.getSerializable("healthdata");
@@ -27,5 +29,14 @@ public class ThirdPartyHealthDataActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to get healthdata bundle", Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

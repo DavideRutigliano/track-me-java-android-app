@@ -39,10 +39,9 @@ public class ThirdPartyThirdPartyRequestActivity extends AppCompatActivity imple
         Toolbar toolbar = findViewById(R.id.container_toolbar_request);
         TabLayout tabLayout = findViewById(R.id.container_tabs_request);
         CoordinatorLayout container = findViewById(R.id.container_third_party_request);
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
-
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         dialogFactory = new AlertDialog.Builder(this);
         viewPager = findViewById(R.id.container_tab_request);

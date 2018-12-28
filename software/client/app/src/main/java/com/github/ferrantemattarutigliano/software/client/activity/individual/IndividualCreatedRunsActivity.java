@@ -33,7 +33,8 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_created_runs);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         individualCreatedRunsPresenter = new IndividualCreatedRunsPresenter(this);
         dialogFactory = new AlertDialog.Builder(this);
 

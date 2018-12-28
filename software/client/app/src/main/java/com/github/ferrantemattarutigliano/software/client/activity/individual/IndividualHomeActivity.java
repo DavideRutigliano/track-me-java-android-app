@@ -88,7 +88,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "trackme")
-                            .setSmallIcon(R.drawable.trackme_logo)
+                            .setSmallIcon(R.drawable.trackme_small_logo)
                             .setContentTitle("Incoming Requests")
                             .setContentText(response.getStompBody())
                             .setDefaults(NotificationCompat.DEFAULT_ALL)

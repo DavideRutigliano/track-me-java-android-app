@@ -31,7 +31,7 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_group_request, container, false);
+        View v = inflater.inflate(R.layout.fragment_third_party_group_request, container, false);
         final Button confirmButton = v.findViewById(R.id.button_group_request_send);
         final CheckBox subscribeCheck = v.findViewById(R.id.check_group_request_subscribe);
 
