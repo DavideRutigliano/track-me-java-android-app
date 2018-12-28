@@ -11,6 +11,7 @@ matrix:
     - language: android
       android:
         components:
+          - build-tools-28.0.3
           - android-28
           - extra-google-google_play_services
         licenses:
@@ -18,5 +19,6 @@ matrix:
       before_script:
         - cd software/client
         - chmod +x gradlew
+        - yes | sdkmanager "platforms;android-28"
       script:
         - ./gradlew assembleDebug
