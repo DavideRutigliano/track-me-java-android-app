@@ -5,8 +5,14 @@ cache:
   directories:
     - $HOME/.m2
 
+stages:
+  - build
+  - test
+  - deploy
+ 
 jobs:
   include:
+    - stage: build
     - script:
       - cd software/server
       - chmod +x mvnw
