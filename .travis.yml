@@ -1,16 +1,10 @@
 cache:
   directories:
     - $HOME/.m2
-
-stages:
-  - build
-  - test
-  - deploy
- 
-jobs:
+    
+matrix:
   include:
-    - stage: build
-    language: java
+    - language: java
     jdk: oraclejdk8
       before_script:
         - jdk_switcher use oraclejdk8
@@ -18,8 +12,7 @@ jobs:
         - chmod +x mvnw
       script:
       - ./mvnw package
-    - # stage name not required
-    language: android
+    - language: android
     jdk: oraclejdk7
     android:
       components:
