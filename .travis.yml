@@ -1,7 +1,3 @@
-language: java
-jdk:
-  - oraclejdk8
-  - oraclejdk7
 cache:
   directories:
     - $HOME/.m2
@@ -14,14 +10,25 @@ stages:
 jobs:
   include:
     - stage: build
+    language: java
+    jdk: oraclejdk8
+      before_script:
+        - jdk_switcher use oraclejdk8
+        - cd software/server
+        - chmod +x mvnw
       script:
-      - jdk_switcher use oraclejdk8
-      - cd software/server
-      - chmod +x mvnw
       - ./mvnw package
     - # stage name not required
+    language: android
+    jdk: oraclejdk7
+    android:
+      components:
+        - build-tools-26.0.2
+        - android-16
+        - extra
+      before_script:
+        - jdk_switcher use oraclejdk7
+        - cd software/client
+        - chmod +x gradlew
       script:
-      - jdk_switcher use oraclejdk7
-      - cd software/client
-      - chmod +x gradlew
       - ./gradlew assembleDebug
