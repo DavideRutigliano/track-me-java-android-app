@@ -5,15 +5,14 @@ language: java
 cache:
      directories:
           - $HOME/.m2
-matrix:
+jobs:
      include:
-             - stage: build
-                     script:
-                      - cd software/server
-                      - chmod +x mvnw
-                      - ./mvnw package
+            - script:
+                - cd software/server
+                - chmod +x mvnw
+                - ./mvnw package
                       
-                      script:
-                       - cd software/client
-                       - chmod +x gradlew
-                       - ./gradlew assembleDebug
+            - script:
+                 - cd software/client
+                 - chmod +x gradlew
+                 - ./gradlew assembleDebug
