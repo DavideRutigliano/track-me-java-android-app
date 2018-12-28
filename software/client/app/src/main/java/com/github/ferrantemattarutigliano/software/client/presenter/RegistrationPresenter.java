@@ -4,7 +4,7 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncRespo
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyRegistrationDTO;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualRegisterTask;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyRegisterTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartyRegisterTask;
 import com.github.ferrantemattarutigliano.software.client.view.RegistrationView;
 
 public class RegistrationPresenter extends Presenter<RegistrationView>{

@@ -8,8 +8,8 @@ import com.github.ferrantemattarutigliano.software.client.model.SentRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.model.TaggedRequest;
 import com.github.ferrantemattarutigliano.software.client.presenter.Presenter;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyGetHealthDataTask;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartySentRequestsTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartyGetHealthDataTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartySentRequestsTask;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyViewData;
 
 import java.util.Collection;

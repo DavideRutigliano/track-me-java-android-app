@@ -4,8 +4,8 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncRespo
 import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.Presenter;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyGroupRequestTask;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyIndividualRequestTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartyGroupRequestTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartyIndividualRequestTask;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyRequestView;
 
 public class ThirdPartyRequestPresenter extends Presenter<ThirdPartyRequestView> {

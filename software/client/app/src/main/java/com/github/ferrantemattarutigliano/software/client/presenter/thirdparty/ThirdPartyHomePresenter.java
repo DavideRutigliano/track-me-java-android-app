@@ -6,7 +6,7 @@ import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncRespo
 import com.github.ferrantemattarutigliano.software.client.model.ThirdPartyDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.Presenter;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
-import com.github.ferrantemattarutigliano.software.client.task.thirdParty.ThirdPartyGetProfileTask;
+import com.github.ferrantemattarutigliano.software.client.task.thirdparty.ThirdPartyGetProfileTask;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyHomeView;
 
 public class ThirdPartyHomePresenter extends Presenter<ThirdPartyHomeView> {
