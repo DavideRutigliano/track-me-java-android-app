@@ -18,7 +18,7 @@ public class IndividualHomePresenter extends Presenter<IndividualHomeView> {
         new IndividualGetProfileTask(SessionDirector.USERNAME, new AsyncResponse<IndividualDTO>() {
             @Override
             public void taskFinish(IndividualDTO output) {
-                view.notifyUser();
+                view.startStompClient();
                 view.onProfileFetch(output);
             }
 

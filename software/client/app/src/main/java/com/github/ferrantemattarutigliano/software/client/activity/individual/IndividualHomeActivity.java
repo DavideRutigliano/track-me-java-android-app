@@ -78,10 +78,10 @@ public class IndividualHomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void notifyUser() {
+    public void startStompClient() {
         Intent intent = new Intent(this, IndividualHomeActivity.class);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        SessionDirector.setStompClient(new StompClient(new StompCallback() {
+        StompClient stompClient = new StompClient(new StompCallback() {
             @Override
             public void onResponseReceived(StompFrame response) {
                 if (!response.getStompBody().isEmpty()) {
@@ -111,7 +111,8 @@ public class IndividualHomeActivity extends AppCompatActivity
                     notificationManager.notify(0, notificationBuilder.build());
                 }
             }
-        }));
+        });
+        SessionDirector.setStompClient(stompClient);
         SessionDirector.connect();
     }
 
