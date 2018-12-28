@@ -78,10 +78,10 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void notifyUser() {
+    public void startStompClient() {
         Intent intent = new Intent(this, ThirdPartyHomeActivity.class);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        SessionDirector.setStompClient(new StompClient(new StompCallback() {
+        StompClient stompClient = new StompClient(new StompCallback() {
             @Override
             public void onResponseReceived(StompFrame response) {
                 if (!response.getStompBody().isEmpty()) {
@@ -114,9 +114,9 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
                     String topic = StringUtils.substringBetween(response.getStompBody(), "Topic: ", ".");
                     SessionDirector.getStompClient().subscribe("/healthdata/" + topic);
                 }
-
             }
-        }));
+        });
+        SessionDirector.setStompClient(stompClient);
         SessionDirector.connect();
     }
 

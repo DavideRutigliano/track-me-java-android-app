@@ -18,7 +18,7 @@ public class ThirdPartyHomePresenter extends Presenter<ThirdPartyHomeView> {
         new ThirdPartyGetProfileTask(SessionDirector.USERNAME, new AsyncResponse<ThirdPartyDTO>() {
             @Override
             public void taskFinish(ThirdPartyDTO output) {
-                view.notifyUser();
+                view.startStompClient();
                 view.onProfileFetch(output);
             }
 
