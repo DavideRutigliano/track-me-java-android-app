@@ -1,6 +1,7 @@
 language: java
-  jdk: oraclejdk8
-
+jdk:
+  - oraclejdk8
+  - oraclejdk7
 cache:
   directories:
     - $HOME/.m2
@@ -13,4 +14,14 @@ stages:
 jobs:
   include:
     - stage: build
-        script: cd software/server
+      script:
+      - jdk_switcher use oraclejdk8
+      - cd software/server
+      - chmod +x mvnw
+      - ./mvnw package
+    - # stage name not required
+      script:
+      - jdk_switcher use oraclejdk7
+      - cd software/client
+      - chmod +x gradlew
+      - ./gradlew assembleDebug
