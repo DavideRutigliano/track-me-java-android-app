@@ -1,7 +1,12 @@
+
 package com.github.ferrantemattarutigliano.software.server.controller;
-/*
+
+import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRegistrationDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
+import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
@@ -10,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.plugins.MockMaker;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,16 +39,28 @@ public class AuthenticatorControllerTest {
     @Mock
     ThirdPartyRepository mockThirdPartyRepository;
 
-    private Individual createDummyIndivdual() {
-        Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "AAAAAA00A00A000A";
-        return new Individual("Jhon", "Snow", ssn, "test@ho.com", "A", "B", birthDate);
+    private UserDTO createDummyuserDTO() {
+
+        return new UserDTO("jhon", "sort", "test@ho.com", "Individual");
     }
 
+    private IndividualDTO createDummyIndivdualDTO() {
+        Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
+        String ssn = "AAAAAA00A00A000A";
+        return new IndividualDTO(ssn, "Jhon", "Snow", birthDate, 180, 70, "italia", "Bari", "via padova");
+    }
+
+    private IndividualRegistrationDTO createDummyIndivdualRegistrationDTO() {
+        return new IndividualRegistrationDTO(createDummyuserDTO(), createDummyIndivdualDTO());
+
+    }
+/*
     private ThirdParty createDummyThirdParty() {
         String vat = "00000000000";
         return new ThirdParty("Bilbo", "Baggins", vat, "test@ho.com", "A");
     }
+*/
+
 
     @Before
     public void initTest() {
@@ -51,16 +69,16 @@ public class AuthenticatorControllerTest {
 
     @Test
     public void testIndividualRegistration() {
-        Individual dummyIndividual = createDummyIndivdual();
+        IndividualRegistrationDTO dummyIndividual = createDummyIndivdualRegistrationDTO();
 
-        when(mockIndividualRepository.existsBySsn(dummyIndividual.getSsn())).thenReturn(true);
-        when(mockIndividualRepository.findBySsn(dummyIndividual.getSsn())).thenReturn(dummyIndividual);
-        when(mockAuthenticatorService.individualRegistration(dummyIndividual)).thenReturn(true);
+        when(mockIndividualRepository.existsBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(true);
+        //    when(mockIndividualRepository.findBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(dummyIndividual);
+        //    when(mockAuthenticatorService.individualRegistration(dummyIndividual)).thenReturn(true);
 
         String result = mockAuthenticator.individualRegistration(dummyIndividual);
-        assertEquals("Success!", result);
+        assertEquals("REGISTRATION_SUCCESS", result);
     }
-
+}/*
     @Test
     public void testGetIndividualProfile() {
         Individual dummyIndividual = createDummyIndivdual();

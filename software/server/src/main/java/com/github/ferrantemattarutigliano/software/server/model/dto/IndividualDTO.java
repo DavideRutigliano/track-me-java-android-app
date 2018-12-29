@@ -13,7 +13,17 @@ public class IndividualDTO{
     private String city;
     private String address;
 
-    public IndividualDTO() {
+
+    public IndividualDTO(String ssn, String firstname, String lastname, Date birthdate, int height, int weight, String state, String city, String address) {
+        this.ssn = ssn;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthdate = birthdate;
+        this.height = height;
+        this.weight = weight;
+        this.state = state;
+        this.city = city;
+        this.address = address;
     }
 
     public String getSsn() {
