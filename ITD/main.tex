@@ -153,7 +153,7 @@ Then, to build and install the application, independently server or client, you 
 \subsection{Server Build and Installation}
 \subsubsection{Install PostgreSQL Database}
 \begin{enumerate}
-    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{PostgreSQL}. \textbf{Remember to write down/remember your password, you will need it later.}
+    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{\underline{PostgreSQL}}. \textbf{Remember to write down/remember your password, you will need it later.}
     \item Launch pgAdmin and create a new Server. Under the tab \textit{Connection}, set Host name/address to: \textit{localhost}. Press Save. \textbf{Don't edit the username} (it should be \textit{postgres}) but add the password you used during the installation.
     \item Right click on Login/Group Roles and create a new user: \textit{trackmeadmin} identified by password \textit{password}. \item Alternatively you can use an existing user changing
     \newline\textit{spring.datasource.username} and \textit{spring.datasource.password}\newline in \textit{application.properties} in the server Java application.
@@ -170,6 +170,8 @@ You should have the following configuration at the end:
 \subsubsection{Build with IDE}
 \begin{enumerate}
     \item Open as a project: \textit{"ferrantemattarutigliano/software/server/src/pom.xml"} and wait until import is complete;
+    \item Setup project sdk: file ${->}$ project structure ${->}$ project sdk (you need at least project language level 11);
+    \item Add configuration ${->}$ application ${->}$ main class: ServerApplication.
     \begin{figure}[!htpb]
     \centering
     \includegraphics[height=50mm]{ITD/images/intellij_idea1.png}
