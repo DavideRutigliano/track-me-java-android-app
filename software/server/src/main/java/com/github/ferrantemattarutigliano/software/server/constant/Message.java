@@ -24,6 +24,21 @@ public enum Message {
     REQUEST_ACCEPTED("Request accepted."),
     REQUEST_REJECTED("Request rejected."),
 
+    RUN_CREATED("Run created."),
+    RUN_STARTED("Run started."),
+    RUN_EDITED("Run modified."),
+    RUN_DELETED("Run deleted."),
+    RUN_ENROLLED("Successfully enrolled to run: "),
+    RUN_UNENROLLED("Successfully unenrolled to run: "),
+    RUN_WATCHED("You're now spectator of: "),
+    RUN_UNWATCHED("You're not watching anymore: "),
+    RUN_NOT_ORGANIZER("You're not organizer of: "),
+    RUN_NOT_ATHLETE("You're not an athlete of: "),
+    RUN_ALREADY_ATHLETE("You're already an athlete of: "),
+    RUN_NOT_SPECTATOR("You're not a spectator of: "),
+    RUN_ALREADY_SPECTATOR("You're already a spectator of: "),
+    RUN_DOES_NOT_EXISTS("Selected run does not exists."),
+
     INSERT_DATA_SUCCESS("Data registered successfully.");
 
     private String msg;

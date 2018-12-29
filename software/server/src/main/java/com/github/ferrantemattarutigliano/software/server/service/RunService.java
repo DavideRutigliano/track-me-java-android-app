@@ -72,7 +72,7 @@ public class RunService {
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
         runRepository.save(run);
-        return "Success";
+        return Message.RUN_CREATED.toString();
     }
 
     public String startRun(Long runId) {
@@ -83,10 +83,10 @@ public class RunService {
         Individual organizer = individualRepository.findByUser(user);
 
         if (!r.getOrganizer().getSsn().equals(organizer.getSsn()))
-            return "run away";
+            return Message.RUN_NOT_ORGANIZER.toString();
 
         runRepository.startRun(runId);
-        return "Success";
+        return Message.RUN_STARTED.toString();
     }
 
     public String editRun(Run run) {
@@ -95,7 +95,7 @@ public class RunService {
             return null;
 
         if (!runRepository.findById(run.getId()).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Individual organizer = individualRepository.findByUser(user);
@@ -103,7 +103,7 @@ public class RunService {
         Run existing = runRepository.findById(run.getId()).get();
 
         if (!run.getOrganizer().getSsn().equals(organizer.getSsn())) {
-            return "not organizer: run away :O";
+            return Message.RUN_NOT_ORGANIZER.toString();
         }
 
         if (run.getTitle() != null
@@ -128,7 +128,7 @@ public class RunService {
 
         runRepository.save(existing);
 
-        return "Success";
+        return Message.RUN_EDITED.toString();
     }
 
     public String deleteRun(Long runId) {
@@ -139,7 +139,7 @@ public class RunService {
         }
 
         if (!runRepository.findById(runId).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Individual organizer = individualRepository.findByUser(user);
@@ -147,18 +147,18 @@ public class RunService {
         Run run = runRepository.findById(runId).get();
 
         if (!run.getOrganizer().getSsn().equals(organizer.getSsn())) {
-            return "not organizer: run away :O";
+            return Message.RUN_NOT_ORGANIZER.toString();
         }
 
         runRepository.delete(run);
 
-        return "Success";
+        return Message.RUN_DELETED.toString();
     }
 
     public String enrollRun(Long runId) {
 
         if (!runRepository.findById(runId).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -170,19 +170,19 @@ public class RunService {
         Individual athlete = individualRepository.findByUser(user);
 
         if (run.getAthletes().stream().anyMatch(individual -> individual.getSsn().equals(athlete.getSsn()))) {
-            return "already enrolled";
+            return Message.RUN_ALREADY_ATHLETE.toString();
         }
 
         run.enrollAthlete(athlete);
         runRepository.save(run);
 
-        return "Success";
+        return Message.RUN_ENROLLED.toString() + run.getTitle();
     }
 
     public String unenrollRun(Long runId) {
 
         if (!runRepository.findById(runId).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -194,19 +194,19 @@ public class RunService {
         Individual athlete = individualRepository.findByUser(user);
 
         if (!run.getAthletes().stream().anyMatch(individual -> individual.getSsn().equals(athlete.getSsn()))) {
-            return "not enrolled";
+            return Message.RUN_NOT_ATHLETE.toString();
         }
 
         run.removeAthlete(athlete);
         runRepository.save(run);
 
-        return "Success";
+        return Message.RUN_UNENROLLED.toString() + run.getTitle();
     }
 
     public String watchRun(Long runId) {
 
         if (!runRepository.findById(runId).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -218,19 +218,19 @@ public class RunService {
         Individual spectator = individualRepository.findByUser(user);
 
         if (run.getSpectators().stream().anyMatch(individual -> individual.getSsn().equals(spectator.getSsn()))) {
-            return "already watching";
+            return Message.RUN_ALREADY_SPECTATOR.toString();
         }
 
         run.addSpectator(spectator);
         runRepository.save(run);
 
-        return "Success";
+        return Message.RUN_WATCHED.toString() + run.getTitle();
     }
 
     public String unwatchRun(Long runId) {
 
         if (!runRepository.findById(runId).isPresent()) {
-            return "fail";
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -242,12 +242,12 @@ public class RunService {
         Individual spectator = individualRepository.findByUser(user);
 
         if (!run.getSpectators().stream().anyMatch(individual -> individual.getSsn().equals(spectator.getSsn()))) {
-            return "not watcher";
+            return Message.RUN_NOT_SPECTATOR.toString();
         }
 
         run.removeSpectator(spectator);
         runRepository.save(run);
 
-        return "Success";
+        return Message.RUN_UNWATCHED.toString() + run.getTitle();
     }
 }
