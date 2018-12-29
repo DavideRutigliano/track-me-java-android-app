@@ -149,22 +149,21 @@ First of all you should install git and then clone \textit{TrackMe} repository:
 git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 \end{lstlisting}
 
-Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper. The latter option is widely advised, as it allows to build and run the source code without installing anything else.
-
+Then, to build and install the application, independently server or client, you can proceed in two different ways: build the application within your IDE or with Maven/Gradle wrapper.
 \subsection{Server Build and Installation}
 \subsubsection{Install PostgreSQL Database}
 \begin{enumerate}
-    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{\underline{PostgreSQL}}. \textbf{Remember to write down/remember your password, you will need it later.}
+    \item Download and install \href{https://www.enterprisedb.com/downloads/postgres-postgresql-downloads}{PostgreSQL}. \textbf{Remember to write down/remember your password, you will need it later.}
     \item Launch pgAdmin and create a new Server. Under the tab \textit{Connection}, set Host name/address to: \textit{localhost}. Press Save. \textbf{Don't edit the username} (it should be \textit{postgres}) but add the password you used during the installation.
     \item Right click on Login/Group Roles and create a new user: \textit{trackmeadmin} identified by password \textit{password}. \item Alternatively you can use an existing user changing
     \newline\textit{spring.datasource.username} and \textit{spring.datasource.password}\newline in \textit{application.properties} in the server Java application.
-    \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}, then Save.
+    \item In the tab \textit{Privileges} check \textit{Superuser} and \textit{Can login?}. Press Save.
+    \item Right click on Databases and create a new database called \textit{trackme\_db}.
 \end{enumerate}
-
-You should have the following configuration:
+You should have the following configuration at the end:
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[height=73mm]{ITD/images/postgresql_install.png}
+    \includegraphics[height=70mm]{ITD/images/postgresql_install.png}
 \end{figure}
 \newpage
 
