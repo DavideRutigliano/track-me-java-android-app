@@ -5,7 +5,7 @@
 git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 ```
 # Server
-* Install mysql
+* Install postgreSQL
 
 * Create a new database schema called __trackme_db__
 
@@ -15,10 +15,6 @@ git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 
 ## Build with IDE
 * Open as a project: ___ferrantemattarutigliano/software/server/src/pom.xml___ and wait until import is complete
-
-* Setup project sdk: file -> project structure -> project sdk (you need at least project language level 11)
-
-* Add configuration -> application -> main class: ServerApplication
 
 Now you can run the TrackMe Server from your IDE!
 
@@ -47,10 +43,6 @@ java -jar .\target\server\server-0.0.1-SNAPSHOT.jar #runs the server
   * (**important note:** when you create the android SDK directory, don't use whitespace or '-' characters. This causes problem with the Android framework.
 
 * Open an existing android studio project: ___ferrantemattarutigliano/software/client/build.gradle___ wait until import is complete.
-
-* Select file->project structure. Make sure that Android NDK is installed.
-
-* Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API >= 16.
 
 * __(Optional)__ If you prefer to launch the application on your own android device you can do so: you just have to enable USB debug on your smartphone and connect it to your PC with an USB cable.
 
