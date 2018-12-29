@@ -170,8 +170,8 @@ You should have the following configuration at the end:
 \subsubsection{Build with IDE}
 \begin{enumerate}
     \item Open as a project: \textit{"ferrantemattarutigliano/software/server/src/pom.xml"} and wait until import is complete;
-    \item Setup project sdk: file ${->}$ project structure ${->}$ project sdk (you need at least project language level 11);
-    \item Add configuration ${->}$ application ${->}$ main class: ServerApplication.
+    \item Setup project sdk: file ->project structure -> project sdk (you need at least project language level 11);
+    \item Add configuration -> application -> main class: ServerApplication.
     \begin{figure}[!htpb]
     \centering
     \includegraphics[height=50mm]{ITD/images/intellij_idea1.png}
@@ -217,10 +217,12 @@ In order to build client mobile application within an IDE, you should use Androi
 \subsubsection{Build with Android Studio}
 \begin{enumerate}
     \item Download \href{https://developer.android.com/studio/}{\underline{Android Studio}};
-    \item Install android studio and
-    \href{https://developer.android.com/studio/run/managing-avds}{\underline{Android Virtual Device}};
+    \item Install android studio and Android Virtual Device;
     \item Open an existing android studio project:
     \newline\textit{"ferrantemattarutigliano/software/client/build.gradle"} and wait until import is complete;
+    \item Select file -> project structure. Make sure that Android NDK is installed;
+    \item Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API with version > 15.
+    \item If you want to use a local server, uncomment the appropriate line in \textit{app/java/com.github.ferrantemattarutigliano.software.client/httprequest/HttpConstant.java}.
     \begin{figure}[!htpb]
     \centering
     \includegraphics[height=50mm]{ITD/images/android_studio1.png}
@@ -231,7 +233,7 @@ In order to build client mobile application within an IDE, you should use Androi
 \paragraph{Known Error}
 Emulator: ERROR: x86 emulation currently requires hardware acceleration!
 
-\textbf{Solution:} tools ${->}$ SDK Manager ${->}$ SDK Tools (tab) and make sure that Intel x86 Emulator Accelerator is installed. If not, install it; if already installed, uninstall and re-install it.
+\textbf{Solution:} tools -> SDK Manager -> SDK Tools (tab) and make sure that Intel x86 Emulator Accelerator is installed. If not, install it; if already installed, uninstall and re-install it.
 
 \paragraph{Important Notes}
 \begin{itemize}
