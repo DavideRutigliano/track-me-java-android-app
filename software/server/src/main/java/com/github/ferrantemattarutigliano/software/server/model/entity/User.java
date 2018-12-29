@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "users")
 @JsonIgnoreProperties({"enabled",
         "authorities",
         "accountNonExpired",
