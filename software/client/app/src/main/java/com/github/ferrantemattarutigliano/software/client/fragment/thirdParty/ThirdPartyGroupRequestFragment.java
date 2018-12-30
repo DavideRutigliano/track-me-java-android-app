@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,342 +52,55 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
         final Button confirmButton = v.findViewById(R.id.button_group_request_send);
         final CheckBox subscribeCheck = v.findViewById(R.id.check_group_request_subscribe);
         final Spinner criteriaSpinner = v.findViewById(R.id.spinner_group_request_criteria);
-        final FloatingActionButton addCriteriaButton = v.findViewById(R.id.button_group_request_add_criterion);
         final LinearLayout criteriaContainer = v.findViewById(R.id.container_group_request_criteria);
-        final AlertDialog.Builder dialogFactory = new AlertDialog.Builder(getContext());
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.group_request_criteria, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         criteriaSpinner.setAdapter(adapter);
+        criteriaSpinner.setId(0);
 
-        addCriteriaButton.setOnClickListener(new View.OnClickListener() {
+        criteriaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 final LinearLayout linearLayout = new LinearLayout(getContext());
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 String item = criteriaSpinner.getSelectedItem().toString();
-                switch (item) {
-                    case "Firstname":
-                        final TextView textFirstname = new TextView(getContext());
-                        textFirstname.setText("Firstname: ");
-                        final EditText firstname = new EditText(getContext());
-                        firstname.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        CheckBox searchInWordsFirstname = new CheckBox(getContext());
-                        CharSequence searchInWordsFirstnameText = "Search in words";
-                        searchInWordsFirstname.setText(searchInWordsFirstnameText);
-                        ImageButton deleteFirstnameButton = new ImageButton(getContext());
-                        deleteFirstnameButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteFirstnameButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteFirstnameButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textFirstname);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textFirstname);
-                        linearLayout.addView(deleteFirstnameButton);
-                        linearLayout.addView(firstname);
-                        linearLayout.addView(searchInWordsFirstname);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "Lastname":
-                        final TextView textLastname = new TextView(getContext());
-                        textLastname.setText("Lastname: ");
-                        final EditText lastname = new EditText(getContext());
-                        lastname.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        CheckBox searchInWordsLastname = new CheckBox(getContext());
-                        CharSequence searchInWordsLastnameText = "Search in words";
-                        searchInWordsLastname.setText(searchInWordsLastnameText);
-                        ImageButton deleteLastnameButton = new ImageButton(getContext());
-                        deleteLastnameButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteLastnameButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteLastnameButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textLastname);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textLastname);
-                        linearLayout.addView(deleteLastnameButton);
-                        linearLayout.addView(lastname);
-                        linearLayout.addView(searchInWordsLastname);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "Birthdate":
-                        final TextView textBirthdate = new TextView(getContext());
-                        textBirthdate.setText("Birthdate: ");
-                        EditText birthdate = new EditText(getContext());
-                        birthdate.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteBirthdateButton = new ImageButton(getContext());
-                        deleteBirthdateButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteBirthdateButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteBirthdateButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textBirthdate);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textBirthdate);
-                        linearLayout.addView(deleteBirthdateButton);
-                        linearLayout.addView(birthdate);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "State":
-                        final TextView textState = new TextView(getContext());
-                        textState.setText("State: ");
-                        EditText state = new EditText(getContext());
-                        state.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteStateButton = new ImageButton(getContext());
-                        deleteStateButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteStateButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteStateButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textState);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textState);
-                        linearLayout.addView(deleteStateButton);
-                        linearLayout.addView(state);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "City":
-                        final TextView textCity = new TextView(getContext());
-                        textCity.setText("City: ");
-                        EditText city = new EditText(getContext());
-                        city.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteCityButton = new ImageButton(getContext());
-                        deleteCityButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteCityButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteCityButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textCity);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textCity);
-                        linearLayout.addView(deleteCityButton);
-                        linearLayout.addView(city);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "Address":
-                        final TextView textAddress = new TextView(getContext());
-                        textAddress.setText("Address: ");
-                        EditText address = new EditText(getContext());
-                        address.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteAddressButton = new ImageButton(getContext());
-                        deleteAddressButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteAddressButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteAddressButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textAddress);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textAddress);
-                        linearLayout.addView(deleteAddressButton);
-                        linearLayout.addView(address);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "Height":
-                        final TextView textHeight = new TextView(getContext());
-                        textHeight.setText("Height: ");
-                        EditText height = new EditText(getContext());
-                        height.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteHeightButton = new ImageButton(getContext());
-                        deleteHeightButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteHeightButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteHeightButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textHeight);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textHeight);
-                        linearLayout.addView(deleteHeightButton);
-                        linearLayout.addView(height);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    case "Weight":
-                        final TextView textWeight = new TextView(getContext());
-                        textWeight.setText("Weight: ");
-                        EditText weight = new EditText(getContext());
-                        weight.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
-                        ImageButton deleteWeightButton = new ImageButton(getContext());
-                        deleteWeightButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
-                        deleteWeightButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-                        deleteWeightButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogFactory.setTitle("Delete Criterion")
-                                        .setMessage("Are you sure?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                criteriaContainer.removeView(textWeight);
-                                                criteriaContainer.removeView(linearLayout);
-                                            }
-                                        })
-                                        .setNegativeButton("No", null)
-                                        .show();
-                            }
-                        });
-                        criteriaContainer.addView(textWeight);
-                        linearLayout.addView(deleteWeightButton);
-                        linearLayout.addView(weight);
-                        criteriaContainer.addView(linearLayout);
-                        break;
-                    default:
-                        break;
+                if (item.equals("Firstname") || item.equals("Lastname")) {
+                    nameCriterionLayout(item + ": ", linearLayout, criteriaContainer);
+                }
+                else {
+                    genericCriterionLayout(item + ": ", linearLayout, criteriaContainer);
                 }
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
         });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String criterion = "";
                 String criteriaString = "";
-                for (int j = 0; j < criteriaContainer.getChildCount(); j++ ) {
+                for (int j = 0; j < criteriaContainer.getChildCount(); j++) {
+                    LinearLayout linearLayout;
+                    if (criteriaContainer.getChildAt(j) instanceof TextView) {
+                        TextView textView = (TextView) criteriaContainer.getChildAt(j);
+                        criterion = textView.getText().toString();
+                    }
                     if (criteriaContainer.getChildAt(j) instanceof LinearLayout) {
-                        LinearLayout linearLayout = (LinearLayout) criteriaContainer.getChildAt(j);
+                        linearLayout = (LinearLayout) criteriaContainer.getChildAt(j);
                         for (int i = 0; i < linearLayout.getChildCount(); i++) {
                             if (linearLayout.getChildAt(i) instanceof TextView) {
-                                TextView t = (TextView) linearLayout.getChildAt(i);
-                                if (t.getText().equals("Firstname: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        if (linearLayout.getChildAt(i + 3) instanceof CheckBox) {
-                                            CheckBox c = (CheckBox) linearLayout.getChildAt(i + 3);
-                                            if (c.isChecked()) {
-                                                criteriaString = criteriaString.concat("like-");
-                                            }
-                                        }
-                                        criteriaString = criteriaString.concat("firstname=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("Lastname: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        if (linearLayout.getChildAt(i + 3) instanceof CheckBox) {
-                                            CheckBox c = (CheckBox) linearLayout.getChildAt(i + 3);
-                                            if (c.isChecked()) {
-                                                criteriaString = criteriaString.concat("like-");
-                                            }
-                                        }
-                                        criteriaString = criteriaString.concat("lastname=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("Birthdate: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("birthdate=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("State: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("state=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("City: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("city=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("Address: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("address=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("Height: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("height=" + e.getText() + ";");
-                                    }
-                                }
-                                if (t.getText().equals("Weight: ")) {
-                                    if (linearLayout.getChildAt(i + 2) instanceof EditText) {
-                                        EditText e = (EditText) linearLayout.getChildAt(i + 2);
-                                        criteriaString = criteriaString.concat("weight=" + e.getText() + ";");
-                                    }
-                                }
+                                criteriaString = criteriaString.concat(parseCriteria(i, criterion, linearLayout));
                             }
                         }
                     }
                 }
-                final String criteria = new String(criteriaString);
+                final String criteria = criteriaString;
                 boolean subscribe = subscribeCheck.isChecked();
                 GroupRequestDTO request = new GroupRequestDTO();
                 request.setCriteria(criteria);
@@ -397,6 +111,99 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
         return v;
     }
 
+    private ImageButton createDeleteButton(final TextView text, final LinearLayout layout, final LinearLayout container) {
+        ImageButton deleteButton = new ImageButton(getContext());
+        deleteButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
+        deleteButton.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                container.removeView(text);
+                container.removeView(layout);
+            }
+        });
+        return deleteButton;
+    }
+
+    private void nameCriterionLayout(String criterion, LinearLayout layout, LinearLayout container) {
+        final TextView textFirstname = new TextView(getContext());
+        textFirstname.setText(criterion);
+
+        final EditText firstname = new EditText(getContext());
+        firstname.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        CheckBox searchInWordsFirstname = new CheckBox(getContext());
+        searchInWordsFirstname.setText("Search in words");
+
+        container.addView(textFirstname);
+        layout.addView(createDeleteButton(textFirstname, layout, container));
+        layout.addView(firstname);
+        layout.addView(searchInWordsFirstname);
+        container.addView(layout);
+    }
+
+    private void genericCriterionLayout(String criterion, LinearLayout layout, LinearLayout container) {
+        final TextView textWeight = new TextView(getContext());
+        textWeight.setText(criterion);
+        EditText weight = new EditText(getContext());
+        weight.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        container.addView(textWeight);
+        layout.addView(createDeleteButton(textWeight, layout, container));
+        layout.addView(weight);
+        container.addView(layout);
+    }
+
+    private String parseNameCriterion(int i, LinearLayout linearLayout, String criteriaString, String criterion) {
+        if (linearLayout.getChildAt(i) instanceof EditText) {
+            EditText e = (EditText) linearLayout.getChildAt(i);
+            if (linearLayout.getChildAt(i + 1) instanceof CheckBox) {
+                CheckBox c = (CheckBox) linearLayout.getChildAt(i + 1);
+                if (c.isChecked()) {
+                    criteriaString = criteriaString.concat("like-");
+                }
+            }
+            return criteriaString.concat(criterion + e.getText() + ";");
+        }
+        return "";
+    }
+
+    private String parseGenericCriterion(int i, LinearLayout linearLayout, String criteriaString, String criterion) {
+        if (linearLayout.getChildAt(i) instanceof EditText) {
+            EditText e = (EditText) linearLayout.getChildAt(i);
+            return criteriaString.concat(criterion + e.getText() + ";");
+        }
+        return "";
+    }
+
+    private String parseCriteria(int i, String criterion, LinearLayout linearLayout) {
+        String criteriaString = "";
+        if (criterion.equals("Firstname: ")) {
+            criteriaString = parseNameCriterion(i, linearLayout, criteriaString, "firstname=");
+        }
+        if (criterion.equals("Lastname: ")) {
+            criteriaString = parseNameCriterion(i, linearLayout, criteriaString, "lastname=");
+        }
+        if (criterion.equals("Birthdate: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "birthdate=");
+        }
+        if (criterion.equals("State: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "state=");
+        }
+        if (criterion.equals("City: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "city=");
+        }
+        if (criterion.equals("Address: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "address=");
+        }
+        if (criterion.equals("Height: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "height=");
+        }
+        if (criterion.equals("Weight: ")) {
+            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "weight=");
+        }
+        return criteriaString;
+    }
 
     @Override
     public void onAttach(Context context) {
