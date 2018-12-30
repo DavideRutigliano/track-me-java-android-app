@@ -64,6 +64,17 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
+    <string-array name="group_request_criteria">
+        <item>Firstname</item>
+        <item>Lastname</item>
+        <item>Birthdate</item>
+        <item>State</item>
+        <item>City</item>
+        <item>Address</item>
+        <item>Height</item>
+        <item>Weight</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_run_map">Map</string>
