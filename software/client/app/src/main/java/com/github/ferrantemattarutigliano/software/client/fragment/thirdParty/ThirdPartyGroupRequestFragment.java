@@ -1,14 +1,9 @@
 package com.github.ferrantemattarutigliano.software.client.fragment.thirdparty;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.text.Layout;
-import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,10 +21,6 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.GroupRequestDTO;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyRequestView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//TODO finish implementation for birthdate, height and weight
 public class ThirdPartyGroupRequestFragment extends Fragment{
     private ThirdPartyRequestView thirdPartyRequestView;
 
@@ -57,7 +47,6 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.group_request_criteria, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         criteriaSpinner.setAdapter(adapter);
-        criteriaSpinner.setId(0);
 
         criteriaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -67,6 +56,9 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
                 String item = criteriaSpinner.getSelectedItem().toString();
                 if (item.equals("Firstname") || item.equals("Lastname")) {
                     nameCriterionLayout(item + ": ", linearLayout, criteriaContainer);
+                }
+                else if (item.equals("Birthdate") || item.equals("Height") || item.equals("Weight")) {
+                    specificCriterionLayout(item + ": ", linearLayout, criteriaContainer);
                 }
                 else {
                     genericCriterionLayout(item + ": ", linearLayout, criteriaContainer);
@@ -96,6 +88,11 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
                         for (int i = 0; i < linearLayout.getChildCount(); i++) {
                             if (linearLayout.getChildAt(i) instanceof TextView) {
                                 criteriaString = criteriaString.concat(parseCriteria(i, criterion, linearLayout));
+                                if (criterion.equals("Birthdate: ")
+                                        || criterion.equals("Height: ")
+                                        || criterion.equals("Weight: ")) {
+                                    i++;
+                                }
                             }
                         }
                     }
@@ -126,19 +123,34 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
     }
 
     private void nameCriterionLayout(String criterion, LinearLayout layout, LinearLayout container) {
-        final TextView textFirstname = new TextView(getContext());
-        textFirstname.setText(criterion);
+        final TextView text = new TextView(getContext());
+        text.setText(criterion);
 
-        final EditText firstname = new EditText(getContext());
-        firstname.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
+        final EditText editable = new EditText(getContext());
+        editable.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        CheckBox searchInWordsFirstname = new CheckBox(getContext());
-        searchInWordsFirstname.setText("Search in words");
+        CheckBox checkBox = new CheckBox(getContext());
+        checkBox.setText("Search in words");
 
-        container.addView(textFirstname);
-        layout.addView(createDeleteButton(textFirstname, layout, container));
-        layout.addView(firstname);
-        layout.addView(searchInWordsFirstname);
+        container.addView(text);
+        layout.addView(createDeleteButton(text, layout, container));
+        layout.addView(editable);
+        layout.addView(checkBox);
+        container.addView(layout);
+    }
+
+    private void specificCriterionLayout(String criterion, LinearLayout layout, LinearLayout container) {
+        final TextView text = new TextView(getContext());
+        text.setText(criterion);
+        EditText min = new EditText(getContext());
+        min.setLayoutParams(new LinearLayout.LayoutParams(250,ViewGroup.LayoutParams.WRAP_CONTENT));
+        EditText max = new EditText(getContext());
+        max.setLayoutParams(new LinearLayout.LayoutParams(250,ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        container.addView(text);
+        layout.addView(createDeleteButton(text, layout, container));
+        layout.addView(min);
+        layout.addView(max);
         container.addView(layout);
     }
 
@@ -157,21 +169,52 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
     private String parseNameCriterion(int i, LinearLayout linearLayout, String criteriaString, String criterion) {
         if (linearLayout.getChildAt(i) instanceof EditText) {
             EditText e = (EditText) linearLayout.getChildAt(i);
-            if (linearLayout.getChildAt(i + 1) instanceof CheckBox) {
-                CheckBox c = (CheckBox) linearLayout.getChildAt(i + 1);
+            if (linearLayout.getChildAt(++i) instanceof CheckBox) {
+                CheckBox c = (CheckBox) linearLayout.getChildAt(i);
                 if (c.isChecked()) {
                     criteriaString = criteriaString.concat("like-");
                 }
             }
-            return criteriaString.concat(criterion + e.getText() + ";");
+            if (!e.getText().toString().isEmpty())
+                return criteriaString.concat(criterion + e.getText() + ";");
         }
         return "";
+    }
+
+    private String parseSpecificCriterion(int i, LinearLayout linearLayout, String criteriaString, String criterion) {
+        EditText min;
+        EditText max;
+        String minText = "";
+        String maxText = "";
+
+        if (linearLayout.getChildAt(i) instanceof EditText) {
+            min = (EditText) linearLayout.getChildAt(i);
+            minText = min.getText().toString();
+        }
+
+        if (linearLayout.getChildAt(++i) instanceof EditText) {
+            max = (EditText) linearLayout.getChildAt(i);
+            maxText = max.getText().toString();
+        }
+
+        if(minText.isEmpty() && maxText.isEmpty())
+            return "";
+
+        criteriaString = criteriaString.concat(criterion);
+        if (!minText.isEmpty()) {
+            criteriaString = criteriaString.concat((maxText.isEmpty() ? ">=" : ":") + minText);
+        }
+        if (!maxText.isEmpty()) {
+            criteriaString = criteriaString.concat((minText.isEmpty() ? "<=" : ",") + maxText);
+        }
+        return criteriaString.concat(";");
     }
 
     private String parseGenericCriterion(int i, LinearLayout linearLayout, String criteriaString, String criterion) {
         if (linearLayout.getChildAt(i) instanceof EditText) {
             EditText e = (EditText) linearLayout.getChildAt(i);
-            return criteriaString.concat(criterion + e.getText() + ";");
+            if (!e.getText().toString().isEmpty())
+                return criteriaString.concat(criterion + e.getText() + ";");
         }
         return "";
     }
@@ -185,7 +228,7 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
             criteriaString = parseNameCriterion(i, linearLayout, criteriaString, "lastname=");
         }
         if (criterion.equals("Birthdate: ")) {
-            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "birthdate=");
+            criteriaString = parseSpecificCriterion(i, linearLayout, criteriaString, "birthdate");
         }
         if (criterion.equals("State: ")) {
             criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "state=");
@@ -197,10 +240,10 @@ public class ThirdPartyGroupRequestFragment extends Fragment{
             criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "address=");
         }
         if (criterion.equals("Height: ")) {
-            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "height=");
+            criteriaString = parseSpecificCriterion(i, linearLayout, criteriaString, "height");
         }
         if (criterion.equals("Weight: ")) {
-            criteriaString = parseGenericCriterion(i, linearLayout, criteriaString, "weight=");
+            criteriaString = parseSpecificCriterion(i, linearLayout, criteriaString, "weight");
         }
         return criteriaString;
     }

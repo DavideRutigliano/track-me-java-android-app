@@ -104,71 +104,84 @@ public class IndividualSpecification {
             }
 
             if (criterion.contains("height")) {
-                String height;
+                if (criterion.contains(",")) {
+                    String from = StringUtils.substringBetween(criterion, "height:", ",");
+                    String to = StringUtils.substringAfter(criterion, ",");
 
-                if (criterion.contains("<")) {
-                    if (criterion.contains("=")) {
-                        height = StringUtils.substringAfter(criterion, "height<=");
+                    specification = (specification != null) ? specification.and(betweenHeights(from, to)) : betweenHeights(from, to);
+                } else {
+                    String height;
 
-                        specification = (specification != null)
-                                ? specification.and(shorterThanHeight(height).or(withHeight(height)))
-                                : shorterThanHeight(height).or(withHeight(height));
-                    } else {
-                        height = StringUtils.substringAfter(criterion, "height<");
+                    if (criterion.contains("<")) {
+                        if (criterion.contains("=")) {
+                            height = StringUtils.substringAfter(criterion, "height<=");
 
-                        specification = (specification != null) ? specification.and(shorterThanHeight(height)) : shorterThanHeight(height);
+                            specification = (specification != null)
+                                    ? specification.and(shorterThanHeight(height).or(withHeight(height)))
+                                    : shorterThanHeight(height).or(withHeight(height));
+                        } else {
+                            height = StringUtils.substringAfter(criterion, "height<");
+
+                            specification = (specification != null) ? specification.and(shorterThanHeight(height)) : shorterThanHeight(height);
+                        }
+                    } else if (criterion.contains(">")) {
+                        if (criterion.contains("=")) {
+                            height = StringUtils.substringAfter(criterion, "height>=");
+
+                            specification = (specification != null)
+                                    ? specification.and(tallerThanHeight(height).or(withHeight(height)))
+                                    : tallerThanHeight(height).or(withHeight(height));
+                        } else {
+                            height = StringUtils.substringAfter(criterion, "height>");
+
+                            specification = (specification != null) ? specification.and(tallerThanHeight(height)) : tallerThanHeight(height);
+                        }
+                    } else if (criterion.contains("=")) {
+                        height = StringUtils.substringAfter(criterion, "height=");
+
+                        specification = (specification != null) ? specification.and(withHeight(height)) : withHeight(height);
+
                     }
-                } else if (criterion.contains(">")) {
-                    if (criterion.contains("=")) {
-                        height = StringUtils.substringAfter(criterion, "height>=");
-
-                        specification = (specification != null)
-                                ? specification.and(tallerThanHeight(height).or(withHeight(height)))
-                                : tallerThanHeight(height).or(withHeight(height));
-                    } else {
-                        height = StringUtils.substringAfter(criterion, "height>");
-
-                        specification = (specification != null) ? specification.and(tallerThanHeight(height)) : tallerThanHeight(height);
-                    }
-                } else if (criterion.contains("=")) {
-                    height = StringUtils.substringAfter(criterion, "height=");
-
-                    specification = (specification != null) ? specification.and(withHeight(height)) : withHeight(height);
-
                 }
             }
-
             if (criterion.contains("weight")) {
-                String weight;
+                if (criterion.contains(",")) {
+                    String from = StringUtils.substringBetween(criterion, "weight:", ",");
+                    String to = StringUtils.substringAfter(criterion, ",");
 
-                if (criterion.contains("<")) {
-                    if (criterion.contains("=")) {
-                        weight = StringUtils.substringAfter(criterion, "weight<=");
+                    specification = (specification != null) ? specification.and(betweenWeights(from, to)) : betweenWeights(from, to);
+                } else {
+                    String weight;
 
-                        specification = (specification != null)
-                                ? specification.and(lighterThanWeight(weight).or(withWeight(weight)))
-                                : lighterThanWeight(weight).or(withWeight(weight));
-                    } else {
-                        weight = StringUtils.substringAfter(criterion, "weight<");
+                    if (criterion.contains("<")) {
+                        if (criterion.contains("=")) {
+                            weight = StringUtils.substringAfter(criterion, "weight<=");
 
-                        specification = (specification != null) ? specification.and(lighterThanWeight(weight)) : lighterThanWeight(weight);
+                            specification = (specification != null)
+                                    ? specification.and(lighterThanWeight(weight).or(withWeight(weight)))
+                                    : lighterThanWeight(weight).or(withWeight(weight));
+                        } else {
+                            weight = StringUtils.substringAfter(criterion, "weight<");
+
+                            specification = (specification != null) ? specification.and(lighterThanWeight(weight)) : lighterThanWeight(weight);
+                        }
+                    } else if (criterion.contains(">")) {
+                        if (criterion.contains("=")) {
+                            weight = StringUtils.substringAfter(criterion, "weight>=");
+
+                            specification = (specification != null)
+                                    ? specification.and(heavierThanWeight(weight).or(withWeight(weight)))
+                                    : heavierThanWeight(weight).or(withWeight(weight));
+                        } else {
+                            weight = StringUtils.substringAfter(criterion, "weight>");
+
+                            specification = (specification != null) ? specification.and(heavierThanWeight(weight)) : heavierThanWeight(weight);
+                        }
+                    } else if (criterion.contains("=")) {
+                        weight = StringUtils.substringAfter(criterion, "weight=");
+
+                        specification = (specification != null) ? specification.and(withWeight(weight)) : withWeight(weight);
                     }
-                } else if (criterion.contains(">")) {
-                    if (criterion.contains("=")) {
-                        weight = StringUtils.substringAfter(criterion, "weight>=");
-
-                        specification = (specification != null)
-                                ? specification.and(heavierThanWeight(weight).or(withWeight(weight)))
-                                : heavierThanWeight(weight).or(withWeight(weight));
-                    } else {
-                        weight = StringUtils.substringAfter(criterion, "weight>");
-
-                        specification = (specification != null) ? specification.and(heavierThanWeight(weight)) : heavierThanWeight(weight);
-                    }
-                } else if (criterion.contains("=")) {
-                    weight = StringUtils.substringAfter(criterion, "weight=");
-
-                    specification = (specification != null) ? specification.and(withWeight(weight)) : withWeight(weight);
                 }
             }
         }
