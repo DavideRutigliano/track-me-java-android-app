@@ -1,3 +1,7 @@
+env:
+  global:
+    - CODECOV_TOKEN="d0f99eee-16c2-4a6a-bf3d-b7807300d295"
+    
 matrix:
   include:
     - language: java
@@ -7,6 +11,8 @@ matrix:
         - chmod +x mvnw
       script:
         - ./mvnw package
+      after_success:
+        - codecov
 
     - language: android
       android:
