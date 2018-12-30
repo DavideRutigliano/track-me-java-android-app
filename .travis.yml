@@ -1,6 +1,7 @@
 jobs:
   include:
   - stage: build
+  rvm: 2.3
 matrix:
   include:
     - language: java
