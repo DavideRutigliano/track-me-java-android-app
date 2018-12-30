@@ -1,8 +1,3 @@
-language: java
-
-jobs:
-  include:
-  - stage: build
 matrix:
   include:
     - language: java
