@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({

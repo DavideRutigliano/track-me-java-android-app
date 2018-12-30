@@ -18,7 +18,7 @@ public class HealthData {
     @JoinColumn(name="individualId", nullable=false)
     private Individual individual;
 
-    protected HealthData() {}
+    public HealthData() {}
 
     public HealthData(String name, String value, Date date) {
         this.name = name;

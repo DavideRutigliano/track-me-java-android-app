@@ -13,138 +13,232 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.sql.Date;
-import java.util.Calendar;
+import java.security.Principal;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class AuthenticatorServiceTest {
     @InjectMocks
-    AuthenticatorService authenticator;
-
+    private AuthenticatorService authenticatorService;
     @Mock
-    IndividualRepository mockIndividualRepository;
+    private UserRepository mockUserRepository;
     @Mock
-    ThirdPartyRepository mockThirdPartyRepository;
+    private IndividualRepository mockIndividualRepository;
     @Mock
-    PasswordEncoder passwordEncoder;
+    private ThirdPartyRepository mockThirdPartyRepository;
     @Mock
-    UserRepository mockUserRepository;
-
-    private User createDummyUser() {
-
-        return new User("jhon", "sort", "test@ho.com", "Individual");
-    }
-
-    private User createDummyUserT() {
-
-        return new User("jhon", "sort", "test@ho.com", "ThirdParty");
-    }
-
-    private Individual createDummyIndivdual() {
-        Individual individual;
-        Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "999999999";
-        individual = new Individual(createDummyUser(), ssn, "Jhon", "Snow", birthDate, "italia", "Bari", "via padova", 180, 70);
-        return individual;
-    }
-
-
-    private ThirdParty createDummyThirdParty() {
-        ThirdParty thirdParty;
-        String vat = "00000000000";
-        thirdParty = new ThirdParty(createDummyUserT(), vat, "Bilbo");
-        return thirdParty;
-    }
+    private SecurityContext mockSecurityContext;
+    @Mock
+    private Authentication mockAuthentication;
+    @Mock
+    private Principal mockPrincipal;
 
     @Before
     public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
 
+    private void mockIndividualAuthorized(User expectedUser, Individual expectedIndividual) {
+        SecurityContextHolder.setContext(mockSecurityContext);
+
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockAuthentication.getPrincipal())
+                .thenReturn(mockPrincipal);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
+                .thenReturn(true);
+        //mock the existing individual associated with the user
+        Mockito.when(mockIndividualRepository.existsByUser(expectedUser))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findByUser(expectedUser))
+                .thenReturn(expectedIndividual);
+    }
+
+    private void mockThirdPartyAuthorized(User expectedUser, ThirdParty expectedThirdParty) {
+        SecurityContextHolder.setContext(mockSecurityContext);
+
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockAuthentication.getPrincipal())
+                .thenReturn(mockPrincipal);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
+                .thenReturn(true);
+        //mock the existing third party associated with the user
+        Mockito.when(mockThirdPartyRepository.existsByUser(expectedUser))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(expectedUser))
+                .thenReturn(expectedThirdParty);
+    }
+
     @Test
     public void testIndividualRegistration() {
-        Individual dummyIndividual = createDummyIndivdual();
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
 
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
 
+        //mock "this user doesn't exists"
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
+        Mockito.when(mockUserRepository.existsByEmail(dummyUser.getEmail())).thenReturn(false);
         Mockito.when(mockIndividualRepository.existsBySsn(dummyIndividual.getSsn())).thenReturn(false);
 
-        String result = authenticator.individualRegistration(dummyIndividual);
+        String result = authenticatorService.individualRegistration(dummyIndividual);
         assertEquals(Message.REGISTRATION_SUCCESS.toString(), result);
     }
 
 
     @Test
     public void testThirdPartyRegistration() {
-        ThirdParty dummyThirdParty = createDummyThirdParty();
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
 
-        //     when(mockIndividualRepository.existsBySsn(dummyThirdParty.getUsername())).thenReturn(false);
-        //     when(mockIndividualRepository.existsBySsn(dummyThirdParty.getEmail())).thenReturn(false);
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678901");
+        dummyThirdParty.setOrganizationName("Amazon");
+
+        //mock "this user doesn't exists"
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
+        Mockito.when(mockUserRepository.existsByEmail(dummyUser.getEmail())).thenReturn(false);
         Mockito.when(mockThirdPartyRepository.existsByVat(dummyThirdParty.getVat())).thenReturn(false);
 
-        String result = authenticator.thirdPartyRegistration(dummyThirdParty);
+        String result = authenticatorService.thirdPartyRegistration(dummyThirdParty);
         assertEquals(Message.REGISTRATION_SUCCESS.toString(), result);
     }
-}
-/*
+
     @Test
-    public void testLogin() {
-        Individual dummyIndividual = createDummyIndivdual();
-        ThirdParty dummyThirdParty = createDummyThirdParty();
-        boolean result = true;
+    public void testIndividualRegistrationFail() {
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
 
-        when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(true);
-        when(mockIndividualRepository.findByUsername(dummyIndividual.getUsername())).thenReturn(dummyIndividual);
-        result &= authenticator.login(dummyIndividual);
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
 
-        when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(false);
-        when(mockThirdPartyRepository.existsByUsername(dummyThirdParty.getUsername())).thenReturn(true);
-        when(mockThirdPartyRepository.findByUsername(dummyThirdParty.getUsername())).thenReturn(dummyThirdParty);
-        result &= authenticator.login(dummyThirdParty);
+        //mock "this user ssn already exists"
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
+        Mockito.when(mockUserRepository.existsByEmail(dummyUser.getEmail())).thenReturn(false);
+        Mockito.when(mockIndividualRepository.existsBySsn(dummyIndividual.getSsn())).thenReturn(true);
 
-
-        assertEquals(true, result);
+        String result = authenticatorService.individualRegistration(dummyIndividual);
+        assertEquals(Message.INDIVIDUAL_ALREADY_EXISTS.toString(), result);
     }
 
     @Test
-    public void testLoginFailure() {
-        Individual dummyIndividual = createDummyIndivdual();
+    public void testThirdPartyRegistrationFail(){
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
 
-        when(mockIndividualRepository.existsBySsn(dummyIndividual.getSsn())).thenReturn(false);
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678901");
+        dummyThirdParty.setOrganizationName("Amazon");
 
-        boolean result = authenticator.login(dummyIndividual);
-        assertEquals(false, result);
+        //mock "this user vat already exists"
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
+        Mockito.when(mockUserRepository.existsByEmail(dummyUser.getEmail())).thenReturn(false);
+        Mockito.when(mockThirdPartyRepository.existsByVat(dummyThirdParty.getVat())).thenReturn(true);
+
+        String result = authenticatorService.thirdPartyRegistration(dummyThirdParty);
+        assertEquals(Message.THIRD_PARTY_ALREADY_EXISTS.toString(), result);
     }
+
+
+    @Test
+    public void testIndividualLogin() {
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        Mockito.when(mockIndividualRepository.findByUser(dummyUser))
+                .thenReturn(dummyIndividual);
+
+        User result = authenticatorService.login(dummyUser);
+        //todo how does login work?
+        //assertEquals(dummyUser, result);
+    }
+
+    //todo add login failure for both individual and tp
 
     @Test
     public void testChangeIndividualProfile() {
-        Individual dummyIndividual = createDummyIndivdual();
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing individual
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+        //mock the updated individual
+        Individual dummyIndividualUpdated = new Individual();
+        dummyIndividualUpdated.setUser(dummyUser);
+        dummyIndividualUpdated.setSsn("123456789");
+        dummyIndividualUpdated.setFirstname("Changed Name!");
+        dummyIndividualUpdated.setLastname("Pappo");
+        //start test
+        mockIndividualAuthorized(dummyUser, dummyIndividual);
 
-        when(mockIndividualRepository.existsBySsn(dummyIndividual.getSsn())).thenReturn(true);
-        when(mockIndividualRepository.existsByEmail(dummyIndividual.getEmail())).thenReturn(true);
-        when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(true);
-        dummyIndividual.setLastname("Targaryen");
-        dummyIndividual.setEmail("dany@love.com");
-
-        boolean result = authenticator.changeIndividualProfile(dummyIndividual);
-        assertEquals(true, result);
+        String username = dummyUser.getUsername();
+        String result = authenticatorService.changeIndividualProfile(username, dummyIndividualUpdated);
+        assertEquals(Message.CHANGE_PROFILE_SUCCESS.toString(), result);
     }
 
     @Test
     public void testChangeThirdPartyProfile() {
-        ThirdParty dummyThirdParty = createDummyThirdParty();
+        User dummyUser = new User();
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing third party
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678901");
+        dummyThirdParty.setOrganizationName("Amazon");
+        //mock the updated third party
+        ThirdParty dummyThirdPartyUpdated = new ThirdParty();
+        dummyThirdPartyUpdated.setUser(dummyUser);
+        dummyThirdPartyUpdated.setVat("12345678901");
+        dummyThirdPartyUpdated.setOrganizationName("Changed Name!");
+        //start test
+        mockThirdPartyAuthorized(dummyUser, dummyThirdParty);
 
-        when(mockThirdPartyRepository.existsByVat(dummyThirdParty.getVat())).thenReturn(true);
-        when(mockThirdPartyRepository.findByVat(dummyThirdParty.getVat())).thenReturn(dummyThirdParty);
-        dummyThirdParty.setOrganizationName("Windown");
-        dummyThirdParty.setEmail("bilbo@baggins.it");
-
-        boolean result = authenticator.changeThirdPartyProfile(dummyThirdParty);
-        assertEquals(true, result);
+        String username = dummyUser.getUsername();
+        String result = authenticatorService.changeThirdPartyProfile(username, dummyThirdPartyUpdated);
+        assertEquals(Message.CHANGE_PROFILE_SUCCESS.toString(), result);
+        //todo why the fuck this doesn't work. vat seems valid.
     }
 
 }
-*/

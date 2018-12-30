@@ -117,7 +117,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testLogin() {
+    public void testIndividualLogin() {
         Individual dummyIndividual = createDummyIndivdual();
 
         when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(true);

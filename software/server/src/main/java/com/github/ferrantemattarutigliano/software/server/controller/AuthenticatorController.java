@@ -7,9 +7,6 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

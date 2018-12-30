@@ -3,9 +3,11 @@ package com.github.ferrantemattarutigliano.software.server.service;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Run;
+import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
+import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
+import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +35,16 @@ public class RunServiceTest {
     @Mock
     private Principal mockPrincipal;
     @Mock
+    private UserRepository mockUserRepository;
+    @Mock
     private IndividualRepository mockIndividualRepository;
 
     @Before
-    public void initTest(){
+    public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
 
-    private void mockSecurity(User expectedUser){
+    private void mockIndividualAuthorized(User expectedUser, Individual expectedIndividual) {
         SecurityContextHolder.setContext(mockSecurityContext);
 
         Mockito.when(mockSecurityContext.getAuthentication())
@@ -49,9 +53,36 @@ public class RunServiceTest {
                 .thenReturn(mockPrincipal);
         Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
                 .thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
+                .thenReturn(true);
+        //mock the existing individual associated with the user
+        Mockito.when(mockIndividualRepository.existsByUser(expectedUser))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findByUser(expectedUser))
+                .thenReturn(expectedIndividual);
     }
 
-    private Run createMockRun(Individual organizer){
+/* //TODO if you need to mock third party. This isn't needed in this class.
+    private void mockThirdPartyAuthorized(User expectedUser, ThirdParty expectedThirdParty) {
+        SecurityContextHolder.setContext(mockSecurityContext);
+
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockAuthentication.getPrincipal())
+                .thenReturn(mockPrincipal);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
+                .thenReturn(true);
+        //mock the existing third party associated with the user
+        Mockito.when(mockThirdPartyRepository.existsByUser(expectedUser))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(expectedUser))
+                .thenReturn(expectedThirdParty);
+    }
+*/
+
+    private Run createMockRun(Individual organizer) {
         Run run = new Run();
         Date date = new Date(1);
         Time time = new Time(1);
@@ -85,7 +116,7 @@ public class RunServiceTest {
         mockedIndividual.setCreatedRuns(createdRuns);
 
         /* TEST STARTS HERE */
-        mockSecurity(mockedUser);
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
         Mockito.when(mockIndividualRepository.findByUser(mockedUser))
                 .thenReturn(mockedIndividual);
 

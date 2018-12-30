@@ -1,7 +1,10 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
-import com.github.ferrantemattarutigliano.software.server.model.entity.*;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Position;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Run;
+import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
 import org.apache.commons.lang3.StringUtils;

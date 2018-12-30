@@ -6,9 +6,6 @@ import com.github.ferrantemattarutigliano.software.server.model.entity.HealthDat
 import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

@@ -111,17 +111,17 @@ public class AuthenticatorService implements UserDetailsService {
                 new UsernamePasswordAuthenticationToken(username, password);
 
 
-        Authentication auth;
+        Authentication authentication;
 
         try {
-            auth = authenticationProvider().authenticate(authReq);
+            authentication = authenticationProvider().authenticate(authReq);
         } catch (UsernameNotFoundException | BadCredentialsException e) {
             return null;
         }
 
-        securityContext.setAuthentication(auth);
+        securityContext.setAuthentication(authentication);
 
-        return (User) auth.getPrincipal();
+        return (User) authentication.getPrincipal();
     }
 
     @Transactional(readOnly = true)
@@ -134,7 +134,6 @@ public class AuthenticatorService implements UserDetailsService {
         final User user;
 
         if (userRepository.existsByUsername(username)) {
-
             user = userRepository.findByUsername(username);
 
             if (individualRepository.existsByUser(user))
@@ -146,92 +145,65 @@ public class AuthenticatorService implements UserDetailsService {
             throw new UsernameNotFoundException(Message.USERNAME_DO_NOT_EXISTS.toString());
 
         user.getAuthorities();
-
         return user;
     }
 
     public Individual getIndividualProfile(String username) {
-
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (authenticated != null
-                && authenticated.getUsername().equals(username)
-                && individualRepository.existsByUser(authenticated))
-            return individualRepository.findByUser(authenticated);
-        else return null;
+        return individualRepository.findByUser(authenticated);
     }
 
-    public String changeIndividualProfile(String username, Individual individual) {
-
+    public String changeIndividualProfile(String username, Individual updatedIndividual) {
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticated == null) {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (!authenticated.getUsername().equals(username)
-                || !individualRepository.existsByUser(authenticated)) {
-            return Message.BAD_REQUEST.toString();
-        }
-
-        if (!validateIndividual(individual)) {
+        if (!validateIndividual(updatedIndividual)) {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        if (!individualRepository.existsBySsn(individual.getSsn())
-                && !individualRepository.findByUser(authenticated).getSsn().equals(individual.getSsn())) {
-            return Message.BAD_SSN_UPDATE.toString() + individualRepository.findByUser(authenticated).getSsn();
+        Individual individual = individualRepository.findByUser(authenticated);
+
+        if (updatedIndividual.getFirstname() != null
+                && !updatedIndividual.getFirstname().isEmpty()) {
+            individual.setFirstname(updatedIndividual.getFirstname());
         }
 
-        Individual i = individualRepository.findBySsn(individual.getSsn());
-
-        if (individual.getFirstname() != null
-                && !i.getFirstname().equals(individual.getFirstname())) {
-
-            i.setFirstname(individual.getFirstname());
+        if (updatedIndividual.getLastname() != null
+                && !updatedIndividual.getLastname().isEmpty()) {
+            individual.setLastname(updatedIndividual.getLastname());
         }
 
-        if (individual.getLastname() != null
-                && !i.getLastname().equals(individual.getLastname())) {
-
-            i.setLastname(individual.getLastname());
+        if (updatedIndividual.getBirthdate() != null) {
+            individual.setBirthdate(updatedIndividual.getBirthdate());
         }
 
-        if (individual.getBirthdate() != null
-                && !i.getBirthdate().equals(individual.getBirthdate())) {
-
-            i.setBirthdate(individual.getBirthdate());
+        if (updatedIndividual.getState() != null
+                && !updatedIndividual.getState().isEmpty()) {
+            individual.setState(updatedIndividual.getState());
         }
 
-        if (individual.getState() != null
-                && !i.getState().equals(individual.getState())) {
-
-            i.setState(individual.getState());
+        if (updatedIndividual.getCity() != null
+                && !updatedIndividual.getCity().isEmpty()) {
+            individual.setCity(updatedIndividual.getCity());
         }
 
-        if (individual.getCity() != null
-                && !i.getCity().equals(individual.getCity())) {
-
-            i.setCity(individual.getCity());
+        if (updatedIndividual.getAddress() != null
+                && !updatedIndividual.getAddress().isEmpty()) {
+            individual.setAddress(updatedIndividual.getAddress());
         }
 
-        if (individual.getAddress() != null
-                && !i.getAddress().equals(individual.getAddress())) {
-
-            i.setAddress(individual.getAddress());
+        if (individual.getHeight() != 0) {
+            individual.setHeight(updatedIndividual.getHeight());
         }
 
-        if (i.getHeight() != individual.getHeight()) {
-
-            i.setHeight(individual.getHeight());
+        if (individual.getWeight() != 0) {
+            individual.setWeight(updatedIndividual.getWeight());
         }
 
-        if (i.getWeight() != individual.getWeight()) {
-
-            i.setWeight(individual.getWeight());
-        }
-
-        individualRepository.save(i);
+        individualRepository.save(individual);
 
         return Message.CHANGE_PROFILE_SUCCESS.toString();
     }
@@ -247,38 +219,25 @@ public class AuthenticatorService implements UserDetailsService {
         else return null;
     }
 
-    public String changeThirdPartyProfile(String username, ThirdParty thirdParty) {
+    public String changeThirdPartyProfile(String username, ThirdParty updatedThirdParty) {
 
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (authenticated == null) {
-            return Message.BAD_LOGIN.toString();
-        }
-
-        if (!authenticated.getUsername().equals(username)
-                || !thirdPartyRepository.existsByUser(authenticated)) {
+        if (authenticated == null || !thirdPartyRepository.existsByUser(authenticated)) {
             return Message.BAD_REQUEST.toString();
         }
-
-        if (validateThirdParty(thirdParty)) {
+        if (validateThirdParty(updatedThirdParty)) {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        if (thirdPartyRepository.existsByVat(thirdParty.getVat())
-                && !thirdPartyRepository.findByUser(authenticated).getVat().equals(thirdParty.getVat())) {
-            return Message.BAD_VAT_UPDATE.toString() + thirdPartyRepository.findByUser(authenticated).getVat();
+        ThirdParty thirdParty = thirdPartyRepository.findByUser(authenticated);
+
+        if (updatedThirdParty.getOrganizationName() != null
+                && !updatedThirdParty.getOrganizationName().isEmpty()) {
+            thirdParty.setOrganizationName(updatedThirdParty.getOrganizationName());
         }
 
-        ThirdParty tp = thirdPartyRepository.findByVat(thirdParty.getVat());
-
-        if (tp != null
-                && thirdParty.getOrganizationName() != null
-                && !tp.getOrganizationName().equals(thirdParty.getOrganizationName())) {
-
-            tp.setOrganizationName(thirdParty.getOrganizationName());
-        }
-
-        thirdPartyRepository.save(tp);
+        thirdPartyRepository.save(thirdParty);
 
         return Message.CHANGE_PROFILE_SUCCESS.toString();
     }
@@ -343,24 +302,20 @@ public class AuthenticatorService implements UserDetailsService {
     }
 
     private boolean thirdPartyAlreadyExists(String username, String email, String vat) {
-
         return (userRepository.existsByUsername(username)
                 || userRepository.existsByEmail(email)
                 || thirdPartyRepository.existsByVat(vat));
     }
 
     private boolean validateIndividual(Individual individual) {
-
         return ssnIsValid(individual.getSsn());
     }
 
     private boolean validateThirdParty(ThirdParty thirdParty) {
-
         return vatIsValid(thirdParty.getVat());
     }
 
     private boolean match(String regex, String toCompare) {
-
         if (toCompare == null)
             return false;
         Pattern pattern = Pattern.compile(regex);
@@ -377,7 +332,6 @@ public class AuthenticatorService implements UserDetailsService {
     }
 
     private boolean vatIsValid(String vat) {
-
         return match("[0-9]{11}", vat);
     }
 }

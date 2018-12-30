@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({
@@ -34,7 +33,7 @@ public class ThirdParty implements Serializable {
     @OneToMany(mappedBy = "thirdParty")
     private Collection<GroupRequest> groupRequests;
 
-    protected ThirdParty() {}
+    public ThirdParty() {}
 
     public ThirdParty(User user, String vat, String organizationName) {
         this.user = user;
