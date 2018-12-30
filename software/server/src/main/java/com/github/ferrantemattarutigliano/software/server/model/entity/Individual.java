@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -39,19 +40,19 @@ public class Individual implements Serializable {
     private float weight;
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Healthdata class
-    private Set<HealthData> healthData;
+    private Collection<HealthData> healthData;
 
     @OneToMany(mappedBy = "individual") //references 'individual' attribute on Position class
-    private Set<Position> position;
+    private Collection<Position> position;
 
     @OneToMany(mappedBy = "organizer") //references 'organizer' attribute on Run class
-    private Set<Run> createdRuns;
+    private Collection<Run> createdRuns;
 
     @ManyToMany(mappedBy = "athletes") //etc...
-    private Set<Run> enrolledRuns;
+    private Collection<Run> enrolledRuns;
 
     @ManyToMany(mappedBy = "spectators")
-    private Set<Run> watchedRuns;
+    private Collection<Run> watchedRuns;
 
     protected Individual() {}
 
@@ -148,19 +149,19 @@ public class Individual implements Serializable {
         this.weight = weight;
     }
 
-    public Set<HealthData> getHealthData() {
+    public Collection<HealthData> getHealthData() {
         return healthData;
     }
 
-    public Set<Run> getCreatedRuns() {
+    public Collection<Run> getCreatedRuns() {
         return createdRuns;
     }
 
-    public Set<Run> getEnrolledRuns() {
+    public Collection<Run> getEnrolledRuns() {
         return enrolledRuns;
     }
 
-    public Set<Run> getWatchedRuns() {
+    public Collection<Run> getWatchedRuns() {
         return watchedRuns;
     }
 
@@ -172,27 +173,27 @@ public class Individual implements Serializable {
         this.id = id;
     }
 
-    public void setHealthData(Set<HealthData> healthData) {
+    public void setHealthData(Collection<HealthData> healthData) {
         this.healthData = healthData;
     }
 
-    public Set<Position> getPosition() {
+    public Collection<Position> getPosition() {
         return position;
     }
 
-    public void setPosition(Set<Position> position) {
+    public void setPosition(Collection<Position> position) {
         this.position = position;
     }
 
-    public void setCreatedRuns(Set<Run> createdRuns) {
+    public void setCreatedRuns(Collection<Run> createdRuns) {
         this.createdRuns = createdRuns;
     }
 
-    public void setEnrolledRuns(Set<Run> enrolledRuns) {
+    public void setEnrolledRuns(Collection<Run> enrolledRuns) {
         this.enrolledRuns = enrolledRuns;
     }
 
-    public void setWatchedRuns(Set<Run> watchedRuns) {
+    public void setWatchedRuns(Collection<Run> watchedRuns) {
         this.watchedRuns = watchedRuns;
     }
 }

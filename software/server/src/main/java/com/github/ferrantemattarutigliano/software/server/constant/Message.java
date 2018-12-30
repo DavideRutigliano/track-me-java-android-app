@@ -24,6 +24,8 @@ public enum Message {
     REQUEST_ACCEPTED("Request accepted."),
     REQUEST_REJECTED("Request rejected."),
 
+    INSERT_DATA_SUCCESS("Data registered successfully."),
+
     RUN_CREATED("Run created."),
     RUN_STARTED("Run started."),
     RUN_EDITED("Run modified."),
@@ -38,8 +40,7 @@ public enum Message {
     RUN_NOT_SPECTATOR("You're not a spectator of: "),
     RUN_ALREADY_SPECTATOR("You're already a spectator of: "),
     RUN_DOES_NOT_EXISTS("Selected run does not exists."),
-
-    INSERT_DATA_SUCCESS("Data registered successfully.");
+    RUN_NOT_ALLOWED("Run date/time could not be antecedent of server current date/time .");
 
     private String msg;
 

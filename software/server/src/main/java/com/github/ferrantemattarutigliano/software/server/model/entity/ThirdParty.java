@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -28,10 +29,10 @@ public class ThirdParty implements Serializable {
     private String organizationName;
 
     @OneToMany(mappedBy = "thirdParty") //references 'thirdParty' attribute on Request class
-    private Set<IndividualRequest> individualRequests;
+    private Collection<IndividualRequest> individualRequests;
 
     @OneToMany(mappedBy = "thirdParty")
-    private Set<GroupRequest> groupRequests;
+    private Collection<GroupRequest> groupRequests;
 
     protected ThirdParty() {}
 
@@ -65,11 +66,11 @@ public class ThirdParty implements Serializable {
         this.organizationName = organizationName;
     }
 
-    public Set<IndividualRequest> getIndividualRequests() {
+    public Collection<IndividualRequest> getIndividualRequests() {
         return individualRequests;
     }
 
-    public Set<GroupRequest> getGroupRequests() {
+    public Collection<GroupRequest> getGroupRequests() {
         return groupRequests;
     }
 
@@ -81,11 +82,11 @@ public class ThirdParty implements Serializable {
         this.id = id;
     }
 
-    public void setIndividualRequests(Set<IndividualRequest> individualRequests) {
+    public void setIndividualRequests(Collection<IndividualRequest> individualRequests) {
         this.individualRequests = individualRequests;
     }
 
-    public void setGroupRequests(Set<GroupRequest> groupRequests) {
+    public void setGroupRequests(Collection<GroupRequest> groupRequests) {
         this.groupRequests = groupRequests;
     }
 }

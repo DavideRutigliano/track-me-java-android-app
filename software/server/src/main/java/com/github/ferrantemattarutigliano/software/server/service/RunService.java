@@ -1,15 +1,19 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Run;
-import com.github.ferrantemattarutigliano.software.server.model.entity.User;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
@@ -19,6 +23,8 @@ public class RunService {
     private IndividualRepository individualRepository;
     @Autowired
     private RunRepository runRepository;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     public Collection<Run> showRuns() {
         return runRepository.findAll();
@@ -71,6 +77,11 @@ public class RunService {
             return null;
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
+
+        if (run.getDate().before(getCurrentDateTime())) {
+            Message.RUN_NOT_ALLOWED.toString();
+        }
+
         runRepository.save(run);
         return Message.RUN_CREATED.toString();
     }
@@ -79,11 +90,16 @@ public class RunService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(user == null)
             return null;
+
+        if (!runRepository.findById(runId).isPresent()) {
+            return Message.RUN_DOES_NOT_EXISTS.toString();
+        }
+
         Run r = runRepository.findById(runId).get();
         Individual organizer = individualRepository.findByUser(user);
 
         if (!r.getOrganizer().getSsn().equals(organizer.getSsn()))
-            return Message.RUN_NOT_ORGANIZER.toString();
+            return Message.RUN_NOT_ORGANIZER.toString() + r.getTitle();
 
         runRepository.startRun(runId);
         return Message.RUN_STARTED.toString();
@@ -103,7 +119,7 @@ public class RunService {
         Run existing = runRepository.findById(run.getId()).get();
 
         if (!run.getOrganizer().getSsn().equals(organizer.getSsn())) {
-            return Message.RUN_NOT_ORGANIZER.toString();
+            return Message.RUN_NOT_ORGANIZER.toString() + run.getTitle();
         }
 
         if (run.getTitle() != null
@@ -147,7 +163,7 @@ public class RunService {
         Run run = runRepository.findById(runId).get();
 
         if (!run.getOrganizer().getSsn().equals(organizer.getSsn())) {
-            return Message.RUN_NOT_ORGANIZER.toString();
+            return Message.RUN_NOT_ORGANIZER.toString() + run.getTitle();
         }
 
         runRepository.delete(run);
@@ -249,5 +265,76 @@ public class RunService {
         runRepository.save(run);
 
         return Message.RUN_UNWATCHED.toString() + run.getTitle();
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = 5000)
+    public void startedRunSendAthletesPosition() {
+        Collection<Run> runs = runRepository.findAll();
+
+        for (Run run : runs) {
+            if (run.getState().equals("started")) {
+
+                String[] path = run.getPath().split(";");
+                String lastPos = path[path.length - 1];
+                Position arrival = new Position();
+
+                arrival.setLatitude(StringUtils.substringBefore(lastPos, ":"));
+                arrival.setLongitude(StringUtils.substringAfter(lastPos, ":"));
+
+                Collection<Individual> enrolled = new ArrayList<>();
+                enrolled.addAll(run.getAthletes());
+
+                for (Individual athlete : run.getAthletes()) {
+                    ArrayList<Position> athletePositions = new ArrayList<>();
+                    athletePositions.addAll(athlete.getPosition());
+
+                    Position lastPosition = athletePositions.get((athletePositions.size() - 1));
+
+                    if (calculateDistance(lastPosition, arrival) >= 0.01) {
+                        for (Individual spectator : run.getSpectators()) {
+                            simpMessagingTemplate.convertAndSend("/run/" + run.getId() + "/" + spectator.getUser().getUsername(),
+                                    "Athlete: " + athlete.getUser().getUsername()
+                                            + ". Position "
+                                            + lastPosition.getLatitude() + ":"
+                                            + lastPosition.getLongitude() + ".");
+                        }
+                    } else {
+                        enrolled.remove(athlete);
+                    }
+                }
+
+                if (enrolled.isEmpty()) {
+                    run.setState("finished");
+                    runRepository.save(run);
+                }
+            }
+        }
+    }
+
+    private double calculateDistance(Position p1, Position p2) {
+        double lastAthleteLongitude = Double.parseDouble(p1.getLongitude());
+        double lastAthleteLatitude = Double.parseDouble(p1.getLatitude());
+        double lastPositionLongitude = Double.parseDouble(p2.getLongitude());
+        double lastPositionLatitude = Double.parseDouble(p2.getLatitude());
+
+        double theta = lastAthleteLongitude - lastPositionLongitude;
+
+        if (theta == 0.0)
+            return theta;
+
+        double delta = Math.toRadians(lastPositionLatitude)
+                + Math.cos(Math.toRadians(lastAthleteLatitude))
+                * Math.cos(Math.toRadians(lastPositionLatitude))
+                * Math.cos(Math.toRadians(theta));
+
+        double dist = Math.sin(Math.toRadians(lastAthleteLatitude)) * Math.sin(delta);
+
+        return Math.toDegrees(Math.acos(dist)) * 1.609344;
+    }
+
+    private Time getCurrentDateTime() {
+        java.util.Date date = new java.util.Date();
+        return new Time(date.getTime());
     }
 }
