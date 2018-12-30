@@ -54,7 +54,7 @@ public class Individual implements Serializable {
     @ManyToMany(mappedBy = "spectators")
     private Collection<Run> watchedRuns;
 
-    protected Individual() {}
+    public Individual() {}
 
     public Individual(User user, String ssn, String firstname, String lastname, Date birthdate, String state, String city, String address, int height, int weight) {
         this.user = user;

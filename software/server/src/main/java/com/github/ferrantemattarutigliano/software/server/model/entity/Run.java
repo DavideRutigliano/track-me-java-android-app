@@ -39,7 +39,7 @@ public class Run {
             inverseJoinColumns = {@JoinColumn(name = "spectatorId")})
     private Collection<Individual> spectators;
 
-    protected Run() {}
+    public Run() {}
 
     public Run(String title, Date date, Time time, String path) {
         this.title = title;

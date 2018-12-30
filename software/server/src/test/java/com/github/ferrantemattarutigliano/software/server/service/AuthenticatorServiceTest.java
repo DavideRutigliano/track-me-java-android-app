@@ -13,14 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 
 public class AuthenticatorServiceTest {
