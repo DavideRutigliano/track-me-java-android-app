@@ -12,7 +12,7 @@ matrix:
       script:
         - ./mvnw package
       after_success:
-        - codecov
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
     - language: android
       android:
