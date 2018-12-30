@@ -1,4 +1,4 @@
-
+/*
 package com.github.ferrantemattarutigliano.software.server.controller;
 
 import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.plugins.MockMaker;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +47,7 @@ public class AuthenticatorControllerTest {
 
     private IndividualDTO createDummyIndivdualDTO() {
         Date birthDate = new Date(Calendar.getInstance().getTimeInMillis());
-        String ssn = "AAAAAA00A00A000A";
+        String ssn = "102233444";
         return new IndividualDTO(ssn, "Jhon", "Snow", birthDate, 180, 70, "italia", "Bari", "via padova");
     }
 
@@ -54,12 +55,12 @@ public class AuthenticatorControllerTest {
         return new IndividualRegistrationDTO(createDummyuserDTO(), createDummyIndivdualDTO());
 
     }
-/*
+
     private ThirdParty createDummyThirdParty() {
         String vat = "00000000000";
         return new ThirdParty("Bilbo", "Baggins", vat, "test@ho.com", "A");
     }
-*/
+
 
 
     @Before
@@ -71,14 +72,14 @@ public class AuthenticatorControllerTest {
     public void testIndividualRegistration() {
         IndividualRegistrationDTO dummyIndividual = createDummyIndivdualRegistrationDTO();
 
-        when(mockIndividualRepository.existsBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(true);
+        Mockito.when(mockIndividualRepository.existsBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(true);
         //    when(mockIndividualRepository.findBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(dummyIndividual);
         //    when(mockAuthenticatorService.individualRegistration(dummyIndividual)).thenReturn(true);
 
         String result = mockAuthenticator.individualRegistration(dummyIndividual);
         assertEquals("REGISTRATION_SUCCESS", result);
     }
-}/*
+
     @Test
     public void testGetIndividualProfile() {
         Individual dummyIndividual = createDummyIndivdual();

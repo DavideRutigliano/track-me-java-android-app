@@ -35,7 +35,8 @@ public class ThirdParty implements Serializable {
 
     protected ThirdParty() {}
 
-    public ThirdParty(String vat, String organizationName) {
+    public ThirdParty(User user, String vat, String organizationName) {
+        this.user = user;
         this.vat = vat;
         this.organizationName = organizationName;
     }

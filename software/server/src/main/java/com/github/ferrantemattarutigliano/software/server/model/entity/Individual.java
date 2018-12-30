@@ -55,12 +55,17 @@ public class Individual implements Serializable {
 
     protected Individual() {}
 
-    public Individual(User user, String ssn, String firstname, String lastname, Date birthdate) {
+    public Individual(User user, String ssn, String firstname, String lastname, Date birthdate, String state, String city, String address, int height, int weight) {
         this.user = user;
         this.ssn = ssn;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
+        this.state = state;
+        this.city = city;
+        this.address = address;
+        this.height = height;
+        this.weight = weight;
     }
 
     public void setUser(User user) {
