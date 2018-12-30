@@ -10,7 +10,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -267,7 +266,6 @@ public class RunService {
         return Message.RUN_UNWATCHED.toString() + run.getTitle();
     }
 
-    @Transactional
     @Scheduled(fixedDelay = 5000)
     public void startedRunSendAthletesPosition() {
         Collection<Run> runs = runRepository.findAll();
