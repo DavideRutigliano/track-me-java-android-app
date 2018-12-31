@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         //in case autologin doesn't succeed
         if(sharedPreferences.contains("remember")){
             CharSequence username = sharedPreferences.getString("username", "");
-            CharSequence password = sharedPreferences.getString("username", "");
+            CharSequence password = sharedPreferences.getString("password", "");
             usernameForm.setText(username);
             passwordForm.setText(password);
             rememberCheck.setChecked(true);
@@ -119,4 +119,5 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         editor.clear();
         editor.apply();
     }
+
 }

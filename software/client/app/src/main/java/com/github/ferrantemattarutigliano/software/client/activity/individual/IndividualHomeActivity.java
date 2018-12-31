@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -74,7 +75,9 @@ public class IndividualHomeActivity extends AppCompatActivity
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
 
+        String topic = "/request/" + SessionDirector.USERNAME;
         SessionDirector.getStompClient().subscribe("/request/" + SessionDirector.USERNAME);
+        saveTopicSubscription(topic);
     }
 
     @Override
@@ -114,6 +117,21 @@ public class IndividualHomeActivity extends AppCompatActivity
         });
         SessionDirector.setStompClient(stompClient);
         SessionDirector.connect();
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        String[] topics = sharedPreferences.getString("topic", "").split(";");
+        for (String topic : topics) {
+            if (!topic.isEmpty())
+                SessionDirector.getStompClient().subscribe(topic);
+        }
+    }
+
+    private void saveTopicSubscription(String topic) {
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
+            topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
+        editor.putString("topic", topic);
+        editor.apply();
     }
 
     @Override

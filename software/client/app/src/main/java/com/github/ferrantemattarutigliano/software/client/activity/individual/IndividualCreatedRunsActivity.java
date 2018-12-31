@@ -94,13 +94,13 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(titleView);
             //create buttons
-            addSpace(linearLayout);
+            //addSpace(linearLayout);
             createDeleteButton(linearLayout, runDTO);
-            addSpace(linearLayout);
+            //addSpace(linearLayout);
             createInfoButton(linearLayout, runDTO);
-            addSpace(linearLayout);
+            //addSpace(linearLayout);
             createModifyButton(linearLayout);
-            addSpace(linearLayout);
+            //addSpace(linearLayout);
             createStartButton(linearLayout, runDTO);
 
             container.addView(linearLayout);

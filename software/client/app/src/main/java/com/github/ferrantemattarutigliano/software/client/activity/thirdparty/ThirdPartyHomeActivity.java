@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -74,7 +75,9 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
         MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
         selectItem(myAccount);
 
-        SessionDirector.getStompClient().subscribe("/notification/" + SessionDirector.USERNAME);
+        String topic = "/notification/" + SessionDirector.USERNAME;
+        SessionDirector.getStompClient().subscribe(topic);
+        saveTopicSubscription(topic);
     }
 
     @Override
@@ -110,14 +113,30 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
                     }
                     notificationManager.notify(0, notificationBuilder.build());
                 }
-                if(response.getStompBody().contains("Request accepted")) {
+                if (response.getStompBody().contains("Request accepted")) {
                     String topic = StringUtils.substringBetween(response.getStompBody(), "Topic: ", ".");
                     SessionDirector.getStompClient().subscribe("/healthdata/" + topic);
+                    saveTopicSubscription("/healthdata/" + topic);
                 }
             }
         });
         SessionDirector.setStompClient(stompClient);
         SessionDirector.connect();
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        String[] topics = sharedPreferences.getString("topic", "").split(";");
+        for (String topic : topics) {
+            if (!topic.isEmpty())
+                SessionDirector.getStompClient().subscribe(topic);
+        }
+    }
+
+    private void saveTopicSubscription(String topic) {
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
+            topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
+        editor.putString("topic", topic);
+        editor.apply();
     }
 
     @Override
@@ -191,5 +210,4 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
 }
