@@ -14,9 +14,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTMLDocument;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 @Service
 public class RunService {
@@ -46,12 +48,26 @@ public class RunService {
             return null;
         Individual individual = individualRepository.findByUser(user);
         Collection<Run> allRuns = showCreatedRuns();
+        //update following the test phase, need of and iterator in the following loop cycle
+        /*
+
+        OLD VERSION
         for(Run run : allRuns){
             boolean isOrganizer = individual.getEnrolledRuns().contains(run);
             boolean isWatched = individual.getWatchedRuns().contains(run);
             boolean isEnrolled = individual.getEnrolledRuns().contains(run);
             if(isOrganizer || isWatched || isEnrolled){
                 allRuns.remove(run);
+            }
+        */
+        //NEW VERSION
+        for (Iterator<Run> i = allRuns.iterator(); i.hasNext(); ) {
+            Run run = i.next();
+            boolean isOrganizer = individual.getEnrolledRuns().contains(run);
+            boolean isWatched = individual.getWatchedRuns().contains(run);
+            boolean isEnrolled = individual.getEnrolledRuns().contains(run);
+            if (isOrganizer || isWatched || isEnrolled) {
+                i.remove();
             }
         }
         return allRuns;
