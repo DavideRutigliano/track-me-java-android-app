@@ -165,5 +165,42 @@ public class RunServiceTest {
         Assert.assertEquals(expectedResult, result);
     }
 
+    @Test
+    public void showEnrolledRunsTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create runs associated with the  user
+        Run firstRun = createMockRun(mockedIndividual);
+        Run secondRun = createMockRun(mockedIndividual);
+        Run thirdRun = createMockRun(mockedIndividual);
+        //create collections of runs
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        createdRuns.add(secondRun);
+        createdRuns.add(thirdRun);
+        Collection<Run> enrolledRuns = new ArrayList<>();
+        enrolledRuns.add(firstRun);
+        //mock created, enrolled and watched runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(enrolledRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+
+        Collection<Run> result = runService.showEnrolledRuns();
+        //create collection with the expected result
+        Collection<Run> expectedResult = new ArrayList<>();
+        expectedResult.add(firstRun);
+        Assert.assertEquals(expectedResult, result);
+    }
 
 }
+
+
