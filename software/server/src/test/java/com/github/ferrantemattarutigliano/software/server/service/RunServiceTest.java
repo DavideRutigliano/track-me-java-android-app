@@ -1,11 +1,13 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
+import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Run;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
+import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import org.junit.Assert;
@@ -39,6 +41,8 @@ public class RunServiceTest {
     private UserRepository mockUserRepository;
     @Mock
     private IndividualRepository mockIndividualRepository;
+    @Mock
+    private RunRepository mockRunRepository;
 
     @Before
     public void initTest() {
@@ -236,6 +240,37 @@ public class RunServiceTest {
         expectedResult.add(firstRun);
         Assert.assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void createRunTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser)).thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun)).thenReturn(firstRun);
+        String result = runService.createRun(firstRun);
+        Assert.assertEquals(Message.RUN_CREATED.toString(), result);
+    }
+
+    public Time getCurrentDateTime() {
+        java.util.Date date = new java.util.Date();
+        return new Time(date.getTime());
+    }
 }
+
 
 

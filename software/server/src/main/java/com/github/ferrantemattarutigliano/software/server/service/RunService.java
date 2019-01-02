@@ -96,9 +96,11 @@ public class RunService {
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
 
+
         if (run.getDate().before(getCurrentDateTime())) {
             Message.RUN_NOT_ALLOWED.toString();
         }
+
 
         runRepository.save(run);
         return Message.RUN_CREATED.toString();
@@ -350,7 +352,8 @@ public class RunService {
         return Math.toDegrees(Math.acos(dist)) * 1.609344;
     }
 
-    private Time getCurrentDateTime() {
+
+    public Time getCurrentDateTime() {
         java.util.Date date = new java.util.Date();
         return new Time(date.getTime());
     }
