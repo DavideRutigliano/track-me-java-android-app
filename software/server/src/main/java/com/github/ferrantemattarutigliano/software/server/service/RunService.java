@@ -290,7 +290,7 @@ public class RunService {
         return Message.RUN_UNWATCHED.toString() + run.getTitle();
     }
 
-    //@Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 5000)
     public void startedRunSendAthletesPosition() {
         Collection<Run> runs = runRepository.findAll();
 
