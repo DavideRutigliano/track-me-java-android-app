@@ -27,6 +27,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+
+import static java.lang.Boolean.TRUE;
 
 public class RunServiceTest {
     @InjectMocks
@@ -266,10 +269,39 @@ public class RunServiceTest {
         Assert.assertEquals(Message.RUN_CREATED.toString(), result);
     }
 
-    public Time getCurrentDateTime() {
-        java.util.Date date = new java.util.Date();
-        return new Time(date.getTime());
+    @Test
+    public void startRunTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+        String result = runService.startRun(firstRun.getId());
+        System.out.println(result);
+        Assert.assertEquals(Message.RUN_STARTED.toString(), result);
     }
+
+
 }
 
 
