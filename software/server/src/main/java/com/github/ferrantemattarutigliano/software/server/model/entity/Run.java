@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -39,13 +40,19 @@ public class Run {
             inverseJoinColumns = {@JoinColumn(name = "spectatorId")})
     private Collection<Individual> spectators;
 
-    public Run() {}
+
+    public Run() {
+        this.athletes = new ArrayList<>();
+        this.spectators = new ArrayList<>();
+    }
 
     public Run(String title, Date date, Time time, String path) {
         this.title = title;
         this.date = date;
         this.time = time;
         this.path = path;
+        this.athletes = new ArrayList<>();
+        this.spectators = new ArrayList<>();
     }
 
     public Long getId() {

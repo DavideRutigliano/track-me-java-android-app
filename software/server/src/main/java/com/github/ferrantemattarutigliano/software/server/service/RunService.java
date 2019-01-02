@@ -205,6 +205,7 @@ public class RunService {
         Run run = runRepository.findById(runId).get();
         Individual athlete = individualRepository.findByUser(user);
 
+
         if (run.getAthletes().stream().anyMatch(individual -> individual.getSsn().equals(athlete.getSsn()))) {
             return Message.RUN_ALREADY_ATHLETE.toString();
         }

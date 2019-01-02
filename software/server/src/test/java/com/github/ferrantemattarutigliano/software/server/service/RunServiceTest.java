@@ -338,7 +338,7 @@ public class RunServiceTest {
     }
 
     @Test
-    public void DeleteRunTest() {
+    public void deleteRunTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
         User mockedUser = new User("username", "password", "aa@aa.com", role);
@@ -363,11 +363,50 @@ public class RunServiceTest {
                 .thenReturn(mockedIndividual);
 
 
+
         String result = runService.deleteRun(firstRun.getId());
 
         Assert.assertEquals(Message.RUN_DELETED.toString(), result);
 
     }
+
+
+    @Test
+    public void enrollRunTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.enrollRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_ENROLLED.toString() + firstRun.getTitle(), result);
+
+    }
+
+
+
 }
 
 
