@@ -301,7 +301,41 @@ public class RunServiceTest {
         Assert.assertEquals(Message.RUN_STARTED.toString(), result);
     }
 
+    @Test
+    public void editRunTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
 
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+        Run editedFirstRun = firstRun;
+        editedFirstRun.setTitle("maranello");
+        runService.createRun(firstRun);
+        String result = runService.editRun(firstRun);
+
+        Assert.assertEquals(Message.RUN_EDITED.toString(), result);
+
+    }
 }
 
 
