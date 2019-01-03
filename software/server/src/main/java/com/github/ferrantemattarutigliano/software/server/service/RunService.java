@@ -14,9 +14,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTMLDocument;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 @Service
 public class RunService {
@@ -46,12 +48,26 @@ public class RunService {
             return null;
         Individual individual = individualRepository.findByUser(user);
         Collection<Run> allRuns = showCreatedRuns();
+        //update following the test phase, need of and iterator in the following loop cycle
+        /*
+
+        OLD VERSION
         for(Run run : allRuns){
             boolean isOrganizer = individual.getEnrolledRuns().contains(run);
             boolean isWatched = individual.getWatchedRuns().contains(run);
             boolean isEnrolled = individual.getEnrolledRuns().contains(run);
             if(isOrganizer || isWatched || isEnrolled){
                 allRuns.remove(run);
+            }
+        */
+        //NEW VERSION
+        for (Iterator<Run> i = allRuns.iterator(); i.hasNext(); ) {
+            Run run = i.next();
+            boolean isOrganizer = individual.getEnrolledRuns().contains(run);
+            boolean isWatched = individual.getWatchedRuns().contains(run);
+            boolean isEnrolled = individual.getEnrolledRuns().contains(run);
+            if (isOrganizer || isWatched || isEnrolled) {
+                i.remove();
             }
         }
         return allRuns;
@@ -80,9 +96,11 @@ public class RunService {
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
 
+
         if (run.getDate().before(getCurrentDateTime())) {
             Message.RUN_NOT_ALLOWED.toString();
         }
+
 
         runRepository.save(run);
         return Message.RUN_CREATED.toString();
@@ -187,6 +205,7 @@ public class RunService {
         Run run = runRepository.findById(runId).get();
         Individual athlete = individualRepository.findByUser(user);
 
+
         if (run.getAthletes().stream().anyMatch(individual -> individual.getSsn().equals(athlete.getSsn()))) {
             return Message.RUN_ALREADY_ATHLETE.toString();
         }
@@ -211,9 +230,11 @@ public class RunService {
         Run run = runRepository.findById(runId).get();
         Individual athlete = individualRepository.findByUser(user);
 
+
         if (!run.getAthletes().stream().anyMatch(individual -> individual.getSsn().equals(athlete.getSsn()))) {
             return Message.RUN_NOT_ATHLETE.toString();
         }
+
 
         run.removeAthlete(athlete);
         runRepository.save(run);
@@ -334,7 +355,8 @@ public class RunService {
         return Math.toDegrees(Math.acos(dist)) * 1.609344;
     }
 
-    private Time getCurrentDateTime() {
+
+    public Time getCurrentDateTime() {
         java.util.Date date = new java.util.Date();
         return new Time(date.getTime());
     }
