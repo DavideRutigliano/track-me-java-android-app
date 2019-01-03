@@ -42,7 +42,7 @@ public class RequestService {
 
     private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
 
-    private void addCurrentDateTime(Request request) {
+    public void addCurrentDateTime(Request request) {
         java.util.Date date = new java.util.Date();
         request.setDate(new Date(date.getTime()));
         request.setTime(new Time(date.getTime()));
