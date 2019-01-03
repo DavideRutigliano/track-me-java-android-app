@@ -120,7 +120,7 @@ public abstract class HttpTask<O> extends AsyncTask<Void, Void, O>{
             }
         }
         catch (Exception e){
-            Log.e("HTTP_BODY_NULL", "Failed to fetch http response body."); //todo rewrite this
+            Log.e("HTTP_BODY_NULL", "Failed to fetch http response body.");
         }
         return result;
     }
