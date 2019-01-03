@@ -25,7 +25,7 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualConnectExternalDeviceFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualInsertDataFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualIndividualManageRequestsFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
@@ -195,7 +195,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = IndividualAccountFragment.class;
                 break;
             case R.id.nav_external_device:
-                fragmentClass = IndividualConnectExternalDeviceFragment.class;
+                fragmentClass = IndividualInsertDataFragment.class;
                 break;
             case R.id.nav_manage_request:
                 fragmentClass = IndividualIndividualManageRequestsFragment.class;
