@@ -12,13 +12,13 @@ This repository is owned by **Davide Rutigliano, Claudio Ferrante and Davide Mat
 
 ## Table of Contents
 * [Documents](#documents)
-* * [Preview](#preview-via-overleaf)
-* * [Delivery](#delivery)
-* * [Tools](#tools)
+    * [Preview](#preview-via-overleaf)
+    * [Delivery](#delivery)
+    * [Tools](#tools)
 * [Software](#software)
-* * [Architecture](#architecture)
-* * [Build and Installation](#build-and-install-instructions)
-* * [Tools](#tools-1)
+    * [Architecture](#architecture)
+    * [Build and Installation](#build-and-install-instructions)
+    * [Tools](#tools-1)
 * [Project Layout](#project-layout)
 * [Contributors](#contributors)
 
@@ -62,14 +62,14 @@ We used a professional UML diagrams software [magicDraw](https://www.magicdraw.c
 </p>
 
 ## Build and Install instructions
-Instructions to build and install *trackMe* are available [here](INSTALL.md).
+Instructions to build and install *TrackMe* are available [here](INSTALL.md).
 
 ## Tools
 ### Spring Framework
 In order to develop the proposed system we decided to use Java as back-end and front-end language and in particular, we used [Spring](https://spring.io) Framework. This framework fits very well the architectural style of the proposed software solution, has proprietary implementation of the Model View Controller design patter and of several APIs and is very suitable for both provisioning and consuming RESTful services.
 
 ### Heroku
-We used [Heroku](https://www.heroku.com/what) in order to deploy our server application over a remote host. More specific information about application server deployment can be found [here](https://github.com/DavideRutigliano/FerranteMattaRutigliano/deployments)
+We used [Heroku](https://www.heroku.com/what) in order to deploy our server application over a remote host. More specific information about application server deployment can be found [here](https://github.com/DavideRutigliano/FerranteMattaRutigliano/deployments).
 
 ---
 
