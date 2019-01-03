@@ -2,24 +2,16 @@ package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.IndividualRequest;
-import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
-import com.github.ferrantemattarutigliano.software.server.model.entity.User;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRequestRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
+import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,13 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import java.util.*;
 
 
 public class RequestServiceTest {
@@ -65,6 +51,14 @@ public class RequestServiceTest {
     @Mock
     private SimpMessagingTemplate mockSimpMessaggingTemplate;
 
+    @Mock
+    private IndividualSpecification mockIndividualSpecification;
+
+    @Mock
+    private GroupRequestRepository mockGroupRequestRepository;
+
+    @Mock
+    private HealthDataRepository mockHealthDataRepository;
 
 
 
@@ -120,6 +114,14 @@ public class RequestServiceTest {
 
     }
 
+    private GroupRequest createMockGroupRequest(String criteria) {
+        GroupRequest request = new GroupRequest(criteria);
+        request.setDate(new Date(1));
+        request.setTime(new Time(1));
+
+        return request;
+    }
+
     @Test
     public void individualRequestTest() {
         //create a mock user individual
@@ -158,11 +160,136 @@ public class RequestServiceTest {
         Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
                 .thenReturn(mockedIndividual);
 
-      
+
         String result = requestService.individualRequest(firstIndRequest);
 
         Assert.assertEquals(Message.REQUEST_SUCCESS.toString() + " Receiver: " + mockedIndividual.getUser().getUsername(), result);
 
 
     }
+
+    @Test
+    public void groupRequestTestNotAnonymous() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setState("italy");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Specification<Individual> specification = mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";"));
+        //  Mockito.when(mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";")))
+        //          .thenReturn(mockIndividualSpecification.inState("italy"));
+
+        List<Individual> mockIndividualCollection = new ArrayList<>();
+        mockIndividualCollection.add(mockedIndividual);
+        Mockito.when(mockIndividualRepository.findAll(specification))
+                .thenReturn(mockIndividualCollection);
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest)).thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+
+/*
+    @Test
+    public void groupRequestTest(){
+        //create a mock users individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        int i=0;
+        List<Individual> listIndividuals = new ArrayList<>();
+        for (i=0;i<1001;i++){
+            String x=Integer.toString(i);
+            User mockedUser = new User("username"+x, "password"+x, "aa@aa.com", role);
+            Individual mockedIndividual = new Individual();
+            mockedIndividual.setUser(mockedUser);
+            mockedIndividual.setFirstname("pippo"+x);
+            mockedIndividual.setLastname("pippetti"+x);
+            int Ssn=100000000;
+            Ssn=Ssn+i;
+            String z=Integer.toString(Ssn);
+            mockedIndividual.setSsn(z);
+            mockedIndividual.setState("italy");
+            listIndividuals.add(mockedIndividual);
+        }
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+
+
+        // TEST STARTS HERE
+
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+
+
+       // Specification<Individual> specification  = mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";"));
+       // Mockito.when(mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";")))
+       //           .thenReturn(mockIndividualSpecification.inState("italy"));
+
+       Specification<Individual>  specification = mockIndividualSpecification.inState("italy");
+        Mockito.when(mockIndividualRepository.findAll(specification))
+                .thenReturn(listIndividuals);
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest)).thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_SUCCESS.toString(), result);
+
+    }
+
+*/
 }

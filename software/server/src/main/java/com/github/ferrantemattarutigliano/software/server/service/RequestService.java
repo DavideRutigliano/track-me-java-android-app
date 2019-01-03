@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RequestService {
@@ -94,10 +91,11 @@ public class RequestService {
 
         Specification<Individual> specification = IndividualSpecification.findByCriteriaSpecification(groupRequest.getCriteria().split(";"));
 
-        Collection<Individual> receivers = new LinkedHashSet<>();
+        Collection<Individual> receivers = new ArrayList<>();
 
         if (specification != null)
             Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
+
 
         if (receivers.size() < GROUP_REQUEST_ANONYMIZATION_LIMIT)
             return Message.REQUEST_NOT_ANONYMOUS.toString();
