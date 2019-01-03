@@ -73,3 +73,15 @@ cd FerranteMattaRutigliano\software\client
 #gradlew.bat assembleDebug #build only
 gradlew.bat installDebug #install apk on running emulator or connected device
 ```
+
+# External Device Emulator
+The package *"External Device Emulator"* is a very small wearable application for smartwatches or similar (android) devices, which is able to send data from the smartwatch to the mobile phone (and vice-versa).
+
+In order to build this part of the application you can follow the same instructions for client package build and installation and then run the wearable application. You can run it both on a smartwatch emulator or on a physical one. Before you install the application, you should install [Google Wear OS](https://play.google.com/store/apps/category/ANDROID_WEAR?hl=it) on your mobile phone and pair it via bluethoot with your smartwatch/emulator.
+
+Each time you run the application on the emulator you should allow  through adb request forwarding from the smartwatch to the phone and vice-versa, running the following command:
+```
+adb -d forward tcp:5601 tcp:5601
+```
+
+***NOTE:*** This part of the application has been tested **only** against emulator.
