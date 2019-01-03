@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualSearchRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualSearchRunsView;
 
@@ -77,6 +78,8 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
             watchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String topic = "/run/" + runId + SessionDirector.USERNAME;
+                    SessionDirector.getStompClient().subscribe(topic);
                     loadingScreen.show();
                     individualSearchRunsPresenter.watchRun(runId);
                 }
@@ -87,6 +90,8 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
             unwatchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String topic = "/run/" + runId + SessionDirector.USERNAME;
+                    SessionDirector.getStompClient().unsubscribe(topic);
                     loadingScreen.show();
                     individualSearchRunsPresenter.enrollRun(runId);
                 }

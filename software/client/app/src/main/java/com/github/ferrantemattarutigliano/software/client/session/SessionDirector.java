@@ -1,7 +1,10 @@
 package com.github.ferrantemattarutigliano.software.client.session;
 
+import android.content.SharedPreferences;
+
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.github.ferrantemattarutigliano.software.client.httprequest.HttpConstant.SERVER_DOMAIN;
 
 public class SessionDirector {

@@ -10,7 +10,6 @@ import com.github.ferrantemattarutigliano.software.client.view.individual.Indivi
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class IndividualNewRunPresenter extends Presenter<IndividualNewRunView> {
     private ArrayList<PositionDTO> positionDTOS;

@@ -25,6 +25,7 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualConnectExternalDeviceFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualIndividualManageRequestsFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
@@ -35,6 +36,8 @@ import com.github.ferrantemattarutigliano.software.client.view.individual.Indivi
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IndividualHomeView {
@@ -111,6 +114,11 @@ public class IndividualHomeActivity extends AppCompatActivity
                             notificationManager.createNotificationChannel(channel);
                         }
                     }
+                    //TODO finish
+                    if (response.getStompBody().contains("Position")) {
+                        String latitude = StringUtils.substringBetween(response.getStompBody(), ". Position: ", ":");
+                        String longitude = StringUtils.substringBetween(response.getStompBody(), ":", ".");
+                    }
                     notificationManager.notify(0, notificationBuilder.build());
                 }
             }
@@ -131,6 +139,21 @@ public class IndividualHomeActivity extends AppCompatActivity
         if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
             topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
         editor.putString("topic", topic);
+        editor.apply();
+    }
+
+    private void removeTopicSubscription(String topic) {
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String topics = sharedPreferences.getString("topic", "");
+        if (topics.contains(topic)) {
+            String [] subscriptions = sharedPreferences.getString("topic", "").split(";");
+            for (String s : subscriptions) {
+                if (s.contains(topic))
+                    s = "";
+            }
+        }
+        editor.putString("topic", topics);
         editor.apply();
     }
 
@@ -172,7 +195,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = IndividualAccountFragment.class;
                 break;
             case R.id.nav_external_device:
-                fragmentClass = NotImplementedFragment.class;
+                fragmentClass = IndividualConnectExternalDeviceFragment.class;
                 break;
             case R.id.nav_manage_request:
                 fragmentClass = IndividualIndividualManageRequestsFragment.class;

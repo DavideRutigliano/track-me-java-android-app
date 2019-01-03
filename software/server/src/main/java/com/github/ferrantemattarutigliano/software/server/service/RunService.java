@@ -324,12 +324,12 @@ public class RunService {
         if (theta == 0.0)
             return theta;
 
-        double delta = Math.toRadians(lastPositionLatitude)
+        double rho = Math.toRadians(lastPositionLatitude)
                 + Math.cos(Math.toRadians(lastAthleteLatitude))
                 * Math.cos(Math.toRadians(lastPositionLatitude))
                 * Math.cos(Math.toRadians(theta));
 
-        double dist = Math.sin(Math.toRadians(lastAthleteLatitude)) * Math.sin(delta);
+        double dist = Math.sin(Math.toRadians(lastAthleteLatitude)) * Math.sin(rho);
 
         return Math.toDegrees(Math.acos(dist)) * 1.609344;
     }
