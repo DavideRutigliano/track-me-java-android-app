@@ -131,6 +131,9 @@ Furthermore, the overall structure of both client and server application is orga
 \item \textbf{util:} contains utility classes, for example a factory that builds a loading screen.
 \end{itemize}
 
+\subsection{External Device Emulator Package}
+This package contains a small wearable application for \textit{Google Wear OS} that allows the end user to connect and synchronize to, and acquire data from, his smart-watch.
+
 \newpage
 \section{Testing}
 Testing code is available within the project directory in "test" package.
@@ -264,6 +267,82 @@ The script should return something like:
     \centering
     \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/gradle.png}
 \end{figure}
+
+\newpage
+\subsection{External Device App Build and Installation}
+
+In order to run the external device application you should have a physical smart-watch or an emulator (available within \textit{Android Studio}'s virtual device manager).
+
+Build and Installation instruction for this code package will not be listed as they are exactly the same steps for building the client application (i.e. using gradlew or Android Studio), obviously changing build files and packages.
+
+If you have an external device such as a \textit{Gear-Fit} or similar android devices following steps are not needed.
+
+\paragraph{Important Note:}
+The source code included in this package has been tested only against a Square Wear OS smart-watch emulator with Android Oreo OS and API version 26. Any other run of the application on other device could lead to unexpected behaviour as it has not been tested.
+
+\subsubsection{Device Emulator Creation}
+In order to run the application on an emulator, you should first create it from android studio.
+\begin{itemize}
+    \item Click on Tools, then AVD Manager;
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/virtualdevice1.png}
+    \end{figure}
+    \newpage
+    \item Click \textit{Create Virtual Device};
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/virtualdevice2.png}
+    \end{figure}
+    \item Select \textit{Wear OS} from category menu, then \textit{Android Wear Square};
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/virtualdevice3.png}
+    \end{figure}
+    \newpage
+    \item Select Android OS version;
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/virtualdevice4.png}
+    \end{figure}
+\end{itemize}
+
+Then you can run your \textit{Wear OS} virtual device from AVD manager clicking on play button.
+
+If during run of the application you get the following error:
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/extdev_err.png}
+    \end{figure}
+
+Then you should uncheck \textit{Enable Instant Run} feature from Android Studio preferences (Build, Execution, Deployment):
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/extdev_err_solution.png}
+    \end{figure}
+
+\subsubsection{Device Emulator Set Up}
+In order to allow the emulator communicate with the smartphone, you should connect via USB (with debug enabled) the phone and tell the \textit{Android Debugger} to forward requests from the phone to the emulator and vice-versa using the following command: 
+
+\begin{lstlisting}[language=bash]
+adb -d forward tcp:5601 tcp:5601
+\end{lstlisting}
+
+On your mobile phone, you should:
+\begin{itemize}
+    \item Download and Install Google Wear OS Application, then start configuration;
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=30mm, height=60mm]{ITD/images/wearos1.jpeg}
+    \includegraphics[width=30mm, height=60mm]{ITD/images/wearos2.jpeg}
+    \end{figure}
+    \item Once configuration has finished, pair the mobile phone with the smart-watch emulator;
+    \begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=30mm, height=60mm]{ITD/images/wearos3.jpeg}
+    \includegraphics[width=30mm, height=60mm]{ITD/images/wearos4.jpeg}
+    \end{figure}
+\end{itemize}
 
 \newpage
 \section{Effort Spent}
