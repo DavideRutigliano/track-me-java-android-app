@@ -226,16 +226,17 @@ public class RequestServiceTest {
     }
 
 
-/*
+/* TODO FIX IT: individualrepository.findall(specifications) returns 0 size value
+
     @Test
     public void groupRequestTest(){
         //create a mock users individual
         String role = Role.ROLE_INDIVIDUAL.toString();
         int i=0;
         List<Individual> listIndividuals = new ArrayList<>();
-        for (i=0;i<1001;i++){
+        for (i=0;i<1020;i++){
             String x=Integer.toString(i);
-            User mockedUser = new User("username"+x, "password"+x, "aa@aa.com", role);
+            User mockedUser = new User("username"+x, "password"+x, "aa@a"+x+"a.com", role);
             Individual mockedIndividual = new Individual();
             mockedIndividual.setUser(mockedUser);
             mockedIndividual.setFirstname("pippo"+x);
@@ -255,7 +256,7 @@ public class RequestServiceTest {
         mockedThirdParty.setVat("11111111111");
         mockedThirdParty.setOrganizationName("topolino");
         //create group requests
-        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy");
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
@@ -278,7 +279,7 @@ public class RequestServiceTest {
        // Mockito.when(mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";")))
        //           .thenReturn(mockIndividualSpecification.inState("italy"));
 
-       Specification<Individual>  specification = mockIndividualSpecification.inState("italy");
+       Specification<Individual>  specification =mockIndividualSpecification.findByCriteriaSpecification(firstGroupRequest.getCriteria().split(";"));
         Mockito.when(mockIndividualRepository.findAll(specification))
                 .thenReturn(listIndividuals);
 
@@ -291,5 +292,48 @@ public class RequestServiceTest {
 
     }
 
-*/
+    */
+
+    @Test
+    public void showSentIndividualRequestTest() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty)).thenReturn(indRequests);
+
+
+        Collection<IndividualRequest> result = requestService.showSentIndividualRequest();
+
+        Assert.assertEquals(indRequests, result);
+
+
+    }
+
 }
