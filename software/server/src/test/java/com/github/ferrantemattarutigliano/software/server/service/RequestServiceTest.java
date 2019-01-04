@@ -2,6 +2,9 @@ package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
+import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.SentRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.junit.Assert;
@@ -11,12 +14,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.lang.reflect.Type;
 import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
@@ -324,7 +330,8 @@ public class RequestServiceTest {
 
         Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
                 .thenReturn(mockedThirdParty);
-        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty)).thenReturn(indRequests);
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
 
 
         Collection<IndividualRequest> result = requestService.showSentIndividualRequest();
@@ -336,7 +343,7 @@ public class RequestServiceTest {
 
     @Test
     public void groupRequestTest() {
-       
+
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
         User mockedUser = new User("username", "password", "aa@aa.com", role);
@@ -373,6 +380,72 @@ public class RequestServiceTest {
         Collection<GroupRequest> result = requestService.showSentGroupRequest();
 
         Assert.assertEquals(groupRequests, result);
+
+    }
+
+    @Test
+    public void showSentRequestTest() {
+
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+        //create sent request DTO
+        ModelMapper modelMapper = new ModelMapper();
+        SentRequestDTO sentRequestDTO = new SentRequestDTO();
+        //group request DTO
+        Type groupType = new TypeToken<Collection<GroupRequest>>() {
+        }.getType();
+        Collection<GroupRequestDTO> groupRequestDTOS = modelMapper.map(groupRequests, groupType);
+        //individual request DTO
+        Type individualType = new TypeToken<Collection<IndividualRequest>>() {
+        }.getType();
+        Collection<IndividualRequestDTO> individualRequestDTOS = modelMapper.map(indRequests, individualType);
+        //set them
+        sentRequestDTO.setIndividualRequestDTOS(individualRequestDTOS);
+        sentRequestDTO.setGroupRequestDTOS(groupRequestDTOS);
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockGroupRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(groupRequests);
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
+
+        SentRequestDTO result = requestService.showSentRequest();
+
+        Assert.assertEquals(sentRequestDTO.getGroupRequestDTOS(), result.getGroupRequestDTOS());
+        Assert.assertEquals(sentRequestDTO.getIndividualRequestDTOS(), result.getIndividualRequestDTOS());
 
     }
 }
