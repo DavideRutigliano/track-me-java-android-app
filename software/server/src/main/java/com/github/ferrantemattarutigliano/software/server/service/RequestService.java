@@ -248,8 +248,8 @@ public class RequestService {
 
         Specification<Individual> specification = IndividualSpecification.findByCriteriaSpecification(request.getCriteria().split(";"));
 
-        Collection<Individual> receivers = new LinkedHashSet<>();
-        Collection<HealthData> healthData = new LinkedHashSet<>();
+        Collection<Individual> receivers = new ArrayList<>();
+        Collection<HealthData> healthData = new ArrayList<>();
 
         if (specification != null)
             Optional.ofNullable(individualRepository.findAll(specification)).ifPresent(receivers::addAll);
