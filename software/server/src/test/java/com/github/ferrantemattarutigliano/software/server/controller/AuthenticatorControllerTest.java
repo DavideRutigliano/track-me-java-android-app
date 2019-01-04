@@ -69,7 +69,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testIndividualRegistration() {
+    public void individualRegistrationTest() {
         IndividualRegistrationDTO dummyIndividual = createDummyIndivdualRegistrationDTO();
 
         Mockito.when(mockIndividualRepository.existsBySsn(dummyIndividual.getIndividual().getSsn())).thenReturn(true);
@@ -93,7 +93,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testThirdPartyRegistration() {
+    public void thirdPartyRegistrationTest() {
         ThirdParty dummyThirdParty = createDummyThirdParty();
 
         when(mockThirdPartyRepository.existsByVat(dummyThirdParty.getVat())).thenReturn(true);
@@ -117,7 +117,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testIndividualLogin() {
+    public void individualLoginTest() {
         Individual dummyIndividual = createDummyIndivdual();
 
         when(mockIndividualRepository.existsByUsername(dummyIndividual.getUsername())).thenReturn(true);
@@ -139,7 +139,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testChangeIndividualProfile() {
+    public void changeIndividualProfileTest() {
         Individual dummyIndividual = createDummyIndivdual();
         dummyIndividual.setEmail("you@know.nothing");
 
@@ -152,7 +152,7 @@ public class AuthenticatorControllerTest {
     }
 
     @Test
-    public void testChangeThirdPartyProfile() {
+    public void changeThirdPartyProfileTest() {
         ThirdParty dummyThirdParty = createDummyThirdParty();
         dummyThirdParty.setEmail("Bilbo@baggins.ring");
 

@@ -226,7 +226,7 @@ public class AuthenticatorService implements UserDetailsService {
         if (authenticated == null || !thirdPartyRepository.existsByUser(authenticated)) {
             return Message.BAD_REQUEST.toString();
         }
-        if (validateThirdParty(updatedThirdParty)) {
+        if (!validateThirdParty(updatedThirdParty)) {
             return Message.BAD_PARAMETERS.toString();
         }
 
