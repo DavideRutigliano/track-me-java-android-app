@@ -492,7 +492,7 @@ public class RequestServiceTest {
 
 
         /* TEST STARTS HERE */
-        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
 
 
         Mockito.when(mockIndividualRepository.findByUser(mockedUser2))
@@ -507,5 +507,51 @@ public class RequestServiceTest {
         Assert.assertEquals(receivedRequestDTOS, result);
 
 
+    }
+
+    @Test
+    public void handleRequestTest() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        firstIndRequest.setId(0L);
+        firstIndRequest.setThirdParty(mockedThirdParty);
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockIndividualRequestRepository.findById(0L))
+                .thenReturn(Optional.of(firstIndRequest));
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
+
+
+        String result = requestService.handleRequest(0L, true);
+
+        Assert.assertEquals(Message.REQUEST_ACCEPTED.toString(), result);
     }
 }
