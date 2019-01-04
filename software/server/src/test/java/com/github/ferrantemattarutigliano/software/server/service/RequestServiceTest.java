@@ -723,5 +723,99 @@ public class RequestServiceTest {
         Assert.assertEquals(healthDatasEX, result);
     }
 
+    @Test
+    public void showGroupDataTest_NotSubscripted() {
+        //create a mock users individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        int i = 0;
+        List<Individual> listIndividuals = new ArrayList<>();
+        for (i = 0; i < 2; i++) {
+            String x = Integer.toString(i);
+            User mockedUser = new User("username" + x, "password" + x, "aa@a" + x + "a.com", role);
+            Individual mockedIndividual = new Individual();
+            mockedIndividual.setUser(mockedUser);
+            mockedIndividual.setFirstname("pippo" + x);
+            mockedIndividual.setLastname("pippetti" + x);
+            int Ssn = 100000000;
+            Ssn = Ssn + i;
+            String z = Integer.toString(Ssn);
+            mockedIndividual.setSsn(z);
+            mockedIndividual.setState("italy");
+            listIndividuals.add(mockedIndividual);
+        }
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
+        firstGroupRequest.setSubscription(false);
+        firstGroupRequest.setId(0L);
+        firstGroupRequest.setThirdParty(mockedThirdParty);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        //create health data
+        Date bdate = new Date(1);
+        Time time = new Time(1);
+        HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
+        firstHealthData.setTime(time);
+        //add to a collection of healthdata
+        Collection<HealthData> healthDatas = new ArrayList<>();
+        for (i = 0; i < 1; i++) {
+            healthDatas.add(firstHealthData);
+        }
+        //create collection of collections of health data
+
+        Collection<Collection<HealthData>> colHealthDatas = new ArrayList<>();
+        for (i = 0; i < 2; i++) {
+            colHealthDatas.add(healthDatas);
+        }
+        //create expected result
+        Collection<HealthData> healthDatasEX = new ArrayList<>();
+        for (i = 0; i < 2; i++) {
+            healthDatasEX.add(firstHealthData);
+        }
+
+
+        // TEST STARTS HERE
+
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockGroupRequestRepository.findById(0L))
+                .thenReturn(Optional.of(firstGroupRequest));
+        Mockito.when(mockGroupRequestRepository.isSubscriptionRequest(firstGroupRequest.getId()))
+                .thenReturn(false);
+        Mockito.when(mockGroupRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(groupRequests);
+
+
+        Iterator<Individual> z = listIndividuals.iterator();
+        Iterator<Collection<HealthData>> l = colHealthDatas.iterator();
+        l.hasNext();
+        while (z.hasNext() && l.hasNext()) {
+            Individual mockIndividual = z.next();
+            Collection<HealthData> mockHealthdatas = l.next();
+            Mockito.when((mockHealthDataRepository.findUntilTimestamp(mockIndividual.getSsn(), firstHealthData.getDate(), firstHealthData.getTime())))
+                    .thenReturn(mockHealthdatas);
+        }
+
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(listIndividuals);
+
+       
+        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest);
+
+
+        Assert.assertEquals(healthDatasEX, result);
+    }
+
 
 }
