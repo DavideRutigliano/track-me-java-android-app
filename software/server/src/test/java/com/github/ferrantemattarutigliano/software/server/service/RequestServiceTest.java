@@ -670,4 +670,65 @@ public class RequestServiceTest {
 
         Assert.assertEquals(healthDatas, result);
     }
+//#TODO similar to GroupRequest problem to fix
+/*
+    @Test
+    public void showGroupDataTest_Subscripted() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
+        firstGroupRequest.setSubscription(false);
+        firstGroupRequest.setId(0L);
+        firstGroupRequest.setThirdParty(mockedThirdParty);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        //create health data
+        Date bdate = new Date(1);
+        HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
+        //add to a collection of healthdata
+        Collection<HealthData> healthDatas = new ArrayList<>();
+        healthDatas.add(firstHealthData);
+
+
+
+        // TEST STARTS HERE
+        /*
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockGroupRequestRepository.findById(0L))
+                .thenReturn(Optional.of(firstGroupRequest));
+        Mockito.when(mockGroupRequestRepository.isSubscriptionRequest(firstGroupRequest.getId()))
+                .thenReturn(true);
+        Mockito.when(mockGroupRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(groupRequests);
+        Mockito.when(mockHealthDataRepository.findByIndividual(mockedIndividual))
+                .thenReturn(healthDatas);
+
+
+        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest);
+
+        Assert.assertEquals(healthDatas, result);
+    }
+*/
+
 }
