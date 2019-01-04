@@ -61,10 +61,8 @@ public class RequestServiceTest {
     private HealthDataRepository mockHealthDataRepository;
 
 
-
-
     @Before
-    public void initTest(){
+    public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -336,4 +334,45 @@ public class RequestServiceTest {
 
     }
 
+    @Test
+    public void groupRequestTest() {
+       
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockGroupRequestRepository.findByThirdParty(mockedThirdParty)).thenReturn(groupRequests);
+
+
+        Collection<GroupRequest> result = requestService.showSentGroupRequest();
+
+        Assert.assertEquals(groupRequests, result);
+
+    }
 }

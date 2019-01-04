@@ -147,6 +147,7 @@ public class RequestService {
         }
 
         if (sender != null) {
+
             return groupRequestRepository.findByThirdParty(sender);
         } else return null;
     }
