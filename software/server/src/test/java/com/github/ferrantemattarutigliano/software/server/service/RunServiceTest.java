@@ -10,6 +10,8 @@ import com.github.ferrantemattarutigliano.software.server.repository.IndividualR
 import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Boolean.TRUE;
@@ -103,6 +106,7 @@ public class RunServiceTest {
         
     }
 
+
     @Test
     public void showCreatedRunsTest() {
         //create a mock user
@@ -135,8 +139,58 @@ public class RunServiceTest {
 
     }
 
+
     @Test
-    public void showNewRunsTest() {
+    public void showRunsTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create a mock user
+        User mockedUser2 = new User("username2", "password2", "aa2@aa.com", role);
+        Individual mockedIndividual2 = new Individual();
+        mockedIndividual.setUser(mockedUser2);
+        mockedIndividual.setFirstname("pippo2");
+        mockedIndividual.setLastname("pippetti2");
+        //create runs associated with the  user
+        Run firstRun = createMockRun(mockedIndividual);
+        Run secondRun = createMockRun(mockedIndividual);
+        Run thirdRun = createMockRun(mockedIndividual2);
+        //create collections of runs
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        createdRuns.add(secondRun);
+        Collection<Run> createdRuns2 = new ArrayList<>();
+        createdRuns2.add(thirdRun);
+        Collection<Run> enrolledRuns = new ArrayList<>();
+        enrolledRuns.add(firstRun);
+        Collection<Run> watchedRuns = new ArrayList<>();
+        watchedRuns.add(secondRun);
+        //mock created, enrolled and watched runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(enrolledRuns);
+        mockedIndividual.setWatchedRuns(watchedRuns);
+        mockedIndividual2.setCreatedRuns(createdRuns2);
+        //create combined collection to return the respective Mokito command
+        Iterable<Run> combinedIterables = Iterables.unmodifiableIterable(
+                Iterables.concat(createdRuns, createdRuns2));
+        List<Run> collectionCombined = Lists.newArrayList(combinedIterables);
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockRunRepository.findAll()).thenReturn(collectionCombined);
+
+        Collection<Run> result = runService.showRuns();
+
+        Assert.assertEquals(collectionCombined, result);
+
+    }
+
+    @Test
+    public void showEnrolledRunTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
         User mockedUser = new User("username", "password", "aa@aa.com", role);
@@ -155,17 +209,68 @@ public class RunServiceTest {
         createdRuns.add(thirdRun);
         Collection<Run> enrolledRuns = new ArrayList<>();
         enrolledRuns.add(firstRun);
+        //mock created, enrolled and watched runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(enrolledRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+
+        Collection<Run> result = runService.showEnrolledRuns();
+        //create collection with the expected result
+        Collection<Run> expectedResult = new ArrayList<>();
+        expectedResult.add(firstRun);
+        Assert.assertEquals(expectedResult, result);
+
+    }
+
+
+    @Test
+    public void showNewRunsTest() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create a mock user
+        User mockedUser2 = new User("username2", "password2", "aa2@aa.com", role);
+        Individual mockedIndividual2 = new Individual();
+        mockedIndividual.setUser(mockedUser2);
+        mockedIndividual.setFirstname("pippo2");
+        mockedIndividual.setLastname("pippetti2");
+        //create runs associated with the  user
+        Run firstRun = createMockRun(mockedIndividual);
+        Run secondRun = createMockRun(mockedIndividual);
+        Run thirdRun = createMockRun(mockedIndividual2);
+        //create collections of runs
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        createdRuns.add(secondRun);
+        Collection<Run> createdRuns2 = new ArrayList<>();
+        createdRuns2.add(thirdRun);
+        Collection<Run> enrolledRuns = new ArrayList<>();
+        enrolledRuns.add(firstRun);
         Collection<Run> watchedRuns = new ArrayList<>();
         watchedRuns.add(secondRun);
         //mock created, enrolled and watched runs in database
         mockedIndividual.setCreatedRuns(createdRuns);
         mockedIndividual.setEnrolledRuns(enrolledRuns);
         mockedIndividual.setWatchedRuns(watchedRuns);
+        mockedIndividual2.setCreatedRuns(createdRuns2);
+        //create combined collection to return the respective Mokito command
+        Iterable<Run> combinedIterables = Iterables.unmodifiableIterable(
+                Iterables.concat(createdRuns, createdRuns2));
+        List<Run> collectionCombined = Lists.newArrayList(combinedIterables);
 
         /* TEST STARTS HERE */
         mockIndividualAuthorized(mockedUser, mockedIndividual);
         Mockito.when(mockIndividualRepository.findByUser(mockedUser))
                 .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.findAll()).thenReturn(collectionCombined);
 
         Collection<Run> result = runService.showNewRuns();
         //create collection with the expected result

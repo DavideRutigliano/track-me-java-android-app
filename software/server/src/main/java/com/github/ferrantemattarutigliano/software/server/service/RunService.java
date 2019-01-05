@@ -47,7 +47,15 @@ public class RunService {
         if(user == null)
             return null;
         Individual individual = individualRepository.findByUser(user);
+
+        /* error showRuns instead of showCreateRuns
+        OLD VERSION
         Collection<Run> allRuns = showCreatedRuns();
+
+        */
+        // NEW VERSION
+
+        Collection<Run> allRuns = showRuns();
         //update following the test phase, need of and iterator in the following loop cycle
         /*
 
@@ -63,7 +71,7 @@ public class RunService {
         //NEW VERSION
         for (Iterator<Run> i = allRuns.iterator(); i.hasNext(); ) {
             Run run = i.next();
-            boolean isOrganizer = individual.getEnrolledRuns().contains(run);
+            boolean isOrganizer = individual.getCreatedRuns().contains(run);
             boolean isWatched = individual.getWatchedRuns().contains(run);
             boolean isEnrolled = individual.getEnrolledRuns().contains(run);
             if (isOrganizer || isWatched || isEnrolled) {
