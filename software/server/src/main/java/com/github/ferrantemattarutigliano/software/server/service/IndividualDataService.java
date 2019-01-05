@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -66,8 +67,8 @@ public class IndividualDataService {
 
         for (GroupRequest groupRequest : groupRequests) {
 
-            Collection<Individual> receivers = new LinkedHashSet<>();
-            Collection<HealthData> healthData = new LinkedHashSet<>();
+            Collection<Individual> receivers = new ArrayList<>();
+            Collection<HealthData> healthData = new ArrayList<>();
 
             String criteria = groupRequest.getCriteria();
 

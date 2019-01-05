@@ -36,7 +36,7 @@ public class RequestControllerTest {
     @Mock
     private RequestService mockRequestService;
 
-   
+
     @Before
     public void initTest() {
         MockitoAnnotations.initMocks(this);
