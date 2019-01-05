@@ -8,7 +8,6 @@ import com.github.ferrantemattarutigliano.software.server.model.dto.ReceivedRequ
 import com.github.ferrantemattarutigliano.software.server.model.dto.SentRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,8 +28,6 @@ import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
-
-import static org.mockito.ArgumentMatchers.*;
 
 public class RequestServiceTest {
     @InjectMocks

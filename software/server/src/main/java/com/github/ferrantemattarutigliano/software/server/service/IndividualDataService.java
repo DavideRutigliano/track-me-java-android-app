@@ -1,14 +1,8 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
-import com.github.ferrantemattarutigliano.software.server.model.entity.GroupRequest;
-import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.User;
-import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualSpecification;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
+import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -29,6 +23,8 @@ public class IndividualDataService {
     private IndividualRepository individualRepository;
     @Autowired
     private HealthDataRepository healthDataRepository;
+    @Autowired
+    private PositionRepository positionRepository;
     @Autowired
     private GroupRequestRepository groupRequestRepository;
     @Autowired
@@ -57,6 +53,22 @@ public class IndividualDataService {
         }
 
         return Message.INSERT_DATA_SUCCESS.toString();
+    }
+
+    public void insertPosition(Position position) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user == null || !individualRepository.existsByUser(user)) {
+            return;
+        }
+
+        Individual individual = individualRepository.findByUser(user);
+
+        position.setIndividual(individual);
+
+        addCurrentDateTime(position);
+
+        positionRepository.save(position);
     }
 
     @Scheduled(cron = "0 0 8 * * *") //scheduled at 8 o' clock every day
@@ -92,6 +104,12 @@ public class IndividualDataService {
         java.util.Date date = new java.util.Date();
         healthData.setDate(new Date(date.getTime()));
         healthData.setTime(new Time(date.getTime()));
+    }
+
+    private void addCurrentDateTime(Position position) {
+        java.util.Date date = new java.util.Date();
+        position.setDate(new Date(date.getTime()));
+        position.setTime(new Time(date.getTime()));
     }
 
 
