@@ -79,8 +79,8 @@ public class IndividualDataService {
 
         for (GroupRequest groupRequest : groupRequests) {
 
-            Collection<Individual> receivers = new ArrayList<>();
-            Collection<HealthData> healthData = new ArrayList<>();
+            Collection<Individual> receivers = new LinkedHashSet<>();
+            Collection<HealthData> healthData = new LinkedHashSet<>();
 
             String criteria = groupRequest.getCriteria();
 
