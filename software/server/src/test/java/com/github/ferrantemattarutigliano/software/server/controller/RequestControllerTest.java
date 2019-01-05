@@ -2,10 +2,7 @@ package com.github.ferrantemattarutigliano.software.server.controller;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
-import com.github.ferrantemattarutigliano.software.server.model.dto.GroupRequestDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRequestDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.RequestDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.SentRequestDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
@@ -29,6 +26,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class RequestControllerTest {
@@ -331,6 +329,56 @@ public class RequestControllerTest {
         SentRequestDTO result = requestController.showAllSentRequests();
 
         Assert.assertEquals(sentRequestDTO, result);
+
+    }
+
+
+    @Test
+    public void showIncomingRequestTest() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        firstIndRequest.setAccepted(true);
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+        //create collection of request DTO
+        Collection<ReceivedRequestDTO> receivedRequestDTOS = new HashSet<>();
+        for (IndividualRequest r : indRequests) {
+            if (r.isAccepted() != null) continue; //only not accepted/rejected requests
+            ReceivedRequestDTO receivedRequestDTO = new ReceivedRequestDTO();
+            String thirdPartyName = r.getThirdParty().getOrganizationName();
+
+            receivedRequestDTO.setId(r.getId());
+            receivedRequestDTO.setDate(r.getDate());
+            receivedRequestDTO.setTime(r.getTime());
+            receivedRequestDTO.setThirdParty(thirdPartyName);
+            receivedRequestDTOS.add(receivedRequestDTO);
+        }
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockRequestService.showIncomingRequest())
+                .thenReturn(receivedRequestDTOS);
+        Collection<ReceivedRequestDTO> result = requestController.showIncomingRequest();
+
+        Assert.assertEquals(receivedRequestDTOS, result);
 
     }
 
