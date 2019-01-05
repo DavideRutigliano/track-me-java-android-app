@@ -36,80 +36,12 @@ public class RequestControllerTest {
     @Mock
     private RequestService mockRequestService;
 
-    @Mock
-    private IndividualRepository mockIndividualRepository;
-
-    @Mock
-    private UserRepository mockUserRepository;
-
-    @Mock
-    private SecurityContext mockSecurityContext;
-
-    @Mock
-    private Authentication mockAuthentication;
-
-    @Mock
-    private Principal mockPrincipal;
-
-    @Mock
-    private ThirdPartyRepository mockThirdPartyRepository;
-
-    @Mock
-    private IndividualRequestRepository mockIndividualRequestRepository;
-
-    @Mock
-    private SimpMessagingTemplate mockSimpMessaggingTemplate;
-
-    @Mock
-    private IndividualSpecification mockIndividualSpecification;
-
-    @Mock
-    private GroupRequestRepository mockGroupRequestRepository;
-
-    @Mock
-    private HealthDataRepository mockHealthDataRepository;
-
+   
     @Before
     public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
 
-    private void mockIndividualAuthorized(User expectedUser, Individual expectedIndividual) {
-        SecurityContextHolder.setContext(mockSecurityContext);
-
-        Mockito.when(mockSecurityContext.getAuthentication())
-                .thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getPrincipal())
-                .thenReturn(mockPrincipal);
-        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
-                .thenReturn(expectedUser);
-        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
-                .thenReturn(true);
-        //mock the existing individual associated with the user
-        Mockito.when(mockIndividualRepository.existsByUser(expectedUser))
-                .thenReturn(true);
-        Mockito.when(mockIndividualRepository.findByUser(expectedUser))
-                .thenReturn(expectedIndividual);
-    }
-
-
-    private void mockThirdPartyAuthorized(User expectedUser, ThirdParty expectedThirdParty) {
-        SecurityContextHolder.setContext(mockSecurityContext);
-
-        Mockito.when(mockSecurityContext.getAuthentication())
-                .thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getPrincipal())
-                .thenReturn(mockPrincipal);
-        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
-                .thenReturn(expectedUser);
-        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
-                .thenReturn(true);
-        //mock the existing third party associated with the user
-        Mockito.when(mockThirdPartyRepository.existsByUser(expectedUser))
-                .thenReturn(true);
-        Mockito.when(mockThirdPartyRepository.findByUser(expectedUser))
-                .thenReturn(expectedThirdParty);
-    }
 
     private IndividualRequest createMockIndRequest(String ssn) {
         IndividualRequest request = new IndividualRequest(ssn);
