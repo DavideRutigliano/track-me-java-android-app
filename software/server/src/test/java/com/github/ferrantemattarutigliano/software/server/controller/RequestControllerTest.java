@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class RequestControllerTest {
     @InjectMocks
@@ -156,5 +157,45 @@ public class RequestControllerTest {
 
         Assert.assertEquals(Message.REQUEST_SUCCESS.toString() + " Receiver: " + mockedIndividual.getUser().getUsername(), result);
     }
+
+    @Test
+    public void groupRequestTest() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockRequestService.groupRequest(firstGroupRequest))
+                .thenReturn(Message.REQUEST_SUCCESS.toString());
+
+        String result = requestController.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_SUCCESS.toString(), result);
+    }
+
+
 
 }
