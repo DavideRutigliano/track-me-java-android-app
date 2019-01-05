@@ -70,19 +70,22 @@ public class RequestController {
     public String handleRequest(@PathVariable("username") String username,
                                 @PathVariable("id") Long id,
                                 @RequestBody Boolean accepted) {
-
         return requestService.handleRequest(id, accepted);
     }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @GetMapping(path = "/individual/{id}/data")
-    public Collection<HealthData> showIndividualData(@RequestBody @DTO(IndividualRequestDTO.class) IndividualRequest individualRequest) {
-        return requestService.showIndividualData(individualRequest);
+    @ResponseBody
+    public @CollectionDTO(HealthDataDTO.class)
+    Collection<HealthData> showIndividualData(@PathVariable("id") Long id) {
+        return requestService.showIndividualData(id);
     }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @GetMapping(path = "/group/{id}/data")
-    public Collection<HealthData> showGroupData(@RequestBody @DTO(GroupRequestDTO.class) GroupRequest groupRequest) {
-        return requestService.showGroupData(groupRequest);
+    @ResponseBody
+    public @CollectionDTO(HealthDataDTO.class)
+    Collection<HealthData> showGroupData(@PathVariable("id") Long id) {
+        return requestService.showGroupData(id);
     }
 }

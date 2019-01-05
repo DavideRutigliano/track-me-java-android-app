@@ -558,7 +558,7 @@ public class RequestServiceTest {
                 .thenReturn(healthDatas);
 
 
-        Collection<HealthData> result = requestService.showIndividualData(firstIndRequest);
+        Collection<HealthData> result = requestService.showIndividualData(firstIndRequest.getId());
 
         Assert.assertEquals(healthDatas, result);
     }
@@ -584,7 +584,7 @@ public class RequestServiceTest {
         IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
         firstIndRequest.setId(0L);
         firstIndRequest.setThirdParty(mockedThirdParty);
-        Date reqDate = new Date(98, 10, 01);
+        Date reqDate = new Date(98, 10, 01); //TODO DEPRECATED!!!
         firstIndRequest.setDate(reqDate);
         //add request to a collection
         Collection<IndividualRequest> indRequests = new ArrayList<>();
@@ -592,7 +592,7 @@ public class RequestServiceTest {
         //save it in thirdparty
         mockedThirdParty.setIndividualRequests(indRequests);
         //create health data
-        Date bdate = new Date(96, 12, 01);
+        Date bdate = new Date(96, 12, 01); //TODO DEPRECATED!!!
         HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
         //add to a collection of healthdata
         Collection<HealthData> healthDatas = new ArrayList<>();
@@ -617,7 +617,7 @@ public class RequestServiceTest {
                 .thenReturn(healthDatas);
 
 
-        Collection<HealthData> result = requestService.showIndividualData(firstIndRequest);
+        Collection<HealthData> result = requestService.showIndividualData(firstIndRequest.getId());
 
         Assert.assertEquals(healthDatas, result);
     }
@@ -713,7 +713,7 @@ public class RequestServiceTest {
 
 
 
-        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest);
+        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest.getId());
 
 
         Assert.assertEquals(healthDatasEX, result);
@@ -807,7 +807,7 @@ public class RequestServiceTest {
                 .thenReturn(listIndividuals);
 
 
-        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest);
+        Collection<HealthData> result = requestService.showGroupData(firstGroupRequest.getId());
 
 
         Assert.assertEquals(healthDatasEX, result);

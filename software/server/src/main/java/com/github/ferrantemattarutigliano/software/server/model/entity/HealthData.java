@@ -1,5 +1,7 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -16,6 +18,7 @@ public class HealthData {
 
     @ManyToOne
     @JoinColumn(name="individualId", nullable=false)
+    @JsonIgnore
     private Individual individual;
 
     public HealthData() {}

@@ -228,23 +228,25 @@ public class RequestService {
         return Message.REQUEST_REJECTED.toString();
     }
 
-    public Collection<HealthData> showIndividualData(IndividualRequest individualRequest) {
+    public Collection<HealthData> showIndividualData(Long requestId) {
 
-        IndividualRequest request = individualRequestRepository.findById(individualRequest.getId()).get();
+        IndividualRequest request = individualRequestRepository.findById(requestId).get();
 
-        String ssn = individualRequest.getSsn();
+        String ssn = request.getSsn();
 
         if (individualRequestRepository.isSubscriptionRequest(request.getId())) {
-            return healthDataRepository.findByIndividual(individualRepository.findBySsn(ssn));
+            Individual individual = individualRepository.findBySsn(ssn);
+            return healthDataRepository.findByIndividual(individual);
         }
         Date date = request.getDate();
         Time time = request.getTime();
+
         return healthDataRepository.findUntilTimestamp(ssn, date, time);
     }
 
-    public Collection<HealthData> showGroupData(GroupRequest groupRequest) {
+    public Collection<HealthData> showGroupData(Long requestId) {
 
-        GroupRequest request = groupRequestRepository.findById(groupRequest.getId()).get();
+        GroupRequest request = groupRequestRepository.findById(requestId).get();
 
         Specification<Individual> specification = IndividualSpecification.findByCriteriaSpecification(request.getCriteria().split(";"));
 

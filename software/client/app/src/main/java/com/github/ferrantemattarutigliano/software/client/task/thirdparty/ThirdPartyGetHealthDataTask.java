@@ -15,8 +15,7 @@ import java.util.Collection;
 public class ThirdPartyGetHealthDataTask extends HttpTask<Collection<HealthDataDTO>> {
     public ThirdPartyGetHealthDataTask(String requestType, Long requestId, AsyncResponse<Collection<HealthDataDTO>> asyncResponse) {
         super(new ParameterizedTypeReference<Collection<HealthDataDTO>>(){}, asyncResponse);
-        //todo implement this :)
-        String path = "/healthdata/" + requestType + "/" + requestId;
+        String path = "/request/" + requestType.toLowerCase() + "/" + requestId + "/data";
         HttpMethod type = HttpMethod.GET;
         HttpInformationContainer container = new HttpInformationContainer(path, type);
         setHttpInformationContainer(container);

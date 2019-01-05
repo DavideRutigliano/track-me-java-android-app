@@ -22,8 +22,10 @@ public class ThirdPartyHealthDataActivity extends AppCompatActivity {
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         graphView = findViewById(R.id.graph_third_party_healthdata);
+
+        Bundle bundle = getIntent().getExtras();
         try{
-            healthData = (Collection<HealthDataDTO>)savedInstanceState.getSerializable("healthdata");
+            healthData = (Collection<HealthDataDTO>) bundle.getSerializable("healthdata");
         }
         catch (RuntimeException e){
             Toast.makeText(this, "Failed to get healthdata bundle", Toast.LENGTH_LONG).show();
