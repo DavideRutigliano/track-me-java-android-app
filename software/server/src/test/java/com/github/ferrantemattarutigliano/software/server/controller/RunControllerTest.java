@@ -474,7 +474,7 @@ public class RunControllerTest {
 
 
     @Test
-    public void deleRunTest() {
+    public void deleteRunTest() {
         // RunDTO creation
         RunDTO firstRunDTO = createMockRunDTO();
         //create a mock user
@@ -508,6 +508,86 @@ public class RunControllerTest {
 
 
         Assert.assertEquals(Message.RUN_DELETED.toString(), result);
+
+
+    }
+
+
+    @Test
+    public void enrollRunTest() {
+        // RunDTO creation
+        RunDTO firstRunDTO = createMockRunDTO();
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mock Run
+        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
+        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        firstRun.setState("created");
+        firstRun.setId(0L);
+        secondRun.setId(1L);
+        secondRun.setState("created");
+        //add to a collection
+        Collection<Run> orgRuns = new ArrayList<>();
+        orgRuns.add(firstRun);
+        orgRuns.add(secondRun);
+        //add to organizer and run enrolled
+        mockedIndividual.setCreatedRuns(orgRuns);
+
+
+        //TEST STARTS HERE
+
+        Mockito.when(mockRunService.enrollRun(0L))
+                .thenReturn(Message.RUN_ENROLLED.toString());
+
+        String result = runController.enrollRun("0");
+
+
+        Assert.assertEquals(Message.RUN_ENROLLED.toString(), result);
+
+
+    }
+
+
+    @Test
+    public void unenrolledRunTest() {
+        // RunDTO creation
+        RunDTO firstRunDTO = createMockRunDTO();
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mock Run
+        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
+        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        firstRun.setState("created");
+        firstRun.setId(0L);
+        secondRun.setId(1L);
+        secondRun.setState("created");
+        //add to a collection
+        Collection<Run> orgRuns = new ArrayList<>();
+        orgRuns.add(firstRun);
+        orgRuns.add(secondRun);
+        //add to organizer and run enrolled
+        mockedIndividual.setCreatedRuns(orgRuns);
+
+
+        //TEST STARTS HERE
+
+        Mockito.when(mockRunService.unenrollRun(0L))
+                .thenReturn(Message.RUN_UNENROLLED.toString());
+
+        String result = runController.unenrollRun("0");
+
+
+        Assert.assertEquals(Message.RUN_UNENROLLED.toString(), result);
 
 
     }
