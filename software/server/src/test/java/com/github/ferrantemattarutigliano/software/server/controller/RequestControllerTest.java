@@ -425,10 +425,10 @@ public class RequestControllerTest {
 
         /* TEST STARTS HERE */
 
-        Mockito.when(mockRequestService.showIndividualData(firstIndRequest))
+        Mockito.when(mockRequestService.showIndividualData(firstIndRequest.getId()))
                 .thenReturn(healthDatas);
 
-        Collection<HealthData> result = requestController.showIndividualData(firstIndRequest);
+        Collection<HealthData> result = requestController.showIndividualData(firstIndRequest.getId());
 
         Assert.assertEquals(healthDatas, result);
 
@@ -494,10 +494,10 @@ public class RequestControllerTest {
 
         /* TEST STARTS HERE */
 
-        Mockito.when(mockRequestService.showGroupData(firstGroupRequest))
+        Mockito.when(mockRequestService.showGroupData(firstGroupRequest.getId()))
                 .thenReturn(healthDatasEX);
 
-        Collection<HealthData> result = requestController.showGroupData(firstGroupRequest);
+        Collection<HealthData> result = requestController.showGroupData(firstGroupRequest.getId());
 
         Assert.assertEquals(healthDatasEX, result);
 
