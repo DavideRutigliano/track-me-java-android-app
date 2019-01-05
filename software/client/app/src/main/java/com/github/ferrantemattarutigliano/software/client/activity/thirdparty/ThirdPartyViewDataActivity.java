@@ -20,6 +20,7 @@ import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyViewData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ThirdPartyViewDataActivity extends AppCompatActivity implements ThirdPartyViewData {
@@ -154,7 +155,8 @@ public class ThirdPartyViewDataActivity extends AppCompatActivity implements Thi
         loadingScreen.hide();
         Intent intent = new Intent(ThirdPartyViewDataActivity.this, ThirdPartyHealthDataActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("healthdata", (Serializable)healthData);
+        bundle.putSerializable("healthdata", (Serializable) healthData);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

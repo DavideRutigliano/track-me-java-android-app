@@ -189,7 +189,7 @@ public class IndividualSpecification {
         return specification;
     }
 
-    public static Specification<Individual> withFirstname(String firstname) {
+    private static Specification<Individual> withFirstname(String firstname) {
         if (firstname == null) {
             return null;
         } else {
@@ -197,7 +197,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> likeFirstname(String firstname) {
+    private static Specification<Individual> likeFirstname(String firstname) {
         if (firstname == null) {
             return null;
         } else {
@@ -205,7 +205,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> withLastname(String lastname) {
+    private static Specification<Individual> withLastname(String lastname) {
         if (lastname == null) {
             return null;
         } else {
@@ -213,7 +213,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> likeLastname(String lastname) {
+    private static Specification<Individual> likeLastname(String lastname) {
         if (lastname == null) {
             return null;
         } else {
@@ -221,7 +221,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> inState(String state) {
+    private static Specification<Individual> inState(String state) {
         if (state == null) {
             return null;
         } else {
@@ -229,7 +229,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> inCity(String city) {
+    private static Specification<Individual> inCity(String city) {
         if (city == null) {
             return null;
         } else {
@@ -237,7 +237,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> withAddress(String address) {
+    private static Specification<Individual> withAddress(String address) {
         if (address == null) {
             return null;
         } else {
@@ -245,7 +245,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> withBirthDate(String birthDate) {
+    private static Specification<Individual> withBirthDate(String birthDate) {
         if (birthDate == null) {
             return null;
         } else {
@@ -253,7 +253,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> greaterThanBirthDate(String birthDate) {
+    private static Specification<Individual> greaterThanBirthDate(String birthDate) {
         if (birthDate == null) {
             return null;
         } else {
@@ -261,7 +261,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> lessThanBirthDate(String birthDate) {
+    private static Specification<Individual> lessThanBirthDate(String birthDate) {
         if (birthDate == null) {
             return null;
         } else {
@@ -269,7 +269,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> beetweenBirthDates(String from, String to) {
+    private static Specification<Individual> beetweenBirthDates(String from, String to) {
         if (from == null || to == null) {
             return null;
         } else {
@@ -277,7 +277,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> withHeight(String height) {
+    private static Specification<Individual> withHeight(String height) {
         if (height == null) {
             return null;
         } else {
@@ -286,7 +286,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> tallerThanHeight(String height) {
+    private static Specification<Individual> tallerThanHeight(String height) {
         if (height == null) {
             return null;
         } else {
@@ -295,7 +295,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> shorterThanHeight(String height) {
+    private static Specification<Individual> shorterThanHeight(String height) {
         if (height == null) {
             return null;
         } else {
@@ -304,7 +304,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> betweenHeights(String from, String to) {
+    private static Specification<Individual> betweenHeights(String from, String to) {
         if (from == null || to == null) {
             return null;
         } else {
@@ -314,7 +314,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> withWeight(String weight) {
+    private static Specification<Individual> withWeight(String weight) {
         if (weight == null) {
             return null;
         } else {
@@ -323,7 +323,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> heavierThanWeight(String weight) {
+    private static Specification<Individual> heavierThanWeight(String weight) {
         if (weight == null) {
             return null;
         } else {
@@ -332,7 +332,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> lighterThanWeight(String weight) {
+    private static Specification<Individual> lighterThanWeight(String weight) {
         if (weight == null) {
             return null;
         } else {
@@ -341,7 +341,7 @@ public class IndividualSpecification {
         }
     }
 
-    public static Specification<Individual> betweenWeights(String from, String to) {
+    private static Specification<Individual> betweenWeights(String from, String to) {
         if (from == null || to == null) {
             return null;
         } else {

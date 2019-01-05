@@ -1,15 +1,19 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -30,6 +34,7 @@ import com.github.ferrantemattarutigliano.software.client.fragment.individual.In
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.service.SendPositionService;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualHomeView;
@@ -43,13 +48,36 @@ public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IndividualHomeView {
 
     private IndividualHomePresenter individualHomePresenter;
+    private Intent sendPositionIntent;
+    private SendPositionService sendPositionService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_individual);
         individualHomePresenter = new IndividualHomePresenter(this);
+        sendPositionService = new SendPositionService();
+        sendPositionIntent = new Intent(getApplicationContext(), sendPositionService.getClass());
+        askGpsLocationPermission();
         individualHomePresenter.doFetchProfile();
+    }
+
+    private void askGpsLocationPermission() {
+        new AlertDialog.Builder(this)
+                .setTitle("GPS Location")
+                .setMessage("TrackMe requires accessing your gps position." +
+                        "In order to use the application you should enable gps permissions.")
+                .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ActivityCompat.requestPermissions(IndividualHomeActivity.this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                        startService(sendPositionIntent);
+                    }
+                })
+                .setNegativeButton("Deny", null)
+                .create()
+                .show();
     }
 
     @Override
@@ -150,7 +178,7 @@ public class IndividualHomeActivity extends AppCompatActivity
             String [] subscriptions = sharedPreferences.getString("topic", "").split(";");
             for (String s : subscriptions) {
                 if (s.contains(topic))
-                    s = "";
+                    s = ""; //TODO finish
             }
         }
         editor.putString("topic", topics);
@@ -234,4 +262,11 @@ public class IndividualHomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        stopService(sendPositionIntent);
+        super.onDestroy();
+    }
+
 }

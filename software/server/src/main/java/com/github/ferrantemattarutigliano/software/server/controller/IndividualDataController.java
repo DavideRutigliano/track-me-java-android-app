@@ -1,9 +1,11 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
-
 import com.github.ferrantemattarutigliano.software.server.model.dto.CollectionDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.DTO;
 import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.PositionDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Position;
 import com.github.ferrantemattarutigliano.software.server.service.IndividualDataService;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-
 @RestController
-@RequestMapping(path = "/healthdata")
 public class IndividualDataController {
 
     @Autowired
@@ -22,26 +22,16 @@ public class IndividualDataController {
     @Autowired
     private IndividualDataService individualDataService;
 
-    @PreAuthorize("hasRole('THIRD_PARTY')")
-    @GetMapping("/individual/{requestid}")
-    public @CollectionDTO(HealthDataDTO.class)
-    Collection<HealthData> showIndividualHealthData(@PathVariable(value = "requestid") Long id) {
-        //todo implement this
-        return null;
-    }
-
-    @PreAuthorize("hasRole('THIRD_PARTY')")
-    @GetMapping("/group/{requestid}")
-    public @CollectionDTO(HealthDataDTO.class)
-    Collection<HealthData> showGroupHealthData(@PathVariable(value = "requestid") Long id) {
-        //todo implement this
-        return null;
+    @PreAuthorize("hasRole('INDIVIDUAL')")
+    @PostMapping(path = "/healthdata/insert")
+    public String insertData(@RequestBody @CollectionDTO(HealthDataDTO.class) Collection<HealthData> healthData) {
+        return individualDataService.insertData(healthData);
     }
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
-    @PostMapping(path = "/insert")
-    public String insertData(@RequestBody @CollectionDTO(HealthDataDTO.class) Collection<HealthData> healthData) {
-        return individualDataService.insertData(healthData);
+    @PostMapping(path = "/position/insert")
+    public void insertPosition(@RequestBody @DTO(PositionDTO.class) Position position) {
+        individualDataService.insertPosition(position);
     }
 }
 
