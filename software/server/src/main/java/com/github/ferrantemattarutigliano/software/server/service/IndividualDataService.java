@@ -103,5 +103,4 @@ public class IndividualDataService {
         position.setTime(new Time(date.getTime()));
     }
 
-
 }
