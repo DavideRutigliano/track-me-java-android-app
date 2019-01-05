@@ -200,11 +200,54 @@ public class RunControllerTest {
             Assert.assertEquals(RD.getTitle(), h.getTitle());
         }
 
-
     }
 
+    @Test
+    public void showNewRunsTest() {
+        // RunDTO creation
+        RunDTO firstRunDTO = createMockRunDTO();
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mock Run
+        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
+        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        firstRun.setState("created");
+        secondRun.setState("created");
+        //add to a collection
+        Collection<Run> orgRuns = new ArrayList<>();
+        orgRuns.add(firstRun);
+        orgRuns.add(secondRun);
+        //add to organizer
+        mockedIndividual.setCreatedRuns(orgRuns);
 
 
+        //TEST STARTS HERE
+
+        Mockito.when(mockRunService.showNewRuns())
+                .thenReturn(orgRuns);
+
+        Collection<RunDTO> result = runController.showNewRuns();
+
+        Collection<RunDTO> expRuns = convertRuns(orgRuns);
+        Iterator<RunDTO> RDE = expRuns.iterator();
+        for (Iterator<RunDTO> i = result.iterator(); i.hasNext(); ) {
+            RunDTO RD = i.next();
+            RunDTO h = RDE.next();
+            h.setPath(RD.getPath());
+            Assert.assertEquals(RD.getId(), h.getId());
+            Assert.assertEquals(RD.getPath(), h.getPath());
+            Assert.assertEquals(RD.getDate(), h.getDate());
+            Assert.assertEquals(RD.getTime(), h.getTime());
+            Assert.assertEquals(RD.getState(), h.getState());
+            Assert.assertEquals(RD.getTitle(), h.getTitle());
+        }
+
+    }
 
 
 }
