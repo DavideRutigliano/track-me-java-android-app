@@ -12,10 +12,12 @@ import com.github.ferrantemattarutigliano.software.server.repository.IndividualR
 import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import com.github.ferrantemattarutigliano.software.server.service.RunService;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,8 +28,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.internal.progress.SequenceNumber.next;
 
 public class RunControllerTest {
 
@@ -79,7 +83,7 @@ public class RunControllerTest {
         run.setTitle("marathon");
         run.setDate(date);
         run.setTime(time);
-        run.setPath("[com.github.ferrantemattarutigliano.software.server.model.dto.PositionDTO@3eb631b8]");
+        run.setPath("10.0:50.0;");
         //  run.setPath(latitude + ":" + longitude + ";" );
         return run;
 
@@ -102,6 +106,26 @@ public class RunControllerTest {
         run.setPath(paths);
         return run;
 
+    }
+
+    private Collection<RunDTO> convertRuns(Collection<Run> runs) {
+        Collection<RunDTO> runDTOS = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+
+        for (Run run : runs) {
+            RunDTO runDto = modelMapper.map(run, RunDTO.class);
+            String[] path = run.getPath().split(";");
+            Collection<PositionDTO> positions = new ArrayList<>();
+            for (String pos : path) {
+                PositionDTO positionDto = new PositionDTO();
+                positionDto.setLatitude(Double.parseDouble(StringUtils.substringBefore(pos, ":")));
+                positionDto.setLongitude(Double.parseDouble(StringUtils.substringAfter(pos, ":")));
+                positions.add(positionDto);
+            }
+            runDto.setPath(positions);
+            runDTOS.add(runDto);
+        }
+        return runDTOS;
     }
 
 
@@ -130,4 +154,57 @@ public class RunControllerTest {
 
         Assert.assertEquals(Message.RUN_CREATED.toString(), result);
     }
+
+    @Test
+    public void showRunsTest() {
+        // RunDTO creation
+        RunDTO firstRunDTO = createMockRunDTO();
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mock Run
+        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
+        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        firstRun.setState("created");
+        secondRun.setState("created");
+        //add to a collection
+        Collection<Run> orgRuns = new ArrayList<>();
+        orgRuns.add(firstRun);
+        orgRuns.add(secondRun);
+        //add to organizer
+        mockedIndividual.setCreatedRuns(orgRuns);
+
+
+        //TEST STARTS HERE
+
+        Mockito.when(mockRunService.showRuns())
+                .thenReturn(orgRuns);
+
+        Collection<RunDTO> result = runController.showRuns();
+
+        Collection<RunDTO> expRuns = convertRuns(orgRuns);
+        Iterator<RunDTO> RDE = expRuns.iterator();
+        for (Iterator<RunDTO> i = result.iterator(); i.hasNext(); ) {
+            RunDTO RD = i.next();
+            RunDTO h = RDE.next();
+            h.setPath(RD.getPath());
+            Assert.assertEquals(RD.getId(), h.getId());
+            Assert.assertEquals(RD.getPath(), h.getPath());
+            Assert.assertEquals(RD.getDate(), h.getDate());
+            Assert.assertEquals(RD.getTime(), h.getTime());
+            Assert.assertEquals(RD.getState(), h.getState());
+            Assert.assertEquals(RD.getTitle(), h.getTitle());
+        }
+
+
+    }
+
+
+
+
+
 }

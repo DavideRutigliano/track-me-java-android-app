@@ -114,7 +114,7 @@ public class RunController {
         return runService.unwatchRun(Long.parseLong(runId));
     }
 
-    private Collection<RunDTO> convertRuns(Collection<Run> runs) {
+    public Collection<RunDTO> convertRuns(Collection<Run> runs) {
         Collection<RunDTO> runDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
 

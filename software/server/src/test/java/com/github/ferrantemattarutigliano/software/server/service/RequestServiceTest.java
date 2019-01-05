@@ -810,7 +810,7 @@ public class RequestServiceTest {
         Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
                 .thenReturn(listIndividuals);
 
-       
+
         Collection<HealthData> result = requestService.showGroupData(firstGroupRequest);
 
 
