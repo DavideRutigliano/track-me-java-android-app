@@ -33,10 +33,6 @@ public class IndividualDataService {
 
     public String insertData(Collection<HealthData> healthData) {
 
-        for (HealthData data : healthData) {
-            addCurrentDateTime(data);
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (user == null || !individualRepository.existsByUser(user)) {
@@ -99,12 +95,6 @@ public class IndividualDataService {
                                 "Name: " + data.getName() + ", value: " + data.getValue());
             }
         }
-    }
-
-    private void addCurrentDateTime(HealthData healthData) {
-        java.util.Date date = new java.util.Date();
-        healthData.setDate(new Date(date.getTime()));
-        healthData.setTime(new Time(date.getTime()));
     }
 
     private void addCurrentDateTime(Position position) {

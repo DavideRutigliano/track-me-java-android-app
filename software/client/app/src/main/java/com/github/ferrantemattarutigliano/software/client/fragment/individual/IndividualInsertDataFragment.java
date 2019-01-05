@@ -19,6 +19,9 @@ import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
+import java.sql.Date;
+import java.sql.Time;
+
 
 public class IndividualInsertDataFragment extends Fragment implements
         IndividualInsertDataView,
@@ -82,7 +85,8 @@ public class IndividualInsertDataFragment extends Fragment implements
                 if (datapath.equals(path)) {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                     String message = dataMapItem.getDataMap().getString("message");
-                    messageContainer.append(message + "\n");
+                    java.util.Date date = new java.util.Date();
+                    messageContainer.append(message + ";" + ". Received at: " + new Date(date.getTime()) + "_" + new Time(date.getTime()) + "\n");
                 }
             }
         }
