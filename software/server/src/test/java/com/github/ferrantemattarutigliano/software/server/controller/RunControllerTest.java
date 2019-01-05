@@ -416,7 +416,7 @@ public class RunControllerTest {
         orgRuns.add(secondRun);
         //add to organizer and run enrolled
         mockedIndividual.setCreatedRuns(orgRuns);
-        mockedIndividual.setWatchedRuns(orgRuns);
+
 
 
         //TEST STARTS HERE
@@ -428,6 +428,46 @@ public class RunControllerTest {
 
 
         Assert.assertEquals(Message.RUN_STARTED.toString(), result);
+
+
+    }
+
+    @Test
+    public void editRunTest() {
+        // RunDTO creation
+        RunDTO firstRunDTO = createMockRunDTO();
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mock Run
+        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
+        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        firstRun.setState("created");
+        firstRun.setId(0L);
+        secondRun.setId(1L);
+        secondRun.setState("created");
+        //add to a collection
+        Collection<Run> orgRuns = new ArrayList<>();
+        orgRuns.add(firstRun);
+        orgRuns.add(secondRun);
+        //add to organizer and run enrolled
+        mockedIndividual.setCreatedRuns(orgRuns);
+        mockedIndividual.setWatchedRuns(orgRuns);
+
+
+        //TEST STARTS HERE
+
+        Mockito.when(mockRunService.editRun(any(Run.class)))
+                .thenReturn(Message.RUN_EDITED.toString());
+
+        String result = runController.editRun(firstRun);
+
+
+        Assert.assertEquals(Message.RUN_EDITED.toString(), result);
 
 
     }
