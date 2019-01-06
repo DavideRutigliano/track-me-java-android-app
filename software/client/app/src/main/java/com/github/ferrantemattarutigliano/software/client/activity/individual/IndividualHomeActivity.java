@@ -30,7 +30,7 @@ import com.github.ferrantemattarutigliano.software.client.fragment.LogoutFragmen
 import com.github.ferrantemattarutigliano.software.client.fragment.NotImplementedFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualAccountFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualInsertDataFragment;
-import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualIndividualManageRequestsFragment;
+import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualManageRequestsFragment;
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualHomePresenter;
@@ -226,7 +226,7 @@ public class IndividualHomeActivity extends AppCompatActivity
                 fragmentClass = IndividualInsertDataFragment.class;
                 break;
             case R.id.nav_manage_request:
-                fragmentClass = IndividualIndividualManageRequestsFragment.class;
+                fragmentClass = IndividualManageRequestsFragment.class;
                 break;
             case R.id.nav_automatedsos:
                 fragmentClass = NotImplementedFragment.class;

@@ -26,7 +26,7 @@
         <activity android:name=".activity.thirdparty.ThirdPartyHomeActivity"
                   android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".activity.thirdparty.ThirdPartyThirdPartyRequestActivity"
+        <activity android:name=".activity.thirdparty.ThirdPartyRequestActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".activity.thirdparty.ThirdPartyViewDataActivity"/>

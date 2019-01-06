@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
@@ -94,14 +95,15 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(titleView);
             //create buttons
-            //addSpace(linearLayout);
+            addSpace(linearLayout);
             createDeleteButton(linearLayout, runDTO);
-            //addSpace(linearLayout);
+            addSpace(linearLayout);
             createInfoButton(linearLayout, runDTO);
-            //addSpace(linearLayout);
+            addSpace(linearLayout);
             createModifyButton(linearLayout);
-            //addSpace(linearLayout);
-            createStartButton(linearLayout, runDTO);
+            addSpace(linearLayout);
+            if(runDTO.getState().equals("created"))
+                createStartButton(linearLayout, runDTO);
 
             container.addView(linearLayout);
         }
@@ -174,7 +176,8 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo add this feature
+                Toast.makeText(getApplicationContext(), "Not implemented", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
         layout.addView(modifyButton);
@@ -211,7 +214,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         int height = 0;
 
         if(isVertical) height = 70;
-        else width = 40;
+        else width = 25;
 
         Space space = new Space(getApplicationContext());
         space.setLayoutParams(new LinearLayout.LayoutParams(width, height));

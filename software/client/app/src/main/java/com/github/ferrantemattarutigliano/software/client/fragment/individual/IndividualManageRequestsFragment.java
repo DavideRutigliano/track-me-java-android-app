@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.ReceivedRequestDTO;
@@ -19,17 +20,17 @@ import com.github.ferrantemattarutigliano.software.client.view.individual.Indivi
 
 import java.util.Collection;
 
-public class IndividualIndividualManageRequestsFragment extends Fragment implements IndividualManageRequestView {
+public class IndividualManageRequestsFragment extends Fragment implements IndividualManageRequestView {
     private IndividualManageRequestPresenter individualManageRequestPresenter;
     private LinearLayout requestContainer;
     private LoadingScreen loadingScreen;
 
-    public IndividualIndividualManageRequestsFragment() {
+    public IndividualManageRequestsFragment() {
         // Required empty public constructor
     }
 
-    public static IndividualIndividualManageRequestsFragment newInstance() {
-        return new IndividualIndividualManageRequestsFragment();
+    public static IndividualManageRequestsFragment newInstance() {
+        return new IndividualManageRequestsFragment();
     }
 
     @Override
@@ -57,6 +58,14 @@ public class IndividualIndividualManageRequestsFragment extends Fragment impleme
         requestContainer = v.findViewById(R.id.container_individual_manage_requests);
         ViewGroup layout = v.findViewById(R.id.layout_individual_manage_request);
         loadingScreen = new LoadingScreen(layout);
+        Button oldRequestsButton = v.findViewById(R.id.button_individual_view_old_requests);
+        oldRequestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Not implemented", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
         askForRequests();
         return v;
     }

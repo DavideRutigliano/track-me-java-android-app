@@ -24,7 +24,7 @@ import com.github.ferrantemattarutigliano.software.client.util.Information;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyRequestView;
 
-public class ThirdPartyThirdPartyRequestActivity extends AppCompatActivity implements ThirdPartyRequestView {
+public class ThirdPartyRequestActivity extends AppCompatActivity implements ThirdPartyRequestView {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
