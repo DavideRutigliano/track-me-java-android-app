@@ -52,6 +52,7 @@
 
         <activity android:name=".activity.DateActivity"/>
         <activity android:name=".activity.TimeActivity"/>
+        <service  android:name=".service.SendHealthDataService" />
         <service  android:name=".service.SendPositionService" />
     </application>
 
