@@ -16,6 +16,10 @@ git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 ## Build with IDE
 * Open as a project: ___ferrantemattarutigliano/software/server/src/pom.xml___ and wait until import is complete
 
+* Setup project sdk: file -> project structure -> project sdk (you need at least project language level 11);
+
+* Add configuration -> application -> main class: ServerApplication.
+
 Now you can run the TrackMe Server from your IDE!
 
 ## Build with Maven
