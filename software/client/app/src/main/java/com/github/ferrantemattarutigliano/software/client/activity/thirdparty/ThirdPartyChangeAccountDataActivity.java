@@ -29,7 +29,7 @@ public class ThirdPartyChangeAccountDataActivity extends AppCompatActivity imple
         ViewGroup layout = findViewById(R.id.layout_third_party_change_account_data);
         loadingScreen = new LoadingScreen(layout, "Sending...");
 
-        final Button changeAccountDataButton = findViewById(R.id.button_third_party_account_change_account_data);
+        final Button changeAccountDataButton = findViewById(R.id.button_third_party_change_account_data);
         final TextView orgName = findViewById(R.id.text_registration_third_party_name);
 
         changeAccountDataButton.setOnClickListener(new View.OnClickListener() {
