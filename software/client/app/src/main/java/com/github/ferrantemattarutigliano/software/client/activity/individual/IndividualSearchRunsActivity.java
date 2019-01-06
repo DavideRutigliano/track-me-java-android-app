@@ -78,8 +78,6 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
             watchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String topic = "/run/" + runId + SessionDirector.USERNAME;
-                    SessionDirector.getStompClient().subscribe(topic);
                     loadingScreen.show();
                     individualSearchRunsPresenter.watchRun(runId);
                 }
@@ -90,8 +88,6 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
             unwatchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String topic = "/run/" + runId + SessionDirector.USERNAME;
-                    SessionDirector.getStompClient().unsubscribe(topic);
                     loadingScreen.show();
                     individualSearchRunsPresenter.enrollRun(runId);
                 }

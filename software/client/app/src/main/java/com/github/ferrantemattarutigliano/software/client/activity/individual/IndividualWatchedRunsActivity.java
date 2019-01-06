@@ -1,5 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualWatchedRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualWatchedRunsView;
 
@@ -63,7 +67,7 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
     public void onRunFetch(Collection<RunDTO> output) {
         ViewGroup container = findViewById(R.id.container_watched_runs);
         container.removeAllViews();
-        for (RunDTO runDTO : output) {
+        for (final RunDTO runDTO : output) {
             LinearLayout linearLayout = new LinearLayout(getApplicationContext());
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             //create title
@@ -84,8 +88,9 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     java.util.Date date = new java.util.Date();
                     Date currentDate = new Date(date.getTime());
                     Time currentTime = new Time(date.getTime());
-                    boolean isRunStarted = runDate.before(currentDate) ||
-                            (runDate.equals(currentDate) && runTime.before(currentTime));
+                    boolean isRunStarted = runDTO.getState().equals("started")
+                                            || runDate.before(currentDate)
+                                            || (runDate.equals(currentDate) && runTime.before(currentTime));
                     if(!isRunStarted){
                         dialogFactory.setTitle("Run not started")
                                 .setMessage("This run is not started yet. Wait until:" +
@@ -95,7 +100,12 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     }
                     else {
                         loadingScreen.show();
-                        //todo add subscription to the run and change activity in the map
+                        String topic = "/run/" + runId + "/" + SessionDirector.USERNAME;
+                        SessionDirector.getStompClient().subscribe(topic);
+                        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+                        SessionDirector.saveTopicSubscription(topic, sharedPreferences);
+                        Intent intent = new Intent(getApplicationContext(), IndividualViewMapActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
@@ -106,6 +116,8 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                 @Override
                 public void onClick(View v) {
                     loadingScreen.show();
+                    String topic = "/run/" + runId + "/" + SessionDirector.USERNAME;
+                    SessionDirector.getStompClient().unsubscribe(topic);
                     individualWatchedRunsPresenter.unwatchRun(runId);
                 }
             });

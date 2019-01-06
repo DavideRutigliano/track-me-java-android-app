@@ -10,7 +10,6 @@ public class HttpConstant {
 
     /*if using local server and physical android phone*/
     //public final static String SERVER_DOMAIN = "YOUR_IPV4_HERE:8080";
-
     public final static int CONNECTION_TIMEOUT = 4000; //milliseconds
     public final static int READ_TIMEOUT = 4000;
 

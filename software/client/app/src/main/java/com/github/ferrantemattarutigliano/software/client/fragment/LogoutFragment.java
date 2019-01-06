@@ -28,7 +28,9 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SessionDirector.getStompClient().disconnect();
+        if (SessionDirector.getStompClient().isConnected())
+            SessionDirector.getStompClient().disconnect();
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

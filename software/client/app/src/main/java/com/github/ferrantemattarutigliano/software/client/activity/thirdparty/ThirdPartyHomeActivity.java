@@ -77,7 +77,8 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
 
         String topic = "/notification/" + SessionDirector.USERNAME;
         SessionDirector.getStompClient().subscribe(topic);
-        saveTopicSubscription(topic);
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        SessionDirector.saveTopicSubscription(topic, sharedPreferences);
     }
 
     @Override
@@ -116,27 +117,20 @@ public class ThirdPartyHomeActivity extends AppCompatActivity
                 if (response.getStompBody().contains("Request accepted")) {
                     String topic = StringUtils.substringBetween(response.getStompBody(), "Topic: ", ".");
                     SessionDirector.getStompClient().subscribe("/healthdata/" + topic);
-                    saveTopicSubscription("/healthdata/" + topic);
+                    SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+                    SessionDirector.saveTopicSubscription("/healthdata/" + topic, sharedPreferences);
                 }
             }
         });
         SessionDirector.setStompClient(stompClient);
-        SessionDirector.connect();
+        if (!SessionDirector.getStompClient().isConnected())
+            SessionDirector.connect();
         SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
         String[] topics = sharedPreferences.getString("topic", "").split(";");
         for (String topic : topics) {
             if (!topic.isEmpty())
                 SessionDirector.getStompClient().subscribe(topic);
         }
-    }
-
-    private void saveTopicSubscription(String topic) {
-        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
-            topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
-        editor.putString("topic", topic);
-        editor.apply();
     }
 
     @Override

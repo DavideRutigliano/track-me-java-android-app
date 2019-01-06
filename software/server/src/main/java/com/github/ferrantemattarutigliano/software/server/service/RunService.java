@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.HTMLDocument;
+import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -299,9 +300,12 @@ public class RunService {
         return Message.RUN_UNWATCHED.toString() + run.getTitle();
     }
 
-    @Transactional(readOnly=true)
+    @Transactional
     @Scheduled(fixedDelay = 5000)
     public void startedRunSendAthletesPosition() {
+
+        final double MINIMUM_DISTANCE = 0.1; //minimum distance from arrival point: 10 meters
+        final double MAXIMUM_DISTANCE = 30.0; //maximum run path: 30 kilometers
         Collection<Run> runs = runRepository.findAll();
 
         for (Run run : runs) {
@@ -321,21 +325,26 @@ public class RunService {
                     ArrayList<Position> athletePositions = new ArrayList<>();
                     athletePositions.addAll(athlete.getPosition());
 
+                    if (athletePositions.size() == 0) {
+                        enrolled.remove(athlete);
+                        break;
+                    }
                     Position lastPosition = athletePositions.get((athletePositions.size() - 1));
 
-                    if (calculateDistance(lastPosition, arrival) >= 0.01) {
+                    double distance = calculateDistance(lastPosition, arrival);
+                    if (distance >= MINIMUM_DISTANCE
+                        && distance < MAXIMUM_DISTANCE) {
                         for (Individual spectator : run.getSpectators()) {
                             simpMessagingTemplate.convertAndSend("/run/" + run.getId() + "/" + spectator.getUser().getUsername(),
                                     "Athlete: " + athlete.getUser().getUsername()
-                                            + ". Position "
-                                            + lastPosition.getLatitude() + ":"
-                                            + lastPosition.getLongitude() + ".");
+                                            + ". Position: "
+                                            + "lat=" + lastPosition.getLatitude()
+                                            + ", lon=" + lastPosition.getLongitude() + ";");
                         }
                     } else {
                         enrolled.remove(athlete);
                     }
                 }
-
                 if (enrolled.isEmpty()) {
                     run.setState("finished");
                     runRepository.save(run);

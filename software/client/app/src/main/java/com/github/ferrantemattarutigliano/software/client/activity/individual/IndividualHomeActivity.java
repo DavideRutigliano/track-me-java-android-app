@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,8 +44,6 @@ import com.github.ferrantemattarutigliano.software.client.view.individual.Indivi
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompCallback;
 import com.github.ferrantemattarutigliano.software.client.websocket.connection.StompClient;
 import com.github.ferrantemattarutigliano.software.client.websocket.payload.StompFrame;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class IndividualHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IndividualHomeView {
@@ -115,7 +114,8 @@ public class IndividualHomeActivity extends AppCompatActivity
 
         String topic = "/request/" + SessionDirector.USERNAME;
         SessionDirector.getStompClient().subscribe("/request/" + SessionDirector.USERNAME);
-        saveTopicSubscription(topic);
+        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+        SessionDirector.saveTopicSubscription(topic, sharedPreferences);
     }
 
     @Override
@@ -149,47 +149,25 @@ public class IndividualHomeActivity extends AppCompatActivity
                             notificationManager.createNotificationChannel(channel);
                         }
                     }
-                    //TODO finish
                     if (response.getStompBody().contains("Position")) {
-                        String latitude = StringUtils.substringBetween(response.getStompBody(), ". Position: ", ":");
-                        String longitude = StringUtils.substringBetween(response.getStompBody(), ":", ".");
+                        Intent intent = new Intent("RefreshMap").putExtra("athletes", response.getStompBody());
+                        LocalBroadcastManager.getInstance(IndividualHomeActivity.this).sendBroadcast(intent);
+                        return;
                     }
                     notificationManager.notify(0, notificationBuilder.build());
                 }
             }
         });
         SessionDirector.setStompClient(stompClient);
-        SessionDirector.connect();
+        if (!SessionDirector.getStompClient().isConnected())
+            SessionDirector.connect();
+
         SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
         String[] topics = sharedPreferences.getString("topic", "").split(";");
         for (String topic : topics) {
             if (!topic.isEmpty())
                 SessionDirector.getStompClient().subscribe(topic);
         }
-    }
-
-    private void saveTopicSubscription(String topic) {
-        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
-            topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
-        editor.putString("topic", topic);
-        editor.apply();
-    }
-
-    private void removeTopicSubscription(String topic) {
-        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String topics = sharedPreferences.getString("topic", "");
-        if (topics.contains(topic)) {
-            String [] subscriptions = sharedPreferences.getString("topic", "").split(";");
-            for (String s : subscriptions) {
-                if (s.contains(topic))
-                    s = ""; //TODO finish
-            }
-        }
-        editor.putString("topic", topics);
-        editor.apply();
     }
 
     @Override

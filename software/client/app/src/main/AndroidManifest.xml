@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ChangeCredentialsActivity" />
+
         <activity android:name=".activity.individual.IndividualHomeActivity"
                   android:theme="@style/AppTheme.NoActionBar" />
 
@@ -38,15 +44,11 @@
         <activity android:name=".activity.individual.IndividualCreateMapActivity" />
         <activity android:name=".activity.individual.IndividualCreatedRunsActivity" />
         <activity android:name=".activity.individual.IndividualWatchedRunsActivity" />
+        <activity android:name=".activity.individual.IndividualViewMapActivity"/>
         <activity android:name=".activity.individual.IndividualEnrolledRunsActivity" />
         <activity android:name=".activity.individual.IndividualSearchRunsActivity" />
         <activity android:name=".activity.individual.IndividualNewRunActivity" />
         <activity android:name=".activity.individual.IndividualChangeAccountDataActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.RegistrationActivity"
-                  android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".activity.ChangeCredentialsActivity" />
 
         <activity android:name=".activity.DateActivity"/>
         <activity android:name=".activity.TimeActivity"/>

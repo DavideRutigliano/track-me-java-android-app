@@ -86,7 +86,7 @@ public class IndividualInsertDataFragment extends Fragment implements
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                     String message = dataMapItem.getDataMap().getString("message");
                     java.util.Date date = new java.util.Date();
-                    messageContainer.append(message + ";" + ". Received at: " + new Date(date.getTime()) + "_" + new Time(date.getTime()) + "\n");
+                    messageContainer.append(message + ". Received at: " + new Date(date.getTime()) + "_" + new Time(date.getTime()) + "\n");
                 }
             }
         }
