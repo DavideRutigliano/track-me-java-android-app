@@ -98,7 +98,7 @@ public class IndividualNewRunActivity extends AppCompatActivity implements Indiv
                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(message.equals("Success"))
+                            if(message.equals("Run created."))
                                 finish();
                         }
                     })

@@ -117,6 +117,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                 .setPositiveButton("Okay", null)
                 .setNegativeButton(null, null)
                 .show();
+        individualCreatedRunsPresenter.doFetchRun();
     }
 
     @Override
