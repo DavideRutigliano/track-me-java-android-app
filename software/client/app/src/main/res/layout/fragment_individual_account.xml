@@ -24,9 +24,9 @@
         android:id="@+id/text_individual_account_ssn"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="241dp"
+        android:layout_marginBottom="66dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_individual_account_change_credentials"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_individual_account_name"
@@ -37,9 +37,8 @@
         android:layout_width="190dp"
         android:layout_height="0dp"
         android:layout_marginTop="43dp"
-        android:layout_marginBottom="150dp"
         android:src="@drawable/animal_zebra"
-        app:layout_constraintBottom_toTopOf="@+id/button_individual_account_change_credentials"
+        app:layout_constraintBottom_toTopOf="@+id/text_individual_account_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -50,12 +49,25 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
         android:text="@string/button_change_credentials"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_individual_account_change_account_data"
+        app:layout_constraintStart_toStartOf="@+id/button_individual_account_change_account_data"
+        app:layout_constraintTop_toBottomOf="@+id/text_individual_account_ssn" />
+
+    <Button
+        android:id="@+id/button_individual_account_change_account_data"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="77dp"
+        android:text="@string/button_change_account_data"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_individual_account_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/button_individual_account_change_credentials" />
 
 </android.support.constraint.ConstraintLayout>

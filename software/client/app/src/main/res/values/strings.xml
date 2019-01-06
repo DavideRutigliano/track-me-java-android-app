@@ -42,6 +42,7 @@
     <string name="button_back">Back</string>
     <string name="button_create">Create</string>
     <string name="button_change_credentials">Change Credentials</string>
+    <string name="button_change_account_data">Change Account Data</string>
     <string name="button_change_new_request">New Request</string>
     <string name="button_change_view_data">View Data</string>
     <string name="button_view_requests">View Requests</string>

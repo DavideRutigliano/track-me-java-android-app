@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.ChangeCredentialsActivity;
+import com.github.ferrantemattarutigliano.software.client.activity.individual.IndividualChangeAccountDataActivity;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 
@@ -40,11 +41,21 @@ public class IndividualAccountFragment extends Fragment {
         Profile profile = SessionDirector.getProfile();
         nameText.setText(profile.getName());
         infoText.setText(profile.getInfo());
+
         Button changeCredentialsButton = v.findViewById(R.id.button_individual_account_change_credentials);
         changeCredentialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChangeCredentialsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button changeAccountDataButton = v.findViewById(R.id.button_individual_account_change_account_data);
+        changeAccountDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), IndividualChangeAccountDataActivity.class);
                 startActivity(intent);
             }
         });

@@ -30,6 +30,7 @@
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".activity.thirdparty.ThirdPartyViewDataActivity"/>
+        <activity android:name=".activity.thirdparty.ThirdPartyChangeAccountDataActivity" />
         <activity android:name=".activity.thirdparty.ThirdPartyHealthDataActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -39,15 +40,16 @@
         <activity android:name=".activity.individual.IndividualEnrolledRunsActivity" />
         <activity android:name=".activity.individual.IndividualSearchRunsActivity" />
         <activity android:name=".activity.individual.IndividualNewRunActivity" />
+        <activity android:name=".activity.individual.IndividualChangeAccountDataActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegistrationActivity"
                   android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activity.ChangeCredentialsActivity" />
+
         <activity android:name=".activity.DateActivity"/>
         <activity android:name=".activity.TimeActivity"/>
-        <service
-            android:name=".service.SendPositionService" />
+        <service  android:name=".service.SendPositionService" />
     </application>
 
 </manifest>

@@ -1,10 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.presenter.individual;
 
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.TimeUtils;
-
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.HealthDataDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.Presenter;
@@ -16,12 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.SimpleTimeZone;
-import java.util.TimerTask;
 
 
 public class IndividualInsertDataPresenter extends Presenter<IndividualInsertDataView>  {

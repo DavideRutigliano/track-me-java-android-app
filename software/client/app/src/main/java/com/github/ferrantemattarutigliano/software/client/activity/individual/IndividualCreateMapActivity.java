@@ -3,10 +3,8 @@ package com.github.ferrantemattarutigliano.software.client.activity.individual;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -53,10 +51,9 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         dialogFactory = new AlertDialog.Builder(this);
         setupLateralButtons();
         addMapEventsOverlay();
-        initLocationService();
         setMapPositionToCurrentLocation();
         reloadMap();
-
+        showInfoToast(individualCreateMapPresenter.isDeletingMarker());
     }
 
     private void reloadMap(){
@@ -74,10 +71,6 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         }
     }
 
-    private void initLocationService() {
-        showInfoToast();
-    }
-
     private void setMapPositionToCurrentLocation() {
         //set the position to Milan. In the real application this would set the position
         //to the current position
@@ -85,8 +78,15 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         individualCreateMapPresenter.centerToGeoPoint(geoPoint);
     }
 
-    private void showInfoToast() {
-        Toast.makeText(getApplicationContext(), "Long press to add a waypoint to the map", Toast.LENGTH_LONG).show();
+    private void showInfoToast(boolean isDeleting) {
+        if(isDeleting){
+            Toast.makeText(getApplicationContext(), "Press a marker to delete it", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Long press to add a waypoint to the map", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     private void setupLateralButtons() {
@@ -100,6 +100,7 @@ public class IndividualCreateMapActivity extends AppCompatActivity
                 } else {
                     markerButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_delete));
                 }
+                showInfoToast(individualCreateMapPresenter.isDeletingMarker());
             }
         });
 

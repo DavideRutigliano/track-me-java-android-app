@@ -20,7 +20,6 @@ import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.thirdparty.ThirdPartyViewData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class ThirdPartyViewDataActivity extends AppCompatActivity implements ThirdPartyViewData {

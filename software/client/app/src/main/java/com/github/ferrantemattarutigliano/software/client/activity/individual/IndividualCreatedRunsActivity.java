@@ -112,6 +112,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
 
     @Override
     public void onStartRun(String message) {
+        loadingScreen.hide();
         dialogFactory.setTitle("Run Started")
                 .setMessage(message)
                 .setPositiveButton("Okay", null)
@@ -122,6 +123,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
 
     @Override
     public void onDeleteRun(String message) {
+        loadingScreen.hide();
         dialogFactory.setTitle("Run Deleted")
                 .setMessage(message)
                 .setPositiveButton("Okay", null)
@@ -144,6 +146,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 individualCreatedRunsPresenter.doDeleteRun(runDTO.getId());
+                                loadingScreen.show();
                             }
                         })
                         .setNegativeButton("No", null)
@@ -197,6 +200,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 individualCreatedRunsPresenter.doStartRun(runDTO.getId());
+                                loadingScreen.show();
                             }
                         })
                         .setNegativeButton("No", null)
