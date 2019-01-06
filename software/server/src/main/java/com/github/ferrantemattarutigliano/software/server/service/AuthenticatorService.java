@@ -163,7 +163,7 @@ public class AuthenticatorService implements UserDetailsService {
         boolean isCorrectWeight = updatedIndividual.getWeight() > -1;
         boolean isCorrectHeight = updatedIndividual.getHeight() > -1;
 
-        if (!isCorrectHeight || !isCorrectWeight) {
+        if (!(isCorrectWeight && isCorrectHeight)) {
             return Message.BAD_PARAMETERS.toString();
         }
 

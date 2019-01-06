@@ -215,10 +215,9 @@ public class AuthenticatorServiceTest {
         //mock the updated individual
         Individual dummyIndividualUpdated = new Individual();
         dummyIndividualUpdated.setUser(dummyUser);
-        dummyIndividualUpdated.setSsn("123456789");
         dummyIndividualUpdated.setFirstname("Changed Name!");
         dummyIndividualUpdated.setLastname("Pappo");
-        dummyIndividualUpdated.setWeight(50);
+        dummyIndividualUpdated.setWeight(200);
         dummyIndividualUpdated.setHeight(170);
         dummyIndividualUpdated.setCity("Milan");
         dummyIndividualUpdated.setState("Italy");
