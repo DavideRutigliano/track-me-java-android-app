@@ -160,7 +160,10 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_LOGIN.toString();
         }
 
-        if (!validateIndividual(updatedIndividual)) {
+        boolean isCorrectWeight = updatedIndividual.getWeight() > -1;
+        boolean isCorrectHeight = updatedIndividual.getHeight() > -1;
+
+        if (!isCorrectHeight || !isCorrectWeight) {
             return Message.BAD_PARAMETERS.toString();
         }
 
@@ -174,10 +177,6 @@ public class AuthenticatorService implements UserDetailsService {
         if (updatedIndividual.getLastname() != null
                 && !updatedIndividual.getLastname().isEmpty()) {
             individual.setLastname(updatedIndividual.getLastname());
-        }
-
-        if (updatedIndividual.getBirthdate() != null) {
-            individual.setBirthdate(updatedIndividual.getBirthdate());
         }
 
         if (updatedIndividual.getState() != null
@@ -195,11 +194,11 @@ public class AuthenticatorService implements UserDetailsService {
             individual.setAddress(updatedIndividual.getAddress());
         }
 
-        if (individual.getHeight() != 0) {
+        if (updatedIndividual.getHeight() != 0) {
             individual.setHeight(updatedIndividual.getHeight());
         }
 
-        if (individual.getWeight() != 0) {
+        if (updatedIndividual.getWeight() != 0) {
             individual.setWeight(updatedIndividual.getWeight());
         }
 
