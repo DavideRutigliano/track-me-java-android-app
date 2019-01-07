@@ -13,9 +13,17 @@ import android.view.ViewGroup;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.activity.LoginActivity;
+import com.github.ferrantemattarutigliano.software.client.service.SendHealthDataService;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 
 public class LogoutFragment extends Fragment {
+
+
+    private SendHealthDataService sendPositionService;
+    private Intent sendPositionIntent;
+
+    private SendHealthDataService sendHealthDataService;
+    private Intent sendHealthDataIntent;
 
     public LogoutFragment() {
         // Required empty public constructor
@@ -30,6 +38,14 @@ public class LogoutFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (SessionDirector.getStompClient().isConnected())
             SessionDirector.getStompClient().disconnect();
+
+        sendPositionService = new SendHealthDataService();
+        sendPositionIntent = new Intent(getActivity(), sendPositionService.getClass());
+        getActivity().stopService(sendPositionIntent);
+
+        sendHealthDataService = new SendHealthDataService();
+        sendHealthDataIntent = new Intent(getActivity(), sendHealthDataService.getClass());
+        getActivity().stopService(sendHealthDataIntent);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -36,6 +36,12 @@ public class SendHealthDataService extends Service implements DataClient.OnDataC
         return START_STICKY;
     }
 
+    @Override
+    public void onDestroy() {
+        Wearable.getDataClient(getApplicationContext()).removeListener(this);
+        stopSelf();
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

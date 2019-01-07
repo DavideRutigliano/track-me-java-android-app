@@ -13,10 +13,12 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
 import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualSendPositionTask;
+import com.google.android.gms.wearable.Wearable;
 
 public class SendPositionService extends Service {
 
@@ -33,6 +35,12 @@ public class SendPositionService extends Service {
         super.onStartCommand(intent, flags, startId);
         startLocationMonitoring();
         return START_STICKY;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        stopSelf();
     }
 
     @Nullable
@@ -55,11 +63,13 @@ public class SendPositionService extends Service {
                         IndividualSendPositionTask individualSendPositionTask = new IndividualSendPositionTask(positionDTO,
                                 new AsyncResponse<String>() {
                                     @Override
-                                    public void taskFinish(String output) {
+                                    public void taskFinish(String message) {
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
                                     public void taskFailMessage(String message) {
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     }
                                 });
                         individualSendPositionTask.execute();
