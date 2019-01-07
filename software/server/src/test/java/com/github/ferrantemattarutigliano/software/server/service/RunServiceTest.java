@@ -782,6 +782,7 @@ public class RunServiceTest {
         mockedIndividual.setSsn("999999999");
         //create runs with the associated user
         Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setId(0L);
         //pack them in a collection
         Collection<Run> createdRuns = new ArrayList<>();
         createdRuns.add(firstRun);
@@ -995,12 +996,13 @@ public class RunServiceTest {
         mockedIndividual.setSsn("999999999");
         //create runs with the associated user
         Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setId(0L);
         //pack them in a collection
         Collection<Run> createdRuns = new ArrayList<>();
         createdRuns.add(firstRun);
         //mock created runs in database
         mockedIndividual.setCreatedRuns(createdRuns);
-        mockedIndividual.setEnrolledRuns(createdRuns);
+        mockedIndividual.setWatchedRuns(createdRuns);
         //add of athlete to the run
         firstRun.addSpectator(mockedIndividual);
 
