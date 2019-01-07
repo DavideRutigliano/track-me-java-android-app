@@ -382,6 +382,7 @@ public class RunServiceTest {
 
     }
 
+
     @Test
     public void startRunTest() {
         //create a mock user
@@ -416,6 +417,81 @@ public class RunServiceTest {
     }
 
     @Test
+    public void startRunTest_RunNotExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+        String result = runService.startRun(firstRun.getId());
+        System.out.println(result);
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+    @Test
+    public void startRunTest_RunNotOrganizer() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create a mock user2
+        User mockedUser2 = new User("username2", "password2", "aa@2aa.com", role);
+        Individual mockedIndividual2 = new Individual();
+        mockedIndividual.setUser(mockedUser2);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999990");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setOrganizer(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual2.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual2);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+        String result = runService.startRun(firstRun.getId());
+        System.out.println(result);
+        Assert.assertEquals(Message.RUN_NOT_ORGANIZER.toString() + "marathon", result);
+
+    }
+
+    @Test
     public void editRunTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -437,6 +513,41 @@ public class RunServiceTest {
         mockIndividualAuthorized(mockedUser, mockedIndividual);
         Mockito.when(mockRunRepository.findById(firstRun.getId()))
                 .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+        Run editedFirstRun = firstRun;
+        editedFirstRun.setTitle("maranello");
+        runService.createRun(firstRun);
+        String result = runService.editRun(firstRun);
+
+        Assert.assertEquals(Message.RUN_EDITED.toString(), result);
+
+    }
+
+    @Test
+    public void editRunTest_notExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
         Mockito.when(mockIndividualRepository.findByUser(mockedUser))
                 .thenReturn(mockedIndividual);
         Mockito.when(mockRunRepository.save(firstRun))
@@ -484,6 +595,77 @@ public class RunServiceTest {
 
     }
 
+    @Test
+    public void deleteRunTest_NotExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+
+
+        String result = runService.deleteRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+
+    @Test
+    public void deleteRunTest_NotOrganizer() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create a mock user2
+        User mockedUser2 = new User("username2", "password2", "aa@2aa.com", role);
+        Individual mockedIndividual2 = new Individual();
+        mockedIndividual.setUser(mockedUser2);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999990");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual2);
+
+
+        String result = runService.deleteRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_NOT_ORGANIZER.toString() + "marathon", result);
+
+    }
+
+
 
     @Test
     public void enrollRunTest() {
@@ -516,6 +698,75 @@ public class RunServiceTest {
         String result = runService.enrollRun(firstRun.getId());
 
         Assert.assertEquals(Message.RUN_ENROLLED.toString() + firstRun.getTitle(), result);
+
+    }
+
+
+    @Test
+    public void enrollRunTest_notExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.enrollRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+    @Test
+    public void enrollRunTest_altreadyAtlethe() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.enrollAthlete(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.enrollRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_ALREADY_ATHLETE.toString(), result);
 
     }
 
@@ -557,6 +808,79 @@ public class RunServiceTest {
     }
 
     @Test
+    public void unenrollRunTest_notExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+        //add of athlete to the run
+        firstRun.enrollAthlete(mockedIndividual);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.unenrollRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+    @Test
+    public void unenrollRunTest_notAtlethe() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.unenrollRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_NOT_ATHLETE.toString(), result);
+
+    }
+
+
+
+    @Test
     public void watchRunTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -587,6 +911,75 @@ public class RunServiceTest {
         String result = runService.watchRun(firstRun.getId());
 
         Assert.assertEquals(Message.RUN_WATCHED.toString() + firstRun.getTitle(), result);
+
+    }
+
+    @Test
+    public void watchRunTest_NotExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.watchRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+    @Test
+    public void watchRunTest_alreadySpectator() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.addSpectator(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.watchRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_ALREADY_SPECTATOR.toString(), result);
 
     }
 
@@ -624,6 +1017,78 @@ public class RunServiceTest {
         String result = runService.unwatchRun(firstRun.getId());
 
         Assert.assertEquals(Message.RUN_UNWATCHED.toString() + firstRun.getTitle(), result);
+
+    }
+
+    @Test
+    public void unwatchRunTest_notExists() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+        //add of athlete to the run
+        firstRun.addSpectator(mockedIndividual);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        ;
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.unwatchRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
+
+    }
+
+    @Test
+    public void unwatchRunTest_notSpectetor() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockRunRepository.findById(firstRun.getId()))
+                .thenReturn(Optional.of(firstRun));
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+
+
+        String result = runService.unwatchRun(firstRun.getId());
+
+        Assert.assertEquals(Message.RUN_NOT_SPECTATOR.toString(), result);
 
     }
 

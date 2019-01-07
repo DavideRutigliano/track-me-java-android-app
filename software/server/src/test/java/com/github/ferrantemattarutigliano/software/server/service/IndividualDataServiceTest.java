@@ -3,10 +3,7 @@ package com.github.ferrantemattarutigliano.software.server.service;
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
-import com.github.ferrantemattarutigliano.software.server.repository.GroupRequestRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.HealthDataRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
-import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
+import com.github.ferrantemattarutigliano.software.server.repository.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +48,8 @@ public class IndividualDataServiceTest {
     private SimpMessagingTemplate mockSimpMessagingTemplate;
     @Mock
     private GroupRequestRepository mockGroupRequestRepository;
+    @Mock
+    private PositionRepository mockPositionRepository;
 
     @Before
     public void initTest() {
@@ -83,6 +82,11 @@ public class IndividualDataServiceTest {
         return request;
     }
 
+    private Position createMockPosition() {
+        Position position = new Position("10.0", "30.0");
+        return position;
+    }
+
     @Test
     public void insertDataTest() {
         //create mocked individual
@@ -109,6 +113,62 @@ public class IndividualDataServiceTest {
         mockIndividualAuthorized(mockedUser, mockedIndividual);
         String result = individualDataService.insertData(healthData);
         Assert.assertEquals(Message.INSERT_DATA_SUCCESS.toString(), result);
+    }
+
+    @Test
+    public void insertDataTest_badRequest() {
+        //create mocked individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mocked health data
+        ArrayList<HealthData> healthData = new ArrayList<>();
+        HealthData firstData = new HealthData();
+        firstData.setIndividual(mockedIndividual);
+        firstData.setName("hearthbeat");
+        firstData.setValue("100");
+        HealthData secondData = new HealthData();
+        secondData.setIndividual(mockedIndividual);
+        secondData.setName("hearthbeat");
+        secondData.setValue("200");
+        healthData.add(firstData);
+        healthData.add(secondData);
+
+        //start test
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.existsByUser(mockedUser))
+                .thenReturn(false);
+        String result = individualDataService.insertData(healthData);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
+    }
+
+    @Test
+    public void insertPositionTest() {
+        //create mocked individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mocked position
+        Position position = createMockPosition();
+
+
+        //start test
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.existsByUser(mockedUser))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockPositionRepository.save(position))
+                .thenReturn(position);
+
+
     }
 
     @Test

@@ -60,7 +60,7 @@ public class IndividualSpecification {
                 }
             }
 
-            if (criterion.contains("birtdate")) {
+            if (criterion.contains("birthdate")) {
 
                 if (criterion.contains(",")) {
                     String from = StringUtils.substringBetween(criterion, "birthdate:", ",");
