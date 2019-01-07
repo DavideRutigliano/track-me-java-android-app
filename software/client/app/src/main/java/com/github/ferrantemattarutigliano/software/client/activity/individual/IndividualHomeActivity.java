@@ -37,6 +37,7 @@ import com.github.ferrantemattarutigliano.software.client.fragment.individual.In
 import com.github.ferrantemattarutigliano.software.client.fragment.individual.IndividualTrack4RunFragment;
 import com.github.ferrantemattarutigliano.software.client.model.IndividualDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualHomePresenter;
+import com.github.ferrantemattarutigliano.software.client.service.SendHealthDataService;
 import com.github.ferrantemattarutigliano.software.client.service.SendPositionService;
 import com.github.ferrantemattarutigliano.software.client.session.Profile;
 import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
@@ -51,6 +52,8 @@ public class IndividualHomeActivity extends AppCompatActivity
     private IndividualHomePresenter individualHomePresenter;
     private Intent sendPositionIntent;
     private SendPositionService sendPositionService;
+    private Intent sendHealthDataIntent;
+    private SendHealthDataService sendHealthDataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,9 @@ public class IndividualHomeActivity extends AppCompatActivity
         sendPositionService = new SendPositionService();
         sendPositionIntent = new Intent(getApplicationContext(), sendPositionService.getClass());
         askGpsLocationPermission();
+        sendHealthDataService = new SendHealthDataService();
+        sendHealthDataIntent = new Intent(getApplicationContext(), sendHealthDataService.getClass());
+        startService(sendHealthDataIntent);
         individualHomePresenter.doFetchProfile();
     }
 
