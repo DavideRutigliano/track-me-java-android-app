@@ -103,20 +103,12 @@ public class Run {
         this.athletes.add(athlete);
     }
 
-    public void removeAthlete(Individual athlete) {
-        this.athletes.remove(athlete);
-    }
-
     public Collection<Individual> getSpectators() {
         return spectators;
     }
 
     public void addSpectator(Individual spectator) {
         this.spectators.add(spectator);
-    }
-
-    public void removeSpectator(Individual spectator) {
-        this.athletes.remove(spectator);
     }
 
     public String getPath() {

@@ -196,6 +196,14 @@ public class RunService {
             return Message.RUN_NOT_ORGANIZER.toString() + run.getTitle();
         }
 
+        for (Individual athlete: run.getAthletes()) {
+            athlete.getEnrolledRuns().removeIf(r -> r.getId().equals(runId));
+        }
+
+        for (Individual spectator: run.getAthletes()) {
+            spectator.getWatchedRuns().removeIf(r -> r.getId().equals(runId));
+        }
+
         runRepository.delete(run);
 
         return Message.RUN_DELETED.toString();
@@ -245,8 +253,10 @@ public class RunService {
             return Message.RUN_NOT_ATHLETE.toString();
         }
 
+        athlete.getEnrolledRuns().removeIf(r -> r.getId().equals(runId));
+        individualRepository.save(athlete);
 
-        run.removeAthlete(athlete);
+        run.getAthletes().remove(athlete);
         runRepository.save(run);
 
         return Message.RUN_UNENROLLED.toString() + run.getTitle();
@@ -294,7 +304,10 @@ public class RunService {
             return Message.RUN_NOT_SPECTATOR.toString();
         }
 
-        run.removeSpectator(spectator);
+        spectator.getWatchedRuns().removeIf(r -> r.getId().equals(runId));
+        individualRepository.save(spectator);
+
+        run.getSpectators().remove(spectator);
         runRepository.save(run);
 
         return Message.RUN_UNWATCHED.toString() + run.getTitle();
@@ -304,19 +317,27 @@ public class RunService {
     @Scheduled(fixedDelay = 5000)
     public void startedRunSendAthletesPosition() {
 
-        final double MINIMUM_DISTANCE = 0.1; //minimum distance from arrival point: 10 meters
-        final double MAXIMUM_DISTANCE = 30.0; //maximum run path: 30 kilometers
         Collection<Run> runs = runRepository.findAll();
 
         for (Run run : runs) {
             if (run.getState().equals("started")) {
 
                 String[] path = run.getPath().split(";");
+                String firstPos = path[0];
                 String lastPos = path[path.length - 1];
+
+                Position start = new Position();
+
+                start.setLatitude(StringUtils.substringBefore(firstPos, ":"));
+                start.setLongitude(StringUtils.substringAfter(firstPos, ":"));
+
                 Position arrival = new Position();
 
                 arrival.setLatitude(StringUtils.substringBefore(lastPos, ":"));
                 arrival.setLongitude(StringUtils.substringAfter(lastPos, ":"));
+
+                final double MINIMUM_DISTANCE = 0.1; //minimum distance from arrival point: 10 meters
+                final double MAXIMUM_DISTANCE = calculateDistance(start, arrival); //maximum run path: 30 kilometers
 
                 Collection<Individual> enrolled = new ArrayList<>();
                 enrolled.addAll(run.getAthletes());

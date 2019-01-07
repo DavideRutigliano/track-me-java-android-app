@@ -1,5 +1,6 @@
 package com.github.ferrantemattarutigliano.software.client.activity.individual;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -79,13 +80,17 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
                 @Override
                 public void onClick(View v) {
                     loadingScreen.show();
+                    String topic = "/run/" + runId + "/" + SessionDirector.USERNAME;
+                    SessionDirector.getStompClient().subscribe(topic);
+                    SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+                    SessionDirector.saveTopicSubscription(topic, sharedPreferences);
                     individualSearchRunsPresenter.watchRun(runId);
                 }
             });
-            Button unwatchButton = new Button(getApplicationContext());
-            CharSequence unwatchText = "Enroll";
-            unwatchButton.setText(unwatchText);
-            unwatchButton.setOnClickListener(new View.OnClickListener() {
+            Button enrollButton = new Button(getApplicationContext());
+            CharSequence enrollText = "Enroll";
+            enrollButton.setText(enrollText);
+            enrollButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     loadingScreen.show();
@@ -93,7 +98,7 @@ public class IndividualSearchRunsActivity extends AppCompatActivity implements I
                 }
             });
             linearLayout.addView(watchButton);
-            linearLayout.addView(unwatchButton);
+            linearLayout.addView(enrollButton);
             container.addView(linearLayout);
         }
         loadingScreen.hide();

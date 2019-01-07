@@ -28,9 +28,24 @@ public class SessionDirector {
 
     public static void saveTopicSubscription(String topic, SharedPreferences sharedPreferences) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (!topic.contains(sharedPreferences.getString("topic", "").concat(topic) + ";"))
-            topic = sharedPreferences.getString("topic", "").concat(topic) + ";";
-        editor.putString("topic", topic);
+        String topics = sharedPreferences.getString("topic", "").concat(topic + ";");
+        editor.remove("topic");
+        editor.putString("topic", topics);
+        editor.apply();
+    }
+
+    public static void removeTopicSubscription(String topic, SharedPreferences sharedPreferences) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String[] topics = sharedPreferences.getString("topic", "").split(";");
+        String subscriptions = "";
+        for (String t: topics) {
+            if (t.contains(topic)) {
+                t = "";
+            }
+            subscriptions += t + ((t.isEmpty()) ? "" : ";");
+        }
+        editor.remove("topic");
+        editor.putString("topic", subscriptions);
         editor.apply();
     }
 }

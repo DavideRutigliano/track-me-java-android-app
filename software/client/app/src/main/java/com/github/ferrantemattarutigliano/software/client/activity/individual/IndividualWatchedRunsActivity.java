@@ -100,10 +100,6 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     }
                     else {
                         loadingScreen.show();
-                        String topic = "/run/" + runId + "/" + SessionDirector.USERNAME;
-                        SessionDirector.getStompClient().subscribe(topic);
-                        SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
-                        SessionDirector.saveTopicSubscription(topic, sharedPreferences);
                         Intent intent = new Intent(getApplicationContext(), IndividualViewMapActivity.class);
                         startActivity(intent);
                     }
@@ -118,6 +114,8 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     loadingScreen.show();
                     String topic = "/run/" + runId + "/" + SessionDirector.USERNAME;
                     SessionDirector.getStompClient().unsubscribe(topic);
+                    SharedPreferences sharedPreferences = getSharedPreferences("sub_" + SessionDirector.USERNAME, MODE_PRIVATE);
+                    SessionDirector.removeTopicSubscription(topic, sharedPreferences);
                     individualWatchedRunsPresenter.unwatchRun(runId);
                 }
             });
