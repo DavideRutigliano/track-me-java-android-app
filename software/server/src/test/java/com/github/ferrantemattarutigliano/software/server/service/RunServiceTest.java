@@ -558,7 +558,7 @@ public class RunServiceTest {
         runService.createRun(firstRun);
         String result = runService.editRun(firstRun);
 
-        Assert.assertEquals(Message.RUN_EDITED.toString(), result);
+        Assert.assertEquals(Message.RUN_DOES_NOT_EXISTS.toString(), result);
 
     }
 
