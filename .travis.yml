@@ -10,7 +10,7 @@ matrix:
         - cd software/server
         - chmod +x mvnw
       script:
-        - ./mvnw package test
+        - ./mvnw package
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
