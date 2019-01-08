@@ -27,6 +27,8 @@ import javax.print.attribute.standard.RequestingUserName;
 import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -71,6 +73,19 @@ public class RunServiceTest {
                 .thenReturn(true);
         Mockito.when(mockIndividualRepository.findByUser(expectedUser))
                 .thenReturn(expectedIndividual);
+    }
+
+    public Date datesConversion() {
+        java.util.Date uDate = new java.util.Date();
+        java.sql.Date sDate = convertUtilToSql(uDate);
+        DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+        return sDate;
+
+    }
+
+    public java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
     }
 
 /* //TODO if you need to mock third party. This isn't needed in this class.
@@ -379,6 +394,38 @@ public class RunServiceTest {
                 .thenReturn(firstRun);
         String result = runService.createRun(firstRun);
         Assert.assertEquals(Message.RUN_CREATED.toString(), result);
+
+    }
+
+    @Test
+    public void createRunTest_notAllowed() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create runs with the associated user
+        Date date = datesConversion();
+        Time time = new Time(0, 0, 0);
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setDate(date);
+        firstRun.setTime(time);
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+        String result = runService.createRun(firstRun);
+        Assert.assertEquals(Message.RUN_NOT_ALLOWED.toString(), result);
 
     }
 

@@ -18,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.text.html.HTMLDocument;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -38,15 +42,15 @@ public class RunService {
 
     public Collection<Run> showCreatedRuns() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
         Individual organizer = individualRepository.findByUser(user);
         return organizer.getCreatedRuns();
     }
 
-    public Collection<Run> showNewRuns(){
+    public Collection<Run> showNewRuns() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
         Individual individual = individualRepository.findByUser(user);
 
@@ -85,7 +89,7 @@ public class RunService {
 
     public Collection<Run> showEnrolledRuns() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
         Individual athlete = individualRepository.findByUser(user);
         return athlete.getEnrolledRuns();
@@ -93,7 +97,7 @@ public class RunService {
 
     public Collection<Run> showWatchedRuns() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
         Individual spectator = individualRepository.findByUser(user);
         return spectator.getWatchedRuns();
@@ -101,14 +105,14 @@ public class RunService {
 
     public String createRun(Run run) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
 
 
-        if (run.getDate().before(getCurrentDateTime())) {
-            Message.RUN_NOT_ALLOWED.toString();
+        if (compareDate(run.getDate(), datesConversion()) && run.getTime().before(getCurrentTime())) {
+            return Message.RUN_NOT_ALLOWED.toString();
         }
 
 
@@ -118,7 +122,7 @@ public class RunService {
 
     public String startRun(Long runId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
 
         if (!runRepository.findById(runId).isPresent()) {
@@ -137,7 +141,7 @@ public class RunService {
 
     public String editRun(Run run) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null)
+        if (user == null)
             return null;
 
         if (!runRepository.findById(run.getId()).isPresent()) {
@@ -196,11 +200,11 @@ public class RunService {
             return Message.RUN_NOT_ORGANIZER.toString() + run.getTitle();
         }
 
-        for (Individual athlete: run.getAthletes()) {
+        for (Individual athlete : run.getAthletes()) {
             athlete.getEnrolledRuns().removeIf(r -> r.getId().equals(runId));
         }
 
-        for (Individual spectator: run.getAthletes()) {
+        for (Individual spectator : run.getAthletes()) {
             spectator.getWatchedRuns().removeIf(r -> r.getId().equals(runId));
         }
 
@@ -354,7 +358,7 @@ public class RunService {
 
                     double distance = calculateDistance(lastPosition, arrival);
                     if (distance >= MINIMUM_DISTANCE
-                        && distance < MAXIMUM_DISTANCE) {
+                            && distance < MAXIMUM_DISTANCE) {
                         for (Individual spectator : run.getSpectators()) {
                             simpMessagingTemplate.convertAndSend("/run/" + run.getId() + "/" + spectator.getUser().getUsername(),
                                     "Athlete: " + athlete.getUser().getUsername()
@@ -396,8 +400,40 @@ public class RunService {
     }
 
 
-    public Time getCurrentDateTime() {
+    public java.util.Date getCurrentDate() {
         java.util.Date date = new java.util.Date();
-        return new Time(date.getTime());
+        return date;
     }
+
+    public Time getCurrentTime() {
+        Time time = new Time(System.currentTimeMillis());
+        return time;
+    }
+
+
+    public Date datesConversion() {
+        java.util.Date uDate = new java.util.Date();
+        java.sql.Date sDate = convertUtilToSql(uDate);
+        return sDate;
+
+    }
+
+    public java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+
+
+    public Boolean compareDate(Date date1, Date date2) {
+        if (date1.getYear() == date2.getYear()
+                && date1.getMonth() == date2.getMonth()
+                && date1.getDay() == date2.getDay()) {
+            return true;
+        } else return false;
+    }
+
 }
+
+
+
+
