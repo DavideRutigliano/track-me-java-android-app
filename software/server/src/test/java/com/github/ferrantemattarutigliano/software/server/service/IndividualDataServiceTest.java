@@ -168,6 +168,8 @@ public class IndividualDataServiceTest {
         Mockito.when(mockPositionRepository.save(position))
                 .thenReturn(position);
 
+        individualDataService.insertPosition(position);
+
 
     }
 
