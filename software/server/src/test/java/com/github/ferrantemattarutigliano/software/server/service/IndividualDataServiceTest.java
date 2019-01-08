@@ -246,6 +246,8 @@ public class IndividualDataServiceTest {
                     .thenReturn(healthDatas);
         }
 
+        individualDataService.updateGroupRequestTopics();
+
     }
 
 }
