@@ -1,3 +1,4 @@
+sudo: false # faster builds
 env:
   global:
     - CODECOV_TOKEN="aedb687f-5985-4692-a387-c62057c76e5a"
