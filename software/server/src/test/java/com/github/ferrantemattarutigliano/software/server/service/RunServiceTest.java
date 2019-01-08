@@ -2,10 +2,7 @@ package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Run;
-import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
-import com.github.ferrantemattarutigliano.software.server.model.entity.User;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.RunRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
@@ -1140,6 +1137,55 @@ public class RunServiceTest {
         Assert.assertEquals(Message.RUN_NOT_SPECTATOR.toString(), result);
 
     }
+
+    public Position generatePos(String longitude) {
+        Position position = new Position("10.0", longitude);
+        return position;
+    }
+
+    @Test
+    public void startedRunSendAthletePosition() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create a collection of position and add to Individual
+        Position fistPosition = generatePos("50.0");
+        Position secondPosition = generatePos("60.0");
+        Collection<Position> collectionPositions = new ArrayList<>();
+        collectionPositions.add(fistPosition);
+        collectionPositions.add(secondPosition);
+        mockedIndividual.setPosition(collectionPositions);
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setState("started");
+        firstRun.setPath("10.0:20.0;20.0:50.0");
+        firstRun.enrollAthlete(mockedIndividual);
+
+        //pack them in a collection
+        List<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+        mockedIndividual.setEnrolledRuns(createdRuns);
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+        Mockito.when(mockRunRepository.findAll())
+                .thenReturn(createdRuns);
+
+
+        runService.startedRunSendAthletesPosition();
+
+
+    }
+
 
 
 }
