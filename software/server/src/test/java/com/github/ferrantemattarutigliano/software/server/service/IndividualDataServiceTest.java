@@ -137,6 +137,7 @@ public class IndividualDataServiceTest {
         healthData.add(firstData);
         healthData.add(secondData);
 
+        
         //start test
         mockIndividualAuthorized(mockedUser, mockedIndividual);
         Mockito.when(mockIndividualRepository.existsByUser(mockedUser))
@@ -213,6 +214,7 @@ public class IndividualDataServiceTest {
         //create health data
         Date bdate = new Date(1);
         HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
+
         //add to a collection of healthdata
         Collection<HealthData> healthDatas = new ArrayList<>();
         for (i = 0; i < 1; i++) {

@@ -93,10 +93,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
-
     public void addRole(String role) {
         this.role = role;
     }

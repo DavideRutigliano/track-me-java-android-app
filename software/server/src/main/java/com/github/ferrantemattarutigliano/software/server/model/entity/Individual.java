@@ -80,9 +80,6 @@ public class Individual implements Serializable {
         return lastname;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
-    }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -136,9 +133,6 @@ public class Individual implements Serializable {
         this.weight = weight;
     }
 
-    public Collection<HealthData> getHealthData() {
-        return healthData;
-    }
 
     public Collection<Run> getCreatedRuns() {
         return createdRuns;
@@ -160,9 +154,6 @@ public class Individual implements Serializable {
         this.id = id;
     }
 
-    public void setHealthData(Collection<HealthData> healthData) {
-        this.healthData = healthData;
-    }
 
     public Collection<Position> getPosition() {
         return position;
