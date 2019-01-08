@@ -118,6 +118,15 @@ public class RequestServiceTest {
 
     }
 
+    private IndividualRequest createMockIndRequest2(String ssn) {
+        IndividualRequest request = new IndividualRequest();
+        request.setSsn(ssn);
+        request.setDate(new Date(1));
+        request.setTime(new Time(1));
+        return request;
+
+    }
+
     private GroupRequest createMockGroupRequest(String criteria) {
         GroupRequest request = new GroupRequest(criteria);
         request.setDate(new Date(1));
@@ -2864,8 +2873,8 @@ public class RequestServiceTest {
         mockedThirdParty.setVat("11111111111");
         mockedThirdParty.setOrganizationName("topolino");
         //create individual requests
-        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
-        firstIndRequest.setAccepted(true);
+        IndividualRequest firstIndRequest = createMockIndRequest2(mockedIndividual.getSsn());
+        firstIndRequest.setThirdParty(mockedThirdParty);
         //add request to a collection
         Collection<IndividualRequest> indRequests = new ArrayList<>();
         indRequests.add(firstIndRequest);
@@ -2899,10 +2908,19 @@ public class RequestServiceTest {
 
 
         Collection<ReceivedRequestDTO> result = requestService.showIncomingRequest();
+        Iterator<ReceivedRequestDTO> Itr = result.iterator();
+        for (Iterator<ReceivedRequestDTO> i = receivedRequestDTOS.iterator(); i.hasNext(); ) {
+            ReceivedRequestDTO I = i.next();
+            ReceivedRequestDTO R = Itr.next();
+            Assert.assertEquals(I.getId(), R.getId());
+            Assert.assertEquals(I.getAccepted(), R.getAccepted());
+            Assert.assertEquals(I.getDate(), R.getDate());
+            Assert.assertEquals(I.getThirdParty(), R.getThirdParty());
+            Assert.assertEquals(I.getThirdParty(), R.getThirdParty());
+            Assert.assertEquals(I.getTime(), R.getTime());
 
-        Assert.assertEquals(receivedRequestDTOS, result);
 
-
+        }
     }
 
     @Test

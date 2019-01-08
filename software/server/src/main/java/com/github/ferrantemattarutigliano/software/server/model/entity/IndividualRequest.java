@@ -21,6 +21,10 @@ public class IndividualRequest extends Request implements Serializable {
         return ssn;
     }
 
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
+
     public Boolean isAccepted() {
         return accepted;
     }
