@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,6 +49,9 @@ public class RunServiceTest {
     private IndividualRepository mockIndividualRepository;
     @Mock
     private RunRepository mockRunRepository;
+    @Mock
+    //even if it is unused do not remove it
+    private SimpMessagingTemplate mockSimpMessageTemplate;
 
     @Before
     public void initTest() {
@@ -1165,6 +1169,7 @@ public class RunServiceTest {
         firstRun.setState("started");
         firstRun.setPath("10.0:20.0;20.0:50.0");
         firstRun.enrollAthlete(mockedIndividual);
+        firstRun.addSpectator(mockedIndividual);
 
         //pack them in a collection
         List<Run> createdRuns = new ArrayList<>();
@@ -1172,6 +1177,7 @@ public class RunServiceTest {
         //mock created runs in database
         mockedIndividual.setCreatedRuns(createdRuns);
         mockedIndividual.setEnrolledRuns(createdRuns);
+        mockedIndividual.setWatchedRuns(createdRuns);
 
 
         /* TEST STARTS HERE */
