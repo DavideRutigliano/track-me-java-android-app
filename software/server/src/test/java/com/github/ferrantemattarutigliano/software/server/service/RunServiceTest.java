@@ -89,25 +89,7 @@ public class RunServiceTest {
         return sDate;
     }
 
-/* //TODO if you need to mock third party. This isn't needed in this class.
-    private void mockThirdPartyAuthorized(User expectedUser, ThirdParty expectedThirdParty) {
-        SecurityContextHolder.setContext(mockSecurityContext);
 
-        Mockito.when(mockSecurityContext.getAuthentication())
-                .thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getPrincipal())
-                .thenReturn(mockPrincipal);
-        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
-                .thenReturn(expectedUser);
-        Mockito.when(mockUserRepository.existsByUsername(expectedUser.getUsername()))
-                .thenReturn(true);
-        //mock the existing third party associated with the user
-        Mockito.when(mockThirdPartyRepository.existsByUser(expectedUser))
-                .thenReturn(true);
-        Mockito.when(mockThirdPartyRepository.findByUser(expectedUser))
-                .thenReturn(expectedThirdParty);
-    }
-*/
 
     private Run createMockRun(Individual organizer) {
         Run run = new Run();
