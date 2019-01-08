@@ -46,14 +46,6 @@ public class Run {
         this.spectators = new ArrayList<>();
     }
 
-    public Run(String title, Date date, Time time, String path) {
-        this.title = title;
-        this.date = date;
-        this.time = time;
-        this.path = path;
-        this.athletes = new ArrayList<>();
-        this.spectators = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;

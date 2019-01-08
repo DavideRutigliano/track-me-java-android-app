@@ -91,7 +91,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void individualRegistrationTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -114,7 +114,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void thirdPartyRegistrationTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -135,7 +135,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void individualRegistrationFailTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -157,7 +157,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void thirdPartyRegistrationFailTest(){
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -179,7 +179,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void individualLoginTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -202,7 +202,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void changeIndividualProfileTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -232,7 +232,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void changeThirdPartyProfileTest() {
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -256,7 +256,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void getThirdPartyProfileTest(){
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -273,7 +273,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void getIndividualProfileTest(){
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -291,7 +291,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void changeUsernameTest(){
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
@@ -310,7 +310,7 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void changePasswordTest(){
-        User dummyUser = new User();
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");

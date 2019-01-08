@@ -35,11 +35,6 @@ public class ThirdParty implements Serializable {
 
     public ThirdParty() {}
 
-    public ThirdParty(User user, String vat, String organizationName) {
-        this.user = user;
-        this.vat = vat;
-        this.organizationName = organizationName;
-    }
 
     public User getUser() {
         return user;

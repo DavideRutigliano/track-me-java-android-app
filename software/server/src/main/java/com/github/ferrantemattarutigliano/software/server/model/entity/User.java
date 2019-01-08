@@ -32,8 +32,6 @@ public class User implements UserDetails {
     @Transient
     private String role;
 
-    public User() {
-    }
 
     public User(String username, String password, String email, String role) {
         this.username = username;
