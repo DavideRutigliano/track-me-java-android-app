@@ -363,6 +363,8 @@ public class RunServiceTest {
         mockedIndividual.setLastname("pippetti");
         //create runs with the associated user
         Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setDate(datesConversion());
+        firstRun.setTime(new Time(23, 59, 59));
         //pack them in a collection
         Collection<Run> createdRuns = new ArrayList<>();
         createdRuns.add(firstRun);
@@ -391,7 +393,7 @@ public class RunServiceTest {
         mockedIndividual.setLastname("pippetti");
         //create runs with the associated user
         Date date = datesConversion();
-        Time time = new Time(0, 0, 0);
+        Time time = new Time(00, 00, 00);
         Run firstRun = createMockRun(mockedIndividual);
         firstRun.setDate(date);
         firstRun.setTime(time);

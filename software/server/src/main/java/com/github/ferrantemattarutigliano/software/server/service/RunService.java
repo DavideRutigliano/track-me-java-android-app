@@ -17,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -115,7 +117,8 @@ public class RunService {
         run.setOrganizer(organizer);
 
 
-        if (compareDate(run.getDate(), datesConversion()) && run.getTime().before(getCurrentTime())) {
+        if ((compareDate(run.getDate(), datesConversion()) && compareTimeBefore(run.getTime(), getCurrentTime()))
+                || beforeDate(run.getDate(), datesConversion())) {
             return Message.RUN_NOT_ALLOWED.toString();
         }
 
@@ -434,6 +437,32 @@ public class RunService {
                 && date1.getDay() == date2.getDay()) {
             return true;
         } else return false;
+    }
+
+    public Boolean beforeDate(Date date1, Date date2) {
+        if (date1.getYear() < date2.getYear()) {
+            return true;
+        } else if (date1.getYear() == date2.getYear()
+                && date1.getMonth() < date2.getMonth()) {
+            return true;
+        } else if (date1.getYear() == date2.getYear()
+                && date1.getMonth() == date2.getMonth()
+                && date1.getDay() < date2.getDay()) {
+            return true;
+        } else return false;
+    }
+
+    public Boolean compareTimeBefore(Time t1, Time t2) {
+        if (toLocalTime(t1).getHour() < toLocalTime(t2).getHour()) {
+            return true;
+        } else if (toLocalTime(t1).getHour() == toLocalTime(t2).getHour()
+                && toLocalTime(t1).getMinute() < toLocalTime(t2).getMinute()) {
+            return true;
+        } else return false;
+    }
+
+    public LocalTime toLocalTime(java.sql.Time time) {
+        return time.toLocalTime();
     }
 
 }
