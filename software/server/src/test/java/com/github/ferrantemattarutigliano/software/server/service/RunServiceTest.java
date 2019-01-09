@@ -139,6 +139,20 @@ public class RunServiceTest {
 
 
     @Test
+    public void showCreatedRunsFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        Collection<Run> result = runService.showCreatedRuns();
+
+        Assert.assertEquals(null, result);
+    }
+
+    @Test
     public void showRunsTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -226,6 +240,21 @@ public class RunServiceTest {
 
 
     @Test
+    public void showEnrolledRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        Collection<Run> result = runService.showEnrolledRuns();
+
+        Assert.assertEquals(null, result);
+    }
+
+
+    @Test
     public void showNewRunsTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -279,6 +308,21 @@ public class RunServiceTest {
     }
 
     @Test
+    public void showNewRunsFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        Collection<Run> result = runService.showNewRuns();
+
+        Assert.assertEquals(null, result);
+
+    }
+
+    @Test
     public void showEnrolledRunsTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -312,6 +356,20 @@ public class RunServiceTest {
         Collection<Run> expectedResult = new ArrayList<>();
         expectedResult.add(firstRun);
         Assert.assertEquals(expectedResult, result);
+
+    }
+
+    @Test
+    public void showEnrolledRunsFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        Collection<Run> result = runService.showEnrolledRuns();
+        Assert.assertEquals(null, result);
 
     }
 
@@ -353,6 +411,20 @@ public class RunServiceTest {
     }
 
     @Test
+    public void showWatchedRunsFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        Collection<Run> result = runService.showWatchedRuns();
+        Assert.assertEquals(null, result);
+
+    }
+
+    @Test
     public void createRunTest() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -380,6 +452,19 @@ public class RunServiceTest {
         String result = runService.createRun(firstRun);
         Assert.assertEquals(Message.RUN_CREATED.toString(), result);
 
+    }
+
+    @Test
+    public void createRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.createRun(new Run());
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
@@ -446,6 +531,19 @@ public class RunServiceTest {
         System.out.println(result);
         Assert.assertEquals(Message.RUN_STARTED.toString(), result);
 
+    }
+
+    @Test
+    public void startRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.startRun(0L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
@@ -560,6 +658,19 @@ public class RunServiceTest {
     }
 
     @Test
+    public void editRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.editRun(new Run());
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
+    }
+
+    @Test
     public void editRunTest_notExists() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -619,12 +730,23 @@ public class RunServiceTest {
         Mockito.when(mockIndividualRepository.findByUser(mockedUser))
                 .thenReturn(mockedIndividual);
 
-
-
         String result = runService.deleteRun(firstRun.getId());
 
         Assert.assertEquals(Message.RUN_DELETED.toString(), result);
 
+    }
+
+    @Test
+    public void deleteRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.deleteRun(99L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
@@ -697,8 +819,6 @@ public class RunServiceTest {
 
     }
 
-
-
     @Test
     public void enrollRunTest() {
         //create a mock user
@@ -767,7 +887,7 @@ public class RunServiceTest {
     }
 
     @Test
-    public void enrollRunTest_altreadyAtlethe() {
+    public void enrollRunTest_alreadyAtlethe() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
         User mockedUser = new User("username", "password", "aa@aa.com", role);
@@ -800,6 +920,19 @@ public class RunServiceTest {
 
         Assert.assertEquals(Message.RUN_ALREADY_ATHLETE.toString(), result);
 
+    }
+
+    @Test
+    public void enrollRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.enrollRun(99L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
@@ -911,7 +1044,18 @@ public class RunServiceTest {
 
     }
 
+    @Test
+    public void unenrollRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
 
+        String result = runService.unenrollRun(99L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
+    }
 
     @Test
     public void watchRunTest() {
@@ -1014,6 +1158,19 @@ public class RunServiceTest {
 
         Assert.assertEquals(Message.RUN_ALREADY_SPECTATOR.toString(), result);
 
+    }
+
+    @Test
+    public void watchRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.watchRun(99L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
@@ -1132,6 +1289,19 @@ public class RunServiceTest {
     }
 
     @Test
+    public void unwatchRunFailureTest() {
+        /* TEST STARTS HERE */
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = runService.unwatchRun(99L);
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
+    }
+
+    @Test
     public void startedRunSendAthletePosition() {
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -1172,7 +1342,6 @@ public class RunServiceTest {
 
 
         runService.startedRunSendAthletesPosition();
-
 
     }
 

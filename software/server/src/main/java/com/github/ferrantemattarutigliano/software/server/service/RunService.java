@@ -112,7 +112,8 @@ public class RunService {
     public String createRun(Run run) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null)
-            return null;
+            return Message.BAD_REQUEST.toString();
+
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
 
@@ -130,7 +131,7 @@ public class RunService {
     public String startRun(Long runId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null)
-            return null;
+            return Message.BAD_REQUEST.toString();
 
         if (!runRepository.findById(runId).isPresent()) {
             return Message.RUN_DOES_NOT_EXISTS.toString();
@@ -149,7 +150,7 @@ public class RunService {
     public String editRun(Run run) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null)
-            return null;
+            return Message.BAD_REQUEST.toString();
 
         if (!runRepository.findById(run.getId()).isPresent()) {
             return Message.RUN_DOES_NOT_EXISTS.toString();
@@ -222,13 +223,13 @@ public class RunService {
 
     public String enrollRun(Long runId) {
 
-        if (!runRepository.findById(runId).isPresent()) {
-            return Message.RUN_DOES_NOT_EXISTS.toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null) {
             return Message.BAD_REQUEST.toString();
+        }
+
+        if (!runRepository.findById(runId).isPresent()) {
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Run run = runRepository.findById(runId).get();
@@ -247,13 +248,13 @@ public class RunService {
 
     public String unenrollRun(Long runId) {
 
-        if (!runRepository.findById(runId).isPresent()) {
-            return Message.RUN_DOES_NOT_EXISTS.toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null) {
             return Message.BAD_REQUEST.toString();
+        }
+
+        if (!runRepository.findById(runId).isPresent()) {
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Run run = runRepository.findById(runId).get();
@@ -275,13 +276,13 @@ public class RunService {
 
     public String watchRun(Long runId) {
 
-        if (!runRepository.findById(runId).isPresent()) {
-            return Message.RUN_DOES_NOT_EXISTS.toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null) {
             return Message.BAD_REQUEST.toString();
+        }
+
+        if (!runRepository.findById(runId).isPresent()) {
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Run run = runRepository.findById(runId).get();
@@ -299,13 +300,13 @@ public class RunService {
 
     public String unwatchRun(Long runId) {
 
-        if (!runRepository.findById(runId).isPresent()) {
-            return Message.RUN_DOES_NOT_EXISTS.toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user == null) {
             return Message.BAD_REQUEST.toString();
+        }
+
+        if (!runRepository.findById(runId).isPresent()) {
+            return Message.RUN_DOES_NOT_EXISTS.toString();
         }
 
         Run run = runRepository.findById(runId).get();
@@ -404,12 +405,6 @@ public class RunService {
         double dist = Math.sin(Math.toRadians(lastAthleteLatitude)) * Math.sin(rho);
 
         return Math.toDegrees(Math.acos(dist)) * 1.609344;
-    }
-
-
-    public java.util.Date getCurrentDate() {
-        java.util.Date date = new java.util.Date();
-        return date;
     }
 
     public Time getCurrentTime() {

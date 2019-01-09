@@ -498,8 +498,6 @@ public class AuthenticatorServiceTest {
         Mockito.when(mockThirdPartyRepository.findByUser(dummyUser))
                 .thenReturn(dummyThirdParty);
 
-        SecurityContextHolder.setContext(mockSecurityContext);
-
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(dummyUser.getUsername(), dummyUser.getPassword());
 
