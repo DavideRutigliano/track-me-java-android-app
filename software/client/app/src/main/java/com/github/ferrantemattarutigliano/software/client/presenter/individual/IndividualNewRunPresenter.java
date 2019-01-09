@@ -26,19 +26,12 @@ public class IndividualNewRunPresenter extends Presenter<IndividualNewRunView> {
         runDTO.setDate(date);
         runDTO.setTime(time);
         runDTO.setPath(positionDTOS);
-        java.util.Date currentDateTime = new java.util.Date();
-        Date currentDate = new Date(currentDateTime.getTime());
-        Time currentTime = new Time(currentDateTime.getTime());
         if(title.isEmpty()){
             view.onCreateRunFail("Run must have a title.");
             return;
         }
         if(date == null || time == null){
             view.onCreateRunFail("Run must have a starting date.");
-            return;
-        }
-        if(date.before(currentDate) || (date.equals(currentDate) && time.before(currentTime))){
-            view.onCreateRunFail("Run can't start in the past.");
             return;
         }
         if(positionDTOS.size() < 2){ //we want at least a start and an end
