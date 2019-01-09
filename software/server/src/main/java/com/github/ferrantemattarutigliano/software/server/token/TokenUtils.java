@@ -17,10 +17,10 @@ public class TokenUtils {
     private final String SERVER_SECRET = "#SèRv3r_$3kRet:=Tr4CkM3_s.SécR37";
     private final Integer PRN_BYTES = 16;
 
-    private KeyBasedPersistenceTokenService tokenService = new KeyBasedPersistenceTokenService();
+    private final KeyBasedPersistenceTokenService tokenService;
 
-    @PostConstruct
-    private void init() {
+    public TokenUtils() {
+        tokenService = new KeyBasedPersistenceTokenService();
         tokenService.setServerInteger(SERVER_INTEGER);
         tokenService.setServerSecret(SERVER_SECRET);
         tokenService.setPseudoRandomNumberBytes(PRN_BYTES);
@@ -46,11 +46,11 @@ public class TokenUtils {
 
     public Long getTokenCreationTime(HttpServletRequest request) {
         String header = request.getHeader(HEADER_SECURITY_TOKEN);
-        Token token = null;
+        Token token;
         try {
             token = tokenService.verifyToken(header);
         } catch (Exception e) {
-            return Long.parseLong("0");
+            return 0L;
         }
         return token.getKeyCreationTime();
     }
