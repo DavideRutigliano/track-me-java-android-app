@@ -1,7 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
-import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
@@ -15,22 +14,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-
+import static org.junit.Assert.assertNull;
 
 public class AuthenticatorServiceTest {
     @InjectMocks
@@ -47,9 +44,14 @@ public class AuthenticatorServiceTest {
     private Authentication mockAuthentication;
     @Mock
     private Principal mockPrincipal;
+    @Mock
+    private DaoAuthenticationProvider mockAuthenticationProvider;
+    @Mock
+    private PasswordEncoder mockPasswordEncoder;
 
     @Before
     public void initTest() {
+
         MockitoAnnotations.initMocks(this);
     }
 
@@ -122,7 +124,7 @@ public class AuthenticatorServiceTest {
         ThirdParty dummyThirdParty = new ThirdParty();
         dummyThirdParty.setUser(dummyUser);
         dummyThirdParty.setVat("12345678901");
-        dummyThirdParty.setOrganizationName("Amazon");
+        dummyThirdParty.setOrganizationName("Windown");
 
         //mock "this user doesn't exists"
         Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
@@ -165,7 +167,7 @@ public class AuthenticatorServiceTest {
         ThirdParty dummyThirdParty = new ThirdParty();
         dummyThirdParty.setUser(dummyUser);
         dummyThirdParty.setVat("12345678901");
-        dummyThirdParty.setOrganizationName("Amazon");
+        dummyThirdParty.setOrganizationName("Windown");
 
         //mock "this user vat already exists"
         Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
@@ -176,29 +178,165 @@ public class AuthenticatorServiceTest {
         assertEquals(Message.THIRD_PARTY_ALREADY_EXISTS.toString(), result);
     }
 
-
     @Test
     public void individualLoginTest() {
+        SecurityContextHolder.setContext(mockSecurityContext);
         User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
-        dummyUser.setPassword("password");
+        String encoded = new BCryptPasswordEncoder(12).encode("password");
+        Mockito.when(mockPasswordEncoder.encode("password")).thenReturn(encoded);
+        dummyUser.setPassword(encoded);
         dummyUser.setEmail("email@email.com");
-
         Individual dummyIndividual = new Individual();
         dummyIndividual.setUser(dummyUser);
         dummyIndividual.setSsn("123456789");
         dummyIndividual.setFirstname("Pippo");
         dummyIndividual.setLastname("Pappo");
 
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername()))
+                .thenReturn(true);
+
+        Mockito.when(mockUserRepository.findByUsername(dummyUser.getUsername()))
+                .thenReturn(dummyUser);
+
+        Mockito.when(mockIndividualRepository.existsByUser(dummyUser))
+                .thenReturn(true);
+
         Mockito.when(mockIndividualRepository.findByUser(dummyUser))
                 .thenReturn(dummyIndividual);
 
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(dummyUser.getUsername(), dummyUser.getPassword());
+
+        Mockito.when(mockAuthenticationProvider.authenticate(token)).thenReturn(mockAuthentication);
+
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(dummyUser);
+
         User result = authenticatorService.login(dummyUser);
-        //todo how does login work?
-        //assertEquals(dummyUser, result);
+
+        assertEquals(dummyUser , result);
     }
 
-    //todo add login failure for both individual and tp
+    @Test
+    public void thirdPartyLoginTest() {
+        SecurityContextHolder.setContext(mockSecurityContext);
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        String encoded = new BCryptPasswordEncoder(12).encode("password");
+        Mockito.when(mockPasswordEncoder.encode("password")).thenReturn(encoded);
+        dummyUser.setPassword(encoded);
+        dummyUser.setEmail("email@email.com");
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678900");
+        dummyThirdParty.setOrganizationName("Pippo");
+
+
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername()))
+                .thenReturn(true);
+
+        Mockito.when(mockUserRepository.findByUsername(dummyUser.getUsername()))
+                .thenReturn(dummyUser);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(dummyUser))
+                .thenReturn(true);
+
+        Mockito.when(mockThirdPartyRepository.findByUser(dummyUser))
+                .thenReturn(dummyThirdParty);
+
+        SecurityContextHolder.setContext(mockSecurityContext);
+
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(dummyUser.getUsername(), dummyUser.getPassword());
+
+        Mockito.when(mockAuthenticationProvider.authenticate(token)).thenReturn(mockAuthentication);
+
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(dummyUser);
+
+        User result = authenticatorService.login(dummyUser);
+
+        assertEquals(dummyUser , result);
+    }
+
+    @Test
+    public void individualLoginFailureTest() {
+        SecurityContextHolder.setContext(mockSecurityContext);
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        String encoded = new BCryptPasswordEncoder(12).encode("password");
+        Mockito.when(mockPasswordEncoder.encode("password")).thenReturn(encoded);
+        dummyUser.setPassword(encoded);
+        dummyUser.setEmail("email@email.com");
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername()))
+                .thenReturn(true);
+
+        Mockito.when(mockUserRepository.findByUsername(dummyUser.getUsername()))
+                .thenReturn(dummyUser);
+
+        Mockito.when(mockIndividualRepository.existsByUser(dummyUser))
+                .thenReturn(true);
+
+        Mockito.when(mockIndividualRepository.findByUser(dummyUser))
+                .thenReturn(dummyIndividual);
+
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(dummyUser.getUsername(), dummyUser.getPassword());
+
+        Mockito.when(mockAuthenticationProvider.authenticate(token)).thenThrow(BadCredentialsException.class);
+
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(null);
+
+        User result = authenticatorService.login(dummyUser);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void thirdPartyLoginFailureTest() {
+        SecurityContextHolder.setContext(mockSecurityContext);
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        String encoded = new BCryptPasswordEncoder(12).encode("password");
+        Mockito.when(mockPasswordEncoder.encode("password")).thenReturn(encoded);
+        dummyUser.setPassword(encoded);
+        dummyUser.setEmail("email@email.com");
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678900");
+        dummyThirdParty.setOrganizationName("Pippo");
+
+
+        Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername()))
+                .thenReturn(true);
+
+        Mockito.when(mockUserRepository.findByUsername(dummyUser.getUsername()))
+                .thenReturn(dummyUser);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(dummyUser))
+                .thenReturn(true);
+
+        Mockito.when(mockThirdPartyRepository.findByUser(dummyUser))
+                .thenReturn(dummyThirdParty);
+
+        SecurityContextHolder.setContext(mockSecurityContext);
+
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(dummyUser.getUsername(), dummyUser.getPassword());
+
+        Mockito.when(mockAuthenticationProvider.authenticate(token)).thenThrow(BadCredentialsException.class);
+
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(null);
+
+        User result = authenticatorService.login(dummyUser);
+
+        assertNull(result);
+    }
 
     @Test
     public void changeIndividualProfileTest() {
@@ -327,7 +465,7 @@ public class AuthenticatorServiceTest {
     }
 
     @Test
-    public void loadByUsernameTest(){
+    public void loadByUsernameTest() {
         User dummyUser = Mockito.mock(User.class);
         String username = "username";
         String password = "password";

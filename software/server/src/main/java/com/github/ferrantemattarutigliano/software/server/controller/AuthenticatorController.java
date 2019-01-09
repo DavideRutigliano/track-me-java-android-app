@@ -16,8 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/users")
 public class AuthenticatorController {
 
+    private final AuthenticatorService authenticatorService;
+
     @Autowired
-    private AuthenticatorService authenticatorService;
+    public AuthenticatorController(AuthenticatorService authenticatorService) {
+        this.authenticatorService = authenticatorService;
+    }
+
 
     @PostMapping("/registration/individual")
     public String individualRegistration(@RequestBody IndividualRegistrationDTO individualRegistration) {

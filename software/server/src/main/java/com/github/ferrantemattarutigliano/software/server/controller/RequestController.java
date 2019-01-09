@@ -15,8 +15,12 @@ import java.util.Collection;
 @RequestMapping(path="/request")
 public class RequestController {
 
+    private final RequestService requestService;
+
     @Autowired
-    private RequestService requestService;
+    public RequestController(RequestService requestService) {
+        this.requestService = requestService;
+    }
 
     @PreAuthorize("hasRole('THIRD_PARTY')")
     @PostMapping("/individual")

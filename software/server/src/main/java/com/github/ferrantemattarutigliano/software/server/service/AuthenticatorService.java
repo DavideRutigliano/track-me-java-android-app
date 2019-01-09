@@ -9,7 +9,6 @@ import com.github.ferrantemattarutigliano.software.server.repository.IndividualR
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,24 +28,23 @@ import java.util.regex.Pattern;
 @Service
 public class AuthenticatorService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private IndividualRepository individualRepository;
-    @Autowired
-    private ThirdPartyRepository thirdPartyRepository;
+    private final UserRepository userRepository;
+    private final IndividualRepository individualRepository;
+    private final ThirdPartyRepository thirdPartyRepository;
+    private final DaoAuthenticationProvider authenticationProvider;
+    private final PasswordEncoder passwordEncoder;
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(this);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+    @Autowired
+    public AuthenticatorService(UserRepository userRepository, IndividualRepository individualRepository, ThirdPartyRepository thirdPartyRepository, DaoAuthenticationProvider authenticationProvider, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.individualRepository = individualRepository;
+        this.thirdPartyRepository = thirdPartyRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationProvider = authenticationProvider;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+    public DaoAuthenticationProvider getAuthenticationProvider() {
+        return authenticationProvider;
     }
 
     public String individualRegistration(Individual individual) {
@@ -68,7 +65,7 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        individual.getUser().setPassword(passwordEncoder().encode(plaintextPass));
+        individual.getUser().setPassword(passwordEncoder.encode(plaintextPass));
         userRepository.save(individual.getUser());
         individualRepository.save(individual);
 
@@ -94,7 +91,7 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_PARAMETERS.toString();
         }
 
-        thirdParty.getUser().setPassword(passwordEncoder().encode(plaintextPass));
+        thirdParty.getUser().setPassword(passwordEncoder.encode(plaintextPass));
         userRepository.save(thirdParty.getUser());
         thirdPartyRepository.save(thirdParty);
 
@@ -114,7 +111,7 @@ public class AuthenticatorService implements UserDetailsService {
         Authentication authentication;
 
         try {
-            authentication = authenticationProvider().authenticate(authReq);
+            authentication = authenticationProvider.authenticate(authReq);
         } catch (UsernameNotFoundException | BadCredentialsException e) {
             return null;
         }
@@ -287,7 +284,7 @@ public class AuthenticatorService implements UserDetailsService {
             return Message.BAD_REQUEST.toString();
         }
 
-        user.setPassword(passwordEncoder().encode(newPassword));
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
         return Message.CHANGE_PASSWORD_SUCCESS.toString();

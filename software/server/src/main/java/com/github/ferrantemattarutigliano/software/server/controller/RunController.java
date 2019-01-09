@@ -19,8 +19,13 @@ import java.util.Collection;
 @RequestMapping(path = "/run")
 public class RunController {
 
+    private final RunService runService;
+
     @Autowired
-    private RunService runService;
+    public RunController(RunService runService) {
+        this.runService = runService;
+    }
+
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
     @PostMapping(path = "/create")

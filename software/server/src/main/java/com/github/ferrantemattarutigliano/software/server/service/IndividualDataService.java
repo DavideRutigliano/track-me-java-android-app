@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -20,16 +19,21 @@ import java.util.Optional;
 @Service
 public class IndividualDataService {
 
+    private final IndividualRepository individualRepository;
+    private final HealthDataRepository healthDataRepository;
+    private final PositionRepository positionRepository;
+    private final GroupRequestRepository groupRequestRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
     @Autowired
-    private IndividualRepository individualRepository;
-    @Autowired
-    private HealthDataRepository healthDataRepository;
-    @Autowired
-    private PositionRepository positionRepository;
-    @Autowired
-    private GroupRequestRepository groupRequestRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    public IndividualDataService(IndividualRepository individualRepository, HealthDataRepository healthDataRepository, PositionRepository positionRepository, GroupRequestRepository groupRequestRepository, SimpMessagingTemplate simpMessagingTemplate) {
+        this.individualRepository = individualRepository;
+        this.healthDataRepository = healthDataRepository;
+        this.positionRepository = positionRepository;
+        this.groupRequestRepository = groupRequestRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
 
     public String insertData(Collection<HealthData> healthData) {
 

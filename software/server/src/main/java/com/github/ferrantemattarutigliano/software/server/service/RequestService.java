@@ -7,7 +7,6 @@ import com.github.ferrantemattarutigliano.software.server.model.dto.ReceivedRequ
 import com.github.ferrantemattarutigliano.software.server.model.dto.SentRequestDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
-import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +14,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import org.modelmapper.ModelMapper;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.sql.Time;
@@ -24,20 +23,25 @@ import java.util.*;
 @Service
 public class RequestService {
 
-    @Autowired
-    private IndividualRequestRepository individualRequestRepository;
-    @Autowired
-    private GroupRequestRepository groupRequestRepository;
-    @Autowired
-    private IndividualRepository individualRepository;
-    @Autowired
-    private ThirdPartyRepository thirdPartyRepository;
-    @Autowired
-    private HealthDataRepository healthDataRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final IndividualRequestRepository individualRequestRepository;
+    private final GroupRequestRepository groupRequestRepository;
+    private final IndividualRepository individualRepository;
+    private final ThirdPartyRepository thirdPartyRepository;
+    private final HealthDataRepository healthDataRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     private int GROUP_REQUEST_ANONYMIZATION_LIMIT = 1000;
+
+    @Autowired
+    public RequestService(IndividualRequestRepository individualRequestRepository, GroupRequestRepository groupRequestRepository, IndividualRepository individualRepository, ThirdPartyRepository thirdPartyRepository, HealthDataRepository healthDataRepository, SimpMessagingTemplate simpMessagingTemplate) {
+        this.individualRequestRepository = individualRequestRepository;
+        this.groupRequestRepository = groupRequestRepository;
+        this.individualRepository = individualRepository;
+        this.thirdPartyRepository = thirdPartyRepository;
+        this.healthDataRepository = healthDataRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
 
     public void addCurrentDateTime(Request request) {
         java.util.Date date = new java.util.Date();

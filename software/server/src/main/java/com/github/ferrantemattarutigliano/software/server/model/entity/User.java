@@ -1,5 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,6 +33,8 @@ public class User implements UserDetails {
     @Transient
     private String role;
 
+    public User(){
+    }
 
     public User(String username, String password, String email, String role) {
         this.username = username;
@@ -96,5 +99,7 @@ public class User implements UserDetails {
     public void addRole(String role) {
         this.role = role;
     }
+
+    public String getRole() { return role; }
 
 }

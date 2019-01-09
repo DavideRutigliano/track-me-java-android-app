@@ -17,10 +17,15 @@ import java.util.Collection;
 @RestController
 public class IndividualDataController {
 
+    private final RequestService requestService;
+    private final IndividualDataService individualDataService;
+
     @Autowired
-    private RequestService requestService;
-    @Autowired
-    private IndividualDataService individualDataService;
+    public IndividualDataController(RequestService requestService, IndividualDataService individualDataService) {
+        this.requestService = requestService;
+        this.individualDataService = individualDataService;
+    }
+
 
     @PreAuthorize("hasRole('INDIVIDUAL')")
     @PostMapping(path = "/healthdata/insert")

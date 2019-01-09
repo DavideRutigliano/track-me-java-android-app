@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class GroupRequest extends Request implements Serializable {
     private String criteria;
 
+    public GroupRequest() { }
 
     public GroupRequest(String criteria) {
         this.criteria = criteria;

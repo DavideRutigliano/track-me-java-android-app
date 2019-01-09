@@ -1,7 +1,6 @@
 package com.github.ferrantemattarutigliano.software.server.token;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.ferrantemattarutigliano.software.server.config.ContentCacheRequestWrapper;
 import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
             try {
                 creationTime = tokenUtils.getTokenCreationTime(httpRequest);
             } catch (Exception e) {
-                creationTime = Long.parseLong("0");
+                creationTime = 0L;
             }
 
             String username = login[0];
@@ -128,7 +127,7 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
         Authentication authentication = null;
 
         try {
-            authentication = authService.authenticationProvider().authenticate(authReq);
+            authentication = authService.getAuthenticationProvider().authenticate(authReq);
         } catch (UsernameNotFoundException | BadCredentialsException e) {
             httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
         }

@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.HTMLDocument;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -29,12 +28,17 @@ import java.util.Iterator;
 @Service
 public class RunService {
 
+    private final IndividualRepository individualRepository;
+    private final RunRepository runRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
     @Autowired
-    private IndividualRepository individualRepository;
-    @Autowired
-    private RunRepository runRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    public RunService(IndividualRepository individualRepository, RunRepository runRepository, SimpMessagingTemplate simpMessagingTemplate) {
+        this.individualRepository = individualRepository;
+        this.runRepository = runRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
 
     public Collection<Run> showRuns() {
         return runRepository.findAll();

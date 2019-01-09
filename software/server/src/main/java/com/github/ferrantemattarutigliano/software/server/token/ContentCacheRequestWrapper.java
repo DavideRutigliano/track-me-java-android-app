@@ -1,4 +1,4 @@
-package com.github.ferrantemattarutigliano.software.server.config;
+package com.github.ferrantemattarutigliano.software.server.token;
 
 import org.apache.commons.compress.utils.IOUtils;
 
