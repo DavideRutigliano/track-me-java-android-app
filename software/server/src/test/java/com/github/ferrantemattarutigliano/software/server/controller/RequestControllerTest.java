@@ -1,17 +1,10 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
-
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
-import com.github.ferrantemattarutigliano.software.server.repository.*;
-import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
-import com.github.ferrantemattarutigliano.software.server.service.RequestService;;
-import com.github.ferrantemattarutigliano.software.server.token.TokenAuthenticationFilter;
-import com.github.ferrantemattarutigliano.software.server.token.TokenUtils;
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
+import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,24 +14,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
-import org.springframework.security.core.token.Token;
 
-
-import javax.servlet.FilterChain;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
