@@ -1,11 +1,13 @@
 package com.github.ferrantemattarutigliano.software.server.controller;
 
+
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.*;
-import com.github.ferrantemattarutigliano.software.server.service.RequestService;
+import com.github.ferrantemattarutigliano.software.server.service.RequestService;;
+import com.github.ferrantemattarutigliano.software.server.token.TokenAuthenticationFilter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+
 import java.lang.reflect.Type;
 import java.security.Principal;
 import java.sql.Date;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+
 
 public class RequestControllerTest {
     @InjectMocks
@@ -59,6 +63,7 @@ public class RequestControllerTest {
 
         return request;
     }
+
 
     @Test
     public void individualRequestTest() {
