@@ -216,7 +216,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     }
 
     private void addSpace(ViewGroup layout, boolean isVertical){
-        int size = isVertical ? 60 : 25;
+        int size = isVertical ? 60 : 15;
         addSpace(layout, isVertical, size);
     }
 
