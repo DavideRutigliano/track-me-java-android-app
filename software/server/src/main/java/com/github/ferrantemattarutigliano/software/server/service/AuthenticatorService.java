@@ -205,14 +205,8 @@ public class AuthenticatorService implements UserDetailsService {
     }
 
     public ThirdParty getThirdPartyProfile(String username) {
-
         User authenticated = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (authenticated != null
-                && authenticated.getUsername().equals(username)
-                && thirdPartyRepository.existsByUser(authenticated))
-            return thirdPartyRepository.findByUser(authenticated);
-        else return null;
+        return thirdPartyRepository.findByUser(authenticated);
     }
 
     public String changeThirdPartyProfile(String username, ThirdParty updatedThirdParty) {
