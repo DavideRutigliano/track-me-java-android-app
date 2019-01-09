@@ -3281,7 +3281,7 @@ public class RequestServiceTest {
 
     @Test
     public void groupRequestTest_birthdatemageq() {
-        //create a mock users individual
+        //create a mock users individuals
         String role = Role.ROLE_INDIVIDUAL.toString();
         int i = 0;
         Date birthDate = new Date(90, 01, 01);
