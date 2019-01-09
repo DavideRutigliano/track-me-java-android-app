@@ -36,7 +36,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         CoordinatorLayout layout = findViewById(R.id.layout_registration);
         Toolbar toolbar = findViewById(R.id.container_toolbar_registration);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.container_registration);

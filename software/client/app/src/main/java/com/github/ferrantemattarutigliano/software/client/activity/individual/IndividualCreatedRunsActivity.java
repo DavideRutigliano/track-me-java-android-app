@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualCreatedRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.util.Constant;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualCreatedRunsView;
 
@@ -92,7 +93,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             //create title
             TextView titleView = new TextView(getApplicationContext());
             titleView.setText(runDTO.getTitle());
-            titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
+            titleView.setLayoutParams(new LinearLayout.LayoutParams(Constant.RUN_TITLE_WIDTH,ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(titleView);
             //create buttons
             addSpace(linearLayout);
@@ -218,8 +219,8 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
         int width = 0;
         int height = 0;
 
-        if(isVertical) height = 70;
-        else width = 25;
+        if(isVertical) height = 40;
+        else width = 2;
 
         Space space = new Space(getApplicationContext());
         space.setLayoutParams(new LinearLayout.LayoutParams(width, height));

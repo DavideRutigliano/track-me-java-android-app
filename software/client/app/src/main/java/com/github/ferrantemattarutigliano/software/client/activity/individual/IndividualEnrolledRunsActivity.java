@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.RunDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualEnrolledRunsPresenter;
+import com.github.ferrantemattarutigliano.software.client.util.Constant;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualEnrolledRunsView;
 
@@ -66,7 +67,7 @@ public class IndividualEnrolledRunsActivity extends AppCompatActivity implements
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             //create title
             TextView titleView = new TextView(getApplicationContext());
-            titleView.setLayoutParams(new LinearLayout.LayoutParams(500,ViewGroup.LayoutParams.WRAP_CONTENT));
+            titleView.setLayoutParams(new LinearLayout.LayoutParams(Constant.RUN_TITLE_WIDTH,ViewGroup.LayoutParams.WRAP_CONTENT));
             titleView.setText(runDTO.getTitle());
             linearLayout.addView(titleView);
             //create buttons
