@@ -96,7 +96,7 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
             titleView.setLayoutParams(new LinearLayout.LayoutParams(Constant.RUN_TITLE_WIDTH,ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(titleView);
             //create buttons
-            addSpace(linearLayout);
+            addSpace(linearLayout, false, 60);
             createDeleteButton(linearLayout, runDTO);
             addSpace(linearLayout);
             createInfoButton(linearLayout, runDTO);
@@ -216,11 +216,16 @@ public class IndividualCreatedRunsActivity extends AppCompatActivity implements 
     }
 
     private void addSpace(ViewGroup layout, boolean isVertical){
+        int size = isVertical ? 60 : 25;
+        addSpace(layout, isVertical, size);
+    }
+
+    private void addSpace(ViewGroup layout, boolean isVertical, int size){
         int width = 0;
         int height = 0;
 
-        if(isVertical) height = 40;
-        else width = 2;
+        if(isVertical) height = size;
+        else width = size;
 
         Space space = new Space(getApplicationContext());
         space.setLayoutParams(new LinearLayout.LayoutParams(width, height));
