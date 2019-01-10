@@ -87,6 +87,18 @@ public class AuthenticatorControllerTest {
         return user;
     }
 
+    public Individual convertIndividualDTO(IndividualDTO individualDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        Individual individual = modelMapper.map(individualDTO, Individual.class);
+        return individual;
+    }
+
+    public ThirdParty convertThirdPartyDTO(ThirdPartyDTO thirdPartyDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        ThirdParty thirdParty = modelMapper.map(thirdPartyDTO, ThirdParty.class);
+        return thirdParty;
+    }
+
 
 
     @Test
@@ -219,6 +231,94 @@ public class AuthenticatorControllerTest {
         Individual result = authenticatorController.getIndividualProfile("username");
 
         Assert.assertEquals(dummyIndividual, result);
+
+
+    }
+
+    @Test
+    public void changeIndividualProfileTest() {
+
+        //create dummy user
+
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+
+        //create dummy individual
+
+        IndividualDTO individualDTO = createMockIndividualDTO();
+        Individual dummyIndividual = convertIndividualDTO(individualDTO);
+        dummyIndividual.setUser(dummyUser);
+
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockAuthenticatorService.changeIndividualProfile("username", dummyIndividual))
+                .thenReturn(Message.CHANGE_PROFILE_SUCCESS.toString());
+
+        String result = authenticatorController.changeIndividualProfile("username", dummyIndividual);
+
+        Assert.assertEquals(Message.CHANGE_PROFILE_SUCCESS.toString(), result);
+
+
+    }
+
+    @Test
+    public void getThirdPartyProfileTest() {
+
+        //create dummy user
+
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+
+        //create dummy thirdParty
+
+        //create mock ThirdParty
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678901");
+        dummyThirdParty.setOrganizationName("Windown");
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockAuthenticatorService.getThirdPartyProfile("username"))
+                .thenReturn(dummyThirdParty);
+
+        ThirdParty result = authenticatorController.getThirdPartyProfile("username");
+
+        Assert.assertEquals(dummyThirdParty, result);
+
+
+    }
+
+    @Test
+    public void changeThirdPartyProfileTest() {
+
+        //create dummy user
+
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+
+        //create dummy individual
+
+        ThirdPartyDTO thirdPartyDTO = createMockThirdPartyDTO();
+        ThirdParty dummyThirdParty = convertThirdPartyDTO(thirdPartyDTO);
+        dummyThirdParty.setUser(dummyUser);
+
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockAuthenticatorService.changeThirdPartyProfile("username", dummyThirdParty))
+                .thenReturn(Message.CHANGE_PROFILE_SUCCESS.toString());
+
+        String result = authenticatorController.changeThirdPartyProfile("username", dummyThirdParty);
+
+        Assert.assertEquals(Message.CHANGE_PROFILE_SUCCESS.toString(), result);
 
 
     }
