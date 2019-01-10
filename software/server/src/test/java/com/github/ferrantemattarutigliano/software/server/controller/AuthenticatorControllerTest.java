@@ -163,4 +163,63 @@ public class AuthenticatorControllerTest {
 
     }
 
+    @Test
+    public void logoutTest() {
+        String result = authenticatorController.logout();
+
+        Assert.assertEquals("Success!", result);
+
+    }
+
+    @Test
+    public void changeUsernameTest() {
+        Mockito.when(mockAuthenticatorService.changeUsername("username", "username2"))
+                .thenReturn(Message.CHANGE_USERNAME_SUCCESS.toString());
+
+        String result = authenticatorController.changeUsername("username", "username2");
+
+        Assert.assertEquals(Message.CHANGE_USERNAME_SUCCESS.toString(), result);
+
+    }
+
+    @Test
+    public void changePasswordTest() {
+        Mockito.when(mockAuthenticatorService.changePassword("username", "username2"))
+                .thenReturn(Message.CHANGE_PASSWORD_SUCCESS.toString());
+
+        String result = authenticatorController.changePassword("username", "username2");
+
+        Assert.assertEquals(Message.CHANGE_PASSWORD_SUCCESS.toString(), result);
+
+    }
+
+    @Test
+    public void getIndividualProfileTest() {
+
+        //create dummy user
+
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+
+        //create dummy individual
+
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockAuthenticatorService.getIndividualProfile("username"))
+                .thenReturn(dummyIndividual);
+
+        Individual result = authenticatorController.getIndividualProfile("username");
+
+        Assert.assertEquals(dummyIndividual, result);
+
+
+    }
 }
