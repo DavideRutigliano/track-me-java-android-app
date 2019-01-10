@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
@@ -173,6 +174,25 @@ public class AuthenticatorControllerTest {
 
         Assert.assertEquals(mockedUser, result);
 
+    }
+
+    @Test
+    public void loginTest_Unauthorized() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        //create mocked user DTO
+        UserDTO mockedUserDTO = createMockUserTPDTO();
+
+        //convert it into a user
+
+        User mockedUser = convertUserDTO(mockedUserDTO);
+
+        /* TEST STARTS HERE */
+        Mockito.when(mockAuthenticatorService.login(mockedUser))
+                .thenReturn(null);
+
+        authenticatorController.login(mockedUser, response);
+
+        Assert.assertEquals(HttpServletResponse.SC_UNAUTHORIZED, response.getStatus());
     }
 
     @Test
