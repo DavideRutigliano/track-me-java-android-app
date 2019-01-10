@@ -2,7 +2,9 @@ package com.github.ferrantemattarutigliano.software.server.controller;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.model.dto.HealthDataDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.PositionDTO;
 import com.github.ferrantemattarutigliano.software.server.model.entity.HealthData;
+import com.github.ferrantemattarutigliano.software.server.model.entity.Position;
 import com.github.ferrantemattarutigliano.software.server.service.IndividualDataService;
 import com.github.ferrantemattarutigliano.software.server.service.RequestService;
 import org.junit.Assert;
@@ -13,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.parameters.P;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -61,7 +64,9 @@ public class IndividualDataControllerTest {
 
     @Test
     public void insertDateTest() {
+
         //create a collection of healthDataDTOs
+
         Collection<HealthDataDTO> healthDataDTOS = new ArrayList<>();
         Long x = 1L;
         int i = 0;
@@ -70,7 +75,9 @@ public class IndividualDataControllerTest {
             healthDataDTOS.add(H);
             i++;
         }
+
         //convert it into a collection of HealthDatas
+
         Collection<HealthData> healthDatas = new ArrayList<>();
         for (HealthDataDTO dtos : healthDataDTOS) {
             HealthData hdata = convertHealthDataDTO(dtos);
@@ -85,6 +92,28 @@ public class IndividualDataControllerTest {
         String result = individualDataController.insertData(healthDatas);
 
         Assert.assertEquals(Message.INSERT_DATA_SUCCESS.toString(), result);
+
+    }
+
+    @Test
+    public void insertPositionTest() {
+
+        //create mock positionDto
+
+        PositionDTO positionDTO = new PositionDTO();
+        positionDTO.setLongitude(50.0);
+        positionDTO.setLatitude(10.0);
+        positionDTO.setDate(new Date(1));
+        positionDTO.setTime(new Time(1));
+
+        //convert into mock Positio
+
+        ModelMapper modelMapper = new ModelMapper();
+        Position position = modelMapper.map(positionDTO, Position.class);
+
+        /* TEST STARTS HERE */
+
+        individualDataController.insertPosition(position);
 
     }
 
