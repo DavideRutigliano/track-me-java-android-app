@@ -36,7 +36,7 @@ public class RequestControllerTest {
     public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
-    
+
 
     private IndividualRequest createMockIndRequest(String ssn) {
         IndividualRequest request = new IndividualRequest(ssn);
@@ -504,6 +504,9 @@ public class RequestControllerTest {
         //create health data
         Date bdate = new Date(1);
         HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
+        firstHealthData.setId(0L);
+        Long Id = firstHealthData.getId();
+        firstHealthData.setDate(new Date(1));
         //add to a collection of healthdata
         Collection<HealthData> healthDatas = new ArrayList<>();
         for (i = 0; i < 1; i++) {
