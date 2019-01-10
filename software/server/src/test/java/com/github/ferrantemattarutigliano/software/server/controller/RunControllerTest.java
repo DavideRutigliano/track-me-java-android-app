@@ -108,6 +108,30 @@ public class RunControllerTest {
 
     }
 
+    private RunDTO createMockRunDTO2() {
+        RunDTO run = new RunDTO();
+        Date date = new Date(1);
+        Time time = new Time(1);
+        run.setState("created");
+        run.setTitle("marathon");
+        run.setDate(date);
+        //create path collection
+        run.setTime(time);
+        PositionDTO path = new PositionDTO();
+        path.setLatitude(10.0);
+        path.setLongitude(50.0);
+        path.setTime(new Time(1));
+        path.setDate(new Date(1));
+        path.setId(0L);
+        Collection<PositionDTO> paths = new ArrayList<>();
+        paths.add(path);
+        run.setPath(paths);
+        return run;
+
+    }
+
+
+
     private Collection<RunDTO> convertRuns(Collection<Run> runs) {
         Collection<RunDTO> runDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -128,11 +152,17 @@ public class RunControllerTest {
         return runDTOS;
     }
 
+    public Run convertRunDTO(RunDTO runDTO) {
+        ModelMapper modelMapper2 = new ModelMapper();
+        Run run = modelMapper2.map(runDTO, Run.class);
+        return run;
+    }
+
 
     @Test
     public void createRunTest() {
         // RunDTO creation
-        RunDTO firstRunDTO = createMockRunDTO();
+        RunDTO firstRunDTO = createMockRunDTO2();
         //create a mock user
         String role = Role.ROLE_INDIVIDUAL.toString();
         User mockedUser = new User("username", "password", "aa@aa.com", role);
@@ -417,16 +447,14 @@ public class RunControllerTest {
         mockedIndividual.setFirstname("pippo");
         mockedIndividual.setLastname("pippetti");
         //create mock Run
-        Run firstRun = createMockRun(mockedIndividual, "10.0", "50.0");
-        Run secondRun = createMockRun(mockedIndividual, "20.0", "20.0");
+        Run firstRun = convertRunDTO(firstRunDTO);
+        firstRun.setOrganizer(mockedIndividual);
+        firstRun.setPath("20.0:20.0;");
         firstRun.setState("created");
         firstRun.setId(0L);
-        secondRun.setId(1L);
-        secondRun.setState("created");
         //add to a collection
         Collection<Run> orgRuns = new ArrayList<>();
         orgRuns.add(firstRun);
-        orgRuns.add(secondRun);
         //add to organizer and run enrolled
         mockedIndividual.setCreatedRuns(orgRuns);
         mockedIndividual.setWatchedRuns(orgRuns);
