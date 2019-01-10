@@ -36,13 +36,15 @@ public class RequestControllerTest {
     public void initTest() {
         MockitoAnnotations.initMocks(this);
     }
-
+    
 
     private IndividualRequest createMockIndRequest(String ssn) {
         IndividualRequest request = new IndividualRequest(ssn);
         request.setDate(new Date(1));
         request.setTime(new Time(1));
-
+        request.setSubscription(true);
+        request.setId(0L);
+        request.setAccepted(true);
         return request;
 
     }
@@ -55,6 +57,32 @@ public class RequestControllerTest {
         return request;
     }
 
+    private IndividualRequestDTO createMockIndRequestDTO(String ssn, Boolean subscribed) {
+        IndividualRequestDTO requestDTO = new IndividualRequestDTO(ssn, subscribed);
+        requestDTO.setSubscription(true);
+        requestDTO.setId(0L);
+        requestDTO.setAccepted(true);
+        requestDTO.setSubscription(subscribed);
+        requestDTO.setDate(new Date(1));
+        requestDTO.setTime(new Time(1));
+
+        return requestDTO;
+
+    }
+
+
+    public GroupRequest convertGroupRequestDTO(GroupRequestDTO groupRequestDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        GroupRequest groupRequest = modelMapper.map(groupRequestDTO, GroupRequest.class);
+        return groupRequest;
+    }
+
+
+    public IndividualRequest convertIndividualRequestDTO(IndividualRequestDTO individualRequestDTO) {
+        ModelMapper modelMapper2 = new ModelMapper();
+        IndividualRequest individualRequest = modelMapper2.map(individualRequestDTO, IndividualRequest.class);
+        return individualRequest;
+    }
 
     @Test
     public void individualRequestTest() {
@@ -74,7 +102,9 @@ public class RequestControllerTest {
         mockedThirdParty.setVat("11111111111");
         mockedThirdParty.setOrganizationName("topolino");
         //create individual requests
-        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        IndividualRequestDTO firstIndRequestDTO = createMockIndRequestDTO(mockedIndividual.getSsn(), true);
+        firstIndRequestDTO.setSsn(firstIndRequestDTO.getSsn());
+        IndividualRequest firstIndRequest = convertIndividualRequestDTO(firstIndRequestDTO);
         //add request to a collection
         Collection<IndividualRequest> indRequests = new ArrayList<>();
         indRequests.add(firstIndRequest);
@@ -108,8 +138,11 @@ public class RequestControllerTest {
         mockedThirdParty.setUser(mockedUser2);
         mockedThirdParty.setVat("11111111111");
         mockedThirdParty.setOrganizationName("topolino");
-        //create group requests
-        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy");
+        //create group request
+        GroupRequestDTO firstGroupRequestDTO = new GroupRequestDTO();
+        firstGroupRequestDTO.setCriteria("state=italy");
+        String criteria = firstGroupRequestDTO.getCriteria();
+        GroupRequest firstGroupRequest = convertGroupRequestDTO(firstGroupRequestDTO);
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
