@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
 import org.springframework.security.core.token.Token;
@@ -21,17 +22,15 @@ import java.security.SecureRandom;
 import static org.mockito.ArgumentMatchers.any;
 
 public class TokenUtilsTest {
+
     @InjectMocks
     private TokenUtils tokenUtils;
 
     @Mock
-    private TokenService mockTokenService;
-
-    @Mock
-    private HttpServletResponse mockResponse;
-
-    @Mock
     private MockHttpServletRequest mockRequest1;
+
+    @Mock
+    private MockHttpServletResponse mockResponse;
 
     @Mock
     private Token mockToken;
@@ -114,5 +113,27 @@ public class TokenUtilsTest {
 
         Assert.assertEquals(mockToken.getKeyCreationTime(), result);
     }
+
+    @Test
+    public void addHeaderTest() {
+
+        tokenUtils.addHeader(mockResponse, "username", "password");
+
+    }
+
+    @Test
+    public void deleteTokenTest() {
+
+        tokenUtils.deleteToken(mockResponse);
+
+    }
+/*
+    @Test
+    public void createAuthenticationTokenTest() {
+
+        String Result =tokenUtils.createAuthToken("username","password");
+
+    }
+*/
 }
 
