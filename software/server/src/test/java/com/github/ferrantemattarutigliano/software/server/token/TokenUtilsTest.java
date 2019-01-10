@@ -33,6 +33,9 @@ public class TokenUtilsTest {
     @Mock
     private MockHttpServletRequest mockRequest1;
 
+    @Mock
+    private Token mockToken;
+
 
     @Before
     public void initTest() {
@@ -73,6 +76,43 @@ public class TokenUtilsTest {
 
         Assert.assertEquals(ExRes[0], result[0]);
         Assert.assertEquals(ExRes[1], result[1]);
+    }
+
+    @Test
+    public void getCreationTimeTest() {
+
+        final String HEADER_SECURITY_TOKEN = "X-Auth-Token";
+        final Integer SERVER_INTEGER = 32;
+        final String SERVER_SECRET = "#SèRv3r_$3kRet:=Tr4CkM3_s.SécR37";
+        final Integer PRN_BYTES = 16;
+        final KeyBasedPersistenceTokenService tokenService;
+
+        tokenService = new KeyBasedPersistenceTokenService();
+        tokenService.setServerInteger(SERVER_INTEGER);
+        tokenService.setServerSecret(SERVER_SECRET);
+        tokenService.setPseudoRandomNumberBytes(PRN_BYTES);
+        tokenService.setSecureRandom(new SecureRandom());
+
+        String key = tokenService.allocateToken("username" + ":" + "password").getKey();
+
+        mockToken = tokenService.verifyToken(key);
+
+        Mockito.when(mockRequest1.getHeader("X-Auth-Token"))
+                .thenReturn(key);
+
+
+        String[] ExRes = new String[2];
+        ExRes[0] = "username";
+        ExRes[1] = "password";
+
+
+        MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
+        mockHttpServletRequest.addHeader("X-Auth-Token", key);
+
+
+        long result = tokenUtils.getTokenCreationTime(mockHttpServletRequest);
+
+        Assert.assertEquals(mockToken.getKeyCreationTime(), result);
     }
 }
 
