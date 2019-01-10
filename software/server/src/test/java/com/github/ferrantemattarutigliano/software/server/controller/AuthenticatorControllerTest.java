@@ -2,10 +2,9 @@ package com.github.ferrantemattarutigliano.software.server.controller;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.IndividualRegistrationDTO;
-import com.github.ferrantemattarutigliano.software.server.model.dto.UserDTO;
+import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
+import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,6 +44,15 @@ public class AuthenticatorControllerTest {
         individualDTO.setCity(individualDTO.getCity());
         individualDTO.setAddress(individualDTO.getAddress());
         return individualDTO;
+    }
+
+    public ThirdPartyDTO createMockThirdPartyDTO() {
+        //test constructor
+        ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO("99999999999", "topolino");
+        //test setters and getters
+        thirdPartyDTO.setVat(thirdPartyDTO.getVat());
+        thirdPartyDTO.setOrganizationName(thirdPartyDTO.getOrganizationName());
+        return thirdPartyDTO;
     }
 
     public UserDTO createMockUserIndDTO() {
@@ -94,6 +102,33 @@ public class AuthenticatorControllerTest {
                 .thenReturn(Message.REGISTRATION_SUCCESS.toString());
 
         String result = authenticatorController.individualRegistration(individualRegistrationDTO);
+
+        Assert.assertEquals(Message.REGISTRATION_SUCCESS.toString(), result);
+    }
+
+    @Test
+    public void thirdPartyRegistrationTest() {
+
+        //create mocked user DTO
+
+        UserDTO mockedUserDTO = createMockUserTPDTO();
+
+        //create mocked ThirdParty DTO
+
+        ThirdPartyDTO mockedThirdPartyDTO = createMockThirdPartyDTO();
+        ThirdPartyRegistrationDTO thirdPartyRegistrationDTO = new ThirdPartyRegistrationDTO(mockedUserDTO, mockedThirdPartyDTO);
+
+        //test ThirdParty Registration DTO
+
+        UserDTO a = thirdPartyRegistrationDTO.getUser();
+        ThirdPartyDTO b = thirdPartyRegistrationDTO.getThirdParty();
+
+        /* TEST STARTS HERE */
+
+        Mockito.when(mockAuthenticatorService.thirdPartyRegistration(any(ThirdParty.class)))
+                .thenReturn(Message.REGISTRATION_SUCCESS.toString());
+
+        String result = authenticatorController.thirdPartyRegistration(thirdPartyRegistrationDTO);
 
         Assert.assertEquals(Message.REGISTRATION_SUCCESS.toString(), result);
     }
