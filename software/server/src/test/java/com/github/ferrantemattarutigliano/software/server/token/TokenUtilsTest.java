@@ -111,9 +111,12 @@ public class TokenUtilsTest {
         Assert.assertNull(result);
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void getUsernameAndPassFromTokenTest_exception() {
-        tokenUtils.getUsernameAndPassFromToken(null);
+        MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
+        mockHttpServletRequest.removeHeader("X-Auth-Token");
+        String[] result = tokenUtils.getUsernameAndPassFromToken(mockHttpServletRequest);
+        Assert.assertNull(result);
     }
 
     @Test
