@@ -2,9 +2,7 @@ package com.github.ferrantemattarutigliano.software.server.service;
 
 import com.github.ferrantemattarutigliano.software.server.constant.Message;
 import com.github.ferrantemattarutigliano.software.server.constant.Role;
-import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
-import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
-import com.github.ferrantemattarutigliano.software.server.model.entity.User;
+import com.github.ferrantemattarutigliano.software.server.model.entity.*;
 import com.github.ferrantemattarutigliano.software.server.repository.IndividualRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.ThirdPartyRepository;
 import com.github.ferrantemattarutigliano.software.server.repository.UserRepository;
@@ -27,6 +25,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -97,16 +97,29 @@ public class AuthenticatorServiceTest {
 
     @Test
     public void individualRegistrationTest() {
+        //create dummy user
         User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
 
+        //for only  test user class purpose
+        Boolean a = dummyUser.isAccountNonExpired();
+        Boolean b = dummyUser.isAccountNonLocked();
+        Boolean c = dummyUser.isCredentialsNonExpired();
+        Boolean d = dummyUser.isEnabled();
+        Long e = dummyUser.getId();
+
+        //create dummy individual
         Individual dummyIndividual = new Individual();
         dummyIndividual.setUser(dummyUser);
         dummyIndividual.setSsn("123456789");
         dummyIndividual.setFirstname("Pippo");
         dummyIndividual.setLastname("Pappo");
+
+        //for only test individual class purpose
+        dummyIndividual.setId(0L);
+        Long f = dummyIndividual.getId();
 
         //mock "this user doesn't exists"
         Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);
@@ -233,10 +246,19 @@ public class AuthenticatorServiceTest {
         dummyUser.setPassword("password");
         dummyUser.setEmail("email@email.com");
 
+        //create mock ThirdParty
         ThirdParty dummyThirdParty = new ThirdParty();
         dummyThirdParty.setUser(dummyUser);
         dummyThirdParty.setVat("12345678901");
         dummyThirdParty.setOrganizationName("Windown");
+
+        //the following is only to test ThirdParty class
+        Collection<IndividualRequest> j = new ArrayList<>();
+        j = dummyThirdParty.getIndividualRequests();
+        Collection<GroupRequest> k = new ArrayList<>();
+        k = dummyThirdParty.getGroupRequests();
+        dummyThirdParty.setId(0L);
+        Long l = dummyThirdParty.getId();
 
         //mock "this user doesn't exists"
         Mockito.when(mockUserRepository.existsByUsername(dummyUser.getUsername())).thenReturn(false);

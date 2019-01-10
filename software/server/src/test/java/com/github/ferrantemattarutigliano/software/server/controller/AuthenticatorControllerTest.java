@@ -5,6 +5,7 @@ import com.github.ferrantemattarutigliano.software.server.constant.Role;
 import com.github.ferrantemattarutigliano.software.server.model.dto.*;
 import com.github.ferrantemattarutigliano.software.server.model.entity.Individual;
 import com.github.ferrantemattarutigliano.software.server.model.entity.ThirdParty;
+import com.github.ferrantemattarutigliano.software.server.model.entity.User;
 import com.github.ferrantemattarutigliano.software.server.service.AuthenticatorService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,10 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.refEq;
 
 public class AuthenticatorControllerTest {
     @InjectMocks
@@ -77,6 +81,12 @@ public class AuthenticatorControllerTest {
         return userDTO;
     }
 
+    public User convertUserDTO(UserDTO userDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(userDTO, User.class);
+        return user;
+    }
+
 
 
     @Test
@@ -131,6 +141,26 @@ public class AuthenticatorControllerTest {
         String result = authenticatorController.thirdPartyRegistration(thirdPartyRegistrationDTO);
 
         Assert.assertEquals(Message.REGISTRATION_SUCCESS.toString(), result);
+    }
+
+    @Test
+    public void loginTest() {
+        //create mocked user DTO
+
+        UserDTO mockedUserDTO = createMockUserTPDTO();
+
+        //convert it into a user
+
+        User mockedUser = convertUserDTO(mockedUserDTO);
+
+        /* TEST STARTS HERE */
+        Mockito.when(mockAuthenticatorService.login(mockedUser))
+                .thenReturn(mockedUser);
+
+        User result = authenticatorController.login(mockedUser, any(HttpServletResponse.class));
+
+        Assert.assertEquals(mockedUser, result);
+
     }
 
 }
