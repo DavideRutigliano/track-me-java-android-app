@@ -24,13 +24,13 @@ import java.util.Collection;
 
 public class IndividualDataControllerTest {
     @InjectMocks
-    IndividualDataController individualDataController;
+    private IndividualDataController individualDataController;
 
     @Mock
-    IndividualDataService mockIndividualDataService;
+    private IndividualDataService mockIndividualDataService;
 
     @Mock
-    RequestService mockRequestService;
+    private RequestService mockRequestService;
 
 
     @Before
