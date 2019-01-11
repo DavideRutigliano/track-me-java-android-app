@@ -190,7 +190,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withFirstname(String firstname) {
-        if (firstname == null) {
+        if (firstname.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("firstname"), firstname);
