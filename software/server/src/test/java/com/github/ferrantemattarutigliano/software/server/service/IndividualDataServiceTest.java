@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 
 public class IndividualDataServiceTest {
 
@@ -115,6 +116,7 @@ public class IndividualDataServiceTest {
         Assert.assertEquals(Message.INSERT_DATA_SUCCESS.toString(), result);
     }
 
+
     @Test
     public void insertDataTest_badRequest() {
         //create mocked individual
@@ -164,6 +166,34 @@ public class IndividualDataServiceTest {
 
         Mockito.when(mockIndividualRepository.existsByUser(mockedUser))
                 .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockPositionRepository.save(position))
+                .thenReturn(position);
+
+        individualDataService.insertPosition(position);
+
+
+    }
+
+    @Test
+    public void insertPositionTest_null() {
+        //create mocked individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create mocked position
+        Position position = createMockPosition();
+
+
+        //start test
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.existsByUser(mockedUser))
+                .thenReturn(false);
         Mockito.when(mockIndividualRepository.findByUser(mockedUser))
                 .thenReturn(mockedIndividual);
         Mockito.when(mockPositionRepository.save(position))
@@ -236,17 +266,22 @@ public class IndividualDataServiceTest {
         Mockito.when(mockGroupRequestRepository.findSubscriptionRequest())
                 .thenReturn(groupRequests);
 
-        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+        Mockito.when(mockIndividualRepository.findAll(any(Specification.class)))
                 .thenReturn(listIndividuals);
 
         Iterator<Individual> it1 = listIndividuals.iterator();
+        i = 0;
         while (i < 2) {
             Individual IND = it1.next();
             Mockito.when(mockIndividualRepository.findBySsn(IND.getSsn()))
                     .thenReturn(IND);
-            Mockito.when((mockHealthDataRepository.findByIndividual(IND)))
+
+
+            Mockito.when((mockHealthDataRepository.findByIndividual(any(Individual.class))))
                     .thenReturn(healthDatas);
+            i++;
         }
+
 
         individualDataService.updateGroupRequestTopics();
 
