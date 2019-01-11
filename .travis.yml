@@ -14,7 +14,7 @@ matrix:
         - chmod +x mvnw
         - psql -c 'create database trackme_db;' -U postgres
         - psql -c "create user trackmeadmin  with password 'password';" -U postgres
-        - psql -c 'grant all privileges on database trackme_db to trackmeadmin;' | -U postgres
+        - psql -c 'grant all privileges on database trackme_db to trackmeadmin;' -U postgres
       script:
         - ./mvnw package
       after_success:
