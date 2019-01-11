@@ -86,15 +86,19 @@ public class ThirdPartyViewDataActivity extends AppCompatActivity implements Thi
             TextView textView = new TextView(this);
             textView.setLayoutParams(new LinearLayout.LayoutParams(TEXT_WIDTH, ViewGroup.LayoutParams.WRAP_CONTENT));
             textView.setText(requestDTO.toString());
-            textView.setClickable(true);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Long requestId = requestDTO.getId();
-                    thirdPartyViewDataPresenter.doFetchHealthData(requestType, requestId);
-                    loadingScreen.show();
-                }
-            });
+
+            //if request is accepted and clicked go to the next screen
+            if(requestDTO.getAccepted() != null && requestDTO.getAccepted()){
+                textView.setClickable(true);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Long requestId = requestDTO.getId();
+                        thirdPartyViewDataPresenter.doFetchHealthData(requestType, requestId);
+                        loadingScreen.show();
+                    }
+                });
+            }
 
             //add all icons
             linearLayout.addView(textView);
