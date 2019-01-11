@@ -1754,6 +1754,62 @@ public class RequestServiceTest {
 
     }
 
+    @Test
+    public void groupRequestTestNotAnonymous_heighteqEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setHeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("height=");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
 
 
     @Test
@@ -1925,6 +1981,62 @@ public class RequestServiceTest {
     }
 
     @Test
+    public void groupRequestTestNotAnonymous_heightmagEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setHeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("height>");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
     public void groupRequestTestNotAnonymous_heightmin() {
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -1944,6 +2056,175 @@ public class RequestServiceTest {
         mockedThirdParty.setOrganizationName("topolino");
         //create group requests
         GroupRequest firstGroupRequest = createMockGroupRequest("height<" + 101);
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+
+    @Test
+    public void groupRequestTestNotAnonymous_heightminEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setHeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("height<");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
+    public void groupRequestTestNotAnonymous_heightbeetween() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setHeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("height:" + 99 + "," + 101);
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
+    public void groupRequestTestNotAnonymous_heightbeetweenEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setHeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("height:," + 101);
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
@@ -2000,6 +2281,62 @@ public class RequestServiceTest {
         mockedThirdParty.setOrganizationName("topolino");
         //create group requests
         GroupRequest firstGroupRequest = createMockGroupRequest("weight=" + 100);
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
+    public void groupRequestTestNotAnonymous_wheighteqEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setWeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("weight=");
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
@@ -2207,6 +2544,63 @@ public class RequestServiceTest {
     }
 
     @Test
+    public void groupRequestTestNotAnonymous_wheightmagEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setWeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("weight>");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+
+    @Test
     public void groupRequestTestNotAnonymous_wheightmin() {
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -2226,6 +2620,175 @@ public class RequestServiceTest {
         mockedThirdParty.setOrganizationName("topolino");
         //create group requests
         GroupRequest firstGroupRequest = createMockGroupRequest("weight<" + 101);
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
+    public void groupRequestTestNotAnonymous_wheightminEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setWeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("weight<");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+    @Test
+    public void groupRequestTestNotAnonymous_wheightbetween() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setWeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("weight:" + 99 + "," + 101);
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        List<Individual> indCol = new ArrayList<>();
+        indCol.add(mockedIndividual);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+        Mockito.when(mockThirdPartyRepository.existsByUser(mockedUser2))
+                .thenReturn(true);
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(mockedThirdParty);
+        Mockito.when(mockIndividualRepository.existsBySsn(mockedIndividual.getSsn()))
+                .thenReturn(true);
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+
+        Mockito.when(mockIndividualRepository.findAll(Mockito.any(Specification.class)))
+                .thenReturn(indCol);
+
+
+        Mockito.when(mockGroupRequestRepository.save(firstGroupRequest))
+                .thenReturn(firstGroupRequest);
+
+
+        String result = requestService.groupRequest(firstGroupRequest);
+
+        Assert.assertEquals(Message.REQUEST_NOT_ANONYMOUS.toString(), result);
+
+    }
+
+
+    @Test
+    public void groupRequestTestNotAnonymous_wheightbetweenEmpty() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        mockedIndividual.setWeight(100);
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("weight:," + 101);
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
