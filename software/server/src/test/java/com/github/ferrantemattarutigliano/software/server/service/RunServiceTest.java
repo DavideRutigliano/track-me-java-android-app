@@ -1337,6 +1337,16 @@ public class RunServiceTest {
 
     public Position generatePos(String longitude) {
         Position position = new Position("10.0", longitude);
+        //only for Test Reasons
+        position.setId(0l);
+        position.setIndividual(new Individual());
+        position.setDate(new Date(1));
+        position.setTime(new Time(1));
+        Long a = position.getId();
+        Individual b = position.getIndividual();
+        Date c = position.getDate();
+        Time d = position.getTime();
+
         return position;
     }
 
