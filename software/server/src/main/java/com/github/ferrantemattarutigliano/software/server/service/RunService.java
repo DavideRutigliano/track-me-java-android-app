@@ -212,7 +212,7 @@ public class RunService {
             athlete.getEnrolledRuns().removeIf(r -> r.getId().equals(runId));
         }
 
-        for (Individual spectator : run.getAthletes()) {
+        for (Individual spectator : run.getSpectators()) {
             spectator.getWatchedRuns().removeIf(r -> r.getId().equals(runId));
         }
 
