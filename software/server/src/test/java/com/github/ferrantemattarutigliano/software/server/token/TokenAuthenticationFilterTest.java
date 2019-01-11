@@ -173,9 +173,11 @@ public class TokenAuthenticationFilterTest {
     @Test
     public void testTokenFilter_GenericRequest() throws ServletException, IOException {
 
-        User dummy = new User();
-        dummy.setUsername("user");
-        dummy.setPassword("pwd");
+        UserDTO dummyDto = new UserDTO();
+        dummyDto.setId(2L);
+        dummyDto.setUsername("user");
+        dummyDto.setPassword("pass");
+        dummyDto.setEmail("em@ail.com");
 
         Mockito.when(mockRequest.getPathInfo()).thenReturn(null);
 
@@ -186,8 +188,8 @@ public class TokenAuthenticationFilterTest {
         SecurityContextHolder.setContext(mockSecurityContext);
 
         String[] login = {
-                dummy.getUsername(),
-                dummy.getPassword()
+                dummyDto.getUsername(),
+                dummyDto.getPassword()
         };
 
         Mockito.when(mockTokenService.allocateToken(login[0] + ":" + login[1]))

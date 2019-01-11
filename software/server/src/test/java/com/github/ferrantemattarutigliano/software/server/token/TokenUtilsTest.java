@@ -76,7 +76,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void getUsernameAndPassFromTokenTest_exception() {
+    public void getUsernameAndPassFromTokenFailureTest() {
 
         final String HEADER_SECURITY_TOKEN = "X-Auth-Token";
         final Integer SERVER_INTEGER = 32;
@@ -92,19 +92,31 @@ public class TokenUtilsTest {
 
         String key = tokenService.allocateToken("username" + ":" + "password").getKey();
 
-
         String[] ExRes = new String[2];
         ExRes[0] = "username";
         ExRes[1] = "password";
 
 
         MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        mockHttpServletRequest.addHeader("X-Auth-Token", key +
-                "sbaglia");
-
+        mockHttpServletRequest.addHeader(HEADER_SECURITY_TOKEN, "");
 
         String[] result = tokenUtils.getUsernameAndPassFromToken(mockHttpServletRequest);
 
+        Assert.assertNull(result);
+
+        mockHttpServletRequest.removeHeader(HEADER_SECURITY_TOKEN);
+
+        result = tokenUtils.getUsernameAndPassFromToken(mockHttpServletRequest);
+
+        Assert.assertNull(result);
+    }
+
+    @Test
+    public void getUsernameAndPassFromTokenTest_exception() {
+        MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
+        mockHttpServletRequest.removeHeader("X-Auth-Token");
+        String[] result = tokenUtils.getUsernameAndPassFromToken(mockHttpServletRequest);
+        Assert.assertNull(result);
     }
 
     @Test
@@ -126,7 +138,7 @@ public class TokenUtilsTest {
 
         mockToken = tokenService.verifyToken(key);
 
-        Mockito.when(mockRequest1.getHeader("X-Auth-Token"))
+        Mockito.when(mockRequest1.getHeader(HEADER_SECURITY_TOKEN))
                 .thenReturn(key);
 
 
@@ -136,7 +148,7 @@ public class TokenUtilsTest {
 
 
         MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        mockHttpServletRequest.addHeader("X-Auth-Token", key);
+        mockHttpServletRequest.addHeader(HEADER_SECURITY_TOKEN, key);
 
 
         long result = tokenUtils.getTokenCreationTime(mockHttpServletRequest);
@@ -170,7 +182,7 @@ public class TokenUtilsTest {
 
 
         MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        mockHttpServletRequest.addHeader("X-Auth-Token", key + "wrong");
+        mockHttpServletRequest.addHeader(HEADER_SECURITY_TOKEN, key + "wrong");
 
 
         long result = tokenUtils.getTokenCreationTime(mockHttpServletRequest);
