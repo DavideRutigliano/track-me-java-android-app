@@ -1,3 +1,4 @@
+/*
 package com.github.ferrantemattarutigliano.software.server;
 
 
@@ -14,3 +15,4 @@ public class ServerApplicationTest {
         ServerApplication.main(new String[] {});
     }
 }
+*/
