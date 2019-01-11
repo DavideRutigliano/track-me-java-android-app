@@ -198,7 +198,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> likeFirstname(String firstname) {
-        if (firstname == null) {
+        if (firstname.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.like(root.get("firstname"), firstname);
@@ -206,7 +206,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withLastname(String lastname) {
-        if (lastname == null) {
+        if (lastname.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("lastname"), lastname);
@@ -214,7 +214,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> likeLastname(String lastname) {
-        if (lastname == null) {
+        if (lastname.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.like(root.get("lastname"), lastname);
@@ -222,7 +222,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> inState(String state) {
-        if (state == null) {
+        if (state.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("state"), state);
@@ -230,7 +230,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> inCity(String city) {
-        if (city == null) {
+        if (city.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("city"), city);
@@ -238,7 +238,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withAddress(String address) {
-        if (address == null) {
+        if (address.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("address"), address);
@@ -246,7 +246,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withBirthDate(String birthDate) {
-        if (birthDate == null) {
+        if (birthDate.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.equal(root.get("birthdate"), convertStringToDate(birthDate));
@@ -254,7 +254,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> greaterThanBirthDate(String birthDate) {
-        if (birthDate == null) {
+        if (birthDate.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.greaterThan(root.get("birthdate"), convertStringToDate(birthDate));
@@ -262,7 +262,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> lessThanBirthDate(String birthDate) {
-        if (birthDate == null) {
+        if (birthDate.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.lessThan(root.get("birthdate"), convertStringToDate(birthDate));
@@ -270,7 +270,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> beetweenBirthDates(String from, String to) {
-        if (from == null || to == null) {
+        if (from.isEmpty() || to.isEmpty()) {
             return null;
         } else {
             return (root, query, cb) -> cb.between(root.get("birthdate"), convertStringToDate(from), convertStringToDate(to));
@@ -278,7 +278,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withHeight(String height) {
-        if (height == null) {
+        if (height.isEmpty()) {
             return null;
         } else {
             float h = convertStringToFloat(height);
@@ -287,7 +287,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> tallerThanHeight(String height) {
-        if (height == null) {
+        if (height.isEmpty()) {
             return null;
         } else {
             float taller = convertStringToFloat(height);
@@ -296,7 +296,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> shorterThanHeight(String height) {
-        if (height == null) {
+        if (height.isEmpty()) {
             return null;
         } else {
             float shorter = convertStringToFloat(height);
@@ -305,7 +305,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> betweenHeights(String from, String to) {
-        if (from == null || to == null) {
+        if (from.isEmpty() || to.isEmpty()) {
             return null;
         } else {
             float fromHeight = convertStringToFloat(from);
@@ -315,7 +315,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> withWeight(String weight) {
-        if (weight == null) {
+        if (weight.isEmpty()) {
             return null;
         } else {
             float w = convertStringToFloat(weight);
@@ -324,7 +324,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> heavierThanWeight(String weight) {
-        if (weight == null) {
+        if (weight.isEmpty()) {
             return null;
         } else {
             float heavier = convertStringToFloat(weight);
@@ -333,7 +333,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> lighterThanWeight(String weight) {
-        if (weight == null) {
+        if (weight.isEmpty()) {
             return null;
         } else {
             float lighter = convertStringToFloat(weight);
@@ -342,7 +342,7 @@ public class IndividualSpecification {
     }
 
     private static Specification<Individual> betweenWeights(String from, String to) {
-        if (from == null || to == null) {
+        if (from.isEmpty() || to.isEmpty()) {
             return null;
         } else {
             float fromWeight = convertStringToFloat(from);
