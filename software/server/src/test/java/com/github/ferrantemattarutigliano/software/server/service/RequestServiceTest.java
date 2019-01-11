@@ -2974,6 +2974,56 @@ public class RequestServiceTest {
     }
 
     @Test
+    public void showIndividualDataTest_NotAccepted() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        firstIndRequest.setId(0L);
+        firstIndRequest.setThirdParty(mockedThirdParty);
+        firstIndRequest.setAccepted(false);
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+        //create health data
+        Date bdate = new Date(1);
+        HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
+        //add to a collection of healthdata
+        Collection<HealthData> healthDatas = new ArrayList<>();
+        healthDatas.add(firstHealthData);
+
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockIndividualRequestRepository.findById(0L))
+                .thenReturn(Optional.of(firstIndRequest));
+
+
+        requestService.showIndividualData(firstIndRequest.getId());
+        ;
+    }
+
+    @Test
     public void showIndividualDataTest_Subscripted() {
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -2994,6 +3044,7 @@ public class RequestServiceTest {
         IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
         firstIndRequest.setId(0L);
         firstIndRequest.setThirdParty(mockedThirdParty);
+        firstIndRequest.setAccepted(true);
         //add request to a collection
         Collection<IndividualRequest> indRequests = new ArrayList<>();
         indRequests.add(firstIndRequest);
@@ -3050,6 +3101,7 @@ public class RequestServiceTest {
         IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
         firstIndRequest.setId(0L);
         firstIndRequest.setThirdParty(mockedThirdParty);
+        firstIndRequest.setAccepted(true);
         Date reqDate = new Date(98, 10, 01); //TODO DEPRECATED!!!
         firstIndRequest.setDate(reqDate);
         //add request to a collection

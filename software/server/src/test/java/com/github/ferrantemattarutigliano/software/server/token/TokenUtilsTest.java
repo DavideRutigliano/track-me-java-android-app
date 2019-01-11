@@ -162,7 +162,7 @@ public class TokenUtilsTest {
         String key = tokenService.allocateToken("username" + ":" + "password").getKey();
 
         mockToken = tokenService.verifyToken(key);
-        
+
 
         String[] ExRes = new String[2];
         ExRes[0] = "username";

@@ -238,6 +238,10 @@ public class RequestService {
 
         String ssn = request.getSsn();
 
+        if (!request.isAccepted()) {
+            return null;
+        }
+
         if (individualRequestRepository.isSubscriptionRequest(request.getId())) {
             Individual individual = individualRepository.findBySsn(ssn);
             return healthDataRepository.findByIndividual(individual);
