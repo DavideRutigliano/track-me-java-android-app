@@ -3361,7 +3361,7 @@ public class RequestServiceTest {
         mockedThirdParty.setVat("11111111111");
         mockedThirdParty.setOrganizationName("topolino");
         //create group requests
-        GroupRequest firstGroupRequest = createMockGroupRequest("birthdate>=" + birthDate + ";");
+        GroupRequest firstGroupRequest = createMockGroupRequest("birthdate>=" + "19900201" + ";");
         firstGroupRequest.setSubscription(false);
         //add request to a collection
         Collection<GroupRequest> groupRequests = new ArrayList<>();
