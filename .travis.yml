@@ -1,7 +1,10 @@
 env:
   global:
     - CODECOV_TOKEN="aedb687f-5985-4692-a387-c62057c76e5a"
-    
+
+services:
+  - postgresql
+
 matrix:
   include:
     - language: java
@@ -9,6 +12,9 @@ matrix:
       before_script:
         - cd software/server
         - chmod +x mvnw
+        - psql -c 'create database trackme_db;' -U postgres
+        - psql -c 'create user trackmeadmin with password "password";' -U postgres
+        - psql -c 'grant all privileges on database trackme_db to trackmeadmin;' -U postgres
       script:
         - ./mvnw package
       after_success:
