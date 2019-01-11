@@ -757,6 +757,25 @@ public class AuthenticatorServiceTest {
     }
 
     @Test
+    public void changeIndividualUsernameTest_BadRequest() {
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing individual
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        mockIndividualAuthorized(dummyUser, dummyIndividual);
+        String result = authenticatorService.changeUsername("wrong!", "NEW");
+        String expected = Message.BAD_REQUEST.toString();
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
     public void changeIndividualUsername_BadUsername_Test(){
         User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
@@ -838,6 +857,24 @@ public class AuthenticatorServiceTest {
         mockIndividualAuthorized(dummyUser, dummyIndividual);
         String result = authenticatorService.changePassword("username", "HELLO");
         Assert.assertEquals(Message.CHANGE_PASSWORD_SUCCESS.toString(), result);
+    }
+
+    @Test
+    public void changePasswordTest_BadRequest() {
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing individual
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        mockIndividualAuthorized(dummyUser, dummyIndividual);
+        String result = authenticatorService.changePassword("wrong", "HELLO");
+        Assert.assertEquals(Message.BAD_REQUEST.toString(), result);
     }
 
     @Test
