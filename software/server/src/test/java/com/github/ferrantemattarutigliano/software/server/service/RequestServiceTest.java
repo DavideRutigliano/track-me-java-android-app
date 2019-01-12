@@ -4583,6 +4583,8 @@ public class RequestServiceTest {
         Time time = new Time(1);
         HealthData firstHealthData = new HealthData("high pressure", "130", bdate);
         firstHealthData.setTime(time);
+        //only for test purpose
+        Individual a = firstHealthData.getIndividual();
         //add to a collection of healthdata
         Collection<HealthData> healthDatas = new ArrayList<>();
         for (i = 0; i < 1; i++) {
@@ -4764,6 +4766,13 @@ public class RequestServiceTest {
         mockedIndividual.setSsn("999999999");
         mockedIndividual.setWeight(100);
         //create mock user thridparty
+
+        //only for test purose
+        ReceivedRequestDTO receivedRequestDTO = new ReceivedRequestDTO();
+        receivedRequestDTO.setAccepted(true);
+        IndividualRequestDTO individualRequestDTO = new IndividualRequestDTO();
+
+
         String role2 = Role.ROLE_THIRD_PARTY.toString();
         User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
         ThirdParty mockedThirdParty = new ThirdParty();
