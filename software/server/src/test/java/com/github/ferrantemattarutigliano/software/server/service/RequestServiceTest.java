@@ -2825,6 +2825,7 @@ public class RequestServiceTest {
 
     }
 
+
     @Test
     public void groupRequestTest_state() {
         //create a mock users individual
@@ -4022,6 +4023,47 @@ public class RequestServiceTest {
 
     }
 
+    @Test
+    public void showSentIndividualRequestTest_senderNull() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(null);
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
+
+
+        requestService.showSentIndividualRequest();
+
+
+    }
+
 
     @Test
     public void showSentGroupRequestTest() {
@@ -4164,6 +4206,70 @@ public class RequestServiceTest {
     }
 
     @Test
+    public void showSentRequestTest_senderNull() {
+
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role2);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create group requests
+        GroupRequest firstGroupRequest = createMockGroupRequest("state=italy;");
+        firstGroupRequest.setSubscription(false);
+        //add request to a collection
+        Collection<GroupRequest> groupRequests = new ArrayList<>();
+        groupRequests.add(firstGroupRequest);
+        //save it in thirdparty
+        mockedThirdParty.setGroupRequests(groupRequests);
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+        //create sent request DTO
+        ModelMapper modelMapper = new ModelMapper();
+        SentRequestDTO sentRequestDTO = new SentRequestDTO();
+        //group request DTO
+        Type groupType = new TypeToken<Collection<GroupRequest>>() {
+        }.getType();
+        Collection<GroupRequestDTO> groupRequestDTOS = modelMapper.map(groupRequests, groupType);
+        //individual request DTO
+        Type individualType = new TypeToken<Collection<IndividualRequest>>() {
+        }.getType();
+        Collection<IndividualRequestDTO> individualRequestDTOS = modelMapper.map(indRequests, individualType);
+        //set them
+        sentRequestDTO.setIndividualRequestDTOS(individualRequestDTOS);
+        sentRequestDTO.setGroupRequestDTOS(groupRequestDTOS);
+
+        /* TEST STARTS HERE */
+        mockThirdPartyAuthorized(mockedUser2, mockedThirdParty);
+
+
+        Mockito.when(mockThirdPartyRepository.findByUser(mockedUser2))
+                .thenReturn(null);
+        Mockito.when(mockGroupRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(groupRequests);
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
+
+        requestService.showSentRequest();
+
+
+    }
+
+    @Test
     public void showIncomingRequestTest() {
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -4232,6 +4338,62 @@ public class RequestServiceTest {
     }
 
     @Test
+    public void showIncomingRequestTest_nullReceiver() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest2(mockedIndividual.getSsn());
+        firstIndRequest.setThirdParty(mockedThirdParty);
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+        //create collection of request DTO
+        Collection<ReceivedRequestDTO> receivedRequestDTOS = new HashSet<>();
+        for (IndividualRequest r : indRequests) {
+            if (r.isAccepted() != null) continue; //only not accepted/rejected requests
+            ReceivedRequestDTO receivedRequestDTO = new ReceivedRequestDTO();
+            String thirdPartyName = r.getThirdParty().getOrganizationName();
+
+            receivedRequestDTO.setId(r.getId());
+            receivedRequestDTO.setDate(r.getDate());
+            receivedRequestDTO.setTime(r.getTime());
+            receivedRequestDTO.setThirdParty(thirdPartyName);
+            receivedRequestDTOS.add(receivedRequestDTO);
+        }
+
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser2))
+                .thenReturn(null);
+
+        Mockito.when(mockIndividualRequestRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(indRequests);
+
+
+        requestService.showIncomingRequest();
+
+    }
+
+    @Test
     public void handleRequestTest_Accepted() {
         //create a mock user individual
         String role = Role.ROLE_INDIVIDUAL.toString();
@@ -4277,6 +4439,51 @@ public class RequestServiceTest {
         Assert.assertEquals(Message.REQUEST_ACCEPTED.toString(), result);
     }
 
+    @Test
+    public void handleRequestTest_notAccepted() {
+        //create a mock user individual
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        mockedIndividual.setSsn("999999999");
+        //create mock user thridparty
+        String role2 = Role.ROLE_THIRD_PARTY.toString();
+        User mockedUser2 = new User("Username", "Password", "AA@AA.com", role);
+        ThirdParty mockedThirdParty = new ThirdParty();
+        mockedThirdParty.setUser(mockedUser2);
+        mockedThirdParty.setVat("11111111111");
+        mockedThirdParty.setOrganizationName("topolino");
+        //create individual requests
+        IndividualRequest firstIndRequest = createMockIndRequest(mockedIndividual.getSsn());
+        firstIndRequest.setId(0L);
+        firstIndRequest.setThirdParty(mockedThirdParty);
+        //add request to a collection
+        Collection<IndividualRequest> indRequests = new ArrayList<>();
+        indRequests.add(firstIndRequest);
+        //save it in thirdparty
+        mockedThirdParty.setIndividualRequests(indRequests);
+
+
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+
+
+        Mockito.when(mockIndividualRepository.findBySsn(mockedIndividual.getSsn()))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockIndividualRequestRepository.findById(0L))
+                .thenReturn(Optional.of(firstIndRequest));
+        Mockito.when(mockIndividualRequestRepository.findByThirdParty(mockedThirdParty))
+                .thenReturn(indRequests);
+
+
+        String result = requestService.handleRequest(0L, false);
+
+        Assert.assertEquals(Message.REQUEST_REJECTED.toString(), result);
+    }
     @Test
     public void showIndividualDataTest_NotAccepted() {
         //create a mock user individual
