@@ -57,7 +57,7 @@ Moreover, some requirements has been implemented slightly different from the RAS
     This wasn't done because the acceptance test would be impossible if you don't have a listed sensor, so we decided to implement an Android Wear Os application that anyone can run in the Android Studio emulator.
 \end{itemize}
 
-Furthermore, as the application is for educational purposes, we intentionally did not implemented \textit{"the connection between the client and server is encrypted and sent over SSL to guarantee integrity of data"}, as it was unnecessary for demonstration.
+Furthermore, as the application is for demo purposes, we intentionally did not implemented \textit{"the connection between the client and server is encrypted and sent over SSL to guarantee integrity of data"}, as it was unnecessary for demonstration.
 
 
 \newpage
@@ -361,10 +361,11 @@ On your mobile phone, you should:
 
 \section{Additional Implementation Notes}
 \begin{itemize}
-\item TrackMe is deployed on Heroku, a free cloud application platform. Using the TrackMe end-user version (i.e using the provided apk version or if the ip server address is not changed in the developer version), the client application could give a timeout warning or an infinite loading screen. To solve this simply retry the request.
+\item TrackMe is deployed on Heroku, a free cloud application platform. Using the TrackMe end-user version (i.e using the provided apk version or if the ip server address is not changed in the developer version), the client application could give a timeout warning or an infinite loading screen. To solve this simply redo the request.
 \item When you create or view a map on Track4Run, sometimes you can see that the route between markers is not calculated and it's simply a straight line between the markers. This is caused by our (free) map library osmdroid. It simply cannot reply to too many requests, so sometimes the route will not be calculated. 
 \end{itemize}
-\textbf{NOTE:} All these problems would not exist in the commercial version of TrackMe. For the sake of this prototype only free and open source libraries were used.
+\textbf{NOTE:} Due to the demonstration purpose of this version of the application only free and open source libraries were used; in a production environment these kind of problem should not arise by using well working and tested commercial API.
+
 \newpage
 \section{Effort Spent}
     \begin{itemize}
