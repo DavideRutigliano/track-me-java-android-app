@@ -50,7 +50,11 @@ With respect to the Requirement Analysis document, non implemented requirement a
 
 Moreover, some requirements has been implemented slightly different from the RASD proposal:
 \begin{itemize}
-    \item \textbf{(REQ-17)} \textit{Data4help must allow the Individual to connect an external device through BT or NFC}: for the implementation, as well our choice for client application was Android, we used Google Play services (Android Wear Os) by developing a wearable application. Rationale for this choice is primarily the fact that we do not know a priori which type of connection and which version of the protocol the device uses; thus, due to the demo purposes of the application, we decided to adopt a simpler mechanism rather than handling directly Bluetooth and/or NFC protocols themselves\footnote{In a real production environment this part of the application should be implemented in a better way.}.
+    \item \textbf{(REQ-17)} \textit{Data4help must allow the Individual to connect an external device through BT or NFC}\\\\
+    For the implementation, as well our choice for client application was Android, we used Google Play services (Android Wear Os) by developing a wearable application.\\
+    Rationale for this choice is primarily the fact that we do not know a priori which version of the protocol the external device uses, and most importantly we can't know how the output is syntactically: so it's impossible to generalize.\\\\
+    To solve this we would find a list of sensors that would be supported by TrackMe, analyzing each sensor output and standardize it to work with our environment.\\
+    This wasn't done because the acceptance test would be impossible if you don't have a listed sensor, so we decided to implement an Android Wear Os application that anyone can run in the Android Studio emulator.
 \end{itemize}
 
 Furthermore, as the application is for educational purposes, we intentionally did not implemented \textit{"the connection between the client and server is encrypted and sent over SSL to guarantee integrity of data"}, as it was unnecessary for demonstration.
@@ -134,6 +138,7 @@ Furthermore, the overall structure of both client and server application is orga
 \item \textbf{presenter:} presenters in the MVP pattern. Contains logic classes that handles the communication between server and client, and other business logic.
 \item \textbf{activity:} contains android activity classes that implements a view. Activities represent a single screen in the android environment.
 \item \textbf{fragment:} contains android fragment classes. They are similar to activities, but they can't exist on their own. They must be instantiated inside an activity.
+\item \textbf{service:} contains android service classes. Services are like background threads. They run even if the application is closed. They are used to send the position and the health data of all individuals to TrackMe.
 \item \textbf{httprequest:} contains all http logic to send and receive http messages.
 \item \textbf{task:} contains android asynchronous task classes. An asynchronous task is like a new thread, that will send a callback when completed. They are used by presenters to do the business and communication logic.
 \item \textbf{websocket:} contains all the websockets logic and the STOMP protocol implementation.
@@ -147,8 +152,10 @@ This package contains a small wearable application for \textit{Google Wear OS} t
 \newpage
 \section{Testing}
 Testing code is available within the project directory in "test" package.
-
-Server-side code has been tested using the tools provided by Java with some additional libraries. In particular were used the JUnit to test the part that works in local without using external resources such as DBMS or network and Mockito, a popular mock framework which can be used in conjunction with JUnit.
+Server-side code has been tested using the tools provided by Java with some additional libraries.\\\\
+In particular were used the JUnit to test the part that works in local without using external resources such as DBMS or network and Mockito, a popular mock framework which can be used in conjunction with JUnit.\\\\
+The integration testing was done following the strategy described on the Design Document.\\
+All the entry and exit criteria for each phase described on the Design Document were followed.
 
 \newpage
 \section{Developer Install Instructions}
@@ -350,6 +357,14 @@ On your mobile phone, you should:
     \end{figure}
 \end{itemize}
 
+\newpage
+
+\section{Additional Implementation Notes}
+\begin{itemize}
+\item TrackMe is deployed on Heroku, a free cloud application platform. Using the TrackMe end-user version (i.e using the provided apk version or if the ip server address is not changed in the developer version), the client application could give a timeout warning or an infinite loading screen. To solve this simply retry the request.
+\item When you create or view a map on Track4Run, sometimes you can see that the route between markers is not calculated and it's simply a straight line between the markers. This is caused by our (free) map library osmdroid. It simply cannot reply to too many requests, so sometimes the route will not be calculated. 
+\end{itemize}
+\textbf{NOTE:} All these problems would not exist in the commercial version of TrackMe. For the sake of this prototype only free and open source libraries were used.
 \newpage
 \section{Effort Spent}
     \begin{itemize}
