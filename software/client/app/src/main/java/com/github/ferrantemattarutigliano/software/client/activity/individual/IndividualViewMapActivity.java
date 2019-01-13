@@ -11,20 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.github.ferrantemattarutigliano.software.client.R;
+import com.github.ferrantemattarutigliano.software.client.model.HealthDataDTO;
 import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.individual.IndividualViewMapPresenter;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualViewMapView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class IndividualViewMapActivity extends AppCompatActivity
         implements IndividualViewMapView {
     private MapView map;
     private IndividualViewMapPresenter individualViewMapPresenter;
+    private ArrayList<PositionDTO> path;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -50,6 +58,17 @@ public class IndividualViewMapActivity extends AppCompatActivity
         individualViewMapPresenter = new IndividualViewMapPresenter(this, map);
         setMapPositionToCurrentLocation();
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("RefreshMap"));
+        Bundle bundle = getIntent().getExtras();
+        path = (ArrayList<PositionDTO>) bundle.getSerializable("path");
+        individualViewMapPresenter.calculateRoad(this, path);
+    }
+
+    public void drawRunPath(Road road) {
+        if (road != null) {
+            Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+            map.getOverlays().add(roadOverlay);
+            map.invalidate();
+        }
     }
 
     @Override

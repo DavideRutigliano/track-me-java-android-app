@@ -23,6 +23,7 @@ import com.github.ferrantemattarutigliano.software.client.view.individual.Indivi
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class IndividualWatchedRunsActivity extends AppCompatActivity implements IndividualWatchedRunsView {
@@ -34,7 +35,8 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_watched_runs);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //show back button on toolbar
         individualWatchedRunsPresenter = new IndividualWatchedRunsPresenter(this);
         dialogFactory = new AlertDialog.Builder(this);
 
@@ -102,6 +104,7 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     else {
                         loadingScreen.show();
                         Intent intent = new Intent(getApplicationContext(), IndividualViewMapActivity.class);
+                        intent.putExtra("path", (ArrayList)runDTO.getPath());
                         startActivity(intent);
                     }
                 }

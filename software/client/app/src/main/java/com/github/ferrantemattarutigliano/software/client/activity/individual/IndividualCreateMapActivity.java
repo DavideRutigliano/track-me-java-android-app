@@ -183,8 +183,8 @@ public class IndividualCreateMapActivity extends AppCompatActivity
         if (road != null) {
             Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
             map.getOverlays().add(roadOverlay);
+            map.invalidate();
         }
-        map.invalidate();
     }
 
     @Override

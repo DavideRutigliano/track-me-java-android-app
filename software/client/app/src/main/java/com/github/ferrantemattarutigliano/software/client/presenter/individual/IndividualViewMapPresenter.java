@@ -1,14 +1,23 @@
 package com.github.ferrantemattarutigliano.software.client.presenter.individual;
 
+import android.content.Context;
+
+import com.github.ferrantemattarutigliano.software.client.httprequest.AsyncResponse;
 import com.github.ferrantemattarutigliano.software.client.model.PositionDTO;
 import com.github.ferrantemattarutigliano.software.client.presenter.Presenter;
+import com.github.ferrantemattarutigliano.software.client.task.individual.IndividualRoadTask;
 import com.github.ferrantemattarutigliano.software.client.view.individual.IndividualViewMapView;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class IndividualViewMapPresenter extends Presenter<IndividualViewMapView> {
@@ -29,9 +38,12 @@ public class IndividualViewMapPresenter extends Presenter<IndividualViewMapView>
     public void addPosition(String athlete, PositionDTO position) {
         Iterator iterator = map.getOverlays().iterator();
         while (iterator.hasNext()) {
-            Marker m = (Marker) iterator.next();
-            if (m.getTitle().equals(athlete)) {
-                map.getOverlays().remove(m);
+            Overlay overlay = (Overlay) iterator.next();
+            if(overlay instanceof Marker) {
+                Marker m = (Marker) overlay;
+                if (m.getTitle().equals(athlete)) {
+                    map.getOverlays().remove(m);
+                }
             }
         }
         double lat = position.getLatitude();
@@ -48,5 +60,23 @@ public class IndividualViewMapPresenter extends Presenter<IndividualViewMapView>
             }
         });
         map.getOverlays().add(marker);
+    }
+
+    public void calculateRoad(Context context, ArrayList<PositionDTO> runPath){
+        ArrayList<GeoPoint> path = new ArrayList<>();
+        for(PositionDTO p : runPath){
+            GeoPoint g = new GeoPoint(p.getLatitude(), p.getLongitude());
+            path.add(g);
+        }
+        new IndividualRoadTask(new OSRMRoadManager(context), path, new AsyncResponse<Road>() {
+            @Override
+            public void taskFinish(Road output) {
+                view.drawRunPath(output);
+            }
+
+            @Override
+            public void taskFailMessage(String message) {
+            }
+        }).execute();
     }
 }

@@ -55,8 +55,12 @@ public class IndividualCreateMapPresenter extends Presenter<IndividualCreateMapV
         recalculateRoad(context);
     }
 
-    private void recalculateRoad(Context context){
-        new IndividualRoadTask(new OSRMRoadManager(context), markers, new AsyncResponse<Road>() {
+    private void recalculateRoad(final Context context){
+        ArrayList<GeoPoint> path = new ArrayList<>();
+        for(Marker m : markers){
+            path.add(m.getPosition());
+        }
+        new IndividualRoadTask(new OSRMRoadManager(context), path, new AsyncResponse<Road>() {
             @Override
             public void taskFinish(Road output) {
                 view.clearMap();

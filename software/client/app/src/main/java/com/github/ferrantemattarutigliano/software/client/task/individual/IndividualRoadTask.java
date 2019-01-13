@@ -14,28 +14,24 @@ import java.util.ArrayList;
 
 public class IndividualRoadTask extends AsyncTask<Void, Void, Road> {
     private RoadManager roadManager;
-    private ArrayList<Marker> markers;
+    private ArrayList<GeoPoint> path;
     private AsyncResponse<Road> asyncResponse;
 
-    public IndividualRoadTask(RoadManager roadManager, ArrayList<Marker> markers, AsyncResponse<Road> asyncResponse) {
+    public IndividualRoadTask(RoadManager roadManager, ArrayList<GeoPoint> path, AsyncResponse<Road> asyncResponse) {
         this.roadManager = roadManager;
-        this.markers = markers;
+        this.path = path;
         this.asyncResponse = asyncResponse;
     }
 
     @Override
     protected Road doInBackground(Void... voids) {
-        ArrayList<GeoPoint> waypoints = new ArrayList<>();
-        for(Marker m : markers){
-            waypoints.add(m.getPosition());
-        }
         Road road;
         try {
-            if(waypoints.isEmpty()) return null;
-            road = roadManager.getRoad(waypoints);
-        }catch (Exception e){
+            if(path.isEmpty()) return null;
+            road = roadManager.getRoad(path);
+        }catch (RuntimeException e){
             Log.e("road_error", e.getMessage());
-            throw new RuntimeException();
+            return null;
         }
         return road;
     }
