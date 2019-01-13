@@ -35,16 +35,26 @@ Finally, it contains all the installation and build instruction both for client 
 
 This document is intended for developers or anyone interested in the implementation details of \textit{TrackMe}.
 
+\newpage
 \section{Requirements and Functions}
 This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not implemented because not requested by the customer.
 
 With respect to the Requirement Analysis document, non implemented requirement are the following:
 \begin{itemize}
-    \item \textbf{(REQ-18)} The system must allow the Third-Party to activate Automated-SOS service;
+    \item \textbf{(REQ-18)} \textit{The system must allow the Third-Party to activate Automated-SOS service;}
     \item \textbf{(REQ-19)} The system must be able to assign an ambulance dispatcher to the SOS service;
-    \item \textbf{(REQ-20)} The system must allow the Individual to activate Automated-SOS service;
-    \item \textbf{(REQ-21)} The system should allow the Individual to choose between third parties who has enabled the service.
+    \item \textbf{(REQ-20)} \textit{The system must allow the Individual to activate Automated-SOS service;}
+    \item \textbf{(REQ-21)} \textit{The system should allow the Individual to choose between third parties who has enabled the service;}
+    \item \textbf{(REQ-23)} \textit{The system must be able to send the position to the nearest ambulance.}
 \end{itemize}
+
+Moreover, some requirements has been implemented slightly different from the RASD proposal:
+\begin{itemize}
+    \item \textbf{(REQ-17)} \textit{Data4help must allow the Individual to connect an external device through BT or NFC}: for the implementation, as well our choice for client application was Android, we used Google Play services (Android Wear Os) by developing a wearable application. Rationale for this choice is primarily the fact that we do not know a priori which type of connection and which version of the protocol the device uses; thus, due to the demo purposes of the application, we decided to adopt a simpler mechanism rather than handling directly Bluetooth and/or NFC protocols themselves\footnote{In a real production environment this part of the application should be implemented in a better way.}.
+\end{itemize}
+
+Furthermore, as the application is for educational purposes, we intentionally did not implemented \textit{"the connection between the client and server is encrypted and sent over SSL to guarantee integrity of data"}, as it was unnecessary for demonstration.
+
 
 \newpage
 \section{Adopted Development Frameworks}
