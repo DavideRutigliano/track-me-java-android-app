@@ -56,11 +56,15 @@ public class IndividualViewMapActivity extends AppCompatActivity
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         individualViewMapPresenter = new IndividualViewMapPresenter(this, map);
-        setMapPositionToCurrentLocation();
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("RefreshMap"));
         Bundle bundle = getIntent().getExtras();
         path = (ArrayList<PositionDTO>) bundle.getSerializable("path");
         individualViewMapPresenter.calculateRoad(this, path);
+
+        double lat = path.get(0).getLatitude();
+        double lon = path.get(0).getLongitude();
+        GeoPoint firstGeopoint = new GeoPoint(lat, lon);
+        setMapPositionToPointer(firstGeopoint);
     }
 
     public void drawRunPath(Road road) {
@@ -91,10 +95,7 @@ public class IndividualViewMapActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void setMapPositionToCurrentLocation() {
-        //set the position to Milan. In the real application this would set the position
-        //to the current position
-        GeoPoint geoPoint = new GeoPoint(45.4642, 9.1900);
+    private void setMapPositionToPointer(GeoPoint geoPoint) {
         individualViewMapPresenter.centerToGeoPoint(geoPoint);
     }
 
