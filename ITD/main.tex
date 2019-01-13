@@ -157,6 +157,13 @@ In particular were used the JUnit to test the part that works in local without u
 The integration testing was done following the strategy described on the Design Document.\\
 All the entry and exit criteria for each phase described on the Design Document were followed.
 
+\section{End User Installation Instructions}
+The client application is available in a pre-assembled version for Android devices (apk tested against Oreo 8.0 and Nougat 7.0).
+
+This version of the application communicates with the last active deployment of the server application on Heroku.
+
+Although it has not been tested against an hardware device (but working on built-in Android Studio emulator), we provided a pre-assembled apk also for the wearable application also for this part of the client package.
+
 \newpage
 \section{Developer Install Instructions}
 First of all you should install git and then clone \textit{TrackMe} repository:
@@ -362,6 +369,7 @@ On your mobile phone, you should:
 \section{Additional Implementation Notes}
 \begin{itemize}
 \item TrackMe is deployed on Heroku, a free cloud application platform. Using the TrackMe end-user version (i.e using the provided apk version or if the ip server address is not changed in the developer version), the client application could give a timeout warning or an infinite loading screen. To solve this simply redo the request.
+\item Further implication of using a smart-watch emulator is that health data are merely random numbers due to the lack of sensors for Android Studio emulator; in a real word application this mechanism should work listening to smart-watch's sensors using Android Wear services.
 \item When you create or view a map on Track4Run, sometimes you can see that the route between markers is not calculated and it's simply a straight line between the markers. This is caused by our (free) map library osmdroid. It simply cannot reply to too many requests, so sometimes the route will not be calculated. 
 \end{itemize}
 \textbf{NOTE:} Due to the demonstration purpose of this version of the application only free and open source libraries were used; in a production environment these kind of problem should not arise by using well working and tested commercial API.
