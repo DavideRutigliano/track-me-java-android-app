@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -116,6 +117,27 @@ public class RunService {
 
         Individual organizer = individualRepository.findByUser(user);
         run.setOrganizer(organizer);
+
+
+        Boolean sec = beforeDate(run.getDate(), datesConversion());
+
+        int a = run.getDate().getDay();
+        int b = run.getDate().getMonth();
+        int c = run.getDate().getYear();
+        int d = run.getDate().getDay();
+        Date e = datesConversion();
+        int f = datesConversion().getDay();
+        int g = datesConversion().getMonth();
+        int h = datesConversion().getYear();
+        int k = 0;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(e);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int z = 0;
+
+
 
 
         if ((compareDate(run.getDate(), datesConversion()) && compareTimeBefore(run.getTime(), getCurrentTime()))
@@ -427,27 +449,46 @@ public class RunService {
 
 
     public Boolean compareDate(Date date1, Date date2) {
-        if (date1.getYear() == date2.getYear()
-                && date1.getMonth() == date2.getMonth()
-                && date1.getDay() == date2.getDay()) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        int month1 = cal.get(Calendar.MONTH);
+        int day1 = cal.get(Calendar.DAY_OF_MONTH);
+        int year1 = cal.get(Calendar.YEAR);
+        cal.setTime(date2);
+        int month2 = cal.get(Calendar.MONTH);
+        int day2 = cal.get(Calendar.DAY_OF_MONTH);
+        int year2 = cal.get(Calendar.YEAR);
+        if (year1 == year2
+                && month1 == month2
+                && day1 == day2) {
             return true;
         } else return false;
     }
 
     public Boolean beforeDate(Date date1, Date date2) {
-        if (date1.getYear() < date2.getYear()) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        int month1 = cal.get(Calendar.MONTH);
+        int day1 = cal.get(Calendar.DAY_OF_MONTH);
+        int year1 = cal.get(Calendar.YEAR);
+        cal.setTime(date2);
+        int month2 = cal.get(Calendar.MONTH);
+        int day2 = cal.get(Calendar.DAY_OF_MONTH);
+        int year2 = cal.get(Calendar.YEAR);
+        if (year1 < year2) {
             return true;
-        } else if (date1.getYear() == date2.getYear()
-                && date1.getMonth() < date2.getMonth()) {
+        } else if (year1 == year2
+                && month1 < month2) {
             return true;
-        } else if (date1.getYear() == date2.getYear()
-                && date1.getMonth() == date2.getMonth()
-                && date1.getDay() < date2.getDay()) {
+        } else if (year1 == year2
+                && month1 == month2
+                && day1 < day2) {
             return true;
         } else return false;
     }
 
     public Boolean compareTimeBefore(Time t1, Time t2) {
+
         if (toLocalTime(t1).getHour() < toLocalTime(t2).getHour()) {
             return true;
         } else if (toLocalTime(t1).getHour() == toLocalTime(t2).getHour()
