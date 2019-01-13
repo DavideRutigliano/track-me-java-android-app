@@ -119,23 +119,9 @@ public class RunService {
         run.setOrganizer(organizer);
 
 
-        Boolean sec = beforeDate(run.getDate(), datesConversion());
-
-        int a = run.getDate().getDay();
-        int b = run.getDate().getMonth();
-        int c = run.getDate().getYear();
-        int d = run.getDate().getDay();
-        Date e = datesConversion();
-        int f = datesConversion().getDay();
-        int g = datesConversion().getMonth();
-        int h = datesConversion().getYear();
+        Boolean sec = compareTimeBefore(run.getTime(), getCurrentTime());
         int k = 0;
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(e);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int year = cal.get(Calendar.YEAR);
-        int z = 0;
+
 
 
 
