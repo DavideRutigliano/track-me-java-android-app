@@ -37,7 +37,6 @@ public class SendPositionService extends Service {
         return START_STICKY;
     }
 
-
     @Override
     public void onDestroy() {
         stopSelf();
@@ -64,12 +63,10 @@ public class SendPositionService extends Service {
                                 new AsyncResponse<String>() {
                                     @Override
                                     public void taskFinish(String message) {
-                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
                                     public void taskFailMessage(String message) {
-                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     }
                                 });
                         individualSendPositionTask.execute();
