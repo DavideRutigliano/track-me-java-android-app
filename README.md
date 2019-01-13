@@ -76,7 +76,7 @@ We used [Heroku](https://www.heroku.com/what) in order to deploy our server appl
 # Project layout
 ```
 ├── DD                  : Design Document Latex project
-├── DeliveryFolder      : pdf version of delivered documents
+├── DeliveryFolder      : pdf version of delivered documents + pre-assembled client software apk(s)
 ├── Images              : common "Logo" images
 ├── ITD                 : Implementation and Testing Document Latex project
 ├── RASD                : Requirement Analysis and Specification Document Latex project
