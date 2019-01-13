@@ -6,7 +6,7 @@ git clone https://github.com/DavideRutigliano/FerranteMattaRutigliano
 ```
 
 # End User Installation Instructions
-The [client application](DeliveryFolder/software/trackme.apk) is also available in a pre assembled apk for Android devices (tested against Oreo 8.0). This version of the application communicates with the last active deployment of the [server application](https://github.com/DavideRutigliano/FerranteMattaRutigliano/deployments) on Heroku.
+The [client application](DeliveryFolder/software/trackme.apk) is also available in a pre assembled apk for Android devices (tested against Oreo 8.0 and Nougat 7.0). This version of the application communicates with the last active deployment of the [server application](https://github.com/DavideRutigliano/FerranteMattaRutigliano/deployments) on Heroku.
 
 Even if it has not been tested against an hardware device (but working on builtin Android Studio emulator), we provided a pre assembled version of the [wearable application](DeliveryFolder/software/trackme-wear.apk) also for this part of the client package.
 
