@@ -91,10 +91,10 @@ public class IndividualWatchedRunsActivity extends AppCompatActivity implements 
                     java.util.Date date = new java.util.Date();
                     Date currentDate = new Date(date.getTime());
                     Time currentTime = new Time(date.getTime());
-                    boolean isRunStarted = runDTO.getState().equals("started")
-                                            || runDate.before(currentDate)
-                                            || (runDate.equals(currentDate) && runTime.before(currentTime));
-                    if(!isRunStarted){
+                    boolean isRunStarted = (runDate.before(currentDate)
+                                                || (runDate.equals(currentDate) && runTime.before(currentTime)));
+                    //runDTO.getState().equals("started") &&
+                    if(!isRunStarted) {
                         dialogFactory.setTitle("Run not started")
                                 .setMessage("This run is not started yet. Wait until:" +
                                         "\n" + runDate + "\n" + runTime)

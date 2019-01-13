@@ -63,6 +63,7 @@ public class IndividualHomeActivity extends AppCompatActivity
         sendPositionService = new SendPositionService();
         sendPositionIntent = new Intent(getApplicationContext(), sendPositionService.getClass());
         askGpsLocationPermission();
+        startService(sendPositionIntent);
         sendHealthDataService = new SendHealthDataService();
         sendHealthDataIntent = new Intent(getApplicationContext(), sendHealthDataService.getClass());
         startService(sendHealthDataIntent);
@@ -84,7 +85,6 @@ public class IndividualHomeActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ActivityCompat.requestPermissions(IndividualHomeActivity.this,
                                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                        startService(sendPositionIntent);
                     }
                 })
                 .setNegativeButton("Deny", null)
