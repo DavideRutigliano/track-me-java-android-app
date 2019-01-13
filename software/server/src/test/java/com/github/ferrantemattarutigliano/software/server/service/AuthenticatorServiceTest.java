@@ -817,6 +817,28 @@ public class AuthenticatorServiceTest {
     }
 
     @Test
+    public void changeThirdPartyUsernameTest_badLogin() {
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing individual
+        ThirdParty dummyThirdParty = new ThirdParty();
+        dummyThirdParty.setUser(dummyUser);
+        dummyThirdParty.setVat("12345678999");
+        dummyThirdParty.setOrganizationName("Pippo");
+
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = authenticatorService.changeUsername("username", "NEW");
+        Assert.assertEquals(Message.BAD_LOGIN.toString(), result);
+    }
+
+    @Test
     public void changeThirdPartyUsername_BadUsername_Test(){
         User dummyUser = new User("username", "password", "aa@aa.com", "individual");
         dummyUser.setUsername("username");
@@ -878,6 +900,29 @@ public class AuthenticatorServiceTest {
     }
 
     @Test
+    public void changePasswordTest_Badlogin() {
+        User dummyUser = new User("username", "password", "aa@aa.com", "individual");
+        dummyUser.setUsername("username");
+        dummyUser.setPassword("password");
+        dummyUser.setEmail("email@email.com");
+        //mock the existing individual
+        Individual dummyIndividual = new Individual();
+        dummyIndividual.setUser(dummyUser);
+        dummyIndividual.setSsn("123456789");
+        dummyIndividual.setFirstname("Pippo");
+        dummyIndividual.setLastname("Pappo");
+
+        SecurityContextHolder.setContext(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+                .thenReturn(mockAuthentication);
+        Mockito.when(mockSecurityContext.getAuthentication().getPrincipal())
+                .thenReturn(null);
+
+        String result = authenticatorService.changePassword("wrong", "HELLO");
+        Assert.assertEquals(Message.BAD_LOGIN.toString(), result);
+    }
+
+    @Test
     public void loadIndividualByUsernameTest() {
         User dummyUser = Mockito.spy(User.class);
         String username = "username";
@@ -900,6 +945,7 @@ public class AuthenticatorServiceTest {
         Assert.assertEquals(Role.ROLE_INDIVIDUAL.toString(), dummyUser.getRole());
         Assert.assertSame(dummyUser, result);
     }
+
 
     @Test
     public void loadThirdPartyByUsernameTest() {

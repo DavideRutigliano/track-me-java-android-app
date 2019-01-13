@@ -455,6 +455,37 @@ public class RunServiceTest {
     }
 
     @Test
+    public void createRunTest_failuredaybefore() {
+        //create a mock user
+        String role = Role.ROLE_INDIVIDUAL.toString();
+        User mockedUser = new User("username", "password", "aa@aa.com", role);
+        Individual mockedIndividual = new Individual();
+        mockedIndividual.setUser(mockedUser);
+        mockedIndividual.setFirstname("pippo");
+        mockedIndividual.setLastname("pippetti");
+        //create runs with the associated user
+        Run firstRun = createMockRun(mockedIndividual);
+        firstRun.setDate(new Date(119, 00, 01));
+        firstRun.setTime(new Time(23, 59, 59));
+        //pack them in a collection
+        Collection<Run> createdRuns = new ArrayList<>();
+        createdRuns.add(firstRun);
+        //mock created runs in database
+        mockedIndividual.setCreatedRuns(createdRuns);
+
+        /* TEST STARTS HERE */
+        mockIndividualAuthorized(mockedUser, mockedIndividual);
+        Mockito.when(mockIndividualRepository.findByUser(mockedUser))
+                .thenReturn(mockedIndividual);
+        Mockito.when(mockRunRepository.save(firstRun))
+                .thenReturn(firstRun);
+        String result = runService.createRun(firstRun);
+        Assert.assertEquals(Message.RUN_NOT_ALLOWED.toString(), result);
+
+    }
+
+
+    @Test
     public void createRunFailureTest() {
         /* TEST STARTS HERE */
         SecurityContextHolder.setContext(mockSecurityContext);
