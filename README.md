@@ -35,7 +35,7 @@ This repository is owned by **Davide Rutigliano, Claudio Ferrante and Davide Mat
 In this readme we provided to readers also a [read-only link](https://www.overleaf.com/read/scskfncqpsxf) to our overleaf project in order to have a pre-compiled version preview of all the documents we propose. In order to have the pdf of the desired document the reader should navigate to the folder, open the main file and recompile the document (e.g. to compile the RASD, the reader should go on *"RASD/main.tex"* and click *"Recompile"*).
 
 ## Delivery
-In the folders named after the documents we included our code, in [Delivery Folder](DeliveryFoler/) instead there are pdf version of latex documents which in order to be recognized, will be named after the code folder too. For example *Requirement Analysis Document* is in RASD folder and the delivered file is called [RASD.pdf](DeliveryFoler/RASD.pdf). We did not included any other file such as the alloy model or UML diagrams because the reader can find them in the respective document folder.
+In the folders named after the documents we included our code, in [Delivery Folder](DeliveryFolder/) instead there are pdf version of latex documents which in order to be recognized, will be named after the code folder too. For example *Requirement Analysis Document* is in RASD folder and the delivered file is called [RASD.pdf](DeliveryFolder/RASD.pdf). We did not included any other file such as the alloy model or UML diagrams because the reader can find them in the respective document folder.
 
 ## Tools
 ### Latex
