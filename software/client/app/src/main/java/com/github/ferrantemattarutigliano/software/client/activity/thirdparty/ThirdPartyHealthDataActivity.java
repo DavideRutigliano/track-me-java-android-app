@@ -9,10 +9,13 @@ import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.model.HealthDataDTO;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
-import java.sql.Date;
+import java.sql.Time;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -50,15 +53,41 @@ public class ThirdPartyHealthDataActivity extends AppCompatActivity {
         }
 
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
+        int asc = 0;
 
         for(HealthDataDTO h : healthData){
-            double value = Double.parseDouble(h.getValue());
-            DataPoint d = new DataPoint(h.getDate(), value);
-            dataPointArrayList.add(d);
+            if (h.getValue() != null) {
+                double value = Double.parseDouble(h.getValue());
+                DataPoint d = new DataPoint(asc++, value);
+                dataPointArrayList.add(d);
+            }
         }
 
-        DataPoint[] dataPoints = (DataPoint[]) dataPointArrayList.toArray();
+        DataPoint[] dataPoints = new DataPoint[dataPointArrayList.size()];
+        dataPointArrayList.toArray(dataPoints);
+
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Date date = null;
+                Time time = null;
+                int asc = 0;
+                for (HealthDataDTO h: healthData) {
+                    if (asc == dataPoint.getX()) {
+                        date = h.getDate();
+                        time = h.getTime();
+                    }
+                    asc++;
+                }
+                Toast.makeText(getApplicationContext(),
+                        ( date != null && time != null )
+                                                    ? "Registered: " +  date.toString() + " at " + time.toString()
+                                                    : "No info",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
         graphView.addSeries(series);
     }
 

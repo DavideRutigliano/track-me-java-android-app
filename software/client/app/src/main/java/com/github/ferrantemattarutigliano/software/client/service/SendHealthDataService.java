@@ -64,7 +64,7 @@ public class SendHealthDataService extends Service implements DataClient.OnDataC
 
     private void doInsertData(String message) {
         String name = StringUtils.substringBefore(message, ":");
-        String value = StringUtils.substringBetween(message, ":", ". Received at: ");
+        String value = StringUtils.substringAfter(message, ":");
         HealthDataDTO healthDataDTO = new HealthDataDTO();
         healthDataDTO.setName(name);
         healthDataDTO.setValue(value);
