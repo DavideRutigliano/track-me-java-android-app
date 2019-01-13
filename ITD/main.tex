@@ -35,16 +35,26 @@ Finally, it contains all the installation and build instruction both for client 
 
 This document is intended for developers or anyone interested in the implementation details of \textit{TrackMe}.
 
+\newpage
 \section{Requirements and Functions}
 This chapter is focused on highlighting requirements presented in previous documents, assuming the reader has previously read both Requirement and Design Document. In particular requirements implemented are from Data4Help and Track4Run services; AutomatedSos functionality instead has been not implemented because not requested by the customer.
 
 With respect to the Requirement Analysis document, non implemented requirement are the following:
 \begin{itemize}
-    \item \textbf{(REQ-18)} The system must allow the Third-Party to activate Automated-SOS service;
+    \item \textbf{(REQ-18)} \textit{The system must allow the Third-Party to activate Automated-SOS service;}
     \item \textbf{(REQ-19)} The system must be able to assign an ambulance dispatcher to the SOS service;
-    \item \textbf{(REQ-20)} The system must allow the Individual to activate Automated-SOS service;
-    \item \textbf{(REQ-21)} The system should allow the Individual to choose between third parties who has enabled the service.
+    \item \textbf{(REQ-20)} \textit{The system must allow the Individual to activate Automated-SOS service;}
+    \item \textbf{(REQ-21)} \textit{The system should allow the Individual to choose between third parties who has enabled the service;}
+    \item \textbf{(REQ-23)} \textit{The system must be able to send the position to the nearest ambulance.}
 \end{itemize}
+
+Moreover, some requirements has been implemented slightly different from the RASD proposal:
+\begin{itemize}
+    \item \textbf{(REQ-17)} \textit{Data4help must allow the Individual to connect an external device through BT or NFC}: for the implementation, as well our choice for client application was Android, we used Google Play services (Android Wear Os) by developing a wearable application. Rationale for this choice is primarily the fact that we do not know a priori which type of connection and which version of the protocol the device uses; thus, due to the demo purposes of the application, we decided to adopt a simpler mechanism rather than handling directly Bluetooth and/or NFC protocols themselves\footnote{In a real production environment this part of the application should be implemented in a better way.}.
+\end{itemize}
+
+Furthermore, as the application is for educational purposes, we intentionally did not implemented \textit{"the connection between the client and server is encrypted and sent over SSL to guarantee integrity of data"}, as it was unnecessary for demonstration.
+
 
 \newpage
 \section{Adopted Development Frameworks}
@@ -138,12 +148,7 @@ This package contains a small wearable application for \textit{Google Wear OS} t
 \section{Testing}
 Testing code is available within the project directory in "test" package.
 
-\subsection{Server Side Testing}
 Server-side code has been tested using the tools provided by Java with some additional libraries. In particular were used the JUnit to test the part that works in local without using external resources such as DBMS or network and Mockito, a popular mock framework which can be used in conjunction with JUnit.
-
-\subsection{Client Side Testing}
-\newpage
-\section{End User Install Instructions}
 
 \newpage
 \section{Developer Install Instructions}
@@ -225,7 +230,8 @@ In order to build client mobile application within an IDE, you should use Androi
     \newline\textit{"ferrantemattarutigliano/software/client/build.gradle"} and wait until import is complete;
     \item Select file ${->}$ project structure. Make sure that Android NDK is installed;
     \item Run the application and create a new virtual device (you can choose the default one, Nexus 6). Select an API with version ${>}$ 15;
-    \item If you want to use a local server, uncomment the appropriate line in \textit{app/java/com.github.ferrantemattarutigliano.software.client/httprequest/HttpConstant.java}.
+    \item If you want to use a local server, uncomment the appropriate line in \newline
+    \textit{app/java/com/github/ferrantemattarutigliano/software/client/httprequest/\newline HttpConstant.java}.
     \begin{figure}[!htpb]
     \centering
     \includegraphics[height=50mm]{ITD/images/android_studio1.png}
@@ -320,9 +326,6 @@ Then you should uncheck \textit{Enable Instant Run} feature from Android Studio 
     \centering
     \includegraphics[width=0.8\textwidth, keepaspectratio]{ITD/images/extdev_err_solution.png}
     \end{figure}
-    
-\paragraph{Note:}
-If the an Hardware acceleration missing error occurs, it's necessary to enable the Hardware virtualization from the BIOS.
 
 \subsubsection{Device Emulator Set Up}
 In order to allow the emulator communicate with the smartphone, you should connect via USB (with debug enabled) the phone and tell the \textit{Android Debugger} to forward requests from the phone to the emulator and vice-versa using the following command: 
@@ -350,10 +353,10 @@ On your mobile phone, you should:
 \newpage
 \section{Effort Spent}
     \begin{itemize}
-        \item[-] \textbf{Davide Rutigliano: }
+        \item[-] \textbf{Davide Rutigliano: 120h}
         
-        \item[-] \textbf{Davide Matta: }
+        \item[-] \textbf{Davide Matta: 120h}
         
-        \item[-] \textbf{Claudio Ferrante: }
+        \item[-] \textbf{Claudio Ferrante: 80h}
     \end{itemize}
 \end{document}
