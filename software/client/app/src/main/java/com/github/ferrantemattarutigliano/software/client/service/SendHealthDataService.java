@@ -24,6 +24,7 @@ import java.util.Collections;
 public class SendHealthDataService extends Service implements DataClient.OnDataChangedListener {
 
     private static final String datapath = "/data_path";
+    private static boolean isDeviceConnected = false;
 
     public SendHealthDataService() {
         super();
@@ -39,6 +40,7 @@ public class SendHealthDataService extends Service implements DataClient.OnDataC
     @Override
     public void onDestroy() {
         Wearable.getDataClient(getApplicationContext()).removeListener(this);
+        isDeviceConnected = false;
         stopSelf();
     }
 
@@ -50,6 +52,7 @@ public class SendHealthDataService extends Service implements DataClient.OnDataC
 
     @Override
     public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
+        isDeviceConnected = true;
         for (DataEvent event : dataEventBuffer) {
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 String path = event.getDataItem().getUri().getPath();
@@ -83,5 +86,9 @@ public class SendHealthDataService extends Service implements DataClient.OnDataC
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
         }).execute();
+    }
+
+    public static boolean isDeviceConnected() {
+        return isDeviceConnected;
     }
 }
