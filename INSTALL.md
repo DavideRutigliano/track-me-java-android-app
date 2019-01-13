@@ -39,6 +39,8 @@ java -jar .\target\server\server-0.0.1-SNAPSHOT.jar #runs the server
 ```
 
 # Client
+The [client application](DeliveryFolder/software/trackme.apk) is also available in a pre assembled apk for Android devices (tested against Oreo 8.0).
+This version of the application communicates with the last active deployment of the [server application](https://github.com/DavideRutigliano/FerranteMattaRutigliano/deployments) on Heroku.
 
 ## Build with Android Studio
 * Download android studio.
@@ -80,6 +82,7 @@ gradlew.bat installDebug #install apk on running emulator or connected device
 
 # External Device Emulator
 The package *"External Device Emulator"* is a very small wearable application for smartwatches or similar (android) devices, which is able to send data from the smartwatch to the mobile phone (and vice-versa).
+We provided a pre assembled version of the [wearable application](DeliveryFolder/software/trackme-wear.apk) also for this part of the software even if it has been not tested against an hardware device.
 
 In order to build this part of the application you can follow the same instructions for client package build and installation and then run the wearable application. You can run it both on a smartwatch emulator or on a physical one. Before you install the application, you should install [Google Wear OS](https://play.google.com/store/apps/category/ANDROID_WEAR?hl=it) on your mobile phone and pair it via bluethoot with your smartwatch/emulator.
 
