@@ -75,12 +75,18 @@ We used [Heroku](https://www.heroku.com/what) in order to deploy our server appl
 
 # Project layout
 ```
+├── ATD                 : Acceptance Test Document Latex project
 ├── DD                  : Design Document Latex project
-├── DeliveryFolder      : pdf version of delivered documents + pre-assembled client software apk(s)
+├── DeliveryFolder
+    ├── software            : TrackMe application source code
+    ├── RASD.pdf            : TrackMe Requirement Analysis and Specification Document
+    ├── DD.pdf              : TrackMe Design Document
+    ├── ITD.pdf             : TrackMe Implementation and Testing Document
+    ├── trackme.apk         : client application (mobile)
+    └── trackme-wear.apk    : client application (wearable)
 ├── Images              : common "Logo" images
 ├── ITD                 : Implementation and Testing Document Latex project
 ├── RASD                : Requirement Analysis and Specification Document Latex project
-├── software            : TrackMe application source code
 ├── .travis.yml         : Travis-CI yaml configuration file
 ├── INSTALL.md          : build and installation instructions
 └── README.md           : this file
