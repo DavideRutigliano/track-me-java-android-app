@@ -10,7 +10,7 @@ matrix:
     - language: java
       jdk: oraclejdk8
       before_script:
-        - cd software/server
+        - cd DeliveryFolder/software/server
         - chmod +x mvnw
         - psql -c 'create database trackme_db;' -U postgres
         - psql -c "create user trackmeadmin  with password 'password';" -U postgres
@@ -29,7 +29,7 @@ matrix:
         licenses:
           - 'android-sdk-license-28.0.3'
       before_script:
-        - cd software/client
+        - cd DeliveryFolder/software/client
         - chmod +x gradlew
         - yes | sdkmanager "platforms;android-28"
       script:

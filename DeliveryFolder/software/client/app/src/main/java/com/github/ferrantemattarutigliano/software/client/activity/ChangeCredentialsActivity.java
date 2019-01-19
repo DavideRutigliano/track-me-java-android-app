@@ -1,5 +1,7 @@
 package com.github.ferrantemattarutigliano.software.client.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.ferrantemattarutigliano.software.client.R;
 import com.github.ferrantemattarutigliano.software.client.presenter.ChangeCredentialsPresenter;
+import com.github.ferrantemattarutigliano.software.client.session.SessionDirector;
 import com.github.ferrantemattarutigliano.software.client.util.LoadingScreen;
 import com.github.ferrantemattarutigliano.software.client.view.ChangeCredentialsView;
 
@@ -19,6 +22,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
     private LoadingScreen loadingScreen;
     private AlertDialog.Builder dialogFactory;
     private ChangeCredentialsPresenter changeCredentialsPresenter;
+    private String changedUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
                 String username = usernameText.getText().toString();
                 loadingScreen.show();
                 changeCredentialsPresenter.doChangeUsername(username);
+                changedUsername = username;
             }
         });
         passwordButton.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +79,11 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
     @Override
     public void onChangeUsernameSuccess(String output) {
         dialogFactory.setTitle("Change username success")
+                    .setMessage(output)
+                    .setCancelable(false)
                     .setPositiveButton("Okay", null)
                     .show();
+        SessionDirector.USERNAME = output;
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean isAutoLoginEnabled = sharedPreferences.contains("remember");
         if(isAutoLoginEnabled){
@@ -86,11 +94,14 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
             editor.apply();
         }
         loadingScreen.hide();
+        killActivity();
     }
 
     @Override
     public void onChangePasswordSuccess(String output) {
         dialogFactory.setTitle("Change password success")
+                .setMessage(output)
+                .setCancelable(false)
                 .setPositiveButton("Okay", null)
                 .show();
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
@@ -103,14 +114,22 @@ public class ChangeCredentialsActivity extends AppCompatActivity implements Chan
             editor.apply();
         }
         loadingScreen.hide();
+        killActivity();
     }
 
     @Override
     public void onChangeUsernameFail(String output) {
         dialogFactory.setTitle("Change username fail")
+                .setMessage(output)
                 .setPositiveButton("Okay", null)
                 .show();
         loadingScreen.hide();
+    }
+
+    private void killActivity(){
+        Intent intent = new Intent(ChangeCredentialsActivity.this, LoginActivity.class);
+        startActivity(intent);
+        getParent().finish();
     }
 
     @Override
