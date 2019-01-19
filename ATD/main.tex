@@ -47,7 +47,10 @@ We had to ask further instructions to setup the database and explicitly ask to g
 \newpage
 \section{Additional Points}
 \begin{itemize}
-    \item 
+    \item Standards compliance, found on RASD2 at page 73, doesn't make any sense. Searching \textbf{D0-178C} standard on Google we found that is the primary document by which the certification authorities such as FAA, EASA and Transport Canada approve \textbf{all commercial software-based aerospace systems}. We asked the development team an explanation, and they confirmed that it was indeed that standard.
+    Their system is described as a \textbf{Level D risk level} which, according to online resources, corresponds to: \textit{Failure slightly reduces the safety margin or slightly increases crew workload. Examples might include causing passenger inconvenience or a routine flight plan change.}
+    \item The alloy model was poorly done. This is easily seen at page 85 of RASD2: multiple users have the same FC, that is clearly wrong.
+    \item IOS only was a bad choice for a prototype. That is because, if you don't have a macOS, you \textbf{can't test} the application.
 \end{itemize}
 
 \newpage
