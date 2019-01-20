@@ -33,72 +33,78 @@ https://github.com/iPhra/LorenzoMolteniNegri \newline
 
 To perform the acceptance on test cases we used all the documents provided by authors (i.e. RASD, DD and ITD). The latter has been primarily used for installation and setup instructions; first two instead have been used for extracting test cases in order to proceed with the analysis.
 
-\newpage
 \section{Installation Setup}
 \subsection{Server Installation}
-Backend installation was straightforward. However, database installation wasn't.
+Back-end installation was straightforward. However, database installation wasn't.
 
 We had to ask further instructions to setup the database and explicitly ask to get a database dump: it was assumed the customer is able (and want) to recreate the database from scratch following the tables described in the document.
 
 Moreover, it was not explained anywhere how to set server's database configuration for running tests.
+
 \subsection{Client Installation}
-Client installation was straightforward and quite simple in case you have a Mac.
+Client installation was straightforward and quite simple in case you have a Mac. A problem found is that in the installation instruction is not stated anywhere that you should have OSx Mojave and XCode 10.1 (latest version) in order to run the application.
 
 \newpage
 \section{Acceptance Test Case}
-In this section, we will provide the analysis of the acceptance of the test cases we have extract from the documents provided. \newline\newline
-\textbf{Registration}:\newline
-The Registration functionalities work in a correct way. This feature has been tested properly, analysing the different cases, for what concerns general user registration: wrong password, email, FC, birth-date and sex. This has been done also for Third-Parties Registration, not allowing to register users who have submitted wrong IVA, company name and description.\newline
-Beside has been verified that already existing users cannot do the registration again. Furthermore the application permits to activate the account properly.
-\newline\newline
-\textbf{Login}:\newline
-The Login works correctly. Cases as, try to login as a not-existing user or to login providing a wrong password have been tested. Beside user whose account has not been activated cannot log into the system.
-\newline\newline
-\textbf{Profile Data Management}:\newline
+In this section, we will provide the analysis of the acceptance of the test cases we have extract from the documents provided. 
+
+Below there is a list of functionalities extracted from requirements, their description and if they correctly works and has been tested. At all, all functionalities seems to have been tested.
+
+Most tests has been done properly and most part of functionalities are tested both in case of success and in case of failure (i.e. bad data and bad/unauthenticated requests).
+
+\paragraph{Registration:}
+The Registration functionalities works properly. This feature has been tested analysing all the different cases: wrong password, email, FC, birth-date and sex or wrong IVA, company name and description.
+
+Moreover, it has been tested also users cannot register with the same parameters twice.
+
+\paragraph{Login:}
+The Login works correctly. Cases as try to login as a not-existing user or to login providing a wrong password have been tested. Furthermore, user whose account has not been activated cannot log into the system.
+
+\paragraph{Profile Data Management:}
 The application allows users, both individuals and third-parties, to manage correctly their profile. In particular, they can retrieve and update their private settings. A limit we have found is that it is not possible to edit the submitted email.
-\newline\newline
-\textbf{Upload Data}:\newline
-The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Beside, it checks that wrong data  are not present (in terms of data type, timestamps, values).\newline
-\textit{Note}: the requirements concerning the test case of visualizing data, in the RASD, can be unified in just one requirement, to avoid redundancy.\newline
- \newline\newline
-\textbf{Make Requests}:\newline
-The application allows Third-Parties to make in a correct way individual or group requests.\newline
-In particular, for what concerns individual request, it forbid  to send a request to a not-existing user, or to an user with an other request pending, coming from the same Third-Party. Beside, the system does not validate requests with wrong subscription or duration value.\newline
-The application checks that groups requests contains correct parameters.
-\newline\newline
-\textbf{Manage Requests}:\newline
+
+\paragraph{Upload Data:}
+The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Furthermore, it checks that wrong data  are not present with respect to data type, timestamps and values.
+
+\paragraph{Make Requests:}
+The application allows Third-Parties to make in a correct way individual or group requests. In particular, for what concerns individual requests, it does not allow  to send a request to a not-existing user, or to an user with an other request pending, coming from the same Third-Party. Moreover, the system does not validate requests with wrong subscription or duration value. The application checks that groups requests contains correct parameters.
+
+\paragraph{Manage Requests:}
 The system allows users to accept/deny requests coming from Third-Parties, in a proper way. The case of wrong Request ID has been tested.
-\newline\newline
-\textbf{View Data of Accepted Requests}:\newline
-The application allows Third-parties to correctly download the data of the users that have accept their requests. The system checks that the requests have been accepted and that the requests exist.
-In the case of Group Requests, the system permits, in a correct way, to Third-Parties, to download their data. Beside, it checks that the parameters constraints match. 
 
+\paragraph{View Data of Accepted Requests:}
+The application allows Third-parties to correctly download the data of the users that have accept their requests. The system checks that the requests have been accepted and that the requests exist. In the case of Group Requests the system permits in a correct way to Third-Parties to download their data. Moreover, it checks that the parameters constraints match. 
 
-
-
-
-
-
-\
-
+\paragraph{Automated Sos:}
+The sos service has been poorly tested. We was expecting at least a test to check that "if AutomatedSOS is enabled and the System detects that a users heart rate is below or above the critical threshold for his age, an ambulance is called" and another to check that "AutomatedSOS can be enabled only if the user grants permission to make emergency phone calls", that are respectively requirements 33 and 34. Furthermore, because we does not have an iPhone, we tested the application on an emulator and at least within the emulator, nothing happens when data are under thresholds. In conclusion, we were either not able to test this functionality nor to check that it works because it was not tested.
 
 \newpage
 \section{Additional Points}
+\subsection{Documents}
 \begin{itemize}
-    \item Standards compliance, found on RASD2 at page 73, does not seems to make sense: std. \textbf{D0-178C} is the primary document by which certification authorities such as FAA, EASA and Transport Canada approve \textbf{all commercial software-based aerospace systems}. We asked the development team an explanation, and they confirmed that it was indeed that standard: their system has been described as a \textbf{Level D risk level} which, according to online resources corresponds to \textit{"Failure slightly reduces the safety margin or slightly increases crew workload. Examples might include causing passenger inconvenience or a routine flight plan change."};
+    \item Standards compliance, found on RASD2 at page 73, does not seems to make sense: std. \textbf{D0-178C} is the primary document by which certification authorities such as FAA, EASA and Transport Canada approve all commercial software-based aerospace systems. We asked the development team an explanation, and they confirmed that it was indeed that standard: their system has been described as a Level D risk level which, according to online resources corresponds to \textit{"Failure slightly reduces the safety margin or slightly increases crew workload. Examples might include causing passenger inconvenience or a routine flight plan change."};
     
-    \item The alloy model was poorly done. There are some error distributed all over the model which can be easily seen; for instance at \textit{Page 85 in Figure 35 of RASD2}: multiple users have the same FC and email, that is clearly wrong;
+    \item The alloy model was poorly done. There are some error distributed all over the model which can be easily seen; for instance at Page 85 in Figure 35 of RASD2: multiple users have the same FC and email, that is clearly wrong;
     
-    \item iOS only was not the best choice for a prototype. That is because, if you don't have a macOS with Mojave and Xcode 10.1, you \textbf{can not test} the frontend. Furthermore, the Rasd says: \textit{"The implementation of the S2B as a mobile application ensures itself portability with regards to the user, since a porting from Android to iOS, and vice versa, would be quite natural."}: porting a native iOS application (Swift) to Android (Java) is not quite natural.
+    \item Requirements 14, 15 and 16 (respectively: \textit{"The S2B allows Single Users to visualize their historical data using Time Series/statistical operator/multiple timespans"}, concerning the case of visualizing data can be unified in just one requirement in order to avoid redundancy;
+    
+    \item All documents are in general too much verbose and presents a lot of redundancies; for instance, presenting all the screenshot of the application distributed within the three documents or for example the repetition of the database schema and er diagram in design and implementation documents.
+\end{itemize}
+
+\subsection{Software}
+\begin{itemize}
+    \item Automated Sos functionality does not have anything of automated at all. The system will check if health parameters are under thresholds and if yes, when you open the application (i.e. data are reloaded into the app) it will ask if you (a person in fear of his life) want to call the emergency number; then, it will work as if you called the emergency number by yourself. Furthermore, it was clearly stated into customer request: \textit{"AutomatedSOS sends to the location of the customer an ambulance, guaranteeing a reaction time of less than 5 seconds from the time the parameters are below the threshold"};
+    
+    \item iOS only was not the best choice for a prototype. That is because if you don't have a mac with Mojave and Xcode 10.1, you can not test the frontend. Furthermore, the specification document says: \textit{"The implementation of the S2B as a mobile application ensures itself portability with regards to the user, since a porting from Android to iOS, and vice versa, would be quite natural."}: porting a native iOS application (Swift) to Android (Java) would not be quite natural.
 \end{itemize}
 
 \newpage
 \section{Effort Spent}
     \begin{itemize}
-        \item[-] \textbf{Davide Rutigliano:}
+        \item[-] \textbf{Davide Rutigliano: 12h}
         
-        \item[-] \textbf{Davide Matta:}
+        \item[-] \textbf{Davide Matta: 12h}
         
-        \item[-] \textbf{Claudio Ferrante:}
+        \item[-] \textbf{Claudio Ferrante: 12h}
     \end{itemize}
 \end{document}
