@@ -3,6 +3,7 @@
 \usepackage[natbib,sorting=none]{biblatex}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+\usepackage{indentfirst}
 
 \addbibresource{references.bib}
 \newcommand{\comment}[1]{\textbf{Comment: #1}}
@@ -35,11 +36,13 @@ To perform the acceptance on test cases we used all the documents provided by au
 \newpage
 \section{Installation Setup}
 \subsection{Server Installation}
-Backend installation was straightforward. However, database installation wasn't.\\
+Backend installation was straightforward. However, database installation wasn't.
 
-We had to ask further instructions to setup the database and explicitly ask to get a database dump (it was asked to construct the database from scratch following the tables described in the document).\\
+We had to ask further instructions to setup the database and explicitly ask to get a database dump: it was assumed the customer is able (and want) to recreate the database from scratch following the tables described in the document.
 
+Moreover, it was not explained anywhere how to set server's database configuration for running tests.
 \subsection{Client Installation}
+Client installation was straightforward and quite simple in case you have a Mac.
 
 \newpage
 \section{Acceptance Test Case}
@@ -47,10 +50,11 @@ We had to ask further instructions to setup the database and explicitly ask to g
 \newpage
 \section{Additional Points}
 \begin{itemize}
-    \item Standards compliance, found on RASD2 at page 73, doesn't make any sense. Searching \textbf{D0-178C} standard on Google we found that is the primary document by which the certification authorities such as FAA, EASA and Transport Canada approve \textbf{all commercial software-based aerospace systems}. We asked the development team an explanation, and they confirmed that it was indeed that standard.
-    Their system is described as a \textbf{Level D risk level} which, according to online resources, corresponds to: \textit{Failure slightly reduces the safety margin or slightly increases crew workload. Examples might include causing passenger inconvenience or a routine flight plan change.}
-    \item The alloy model was poorly done. This is easily seen at page 85 of RASD2: multiple users have the same FC, that is clearly wrong.
-    \item IOS only was a bad choice for a prototype. That is because, if you don't have a macOS, you \textbf{can't test} the whole frontend application.
+    \item Standards compliance, found on RASD2 at page 73, does not seems to make sense: std. \textbf{D0-178C} is the primary document by which certification authorities such as FAA, EASA and Transport Canada approve \textbf{all commercial software-based aerospace systems}. We asked the development team an explanation, and they confirmed that it was indeed that standard: their system has been described as a \textbf{Level D risk level} which, according to online resources corresponds to \textit{"Failure slightly reduces the safety margin or slightly increases crew workload. Examples might include causing passenger inconvenience or a routine flight plan change."};
+    
+    \item The alloy model was poorly done. There are some error distributed all over the model which can be easily seen; for instance at \textit{Page 85 in Figure 35 of RASD2}: multiple users have the same FC and email, that is clearly wrong;
+    
+    \item iOS only was not the best choice for a prototype. That is because, if you don't have a macOS with Mojave and Xcode 10.1, you \textbf{can not test} the frontend. Furthermore, the Rasd says: \textit{"The implementation of the S2B as a mobile application ensures itself portability with regards to the user, since a porting from Android to iOS, and vice versa, would be quite natural."}: porting a native iOS application (Swift) to Android (Java) is not quite natural.
 \end{itemize}
 
 \newpage
