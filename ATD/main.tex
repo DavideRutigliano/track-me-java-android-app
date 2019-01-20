@@ -21,7 +21,7 @@
 \section{Scope and Purpose}
 This document is intended for analyzing \textit{TrackMe} software application and specifications through analysis of test cases extracted from requirements explained in documents presented.
 
-\section{Project Analized}
+\section{Project Analyzed}
 \paragraph{Authors:}
 \begin{itemize}
     \item Lorenzo Francesco;
@@ -31,15 +31,15 @@ This document is intended for analyzing \textit{TrackMe} software application an
 \paragraph{Repository:}
 https://github.com/iPhra/LorenzoMolteniNegri \newline
 
-To perform the acceptance on test cases we used all the documents provided by authors (i.e. RASD, DD and ITD). The latter has been primarily used for installation and setup instructions; first two instead have been used for extracting test cases in order to proceed with the analysis.
+To perform the acceptance on test cases we used all the documents provided by authors: \textit{Requirement Analysis and Specification}, \textit{Design} and \textit{Implementation and Test} documents. The latter has been primarily used for installation and setup instructions; first two instead have been used for extracting test cases in order to proceed with the analysis.
 
 \section{Installation Setup}
 \subsection{Server Installation}
 Back-end installation was straightforward. However, database installation wasn't.
 
-We had to ask further instructions to setup the database and explicitly ask to get a database dump: it was assumed the customer is able (and want) to recreate the database from scratch following the tables described in the document.
+We had to ask further instructions to setup the database and explicitly asked developers to get a database dump: it was assumed the customer is able (and want) to recreate the database from scratch following the tables described in the document.
 
-Moreover, it was not explained anywhere how to set server's database configuration for running tests.
+Moreover, it was not explained anywhere how to set server's database configuration for running tests (i.e. modifying parameters in \newline \textit{Backend/NodeJS/config/test.json}).
 
 \subsection{Client Installation}
 Client installation was straightforward and quite simple in case you have a Mac. A problem found is that in the installation instruction is not stated anywhere that you should have OSx Mojave and XCode 10.1 (latest version) in order to run the application.
@@ -55,22 +55,22 @@ Most tests has been done properly and most part of functionalities are tested bo
 \paragraph{Registration:}
 The Registration functionalities works properly. This feature has been tested analysing all the different cases: wrong password, email, FC, birth-date and sex or wrong IVA, company name and description.
 
-Moreover, it has been tested also users cannot register with the same parameters twice.
+Moreover, it has been tested also that users cannot register with the same parameters twice.
 
 \paragraph{Login:}
 The Login works correctly. Cases as try to login as a not-existing user or to login providing a wrong password have been tested. Furthermore, user whose account has not been activated cannot log into the system.
 
 \paragraph{Profile Data Management:}
-The application allows users, both individuals and third-parties, to manage correctly their profile. In particular, they can retrieve and update their private settings. A limit we have found is that it is not possible to edit the submitted email.
+The application allows users, both individuals and third-parties, to manage correctly their profile. In particular, they can retrieve and update their private settings. A possible limit we have found is that it is not possible to edit the submitted email.
 
 \paragraph{Upload Data:}
 The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Furthermore, it checks that wrong data  are not present with respect to data type, timestamps and values.
 
 \paragraph{Make Requests:}
-The application allows Third-Parties to make in a correct way individual or group requests. In particular, for what concerns individual requests, it does not allow  to send a request to a not-existing user, or to an user with an other request pending, coming from the same Third-Party. Moreover, the system does not validate requests with wrong subscription or duration value. The application checks that groups requests contains correct parameters.
+The application allows Third-Parties to make in a correct way individual or group requests. In particular for what concerns individual requests, it does not allow  to send a request to a not-existing user or to an user with an other request pending, coming from the same Third-Party. Moreover, the system checks requests with wrong subscription or duration value and that groups requests contains correct parameters.
 
 \paragraph{Manage Requests:}
-The system allows users to accept/deny requests coming from Third-Parties, in a proper way. The case of wrong Request ID has been tested.
+The system allows users to accept/deny requests coming from Third-Parties, in a proper way. Failure cases such as wrong Request identifier has been tested.
 
 \paragraph{View Data of Accepted Requests:}
 The application allows Third-parties to correctly download the data of the users that have accept their requests. The system checks that the requests have been accepted and that the requests exist. In the case of Group Requests the system permits in a correct way to Third-Parties to download their data. Moreover, it checks that the parameters constraints match. 
@@ -95,7 +95,7 @@ The sos service has been poorly tested. We was expecting at least a test to chec
 \begin{itemize}
     \item Automated Sos functionality does not have anything of automated at all. The system will check if health parameters are under thresholds and if yes, when you open the application (i.e. data are reloaded into the app) it will ask if you (a person in fear of his life) want to call the emergency number; then, it will work as if you called the emergency number by yourself. Furthermore, it was clearly stated into customer request: \textit{"AutomatedSOS sends to the location of the customer an ambulance, guaranteeing a reaction time of less than 5 seconds from the time the parameters are below the threshold"};
     
-    \item iOS only was not the best choice for a prototype. That is because if you don't have a mac with Mojave and Xcode 10.1, you can not test the frontend. Furthermore, the specification document says: \textit{"The implementation of the S2B as a mobile application ensures itself portability with regards to the user, since a porting from Android to iOS, and vice versa, would be quite natural."}: porting a native iOS application (Swift) to Android (Java) would not be quite natural.
+    \item iOS only was not the best choice for a prototype. That is because if you don't have a mac with Mojave and Xcode 10.1, you can not test the front-end. Furthermore, the specification document says: \textit{"The implementation of the S2B as a mobile application ensures itself portability with regards to the user, since a porting from Android to iOS, and vice versa, would be quite natural."}: porting a native iOS application (Swift) to Android (Java) would not be quite natural.
 \end{itemize}
 
 \newpage
