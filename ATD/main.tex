@@ -46,6 +46,41 @@ Client installation was straightforward and quite simple in case you have a Mac.
 
 \newpage
 \section{Acceptance Test Case}
+In this section, we will provide the analysis of the acceptance of the test cases we have extract from the documents provided. \newline\newline
+\textbf{Registration}:\newline
+The Registration functionalities work in a correct way. This feature has been tested properly, analysing the different cases, for what concerns general user registration: wrong password, email, FC, birth-date and sex. This has been done also for Third-Parties Registration, not allowing to register users who have submitted wrong IVA, company name and description.\newline
+Beside has been verified that already existing users cannot do the registration again. Furthermore the application permits to activate the account properly.
+\newline\newline
+\textbf{Login}:\newline
+The Login works correctly. Cases as, try to login as a not-existing user or to login providing a wrong password have been tested. Beside user whose account has not been activated cannot log into the system.
+\newline\newline
+\textbf{Profile Data Management}:\newline
+The application allows users, both individuals and third-parties, to manage correctly their profile. In particular, they can retrieve and update their private settings. A limit we have found is that it is not possible to edit the submitted email.
+\newline\newline
+\textbf{Upload Data}:\newline
+The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Beside, it checks that wrong data  are not present (in terms of data type, timestamps, values).\newline
+\textit{Note}: the requirements concerning the test case of visualizing data, in the RASD, can be unified in just one requirement, to avoid redundancy.\newline
+ \newline\newline
+\textbf{Make Requests}:\newline
+The application allows Third-Parties to make in a correct way individual or group requests.\newline
+In particular, for what concerns individual request, it forbid  to send a request to a not-existing user, or to an user with an other request pending, coming from the same Third-Party. Beside, the system does not validate requests with wrong subscription or duration value.\newline
+The application checks that groups requests contains correct parameters.
+\newline\newline
+\textbf{Manage Requests}:\newline
+The system allows users to accept/deny requests coming from Third-Parties, in a proper way. The case of wrong Request ID has been tested.
+\newline\newline
+\textbf{View Data of Accepted Requests}:\newline
+The application allows Third-parties to correctly download the data of the users that have accept their requests. The system checks that the requests have been accepted and that the requests exist.
+In the case of Group Requests, the system permits, in a correct way, to Third-Parties, to download their data. Beside, it checks that the parameters constraints match. 
+
+
+
+
+
+
+
+\
+
 
 \newpage
 \section{Additional Points}
