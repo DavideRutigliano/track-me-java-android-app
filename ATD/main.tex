@@ -55,9 +55,9 @@ The Login works correctly. Cases as, try to login as a not-existing user or to l
 The application allows users, both individuals and third-parties, to manage correctly their profile. In particular, they can retrieve and update their private settings. A limit we have found is that it is not possible to edit the submitted email.
 \newline\newline
 \textbf{Upload Data}:\newline
-The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Beside, it checks that wrong data  are not present (in terms of data type, timestamps, values). \newline
-There are not  tests regarding the import of data in background by the system, this can be consider an imprecision. 
-\newline\newline
+The system allows single users to upload new data correctly and to retrieve statistics about their imported data. Beside, it checks that wrong data  are not present (in terms of data type, timestamps, values).\newline
+\textit{Note}: the requirements concerning the test case of visualizing data, in the RASD, can be unified in just one requirement, to avoid redundancy.\newline
+ \newline\newline
 \textbf{Make Requests}:\newline
 The application allows Third-Parties to make in a correct way individual or group requests.\newline
 In particular, for what concerns individual request, it forbid  to send a request to a not-existing user, or to an user with an other request pending, coming from the same Third-Party. Beside, the system does not validate requests with wrong subscription or duration value.\newline
